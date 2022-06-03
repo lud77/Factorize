@@ -46,7 +46,7 @@ const Editor = () => {
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords | null>(null);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
 	const [ panels, setPanels ] = React.useState([makePanel('text', 'Component 1'), makePanel('text', 'Component 2')]);
-	const [ edges, setEdges ] = React.useState([makeConnection(panels[0].refs.outputAudio, panels[1].refs.inputVolume)]);
+	const [ connections, setConnections ] = React.useState([makeConnection(panels[0].refs.outputAudio, panels[1].refs.inputVolume)]);
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState({ 
 		width: window.innerWidth, 
@@ -55,31 +55,26 @@ const Editor = () => {
 
 	const virtual = React.useRef<any>();
 
-	const isOutputConnected = (ref) => {
-		return edges.find((edge) => edge.source === ref);
-	}; 
+	const isOutputConnected = (ref) => connections.find((connection) => connection.source === ref);
+	const isInputConnected = (ref) => connections.find((connection) => connection.target === ref);
 
-	const isInputConnected = (ref) => {
-		return edges.find((edge) => edge.target === ref);
-	}; 
-
-	const removeEdgeByOutputRef = (ref) => {
-		const edge = edges.find((edge) => edge.source === ref);
+	const removeConnectionByOutputRef = (ref) => {
+		const connection = connections.find((connection) => connection.source === ref);
 		
-		if (edge) {
-			setEdges(edges.filter((edge) => edge.source !== ref));
-			return edge;
+		if (connection) {
+			setConnections(connections.filter((connection) => connection.source !== ref));
+			return connection;
 		}
 
 		return null;
 	};
 
-	const removeEdgeByInputRef = (ref) => {
-		const edge = edges.find((edge) => edge.target === ref);
+	const removeConnectionByInputRef = (ref) => {
+		const connection = connections.find((connection) => connection.target === ref);
 		
-		if (edge) {
-			setEdges(edges.filter((edge) => edge.target !== ref));
-			return edge;
+		if (connection) {
+			setConnections(connections.filter((connection) => connection.target !== ref));
+			return connection;
 		}
 
 		return null;
@@ -89,7 +84,7 @@ const Editor = () => {
 		e.preventDefault();
 
 		const draggingPanel = e.target.classList.contains('Panel') || e.target.classList.contains('Title');
-		const creatingConnector = e.target.classList.contains('OutputEndpoint');
+		const creatingConnector = e.target.classList.contains('OutputEndpoint') && !e.target.classList.contains('Connected');
 		
 		if (!draggingPanel && !creatingConnector) return;
 
@@ -116,13 +111,12 @@ const Editor = () => {
 				refName: e.target.dataset.ref,
 				to: { x: e.pageX, y: e.pageY }
 			});
-
+			
 			return;
 		}
 	};
 
 	const mouseMove = (e) => {
-		console.log('x');
 		if ((dragCoords == null) && (connectorAnchor == null)) return;
 
 		if (dragCoords != null) {
@@ -132,6 +126,8 @@ const Editor = () => {
 
 			return false;
 		}
+
+		console.log('mouseMove', connectorAnchor);
 
 		if (connectorAnchor != null) {
 			setConnectorAnchor({
@@ -149,11 +145,14 @@ const Editor = () => {
 		setConnectorAnchor(null);
 	};
 
-	const getSourceRef = () => (connectorAnchor != null) ? panels[connectorAnchor.panelKey].refs[connectorAnchor.refName] : undefined;
+	const getSourceRef = () => {
+		return (connectorAnchor != null) ? panels[connectorAnchor.panelKey].refs[connectorAnchor.refName] : undefined;
+	};
 
 	// const getEndpointRef = (endpoint) => 
 
-	const InputEndpoint = InputEndpointFactory(connectorAnchor, setConnectorAnchor, isInputConnected);
+
+	const InputEndpoint = InputEndpointFactory(isInputConnected, connectorAnchor, setConnectorAnchor);
 	const OutputEndpoint = OutputEndpointFactory(isOutputConnected, getSourceRef);
 
 	const renderPanel = (panel, key) => {
@@ -175,12 +174,12 @@ const Editor = () => {
 		);
 	};
 
-	const renderEdge = (edge, key) => {
+	const renderConnection = (connection, key) => {
 		return (<Connector
 			key={key}
 			x={draw}
-			el1={edge.source.current}
-			el2={edge.target.current}
+			el1={connection.source.current}
+			el2={connection.target.current}
 			roundCorner={true}
 			endArrow={true}
 			stroke="#ADA257"
@@ -213,7 +212,7 @@ const Editor = () => {
 				strokeWidth={2}
 				/>		
 			{panels.map(renderPanel)}
-			{edges.map(renderEdge)}
+			{connections.map(renderConnection)}
 		</div>
 	);
 };
