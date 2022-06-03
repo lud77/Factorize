@@ -22,7 +22,7 @@ body {
   height: 100%;
 }
 
-.Node {
+.Panel {
   font-size: 14px;
   width: 10em;
   padding: 5px;
@@ -32,27 +32,28 @@ body {
   position: absolute;
 }
 
-.Node .Title {
+.Panel .Title {
   width: 100%;
   text-align: center;
   padding-bottom: 10px;
   user-select: none;
+  cursor: move;
 }
 
-.Node .Input {
+.Panel .Input {
   text-align: left;
 }
 
-.Node .Output {
+.Panel .Output {
   text-align: right;
 }
 
-.Node .Row {
+.Panel .Row {
   display: flex;
   flex-wrap: wrap;
 }
 
-.Node .Item {
+.Panel .Item {
   line-height: var(--item-text-size);
   font-size: var(--item-text-size);
   flex-grow: 1;
@@ -60,28 +61,44 @@ body {
   margin-bottom: 5px;
 }
 
-.Node .Item input {
+.Panel .Item input {
   width: 95%;
 }
 
-.Node .InputHandle {
+.Panel .InputEndpoint {
   display: inline-block;
-  border-radius: 0 0.5em 0.5em 0;
-  width: calc(0.5em + 1px);
-  height: 1em;
+  border-radius: 0.6em;
+  width: 1.2em;
+  height: 1.2em;
   background-color: var(--border);
   border: none;
-  margin: auto 0.5em auto calc(-0.5em + 1px);
+  margin-left: -1.1em;
+  margin-right: 0.3em;
 }
 
-.Node .OutputHandle {
+.Panel .OutputEndpoint {
   display: inline-block;
-  border-radius: 0.5em 0 0 0.5em;
-  width: calc(0.5em + 1px);
-  height: 1em;
+  border-radius: 0.6em;
+  width: 1.2em;
+  height: 1.2em;
   background-color: var(--border);
   border: none;
-  margin: auto calc(-0.5em + 1px) auto 0.5em;
+  margin-right: -1.1em;
+  margin-left: 0.3em;
+}
+
+.Panel .Connected {
+  background-color: #ADA257;
+}
+
+.Panel .Connected:hover {
+  background-color: #BDB287;
+}
+
+.Panel .InputEndpoint.Hovering,
+.Panel .OutputEndpoint.Connecting,
+.Panel .OutputEndpoint:not(.Connected):hover {
+  background-color: var(--main-highlight);
 }
 
 .VirtualHandle {

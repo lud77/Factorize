@@ -1,21 +1,23 @@
 import * as React from 'react';
 import Connector from '../Connector/Connector';
-// import Connector from 'react-svg-connector';
+import InputEndpointFactory from './InputEndpoint';
+import OutputEndpointFactory from './OutputEndpoint';
 
 const Editor = () => {
-	const makeNode = (type, title) => {
+	const makePanel = (type, title) => {
 		const inputVolume = React.useRef<any>();
 		const inputFrequency = React.useRef<any>();
 		const outputAudio = React.useRef<any>();
+		const outputWhatev = React.useRef<any>();
 		
 		return { 
 			type, 
 			title, 
-			refs: { inputVolume, inputFrequency, outputAudio }
+			refs: { inputVolume, inputFrequency, outputAudio, outputWhatev }
 		};
 	};
 
-	const makeEdge = (source, target) => {
+	const makeConnection = (source, target) => {
 		return { 
 			source, 
 			target 
@@ -31,19 +33,20 @@ const Editor = () => {
 	}
 
 	interface ConnectorAnchor {
-		nodeKey: string;
+		from: Element;
+		panelKey: string;
 		refName: string;
-		// virtual: Element;
 		to: { 
 			x: number; 
 			y: number;
-		}
+		},
+		toEl?: Element;
 	}
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords | null>(null);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
-	const [ nodes, setNodes ] = React.useState([makeNode('text', 'Component 1'), makeNode('text', 'Component 2')]);
-	const [ edges, setEdges ] = React.useState([makeEdge(nodes[0].refs.outputAudio, nodes[1].refs.inputVolume), makeEdge(nodes[0].refs.outputAudio, nodes[1].refs.inputFrequency)]);
+	const [ panels, setPanels ] = React.useState([makePanel('text', 'Component 1'), makePanel('text', 'Component 2')]);
+	const [ edges, setEdges ] = React.useState([makeConnection(panels[0].refs.outputAudio, panels[1].refs.inputVolume)]);
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState({ 
 		width: window.innerWidth, 
@@ -52,42 +55,66 @@ const Editor = () => {
 
 	const virtual = React.useRef<any>();
 
+	const isOutputConnected = (ref) => {
+		return edges.find((edge) => edge.source === ref);
+	}; 
+
+	const isInputConnected = (ref) => {
+		return edges.find((edge) => edge.target === ref);
+	}; 
+
+	const removeEdgeByOutputRef = (ref) => {
+		const edge = edges.find((edge) => edge.source === ref);
+		
+		if (edge) {
+			setEdges(edges.filter((edge) => edge.source !== ref));
+			return edge;
+		}
+
+		return null;
+	};
+
+	const removeEdgeByInputRef = (ref) => {
+		const edge = edges.find((edge) => edge.target === ref);
+		
+		if (edge) {
+			setEdges(edges.filter((edge) => edge.target !== ref));
+			return edge;
+		}
+
+		return null;
+	};
+
 	const mouseDown = (e) => {
 		e.preventDefault();
 
-		const draggingNode = e.target.classList.contains('Node') || e.target.classList.contains('Title');
-		const creatingConnector = e.target.classList.contains('OutputHandle');
+		const draggingPanel = e.target.classList.contains('Panel') || e.target.classList.contains('Title');
+		const creatingConnector = e.target.classList.contains('OutputEndpoint');
 		
-		if (!draggingNode && !creatingConnector) return;
+		if (!draggingPanel && !creatingConnector) return;
 
-		if (draggingNode) {
-			const Node = e.target.closest('.Node');
+		if (draggingPanel) {
+			const panel = e.target.closest('.Panel');
 
 			setDragCoords({ 
-				el: Node,
+				el: panel,
 				ox: Number(e.pageX), 
 				oy: Number(e.pageY), 
-				cx: parseInt(Node.style.left), 
-				cy: parseInt(Node.style.top)
+				cx: parseInt(panel.style.left), 
+				cy: parseInt(panel.style.top)
 			});
 
 			return;
 		}
 
 		if (creatingConnector) {
-			const Node = e.target.closest('.Node');
-
-			// const virtual = document.querySelector('.VirtualHandle');
-
-			// virtual.style.left = (e.pageX - virtual.scrollWidth / 2) + 'px';
-			// virtual.style.top = (e.pageY - virtual.scrollHeight / 2) + 'px';
-			// virtual.classList.add('active');
+			const panel = e.target.closest('.Panel');
 
 			setConnectorAnchor({
-				nodeKey: Node.dataset.key,
+				from: e.target,
+				panelKey: panel.dataset.key,
 				refName: e.target.dataset.ref,
 				to: { x: e.pageX, y: e.pageY }
-				// ,			virtual
 			});
 
 			return;
@@ -118,20 +145,28 @@ const Editor = () => {
 		e.preventDefault();
 
 		setDragCoords(null);
+
 		setConnectorAnchor(null);
-		// connectorAnchor?.virtual?.classList.remove('active');
 	};
 
-	const renderNode = (node, key) => {
+	const getSourceRef = () => (connectorAnchor != null) ? panels[connectorAnchor.panelKey].refs[connectorAnchor.refName] : undefined;
+
+	// const getEndpointRef = (endpoint) => 
+
+	const InputEndpoint = InputEndpointFactory(connectorAnchor, setConnectorAnchor, isInputConnected);
+	const OutputEndpoint = OutputEndpointFactory(isOutputConnected, getSourceRef);
+
+	const renderPanel = (panel, key) => {
 		return (
-			<div key={key} data-key={key} className="Node" style={{ left: '100px', top: '100px' }}> 
-				<div className="Title">{node.title}</div>
+			<div key={key} data-key={key} className="Panel" style={{ left: '100px', top: '100px' }}> 
+				<div className="Title">{panel.title}</div>
 				<div className="Row">
-					<div className="Input Item"><div className="InputHandle" ref={node.refs.inputVolume} data-ref="inputVolume"></div>Volume</div>
-					<div className="Output Item">Sound<div className="OutputHandle" ref={node.refs.outputAudio} data-ref="outputAudio"></div></div>
+					<InputEndpoint name="Volume" panel={panel}>Volume</InputEndpoint>
+					<OutputEndpoint name="Audio" panel={panel}>Audio</OutputEndpoint>
 				</div>
 				<div className="Row">
-					<div className="Input Item"><div className="InputHandle" ref={node.refs.inputFrequency} data-ref="inputFrequency"></div>Frequency</div>
+					<InputEndpoint name="Frequency" panel={panel}>Frequency</InputEndpoint>
+					<OutputEndpoint name="Whatev" panel={panel}>Whatev</OutputEndpoint>
 				</div>
 				<div className="Row">
 					<div className="Input Item"><input type="text" /></div>
@@ -148,7 +183,7 @@ const Editor = () => {
 			el2={edge.target.current}
 			roundCorner={true}
 			endArrow={true}
-			stroke="white"
+			stroke="#ADA257"
 			strokeWidth={2}
 		/>);
 	};
@@ -160,7 +195,6 @@ const Editor = () => {
 		});
 	});
 
-
 	return (
 		<div 
 			className="Editor" 
@@ -171,14 +205,14 @@ const Editor = () => {
 			>
 			<Connector
 				x={draw}
-				el1={(connectorAnchor != null) ? nodes[connectorAnchor.nodeKey].refs[connectorAnchor.refName].current : undefined}
+				el1={(connectorAnchor != null) ? getSourceRef().current : undefined}
 				coordsEnd={(connectorAnchor != null) ? connectorAnchor.to : undefined}
 				roundCorner={true}
 				endArrow={true}
 				stroke="white"
 				strokeWidth={2}
 				/>		
-			{nodes.map(renderNode)}
+			{panels.map(renderPanel)}
 			{edges.map(renderEdge)}
 		</div>
 	);
