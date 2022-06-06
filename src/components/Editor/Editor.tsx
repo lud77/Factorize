@@ -34,10 +34,15 @@ const Editor = () => {
 
 	interface ConnectorAnchor {
 		fromRef: Element;
+		toRef: Element;
 		to: { 
 			x: number; 
 			y: number;
-		}
+		};
+		from: { 
+			x: number; 
+			y: number;
+		};
 	}
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords | null>(null);
@@ -83,10 +88,18 @@ const Editor = () => {
 		const connected = e.target.classList.contains('Connected');
 
 		const draggingPanel = e.target.classList.contains('Panel') || e.target.classList.contains('Title');
-		const creatingConnection = e.target.classList.contains('OutputEndpoint') && !connected;
-		const detachingConnection = (connectorAnchor == null) && e.target.classList.contains('InputEndpoint') && connected;
+		const creatingInputConnection = e.target.classList.contains('InputEndpoint') && !connected;
+		const creatingOutputConnection = e.target.classList.contains('OutputEndpoint') && !connected;
+		const detachingInputConnection = (connectorAnchor == null) && e.target.classList.contains('InputEndpoint') && connected;
+		const detachingOutputConnection = (connectorAnchor == null) && e.target.classList.contains('OutputEndpoint') && connected;
 
-		if (!draggingPanel && !creatingConnection && !detachingConnection) return;
+		if (
+			!draggingPanel && 
+			!creatingInputConnection && 
+			!creatingOutputConnection && 
+			!detachingInputConnection && 
+			!detachingOutputConnection
+		) return;
 
 		if (draggingPanel) {
 			const panel = e.target.closest('.Panel');
@@ -102,25 +115,56 @@ const Editor = () => {
 			return;
 		}
 
-		if (creatingConnection) {
+		if (creatingInputConnection) {
 			const panel = e.target.closest('.Panel');
 
 			setConnectorAnchor({
-				fromRef: panels[panel.dataset.key].refs[e.target.dataset.ref],
-				to: { x: e.pageX, y: e.pageY }
+				fromRef: null,
+				to: null,
+				toRef: panels[panel.dataset.key].refs[e.target.dataset.ref],
+				from: { x: e.pageX, y: e.pageY }
 			});
 			
 			return;
 		}
 
-		if (detachingConnection) {
+		if (creatingOutputConnection) {
+			const panel = e.target.closest('.Panel');
+
+			setConnectorAnchor({
+				fromRef: panels[panel.dataset.key].refs[e.target.dataset.ref],
+				to: { x: e.pageX, y: e.pageY },
+				toRef: null,
+				from: null
+			});
+			
+			return;
+		}
+
+		if (detachingInputConnection) {
 			const panel = e.target.closest('.Panel');
 			const connection = removeConnectionByInputRef(panels[panel.dataset.key].refs[e.target.dataset.ref]);
 			if (connection == null) return;
-			
+
 			setConnectorAnchor({
 				fromRef: connection.source,
-				to: { x: e.pageX, y: e.pageY }
+				to: { x: e.pageX, y: e.pageY },
+				toRef: null,
+				from: null
+			});
+			return;
+		}
+
+		if (detachingOutputConnection) {
+			const panel = e.target.closest('.Panel');
+			const connection = removeConnectionByOutputRef(panels[panel.dataset.key].refs[e.target.dataset.ref]);
+			if (connection == null) return;
+
+			setConnectorAnchor({
+				fromRef: null,
+				to: null,
+				toRef: connection.target,
+				from: { x: e.pageX, y: e.pageY }
 			});
 			return;
 		}
@@ -137,12 +181,17 @@ const Editor = () => {
 			return false;
 		}
 
-		console.log('mouseMove', connectorAnchor);
-
-		if (connectorAnchor != null) {
+		if (connectorAnchor != null && connectorAnchor.fromRef != null) {
 			setConnectorAnchor({
 				...connectorAnchor,
 				to: { x: e.clientX, y: e.clientY }
+			});
+		}
+
+		if (connectorAnchor != null && connectorAnchor.toRef != null) {
+			setConnectorAnchor({
+				...connectorAnchor,
+				from: { x: e.clientX, y: e.clientY }
 			});
 		}
 	};
@@ -152,7 +201,7 @@ const Editor = () => {
 
 		setDragCoords(null);
 
-		if ((connectorAnchor != null) && (e.target.classList.contains('InputEndpoint'))) {
+		if ((connectorAnchor != null && connectorAnchor.fromRef != null) && (e.target.classList.contains('InputEndpoint'))) {
 			const panel = e.target.closest('.Panel');
 
 			const toRef = panels[panel.dataset.key].refs[e.target.dataset.ref];
@@ -160,6 +209,17 @@ const Editor = () => {
 			setConnections([
 				...connections,
 				makeConnection(connectorAnchor.fromRef, toRef)
+			]);
+		}
+
+		if ((connectorAnchor != null && connectorAnchor.toRef != null) && (e.target.classList.contains('OutputEndpoint'))) {
+			const panel = e.target.closest('.Panel');
+
+			const fromRef = panels[panel.dataset.key].refs[e.target.dataset.ref];
+	
+			setConnections([
+				...connections,
+				makeConnection(fromRef, connectorAnchor.toRef)
 			]);
 		}
 
@@ -218,8 +278,10 @@ const Editor = () => {
 			>
 			<Connector
 				x={draw}
-				el1={(connectorAnchor != null) ? connectorAnchor.fromRef.current : undefined}
-				coordsEnd={(connectorAnchor != null) ? connectorAnchor.to : undefined}
+				el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? connectorAnchor.fromRef.current : undefined}
+				el2={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.toRef.current : undefined}
+				coordsStart={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.from : undefined}
+				coordsEnd={(connectorAnchor != null && connectorAnchor.fromRef != null) ? connectorAnchor.to : undefined}
 				roundCorner={true}
 				endArrow={true}
 				stroke="white"

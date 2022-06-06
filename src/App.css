@@ -96,7 +96,10 @@ body {
 }
 
 .Panel .InputEndpoint.Hovering,
+.Panel .OutputEndpoint.Hovering,
+.Panel .InputEndpoint.Connecting,
 .Panel .OutputEndpoint.Connecting,
+.Panel .InputEndpoint:not(.Connected):hover, 
 .Panel .OutputEndpoint:not(.Connected):hover {
   background-color: var(--main-highlight);
 }
