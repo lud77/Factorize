@@ -1,5 +1,5 @@
-import React from "react";
 import Arrow from "./Arrow";
+import React from "react";
 
 import { ShapeConnectorProps } from "./Props";
 
@@ -64,20 +64,23 @@ export default function (props: NarrowSConnectorProps) {
 
     step = Math.min(step, props.minStep || step);
 
-    const cArrowSize = props.arrowSize || (props.strokeWidth ? props.strokeWidth * 3 : 10);
+    const adjustedArrowSize = props.arrowSize || (props.strokeWidth ? props.strokeWidth * 3 : 10);
+
+    const netDistanceX = distanceX - 2 * stem - adjustedArrowSize;
+
+    const halfX = netDistanceX / 2;
+    const quarterX = netDistanceX / 4;
+    const halfY = distanceY / 2;
 
     function corner12() {
         const factor = distanceX * distanceY >= 0 ? 1 : -1;
 
         const path = `
-            M ${coordinates.start.x} ${coordinates.start.y} 
+            M ${coordinates.start.x} ${coordinates.start.y}
             h ${stem}
-            q ${step * radius} 0 
-            ${step * radius} ${step * factor * radius}
-            V ${coordinates.end.y - step * factor * radius}
-            q ${0} ${step * factor * radius}
-            ${step * radius} ${step * factor * radius}
-            H ${coordinates.end.x}
+            q ${quarterX} 0 ${halfX} ${halfY} 
+            q ${quarterX} ${halfY} ${halfX} ${halfY} 
+            h ${stem}
         `;
 
         return (
@@ -92,16 +95,8 @@ export default function (props: NarrowSConnectorProps) {
                 {props.endArrow && (
                     <Arrow
                         tip={coordinates.end}
-                        size={cArrowSize}
+                        size={adjustedArrowSize}
                         rotateAngle={0}
-                        stroke={props.stroke || "orange"}
-                        />
-                )}
-                {props.startArrow && (
-                    <Arrow
-                        tip={coordinates.start}
-                        size={cArrowSize}
-                        rotateAngle={180}
                         stroke={props.stroke || "orange"}
                         />
                 )}
@@ -115,17 +110,13 @@ export default function (props: NarrowSConnectorProps) {
         let path = `
             M ${coordinates.start.x} ${coordinates.start.y} 
             h ${stem} 
-            q ${step * radius} 0 
-            ${step * radius} ${-step * factor * radius}
+            q ${step * radius} 0 ${step * radius} ${-step * factor * radius}
             v ${distanceY / 2 + step * 2 * factor * radius}
-            q 0 ${-step * factor * radius}
-            ${-step * radius} ${-step * factor * radius}
+            q 0 ${-step * factor * radius} ${-step * radius} ${-step * factor * radius}
             h ${distanceX - stem * 2}
-            q ${-step * radius} 0
-            ${-step * radius} ${-step * factor * radius}
+            q ${-step * radius} 0 ${-step * radius} ${-step * factor * radius}
             V ${coordinates.end.y + step * factor * radius}
-            q 0 ${-step * factor * radius}
-            ${step * radius} ${-step * factor * radius}
+            q 0 ${-step * factor * radius} ${step * radius} ${-step * factor * radius}
             H ${coordinates.end.x}
         `;
 
@@ -141,16 +132,8 @@ export default function (props: NarrowSConnectorProps) {
                 {props.endArrow && (
                     <Arrow
                         tip={coordinates.end}
-                        size={cArrowSize}
+                        size={adjustedArrowSize}
                         rotateAngle={0}
-                        stroke={props.stroke || "orange"}
-                        />
-                )}
-                {props.startArrow && (
-                    <Arrow
-                        tip={coordinates.start}
-                        size={cArrowSize}
-                        rotateAngle={180}
                         stroke={props.stroke || "orange"}
                         />
                 )}
