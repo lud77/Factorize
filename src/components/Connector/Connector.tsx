@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import BareConnector from './BareConnector';
-import { Props } from './Props';
+import { Props, Point } from './Props';
 
 
 /**
@@ -59,40 +59,57 @@ export default function Connector(props: Props) {
       };
     }
 
-    function getNewCoordinates() {
+
+    const transformCoords = (workArea: Element) => (p: Point): Point => { 
+      const { x, y } = p;
+      const { top, left } = workArea.getBoundingClientRect();
+      
+      const offsetLeft = left + window.scrollX;
+      const offsetTop = top + window.scrollY;
+    
+      return {
+          x: x - offsetLeft,
+          y: y - offsetTop
+      };
+    };
+
+    function getNewCoordinates(transformer) {
         const start = props.coordsStart ? props.coordsStart : getStartCoords(props.el1);
         const end = props.coordsEnd ? props.coordsEnd : getEndCoords(props.el2);
 
-        return { start, end };
+        return { 
+            start: transformer(start), 
+            end: transformer(end) 
+        };
     }
 
     if (!props.el1 && !props.coordsStart) return null;
     if (!props.el2 && !props.coordsEnd) return null;
 
-    const coordinates = getNewCoordinates();
+    const coordinates = getNewCoordinates(transformCoords(props.workArea.current));
 
     return (
         <div
-          ref={wrapperRef}
-          style={{
-            position: "absolute",
-            top: 0,
-            width: window.innerWidth + 'px',
-            height: window.innerHeight + 'px',
-            zIndex: -1
-          }}
+            ref={wrapperRef}
+            style={{
+                position: "absolute",
+                top: 0,
+                width: window.innerWidth + 'px',
+                height: window.innerHeight + 'px',
+                zIndex: -1
+            }}
         >
             <BareConnector
-              {...props}
-              startPoint={coordinates.start}
-              endPoint={coordinates.end}
-              stem={props.stem}
-              grids={props.grids}
-              roundCorner={props.roundCorner}
-              minStep={props.minStep}
-              startArrow={props.startArrow}
-              endArrow={props.endArrow}
-              arrowSize={props.arrowSize}
+                {...props}
+                startPoint={coordinates.start}
+                endPoint={coordinates.end}
+                stem={props.stem}
+                grids={props.grids}
+                roundCorner={props.roundCorner}
+                minStep={props.minStep}
+                startArrow={props.startArrow}
+                endArrow={props.endArrow}
+                arrowSize={props.arrowSize}
             />
         </div>
     );

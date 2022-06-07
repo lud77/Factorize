@@ -3,7 +3,7 @@ import React from "react";
 
 import { ShapeConnectorProps } from "./Props";
 
-interface NarrowSConnectorProps extends ShapeConnectorProps {
+interface ConnectorProps extends ShapeConnectorProps {
     grids?: number;
     stem?: number;
     roundCorner?: boolean;
@@ -11,6 +11,8 @@ interface NarrowSConnectorProps extends ShapeConnectorProps {
     arrowSize?: number;
     endArrow?: boolean;
     startArrow?: boolean;
+    coordsStart?: object;
+    coordsEnd?: object;
 }
 
 /**
@@ -26,7 +28,7 @@ interface NarrowSConnectorProps extends ShapeConnectorProps {
  * @param startArrow
  */
 
-export default function (props: NarrowSConnectorProps) {
+export default function (props: ConnectorProps) {
     const {
         stroke,
         strokeWidth,
@@ -37,6 +39,8 @@ export default function (props: NarrowSConnectorProps) {
         arrowSize,
         roundCorner,
         minStep,
+        coordsStart,
+        coordsEnd,
         ...rest
     } = props;
 

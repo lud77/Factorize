@@ -18,14 +18,8 @@ export interface ShapeConnectorProps extends React.SVGProps<SVGPathElement> {
 export interface Props extends React.SVGProps<SVGPathElement> {
     el1?: HTMLDivElement;
     el2?: HTMLDivElement;
-    coordsStart?: { 
-        x: number; 
-        y: number;
-    };
-    coordsEnd?: { 
-        x: number; 
-        y: number;
-    };
+    coordsStart?: Point;
+    coordsEnd?: Point;
     grids?: number;
     stem?: number;
     roundCorner?: boolean;
@@ -35,4 +29,7 @@ export interface Props extends React.SVGProps<SVGPathElement> {
     startArrow?: boolean;
     endArrow?: boolean;
     arrowSize?: number;
+    workArea: { 
+        current: object; 
+    };
 }
