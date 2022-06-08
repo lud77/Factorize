@@ -1,16 +1,17 @@
 const path = require('path');
+const { Menu, app, BrowserWindow } = require('electron');
 
-const { app, BrowserWindow } = require('electron');
 const isDev = require('electron-is-dev');
 
-function createWindow() {
+const createWindow = () => {
     // Create the browser window.
     const win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        frame: true // title bar
     });
 
     // and load the index.html of the app.
@@ -25,7 +26,7 @@ function createWindow() {
     if (isDev) {
         win.webContents.openDevTools({ mode: 'detach' });
     }
-}
+};
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -45,4 +46,10 @@ app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow();
     }
+});
+
+app.on('ready', () => {
+    const menu = new Menu();
+    
+    Menu.setApplicationMenu(menu  );
 });

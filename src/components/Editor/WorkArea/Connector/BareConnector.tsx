@@ -13,6 +13,7 @@ interface ConnectorProps extends ShapeConnectorProps {
     startArrow?: boolean;
     coordsStart?: object;
     coordsEnd?: object;
+    workArea?: object;
 }
 
 /**
@@ -41,6 +42,7 @@ export default function (props: ConnectorProps) {
         minStep,
         coordsStart,
         coordsEnd,
+        workArea,
         ...rest
     } = props;
 
@@ -63,7 +65,7 @@ export default function (props: ConnectorProps) {
     if (stem >= Math.abs(distanceX)) {
         stem = Math.abs(distanceX) - Math.abs(stepX);
     }
-
+    
     let step = Math.min(Math.abs(stepX), Math.abs(stepY));
 
     step = Math.min(step, props.minStep || step);

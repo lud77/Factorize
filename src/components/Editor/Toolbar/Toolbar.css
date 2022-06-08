@@ -1,0 +1,45 @@
+.Toolbar {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #000;
+}
+
+.Menu {
+    display: flex;
+    flex-direction: row;
+    padding-left: 8px;
+    padding-top: 4px;
+}
+
+.Menu .Item {
+    padding: 8px 16px;
+    cursor: default;
+    margin-right: 1px;
+}
+
+.Primary {
+}
+
+.Primary .Item {
+}
+
+.Primary .Item.Selected,
+.Primary .Item:hover {
+    color: var(--background);
+    background-color: var(--medium-highlight);
+}
+
+.Secondary {
+    color: var(--background);
+    background-color: var(--medium-highlight);
+    padding-bottom: 4px;
+}
+
+.Secondary .Item {
+}
+
+.Secondary .Item.Selected,
+.Secondary .Item:hover {
+    color: var(--medium-highlight);
+    background-color: var(--background);
+}

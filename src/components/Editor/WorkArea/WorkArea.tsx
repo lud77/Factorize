@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { transform } from 'typescript';
-import Connector from '../Connector/Connector';
+
+import Connector from './Connector/Connector';
 import InputEndpointFactory from './InputEndpoint';
 import OutputEndpointFactory from './OutputEndpoint';
+
+import './WorkArea.css';
 
 const WorkArea = (props) => {
 	const makePanel = (type, title) => {
