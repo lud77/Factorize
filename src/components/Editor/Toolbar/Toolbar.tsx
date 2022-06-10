@@ -21,12 +21,28 @@ const Toolbar = (props) => {
                         isSelected(item) ? 'Selected' : null
                     ].filter(Boolean);
 
-                    return <div key={key} className={ classes.join(' ') } onClick={selectPrimaryItem(item)}>{item}</div>;
+                    return (
+                        <div 
+                            key={key} 
+                            className={ classes.join(' ') } 
+                            onClick={selectPrimaryItem(item)}
+                            >{item}</div>
+                    );
                 })
             }
         </div>
         <div className="Menu Secondary">
-            {Object.keys(props.menus[primary]).map((item, key) => <div key={key} className="Item" onClick={props.menus[primary][item]}>{item}</div>)}
+            {
+                Object.keys(props.menus[primary]).map((item, key) => {
+                    return (
+                        <div 
+                            key={primary + '_' + key} 
+                            className="Item" 
+                            onClick={(e) => props.menus[primary][item](e.target)}
+                            >{item}</div>
+                    );
+                })
+            }
         </div>
     </div>;
 };

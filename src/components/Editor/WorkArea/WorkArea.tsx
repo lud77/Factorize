@@ -182,12 +182,16 @@ const WorkArea = (props) => {
 		}
 	};
 
+	const linear = (x) => x;
+	const snapping = (x) => Math.floor(x / 16) * 16;
+
 	const mouseMove = (e) => {
 		if ((dragCoords == null) && (connectorAnchor == null)) return;
 
 		if (dragCoords != null) {
-			dragCoords.el.style.left = e.clientX - dragCoords.o.x + dragCoords.c.x + 'px';
-			dragCoords.el.style.top = e.clientY - dragCoords.o.y + dragCoords.c.y + 'px';
+			const func = (props.snap ? snapping : linear);
+			dragCoords.el.style.left = func(e.clientX - dragCoords.o.x + dragCoords.c.x) + 'px';
+			dragCoords.el.style.top = func(e.clientY - dragCoords.o.y + dragCoords.c.y) + 'px';
 			redraw(Math.random());
 
 			return false;

@@ -10,22 +10,45 @@ const { ipcRenderer } = window.require('electron')
 const Editor = () => {
     const toolbar = React.useRef<any>();
 
+    const [snap, setSnap] = React.useState(false);
+    const [grid, setGrid] = React.useState(false);
+
+    const toggle = (item) => {
+        if (item.classList.contains('Active')) {
+            item.classList.remove('Active');
+        } else {
+            item.classList.add('Active');
+        }
+    };
+    
     const menus = {
         'File': {
             'Quit': () => ipcRenderer.invoke('app:terminate')
         },
-        'Edit': {
-            'Preferences': () => { console.log('Preferences') }
-        },
         'Panels': {
             'Type 0': () => { console.log('Type 0') }, 
             'Type 1': () => { console.log('Type 1') }
+        },
+        'Options': {
+            'Grid': (item) => { 
+                setGrid(!grid); 
+                toggle(item);
+            },
+            'Snap': (item) => { 
+                setSnap(!snap); 
+                toggle(item);
+            }
         }
     };
 
-    return <div className="Editor">
+    const classes = [
+        'Editor', 
+        grid ? 'Gridded' : null
+    ].filter(Boolean);
+
+    return <div className={classes.join(' ')}>
         <Toolbar toolbar={toolbar} menus={menus} default="File"></Toolbar>        
-        <WorkArea toolbar={toolbar}></WorkArea>;
+        <WorkArea toolbar={toolbar} snap={snap}></WorkArea>;
     </div>;
 };
 

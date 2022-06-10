@@ -44,8 +44,16 @@
 .Secondary .Item {
 }
 
-.Secondary .Item.Selected,
 .Secondary .Item:hover {
     color: var(--medium-highlight);
     background-color: var(--background);
+}
+
+.Secondary .Item.Active {
+    color: var(--main-highlight);
+    background-color: var(--border)
+}
+
+.Secondary .Item.Active:hover {
+    background-color: black;
 }
