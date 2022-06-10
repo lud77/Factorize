@@ -13,10 +13,12 @@ const Editor = () => {
     const [snap, setSnap] = React.useState(false);
     const [grid, setGrid] = React.useState(false);
 
-    const toggle = (item) => {
+    const toggle = (item, state) => {
         if (item.classList.contains('Active')) {
             item.classList.remove('Active');
-        } else {
+        } 
+        
+        if (state) {
             item.classList.add('Active');
         }
     };
@@ -32,11 +34,11 @@ const Editor = () => {
         'Options': {
             'Grid': (item) => { 
                 setGrid(!grid); 
-                toggle(item);
+                toggle(item, !grid);
             },
             'Snap': (item) => { 
+                toggle(item, !snap);
                 setSnap(!snap); 
-                toggle(item);
             }
         }
     };
