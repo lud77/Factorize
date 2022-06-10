@@ -1,6 +1,17 @@
-
 .WorkArea {
     position: relative;
     overflow: hidden;
 }
-  
+
+.VirtualHandle {
+    position: absolute;
+    display: none;
+    width: 1px;
+    height: 1px;
+    background-color: var(--main-highlight);
+    border: none;
+}
+
+.VirtualHandle.active {
+    display: inline-block;
+}

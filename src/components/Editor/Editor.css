@@ -1,0 +1,9 @@
+.Editor {
+    background-color: var(--background);
+    background-size: 256px 256px;    
+    background-image: 
+        repeating-linear-gradient(0deg, #1C1C1C, #1C1C1C 1px, transparent 1px, transparent 128px),
+        repeating-linear-gradient(-90deg, #1C1C1C, #1C1C1C 1px, transparent 1px, transparent 128px),
+        repeating-linear-gradient(0deg, #2F2F2F, #2F2F2F 1px, transparent 1px, transparent 16px),
+        repeating-linear-gradient(-90deg, #2F2F2F, #2F2F2F 1px, transparent 1px, transparent 16px); 
+}

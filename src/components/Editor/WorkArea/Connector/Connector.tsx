@@ -59,7 +59,6 @@ export default function Connector(props: Props) {
       };
     }
 
-
     const transformCoords = (workArea: Element) => (p: Point): Point => { 
       const { x, y } = p;
       const { top, left } = workArea.getBoundingClientRect();
@@ -96,7 +95,7 @@ export default function Connector(props: Props) {
                 top: 0,
                 width: window.innerWidth + 'px',
                 height: window.innerHeight + 'px',
-                zIndex: -1
+                pointerEvents: "none",
             }}
         >
             <BareConnector

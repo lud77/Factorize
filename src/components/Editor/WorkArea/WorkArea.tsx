@@ -6,6 +6,7 @@ import InputEndpointFactory from './InputEndpoint';
 import OutputEndpointFactory from './OutputEndpoint';
 
 import './WorkArea.css';
+import './Panel.css';
 
 const WorkArea = (props) => {
 	const makePanel = (type, title) => {
@@ -240,9 +241,14 @@ const WorkArea = (props) => {
 	const InputEndpoint = InputEndpointFactory(isInputConnected, connectorAnchor);
 	const OutputEndpoint = OutputEndpointFactory(isOutputConnected, connectorAnchor);
 
+	let position = 100;
+
 	const renderPanel = (panel, key) => {
+		const initialPosition = { left: position + 'px', top: position + 'px' };
+		position += 20;
+
 		return (
-			<div key={key} data-key={key} className="Panel" style={{ left: '100px', top: '100px' }}> 
+			<div key={key} data-key={key} className="Panel" style={initialPosition}> 
 				<div className="Title">{panel.title}</div>
 				<div className="Row">
 					<InputEndpoint name="Volume" panel={panel}>Volume</InputEndpoint>
@@ -262,7 +268,7 @@ const WorkArea = (props) => {
 	const renderConnection = (connection, key) => {
 		return (<Connector
 			key={key}
-			x={draw}
+			draw={draw}
 			el1={connection.source.current}
 			el2={connection.target.current}
 			roundCorner={true}
@@ -281,13 +287,13 @@ const WorkArea = (props) => {
 		<div 
 			className="WorkArea" 
 			ref={workArea}
+			style={screenSize}
+			onMouseDown={mouseDown} 
 			onMouseMove={mouseMove} 
 			onMouseUp={mouseUp} 
-			onMouseDown={mouseDown} 
-			style={screenSize}
 			>
 			<Connector
-				x={draw}
+				draw={draw}
 				el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? connectorAnchor.fromRef.current : undefined}
 				el2={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.toRef.current : undefined}
 				coordsStart={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.from : undefined}

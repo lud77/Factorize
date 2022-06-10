@@ -1,0 +1,82 @@
+.Panel {
+    font-size: 14px;
+    width: 10em;
+    padding: 5px;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    background-color: #31363A;
+    position: absolute;
+    z-index: 1;
+}
+
+.Panel .Title {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 10px;
+    user-select: none;
+    cursor: move;
+}
+
+.Panel .Input {
+    text-align: left;
+}
+
+.Panel .Output {
+    text-align: right;
+}
+
+.Panel .Row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Panel .Item {
+    line-height: var(--item-text-size);
+    font-size: var(--item-text-size);
+    flex-grow: 1;
+    vertical-align: baseline;
+    margin-bottom: 5px;
+}
+
+.Panel .Item input {
+    width: 95%;
+}
+
+.Panel .InputEndpoint {
+    display: inline-block;
+    border-radius: 0.6em;
+    width: 1.2em;
+    height: 1.2em;
+    background-color: var(--border);
+    border: none;
+    margin-left: -1.1em;
+    margin-right: 0.3em;
+}
+
+.Panel .OutputEndpoint {
+    display: inline-block;
+    border-radius: 0.6em;
+    width: 1.2em;
+    height: 1.2em;
+    background-color: var(--border);
+    border: none;
+    margin-right: -1.1em;
+    margin-left: 0.3em;
+}
+  
+.Panel .Connected {
+    background-color: #ADA257;
+}
+  
+.Panel .Connected:hover {
+    background-color: #BDB287;
+}
+
+.Panel .InputEndpoint.Hovering,
+.Panel .OutputEndpoint.Hovering,
+.Panel .InputEndpoint.Connecting,
+.Panel .OutputEndpoint.Connecting,
+.Panel .InputEndpoint:not(.Connected):hover, 
+.Panel .OutputEndpoint:not(.Connected):hover {
+  background-color: var(--main-highlight);
+}

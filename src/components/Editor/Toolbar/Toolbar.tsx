@@ -10,27 +10,23 @@ const Toolbar = (props) => {
         setPrimary(item);
     };
 
-    const selectSecondaryItem = (item) => (e) => {
-        console.log(item);
-    };
-
     const isSelected = (item) => item === primary;
 
-    return <div className="Toolbar" ref={props.ref}>
+    return <div className="Toolbar" ref={props.toolbar}>
         <div className="Menu Primary">
             {
-                Object.keys(props.menus).map((item) => {
+                Object.keys(props.menus).map((item, key) => {
                     const classes = [
                         'Item', 
                         isSelected(item) ? 'Selected' : null
                     ].filter(Boolean);
-                    
-                    return <div className={ classes.join(' ') } onClick={selectPrimaryItem(item)}>{item}</div>;
+
+                    return <div key={key} className={ classes.join(' ') } onClick={selectPrimaryItem(item)}>{item}</div>;
                 })
             }
         </div>
         <div className="Menu Secondary">
-            {props.menus[primary].map((item) => <div className="Item" onClick={selectSecondaryItem(item)}>{item}</div>)}
+            {Object.keys(props.menus[primary]).map((item, key) => <div key={key} className="Item" onClick={props.menus[primary][item]}>{item}</div>)}
         </div>
     </div>;
 };

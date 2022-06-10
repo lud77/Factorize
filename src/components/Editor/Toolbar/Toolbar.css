@@ -1,3 +1,7 @@
+:root {
+    --toolbar-font-size: 12px;
+}
+
 .Toolbar {
     display: flex;
     flex-direction: column;
@@ -7,17 +11,19 @@
 .Menu {
     display: flex;
     flex-direction: row;
-    padding-left: 8px;
-    padding-top: 4px;
+    padding-left: calc(var(--toolbar-font-size) * 2 / 4);
+    padding-top: calc(var(--toolbar-font-size) / 4);
 }
 
 .Menu .Item {
-    padding: 8px 16px;
+    padding: calc(var(--toolbar-font-size) * 2 / 4) calc(var(--toolbar-font-size) * 4 / 4);
     cursor: default;
     margin-right: 1px;
+    font-size: var(--toolbar-font-size);
 }
 
 .Primary {
+    background-color: var(--background);
 }
 
 .Primary .Item {
@@ -32,7 +38,7 @@
 .Secondary {
     color: var(--background);
     background-color: var(--medium-highlight);
-    padding-bottom: 4px;
+    padding-bottom: calc(var(--toolbar-font-size) / 4);
 }
 
 .Secondary .Item {
