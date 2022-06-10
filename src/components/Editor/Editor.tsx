@@ -1,4 +1,3 @@
-import { app } from 'electron';
 import * as React from 'react';
 
 import WorkArea from './WorkArea/WorkArea';
@@ -11,7 +10,7 @@ const Editor = () => {
 
     const menus = {
         'File': {
-            'Quit': () => app.quit()
+            'Quit': () => console.log('exit')
         },
         'Edit': {
             'Preferences': () => { console.log('Preferences') }
