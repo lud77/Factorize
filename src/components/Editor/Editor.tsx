@@ -5,12 +5,14 @@ import Toolbar from './Toolbar/Toolbar';
 
 import './Editor.css';
 
+const { ipcRenderer } = window.require('electron')
+
 const Editor = () => {
     const toolbar = React.useRef<any>();
 
     const menus = {
         'File': {
-            'Quit': () => console.log('exit')
+            'Quit': () => ipcRenderer.invoke('app:terminate')
         },
         'Edit': {
             'Preferences': () => { console.log('Preferences') }
