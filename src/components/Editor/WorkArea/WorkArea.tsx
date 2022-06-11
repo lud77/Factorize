@@ -5,36 +5,10 @@ import Connector from './Connector/Connector';
 import InputEndpointFactory from './InputEndpoint';
 import OutputEndpointFactory from './OutputEndpoint';
 
-import getSequence from '../../../utils/sequence';
-
 import './WorkArea.css';
 import './Panel.css';
 
 const WorkArea = (props) => {
-	const getNextEndpointId = getSequence();
-
-	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
-
-	const makePanel = (type, title) => {
-		const inputVolume = getNextEndpointId();
-		const inputFrequency = getNextEndpointId();
-		const outputAudio = getNextEndpointId();
-		const outputWhatev = getNextEndpointId();
-		
-		return { 
-			type, 
-			title, 
-			refs: { inputVolume, inputFrequency, outputAudio, outputWhatev }
-		};
-	};
-
-	const makeConnection = (source, target) => {
-		return { 
-			source, 
-			target 
-		};
-	};
-
 	interface Point {
 		x: number; 
 		y: number;
@@ -53,6 +27,14 @@ const WorkArea = (props) => {
 		from: Point;
 	}
 
+	const { 
+		panels, setPanels, 
+		connections, setConnections,
+		makeConnection
+	} = props;
+
+	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
+
 	const buildScreenSize = () => ({
 		top: props.toolbar.height,
 		left: 0,
@@ -64,8 +46,6 @@ const WorkArea = (props) => {
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords | null>(null);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
-	const [ panels, setPanels ] = React.useState([makePanel('text', 'Component 1'), makePanel('text', 'Component 2')]);
-	const [ connections, setConnections ] = React.useState([makeConnection(panels[0].refs.outputAudio, panels[1].refs.inputVolume)]);
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState(buildScreenSize());
 
@@ -314,8 +294,8 @@ const WorkArea = (props) => {
 				strokeWidth={2}
 				workArea={workArea}
 				/>		
-			{panels.map(renderPanel)}
-			{connections.map(renderConnection)}
+			{props.panels.map(renderPanel)}
+			{props.connections.map(renderConnection)}
 		</div>
 	);
 };

@@ -1,7 +1,10 @@
 const getSequence = () => {
-    let count = 0;
+    let count = -1;
 
-    return () => count++;
+    return () => {
+        count++;
+        return count;
+    };
 };
 
 module.exports = getSequence;
