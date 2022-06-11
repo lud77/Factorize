@@ -5,15 +5,21 @@ import Connector from './Connector/Connector';
 import InputEndpointFactory from './InputEndpoint';
 import OutputEndpointFactory from './OutputEndpoint';
 
+import getSequence from '../../../utils/sequence';
+
 import './WorkArea.css';
 import './Panel.css';
 
 const WorkArea = (props) => {
+	const getNextEndpointId = getSequence();
+
+	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
+
 	const makePanel = (type, title) => {
-		const inputVolume = React.useRef<any>();
-		const inputFrequency = React.useRef<any>();
-		const outputAudio = React.useRef<any>();
-		const outputWhatev = React.useRef<any>();
+		const inputVolume = getNextEndpointId();
+		const inputFrequency = getNextEndpointId();
+		const outputAudio = getNextEndpointId();
+		const outputWhatev = getNextEndpointId();
 		
 		return { 
 			type, 
@@ -273,8 +279,8 @@ const WorkArea = (props) => {
 		return (<Connector
 			key={key}
 			draw={draw}
-			el1={connection.source.current}
-			el2={connection.target.current}
+			el1={getEndpointElById(connection.source)}
+			el2={getEndpointElById(connection.target)}
 			roundCorner={true}
 			endArrow={true}
 			stroke="#ADA257"
@@ -298,8 +304,8 @@ const WorkArea = (props) => {
 			>
 			<Connector
 				draw={draw}
-				el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? connectorAnchor.fromRef.current : undefined}
-				el2={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.toRef.current : undefined}
+				el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? getEndpointElById(connectorAnchor.fromRef) : undefined}
+				el2={(connectorAnchor != null && connectorAnchor.toRef != null) ? getEndpointElById(connectorAnchor.toRef) : undefined}
 				coordsStart={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.from : undefined}
 				coordsEnd={(connectorAnchor != null && connectorAnchor.fromRef != null) ? connectorAnchor.to : undefined}
 				roundCorner={true}

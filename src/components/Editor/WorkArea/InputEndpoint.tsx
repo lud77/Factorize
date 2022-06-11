@@ -16,8 +16,8 @@ export default (isInputConnected, connectorAnchor) => (props) => {
 
     return <div className="Input Item">
         <div 
-            className={`InputEndpoint ${isInputConnected(props.panel.refs[`input${props.name}`]) ? 'Connected' : ''}`}
-            ref={props.panel.refs[`input${props.name}`]} 
+            className={`InputEndpoint Endpoint ${isInputConnected(props.panel.refs[`input${props.name}`]) ? 'Connected' : ''}`}
+            data-id={props.panel.refs[`input${props.name}`]} 
             data-ref={`input${props.name}`}
             onMouseOver={onMouseOver}
             onMouseOut={onMouseOut}

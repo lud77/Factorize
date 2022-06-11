@@ -5,11 +5,11 @@ export default (isOutputConnected, connectorAnchor) => (props) => {
         {props.children}
         <div 
             className={`
-                OutputEndpoint 
+                OutputEndpoint Endpoint
                 ${isOutputConnected(props.panel.refs[`output${props.name}`]) ? 'Connected' : ''} 
                 ${(connectorAnchor != null) && (connectorAnchor?.fromRef == props.panel.refs[`output${props.name}`]) ? 'Connecting' : ''}
             `}
-            ref={props.panel.refs[`output${props.name}`]} 
+            data-id={props.panel.refs[`output${props.name}`]} 
             data-ref={`output${props.name}`}
             onMouseOver={props.onMouseOver}
             onMouseOut={props.onMouseOut}							
