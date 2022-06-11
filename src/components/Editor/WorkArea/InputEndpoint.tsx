@@ -14,12 +14,9 @@ export default (isInputConnected, connectorAnchor) => (props) => {
         e.target.classList.remove('Hovering');
     };
 
-    const classes = ['InputEndpoint'];
-    if (isInputConnected(props.panel.refs[`input${props.name}`])) classes.push('Connected');
-
     return <div className="Input Item">
         <div 
-            className={ classes.join(' ') }
+            className={`InputEndpoint ${isInputConnected(props.panel.refs[`input${props.name}`]) ? 'Connected' : ''}`}
             ref={props.panel.refs[`input${props.name}`]} 
             data-ref={`input${props.name}`}
             onMouseOver={onMouseOver}

@@ -16,15 +16,10 @@ const Toolbar = (props) => {
         <div className="Menu Primary">
             {
                 Object.keys(props.menus).map((item, key) => {
-                    const classes = [
-                        'Item', 
-                        isSelected(item) ? 'Selected' : null
-                    ].filter(Boolean);
-
                     return (
                         <div 
                             key={key} 
-                            className={ classes.join(' ') } 
+                            className={`Item ${isSelected(item) ? 'Selected' : ''}`} 
                             onClick={selectPrimaryItem(item)}
                             >{item}</div>
                     );

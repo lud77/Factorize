@@ -28,7 +28,9 @@ const Editor = () => {
             'Quit': () => ipcRenderer.invoke('app:terminate')
         },
         'Panels': {
-            'Type 0': () => { console.log('Type 0') }, 
+            'Type 0': () => { 
+                const x = makePanel('text', 'test');
+            }, 
             'Type 1': () => { console.log('Type 1') }
         },
         'Options': {
@@ -43,12 +45,7 @@ const Editor = () => {
         }
     };
 
-    const classes = [
-        'Editor', 
-        grid ? 'Gridded' : null
-    ].filter(Boolean);
-
-    return <div className={classes.join(' ')}>
+    return <div className={`Editor ${grid ? 'Gridded' : ''}`}>      
         <Toolbar toolbar={toolbar} menus={menus} default="File"></Toolbar>        
         <WorkArea toolbar={toolbar} snap={snap}></WorkArea>;
     </div>;
