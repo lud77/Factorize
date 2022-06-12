@@ -12,7 +12,6 @@ const { ipcRenderer } = window.require('electron')
 const getNextEndpointId = getSequence();
 
 const Editor = () => {
-
 	const makePanel = (type, title) => {
 		const inputVolume = getNextEndpointId();
 		const inputFrequency = getNextEndpointId();
@@ -40,36 +39,36 @@ const Editor = () => {
 
     const [ panels, setPanels ] = React.useState([makePanel('text', 'Component 1'), makePanel('text', 'Component 2')]);
 	const [ connections, setConnections ] = React.useState([makeConnection(panels[0].refs.outputAudio, panels[1].refs.inputVolume)]);
-
-    const toggle = (item, state) => {
-        if (item.classList.contains('Active')) {
-            item.classList.remove('Active');
-        } 
-        
-        if (state) {
-            item.classList.add('Active');
-        }
-    };
     
     const menus = {
         'File': {
-            'Quit': () => ipcRenderer.invoke('app:terminate')
+            'Quit': {
+                execute: () => ipcRenderer.invoke('app:terminate')
+            }
         },
         'Panels': {
-            'Type 0': () => { 
-                const panel = makePanel('text', 'test');
-                setPanels([...panels, panel]);
-            }, 
-            'Type 1': () => { console.log('Type 1') }
+            'Type 0': {
+                execute: () => { 
+                    const panel = makePanel('text', 'test');
+                    setPanels([...panels, panel]);
+                }
+            },
+            'Type 1': {
+                execute: () => { console.log('Type 1') }
+            }
         },
         'Options': {
-            'Grid': (item) => { 
-                setGrid(!grid); 
-                toggle(item, !grid);
+            'Grid': {
+                execute: (item) => { 
+                    setGrid(!grid);
+                },
+                active: grid
             },
-            'Snap': (item) => { 
-                toggle(item, !snap);
-                setSnap(!snap); 
+            'Snap': {
+                execute: (item) => {
+                    setSnap(!snap); 
+                },
+                active: snap
             }
         }
     };
