@@ -1,7 +1,8 @@
 export interface DragCoords {
-    el: Element;
-    o: Point;
-    c: Point;
+    isDragging: boolean;
+    el?: Element;
+    o?: Point;
+    c?: Point;
 }
 
 export interface Point {

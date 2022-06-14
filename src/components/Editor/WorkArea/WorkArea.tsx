@@ -27,7 +27,7 @@ const WorkArea = (props) => {
 
 	const workArea = React.useRef<any>();
 
-	const [ dragCoords, setDragCoords ] = React.useState<DragCoords | null>(null);
+	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState(buildScreenSize());
 
@@ -77,7 +77,8 @@ const WorkArea = (props) => {
 		if (draggingPanel) {
 			const panel = e.target.closest('.Panel');
 
-			setDragCoords({ 
+			setDragCoords({
+				isDragging: true,
 				el: panel,
 				o: {
 					x: Number(e.pageX), 
@@ -151,9 +152,9 @@ const WorkArea = (props) => {
 	const snapping = (x) => Math.floor(x / 16) * 16;
 
 	const mouseMove = (e) => {
-		if ((dragCoords == null) && (connectorAnchor == null)) return;
+		if (!dragCoords.isDragging && (connectorAnchor == null)) return;
 
-		if (dragCoords != null) {
+		if (dragCoords.isDragging) {
 			const func = (props.snap ? snapping : linear);
 			dragCoords.el.style.left = func(e.clientX - dragCoords.o.x + dragCoords.c.x) + 'px';
 			dragCoords.el.style.top = func(e.clientY - dragCoords.o.y + dragCoords.c.y) + 'px';
@@ -180,7 +181,7 @@ const WorkArea = (props) => {
 	const mouseUp = (e) => {
 		e.preventDefault();
 
-		setDragCoords(null);
+		setDragCoords({ isDragging: false });
 
 		if ((connectorAnchor != null && connectorAnchor.fromRef != null) && e.target.classList.contains('InputEndpoint') && !e.target.classList.contains('Connected')) {
 			const panel = e.target.closest('.Panel');

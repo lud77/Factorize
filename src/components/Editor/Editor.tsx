@@ -31,20 +31,6 @@ const Editor = (props) => {
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
 
     const menus = {
-        'File': {
-            'Load...': {
-                execute: () => {}
-            },
-            'Save': {
-                execute: () => {}
-            },
-            'Save as...': {
-                execute: () => {}
-            },
-            'Quit': {
-                execute: () => ipcRenderer.invoke('app:terminate')
-            }
-        },
         'Panels': {
             'Audio': {
                 execute: () => { 
