@@ -2,17 +2,20 @@ import * as React from 'react';
 
 import { Panel } from '../Editor/Panel/types';
 
+import InputEndpoint from '../Editor/Panel/InputEndpoint';
+import OutputEndpoint from '../Editor/Panel/OutputEndpoint';
+
 export default (getNextEndpointId) => {
-    const create = (title, { InputEndpoint, OutputEndpoint }): Panel => {
+    const create = (title): Panel => {
         const Component = (props) => {
             return <>
                 <div className="Row">
-                    <InputEndpoint name="Volume" panel={props.panel}>Volume</InputEndpoint>
-                    <OutputEndpoint name="Audio" panel={props.panel}>Audio</OutputEndpoint>
+                    <InputEndpoint name="Volume" {...props}>Volume</InputEndpoint>
+                    <OutputEndpoint name="Audio" {...props}>Audio</OutputEndpoint>
                 </div>
                 <div className="Row">
-                    <InputEndpoint name="Frequency" panel={props.panel}>Frequency</InputEndpoint>
-                    <OutputEndpoint name="Whatev" panel={props.panel}>Whatev</OutputEndpoint>
+                    <InputEndpoint name="Frequency" {...props}>Frequency</InputEndpoint>
+                    <OutputEndpoint name="Whatev" {...props}>Whatev</OutputEndpoint>
                 </div>
             </>;
         };
@@ -26,7 +29,7 @@ export default (getNextEndpointId) => {
             type: 'Audio', 
             title, 
             refs: { inputVolume, inputFrequency, outputAudio, outputWhatev },
-            Component: Component
+            Component
         };
     };
 

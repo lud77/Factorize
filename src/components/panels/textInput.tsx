@@ -2,15 +2,18 @@ import * as React from 'react';
 
 import { Panel } from '../Editor/Panel/types';
 
+import InputEndpoint from '../Editor/Panel/InputEndpoint';
+import OutputEndpoint from '../Editor/Panel/OutputEndpoint';
+
 export default (getNextEndpointId) => {
-    const create = (title, { InputEndpoint, OutputEndpoint }): Panel => {
+    const create = (title): Panel => {
         const Component = (props) => {
             return <>
                 <div className="Row">
                     <div className="Input Item"><input type="text" /></div>
                 </div>
                 <div className="Row">
-                    <OutputEndpoint name="Text" panel={props.panel}>Text</OutputEndpoint>
+                    <OutputEndpoint name="Text" {...props}>Text</OutputEndpoint>
                 </div>
             </>;
         };
@@ -21,7 +24,7 @@ export default (getNextEndpointId) => {
             type: 'TextInput', 
             title, 
             refs: { outputText },
-            Component: Component
+            Component
         };
     };
     

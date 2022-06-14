@@ -1,15 +1,17 @@
 import * as React from 'react';
 
-export default (isInputConnected, connectorAnchor) => (props) => {
+export default (props) => {
+	const isInputConnected = (ref) => props.connections.find((connection) => connection.target === ref);
+
     const onMouseOver = (e) => {
-        if (connectorAnchor == null) return;
+        if (props.connectorAnchor == null) return;
         if (e.target.classList.contains('Connected')) return;
         
         e.target.classList.add('Hovering');
     };
 
     const onMouseOut = (e) => {
-		if (connectorAnchor == null) return;
+		if (props.connectorAnchor == null) return;
 
         e.target.classList.remove('Hovering');
     };

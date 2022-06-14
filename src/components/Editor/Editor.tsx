@@ -5,9 +5,6 @@ import Toolbar from './Toolbar/Toolbar';
 
 import getSequence from '../../utils/sequence';
 
-import InputEndpointFactory from './Panel/InputEndpoint';
-import OutputEndpointFactory from './Panel/OutputEndpoint';
-
 import { ConnectorAnchor, Connection } from './types';
 
 import './Editor.css';
@@ -32,14 +29,6 @@ const Editor = (props) => {
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
 
-	const isOutputConnected = (ref) => connections.find((connection) => connection.source === ref);
-	const isInputConnected = (ref) => connections.find((connection) => connection.target === ref);
-
-    const endpoints = {
-        InputEndpoint: InputEndpointFactory(isInputConnected, connectorAnchor),
-        OutputEndpoint: OutputEndpointFactory(isOutputConnected, connectorAnchor)
-    };
-
     const menus = {
         'File': {
             'Load': {
@@ -55,13 +44,13 @@ const Editor = (props) => {
         'Panels': {
             'Audio': {
                 execute: () => { 
-                    const panel = props.panels.Audio.create(`Audio ${getNextComponent()}`, endpoints);
+                    const panel = props.panels.Audio.create(`Audio ${getNextComponent()}`);
                     setPanels([...panels, panel]);
                 }
             },
             'TextInput': {
                 execute: () => { 
-                    const panel = props.panels.TextInput.create(`Text Input ${getNextComponent()}`, endpoints);
+                    const panel = props.panels.TextInput.create(`Text Input ${getNextComponent()}`);
                     setPanels([...panels, panel]);
                 }
             }

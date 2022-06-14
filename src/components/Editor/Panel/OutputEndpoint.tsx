@@ -1,13 +1,15 @@
 import * as React from 'react';
 
-export default (isOutputConnected, connectorAnchor) => (props) => {
+export default (props) => {
+    const isOutputConnected = (ref) => props.connections.find((connection) => connection.source === ref);
+
     return 	<div className="Output Item">
         {props.children}
         <div 
             className={`
                 OutputEndpoint Endpoint
                 ${isOutputConnected(props.panel.refs[`output${props.name}`]) ? 'Connected' : ''} 
-                ${(connectorAnchor != null) && (connectorAnchor?.fromRef == props.panel.refs[`output${props.name}`]) ? 'Connecting' : ''}
+                ${(props.connectorAnchor != null) && (props.connectorAnchor?.fromRef == props.panel.refs[`output${props.name}`]) ? 'Connecting' : ''}
             `}
             data-id={props.panel.refs[`output${props.name}`]} 
             data-ref={`output${props.name}`}
