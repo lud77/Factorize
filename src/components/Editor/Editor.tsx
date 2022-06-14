@@ -5,6 +5,8 @@ import Toolbar from './Toolbar/Toolbar';
 
 import getSequence from '../../utils/sequence';
 
+import { ConnectorAnchor, Connection } from './types';
+
 import './Editor.css';
 
 const { ipcRenderer } = window.require('electron')
@@ -12,7 +14,7 @@ const { ipcRenderer } = window.require('electron')
 const getNextComponent = getSequence();
 
 const Editor = (props) => {
-    const makeConnection = (source, target): object => 
+    const makeConnection = (source, target): Connection => 
         ({
             source, 
             target 
@@ -24,8 +26,12 @@ const Editor = (props) => {
     const [grid, setGrid] = React.useState(false);
 
     const [ panels, setPanels ] = React.useState([]);
-	const [ connections, setConnections ] = React.useState([]);
-    
+	const [ connections, setConnections ] = React.useState<Connection[]>([]);
+	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
+
+	const isOutputConnected = (ref) => connections.find((connection) => connection.source === ref);
+	const isInputConnected = (ref) => connections.find((connection) => connection.target === ref);
+
     const menus = {
         'File': {
             'Load': {
@@ -42,7 +48,7 @@ const Editor = (props) => {
             'Audio': {
                 execute: () => { 
                     console.log('y', props.panels);                    
-                    const panel = props.panels.Audio.Audio(`Component ${getNextComponent()}`);
+                    const panel = props.panels.Audio.create(`Component ${getNextComponent()}`, isInputConnected, isOutputConnected, connectorAnchor);
                     setPanels([...panels, panel]);
                 }
             },
@@ -77,8 +83,9 @@ const Editor = (props) => {
             <WorkArea 
                 toolbar={toolbar} 
                 snap={snap} 
-                panels={panels}
+                panels={panels} setPanels={setPanels}
                 connections={connections} setConnections={setConnections}
+                connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
                 makeConnection={makeConnection}
                 />;
         </div>

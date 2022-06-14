@@ -2,34 +2,17 @@ import * as React from 'react';
 import { transform } from 'typescript';
 
 import Connector from './Connector/Connector';
-import InputEndpointFactory from './InputEndpoint';
-import OutputEndpointFactory from './OutputEndpoint';
+
+import { DragCoords } from '../types';
 
 import './WorkArea.css';
 import './Panel.css';
 
 const WorkArea = (props) => {
-	interface Point {
-		x: number; 
-		y: number;
-	}
-
-	interface DragCoords {
-		el: Element;
-		o: Point;
-		c: Point;
-	}
-
-	interface ConnectorAnchor {
-		fromRef: Element;
-		toRef: Element;
-		to: Point;
-		from: Point;
-	}
-
 	const { 
 		panels, setPanels, 
 		connections, setConnections,
+		connectorAnchor, setConnectorAnchor,
 		makeConnection
 	} = props;
 
@@ -45,14 +28,10 @@ const WorkArea = (props) => {
 	const workArea = React.useRef<any>();
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords | null>(null);
-	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState(buildScreenSize());
 
 	const virtual = React.useRef<any>();
-
-	const isOutputConnected = (ref) => connections.find((connection) => connection.source === ref);
-	const isInputConnected = (ref) => connections.find((connection) => connection.target === ref);
 
 	const removeConnectionByOutputRef = (ref) => {
 		const connection = connections.find((connection) => connection.source === ref);
@@ -228,9 +207,6 @@ const WorkArea = (props) => {
 		setConnectorAnchor(null);
 	};
 
-	const InputEndpoint = InputEndpointFactory(isInputConnected, connectorAnchor);
-	const OutputEndpoint = OutputEndpointFactory(isOutputConnected, connectorAnchor);
-
 	let position = 100;
 
 	const renderPanel = (panel, key) => {
@@ -239,20 +215,7 @@ const WorkArea = (props) => {
 
 		return (
 			<div key={key} data-key={key} className="Panel" style={initialPosition}> 
-				<div>
-					<div className="Title">{panel.title}</div>
-					<div className="Row">
-						<InputEndpoint name="Volume" panel={panel}>Volume</InputEndpoint>
-						<OutputEndpoint name="Audio" panel={panel}>Audio</OutputEndpoint>
-					</div>
-					<div className="Row">
-						<InputEndpoint name="Frequency" panel={panel}>Frequency</InputEndpoint>
-						<OutputEndpoint name="Whatev" panel={panel}>Whatev</OutputEndpoint>
-					</div>
-					<div className="Row">
-						<div className="Input Item"><input type="text" /></div>
-					</div>
-				</div>
+				<panel.Component panel={panel} />
 			</div>
 		);
 	};
