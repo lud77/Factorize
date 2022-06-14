@@ -2,13 +2,18 @@ import * as React from 'react';
 
 import { Panel } from '../Editor/Panel/types';
 
-import InputEndpointFactory from '../Editor/Panel/InputEndpoint';
-import OutputEndpointFactory from '../Editor/Panel/OutputEndpoint';
-
 export default (getNextEndpointId) => {
-    const TextInput = (title, isInputConnected, isOutputConnected, connectorAnchor): Panel => {
-        const InputEndpoint = InputEndpointFactory(isInputConnected, connectorAnchor);
-        const OutputEndpoint = OutputEndpointFactory(isOutputConnected, connectorAnchor);
+    const create = (title, { InputEndpoint, OutputEndpoint }): Panel => {
+        const Component = (props) => {
+            return <>
+                <div className="Row">
+                    <div className="Input Item"><input type="text" /></div>
+                </div>
+                <div className="Row">
+                    <OutputEndpoint name="Text" panel={props.panel}>Text</OutputEndpoint>
+                </div>
+            </>;
+        };
 
         const outputText = getNextEndpointId();
         
@@ -16,11 +21,11 @@ export default (getNextEndpointId) => {
             type: 'TextInput', 
             title, 
             refs: { outputText },
-            Component: () => (<></>)
+            Component: Component
         };
     };
     
     return {
-        TextInput
+        create
     };
 }

@@ -215,6 +215,7 @@ const WorkArea = (props) => {
 
 		return (
 			<div key={key} data-key={key} className="Panel" style={initialPosition}> 
+				<div className="Title">{panel.title}</div>
 				<panel.Component panel={panel} />
 			</div>
 		);

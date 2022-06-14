@@ -5,6 +5,9 @@ import Toolbar from './Toolbar/Toolbar';
 
 import getSequence from '../../utils/sequence';
 
+import InputEndpointFactory from './Panel/InputEndpoint';
+import OutputEndpointFactory from './Panel/OutputEndpoint';
+
 import { ConnectorAnchor, Connection } from './types';
 
 import './Editor.css';
@@ -32,6 +35,11 @@ const Editor = (props) => {
 	const isOutputConnected = (ref) => connections.find((connection) => connection.source === ref);
 	const isInputConnected = (ref) => connections.find((connection) => connection.target === ref);
 
+    const endpoints = {
+        InputEndpoint: InputEndpointFactory(isInputConnected, connectorAnchor),
+        OutputEndpoint: OutputEndpointFactory(isOutputConnected, connectorAnchor)
+    };
+
     const menus = {
         'File': {
             'Load': {
@@ -47,14 +55,14 @@ const Editor = (props) => {
         'Panels': {
             'Audio': {
                 execute: () => { 
-                    console.log('y', props.panels);                    
-                    const panel = props.panels.Audio.create(`Component ${getNextComponent()}`, isInputConnected, isOutputConnected, connectorAnchor);
+                    const panel = props.panels.Audio.create(`Audio ${getNextComponent()}`, endpoints);
                     setPanels([...panels, panel]);
                 }
             },
             'TextInput': {
                 execute: () => { 
-                    console.log('Type 1');
+                    const panel = props.panels.TextInput.create(`Text Input ${getNextComponent()}`, endpoints);
+                    setPanels([...panels, panel]);
                 }
             }
         },
