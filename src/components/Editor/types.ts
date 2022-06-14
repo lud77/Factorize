@@ -10,10 +10,12 @@ export interface Point {
 }
 
 export interface ConnectorAnchor {
-    fromRef: Element;
-    toRef: Element;
-    to: Point;
-    from: Point;
+    dragging: boolean;
+    what?: string;
+    fromRef?: Element;
+    toRef?: Element;
+    to?: Point;
+    from?: Point;
 }
 
 export interface Connection {

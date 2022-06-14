@@ -4,7 +4,7 @@ import * as React from 'react';
 import './Toolbar.css';
 
 const Toolbar = (props) => {
-    const [ primary, setPrimary ] = React.useState<string>('File');
+    const [ primary, setPrimary ] = React.useState<string>(props.default);
 
     const selectPrimaryItem = (item) => (e) => {
         setPrimary(item);

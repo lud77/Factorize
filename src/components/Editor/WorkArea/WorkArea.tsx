@@ -107,7 +107,7 @@ const WorkArea = (props) => {
 
 		if (creatingOutputConnection) {
 			const panel = e.target.closest('.Panel');
-			console.log(3);
+
 			setConnectorAnchor({
 				fromRef: panels[panel.dataset.key].refs[e.target.dataset.ref],
 				to: { x: e.pageX, y: e.pageY },
@@ -154,7 +154,6 @@ const WorkArea = (props) => {
 		if ((dragCoords == null) && (connectorAnchor == null)) return;
 
 		if (dragCoords != null) {
-			console.log(1);
 			const func = (props.snap ? snapping : linear);
 			dragCoords.el.style.left = func(e.clientX - dragCoords.o.x + dragCoords.c.x) + 'px';
 			dragCoords.el.style.top = func(e.clientY - dragCoords.o.y + dragCoords.c.y) + 'px';
@@ -164,7 +163,6 @@ const WorkArea = (props) => {
 		}
 
 		if (connectorAnchor != null && connectorAnchor.fromRef != null) {
-			console.log(2);
 			setConnectorAnchor({
 				...connectorAnchor,
 				to: { x: e.clientX, y: e.clientY }
@@ -172,7 +170,6 @@ const WorkArea = (props) => {
 		}
 
 		if (connectorAnchor != null && connectorAnchor.toRef != null) {
-			console.log(3);
 			setConnectorAnchor({
 				...connectorAnchor,
 				from: { x: e.clientX, y: e.clientY }

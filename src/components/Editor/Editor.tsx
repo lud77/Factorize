@@ -6,6 +6,7 @@ import Toolbar from './Toolbar/Toolbar';
 import getSequence from '../../utils/sequence';
 
 import { ConnectorAnchor, Connection } from './types';
+import { Panel } from './Panel/types';
 
 import './Editor.css';
 
@@ -22,19 +23,22 @@ const Editor = (props) => {
 
     const toolbar = React.useRef<any>();
 
-    const [snap, setSnap] = React.useState(false);
-    const [grid, setGrid] = React.useState(false);
+    const [snap, setSnap] = React.useState<boolean>(false);
+    const [grid, setGrid] = React.useState<boolean>(false);
 
-    const [ panels, setPanels ] = React.useState([]);
+    const [ panels, setPanels ] = React.useState<Panel[]>([]);
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
 
     const menus = {
         'File': {
-            'Load': {
+            'Load...': {
                 execute: () => {}
             },
             'Save': {
+                execute: () => {}
+            },
+            'Save as...': {
                 execute: () => {}
             },
             'Quit': {
@@ -75,7 +79,7 @@ const Editor = (props) => {
         <div className={`Editor ${grid ? 'Gridded' : ''}`}>
             <Toolbar 
                 toolbar={toolbar} 
-                menus={menus} default="File" 
+                menus={menus} default="Panels" 
                 />
             <WorkArea 
                 toolbar={toolbar} 
