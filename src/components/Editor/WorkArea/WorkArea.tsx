@@ -203,7 +203,7 @@ const WorkArea = (props) => {
 
 		setDragCoords(null);
 
-		if ((connectorAnchor != null && connectorAnchor.fromRef != null) && (e.target.classList.contains('InputEndpoint'))) {
+		if ((connectorAnchor != null && connectorAnchor.fromRef != null) && e.target.classList.contains('InputEndpoint') && !e.target.classList.contains('Connected')) {
 			const panel = e.target.closest('.Panel');
 
 			const toRef = panels[panel.dataset.key].refs[e.target.dataset.ref];
@@ -239,17 +239,19 @@ const WorkArea = (props) => {
 
 		return (
 			<div key={key} data-key={key} className="Panel" style={initialPosition}> 
-				<div className="Title">{panel.title}</div>
-				<div className="Row">
-					<InputEndpoint name="Volume" panel={panel}>Volume</InputEndpoint>
-					<OutputEndpoint name="Audio" panel={panel}>Audio</OutputEndpoint>
-				</div>
-				<div className="Row">
-					<InputEndpoint name="Frequency" panel={panel}>Frequency</InputEndpoint>
-					<OutputEndpoint name="Whatev" panel={panel}>Whatev</OutputEndpoint>
-				</div>
-				<div className="Row">
-					<div className="Input Item"><input type="text" /></div>
+				<div>
+					<div className="Title">{panel.title}</div>
+					<div className="Row">
+						<InputEndpoint name="Volume" panel={panel}>Volume</InputEndpoint>
+						<OutputEndpoint name="Audio" panel={panel}>Audio</OutputEndpoint>
+					</div>
+					<div className="Row">
+						<InputEndpoint name="Frequency" panel={panel}>Frequency</InputEndpoint>
+						<OutputEndpoint name="Whatev" panel={panel}>Whatev</OutputEndpoint>
+					</div>
+					<div className="Row">
+						<div className="Input Item"><input type="text" /></div>
+					</div>
 				</div>
 			</div>
 		);

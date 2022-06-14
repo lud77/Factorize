@@ -7,13 +7,9 @@
 }
 
 body {
+  color: var(--main-highlight);
   background-color: var(--background);
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
-
-.App-header {
-  min-height: 100vh;
-  color: white;
 }

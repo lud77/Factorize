@@ -9,52 +9,47 @@ import './Editor.css';
 
 const { ipcRenderer } = window.require('electron')
 
-const getNextEndpointId = getSequence();
+const getNextComponent = getSequence();
 
-const Editor = () => {
-	const makePanel = (type, title) => {
-		const inputVolume = getNextEndpointId();
-		const inputFrequency = getNextEndpointId();
-		const outputAudio = getNextEndpointId();
-		const outputWhatev = getNextEndpointId();
-		
-		return { 
-			type, 
-			title, 
-			refs: { inputVolume, inputFrequency, outputAudio, outputWhatev }
-		};
-	};
-
-	const makeConnection = (source, target) => {
-		return { 
-			source, 
-			target 
-		};
-	};
+const Editor = (props) => {
+    const makeConnection = (source, target): object => 
+        ({
+            source, 
+            target 
+        });
 
     const toolbar = React.useRef<any>();
 
     const [snap, setSnap] = React.useState(false);
     const [grid, setGrid] = React.useState(false);
 
-    const [ panels, setPanels ] = React.useState([makePanel('text', 'Component 1'), makePanel('text', 'Component 2')]);
-	const [ connections, setConnections ] = React.useState([makeConnection(panels[0].refs.outputAudio, panels[1].refs.inputVolume)]);
+    const [ panels, setPanels ] = React.useState([]);
+	const [ connections, setConnections ] = React.useState([]);
     
     const menus = {
         'File': {
+            'Load': {
+                execute: () => {}
+            },
+            'Save': {
+                execute: () => {}
+            },
             'Quit': {
                 execute: () => ipcRenderer.invoke('app:terminate')
             }
         },
         'Panels': {
-            'Type 0': {
+            'Audio': {
                 execute: () => { 
-                    const panel = makePanel('text', 'test');
+                    console.log('y', props.panels);                    
+                    const panel = props.panels.Audio.Audio(`Component ${getNextComponent()}`);
                     setPanels([...panels, panel]);
                 }
             },
-            'Type 1': {
-                execute: () => { console.log('Type 1') }
+            'TextInput': {
+                execute: () => { 
+                    console.log('Type 1');
+                }
             }
         },
         'Options': {
