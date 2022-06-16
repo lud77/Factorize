@@ -20,6 +20,7 @@
     cursor: default;
     margin-right: 1px;
     font-size: var(--toolbar-font-size);
+    user-select: none;
 }
 
 .Primary {
