@@ -75,6 +75,8 @@
     border: 1px solid var(--connection-highlight);
 }
 
+.Panel.Selected .InputEndpoint:not(.Connected):not(.Hovering):hover,
+.Panel.Selected .OutputEndpoint:not(.Connected):not(.Hovering):hover,
 .Panel .InputEndpoint.Hovering,
 .Panel .OutputEndpoint.Hovering,
 .Panel .InputEndpoint.Connecting,
@@ -90,8 +92,8 @@
     background: linear-gradient(180deg, var(--selection-highlight) 0%, var(--selection-lowlight) 20%);
 }
 
-.Panel.Selected .InputEndpoint:not(.Connected),
-.Panel.Selected .OutputEndpoint:not(.Connected) {
+.Panel.Selected .InputEndpoint:not(.Connected):not(.Hovering),
+.Panel.Selected .OutputEndpoint:not(.Connected):not(.Hovering) {
     border: 1px solid var(--selection);
     background-color: var(--selection);
 }

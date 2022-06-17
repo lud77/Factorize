@@ -285,6 +285,10 @@ const WorkArea = (props) => {
 		setConnectorAnchor(null);
 	};
 
+	const mouseClick = () => {
+		setSelectedPanels([]);
+	};
+
 	const renderPanel = (panel, ind) => {
 		const isSelected = selectedPanels.includes(ind);
 
@@ -298,6 +302,8 @@ const WorkArea = (props) => {
 				connectorAnchor={connectorAnchor}
 				isSelected={isSelected}
 				onSelect={(e) => {
+					e.stopPropagation();
+
 					const panel = e.target.closest('.Panel');
 					const ind = parseInt(panel.dataset.key);
 
@@ -337,6 +343,7 @@ const WorkArea = (props) => {
 			onMouseDown={mouseDown} 
 			onMouseMove={mouseMove} 
 			onMouseUp={mouseUp} 
+			onClick={mouseClick}
 			>
 			<Connector
 				draw={draw}

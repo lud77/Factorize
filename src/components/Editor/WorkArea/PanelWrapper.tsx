@@ -10,7 +10,13 @@ const PanelWrapper = (props) => {
     };
 
     return (
-        <div data-key={ind} className={`Panel ${props.isSelected ? 'Selected' : ''}`} style={style} onDoubleClick={props.onSelect}> 
+        <div 
+            data-key={ind} 
+            className={`Panel ${props.isSelected ? 'Selected' : ''}`} 
+            style={style} 
+            onDoubleClick={props.onSelect}
+            onClick={(e) => e.stopPropagation()}
+            > 
             <div className="Title">{panel.title}</div>
             <panel.Component 
                 panel={panel} 
