@@ -1,0 +1,6 @@
+.Marquee {
+    background-color: var(--selection);
+    opacity: 30%;
+    border: 1px dashed var(--selection);
+    position: absolute;
+}

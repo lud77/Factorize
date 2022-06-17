@@ -3,6 +3,7 @@ import { transform } from 'typescript';
 
 import Connector from './Connector/Connector';
 import PanelWrapper from './PanelWrapper';
+import Marquee from './Marquee';
 
 import { DragCoords } from '../types';
 
@@ -11,6 +12,7 @@ import '../Panel/Panel.css';
 
 const WorkArea = (props) => {
 	const { 
+		marquee, setMarquee,
 		panels, setPanels, 
 		connections, setConnections,
 		connectorAnchor, setConnectorAnchor,
@@ -21,7 +23,7 @@ const WorkArea = (props) => {
 	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
 
 	const buildScreenSize = () => ({
-		top: props.toolbar.height,
+		top: 0,
 		left: 0,
 		width: window.innerWidth, 
 		height: window.innerHeight
@@ -37,8 +39,6 @@ const WorkArea = (props) => {
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState(buildScreenSize());
 	const [ selectedPanels, setSelectedPanels ] = React.useState<number[]>([]); 	
-
-	const virtual = React.useRef<any>();
 
 	const removeConnectionByOutputRef = (ref) => {
 		const connection = connections.find((connection) => connection.source === ref);
@@ -66,9 +66,11 @@ const WorkArea = (props) => {
 		e.preventDefault();
 
 		const connected = e.target.classList.contains('Connected');
+		const onWorkArea = e.target.classList.contains('WorkArea');
 
 		const draggingPanel = e.target.classList.contains('Panel') || e.target.classList.contains('Title');
-		const draggingWorkArea = e.target.classList.contains('WorkArea');
+		const draggingWorkArea = onWorkArea && !marquee;
+		const selectingArea = onWorkArea && marquee;
 		const creatingInputConnection = e.target.classList.contains('InputEndpoint') && !connected;
 		const creatingOutputConnection = e.target.classList.contains('OutputEndpoint') && !connected;
 		const detachingInputConnection = (connectorAnchor == null) && e.target.classList.contains('InputEndpoint') && connected;
@@ -77,6 +79,7 @@ const WorkArea = (props) => {
 		if (
 			!draggingPanel && 
 			!draggingWorkArea &&
+			!selectingArea &&
 			!creatingInputConnection && 
 			!creatingOutputConnection && 
 			!detachingInputConnection && 
@@ -115,6 +118,25 @@ const WorkArea = (props) => {
 				c: {
 					x: workAreaOffset[0],
 					y: workAreaOffset[1]
+				}
+			});
+
+			return;
+		}
+
+		if (selectingArea) {
+			const { top, left } = workArea.current.getBoundingClientRect();
+
+			setDragCoords({
+				isDragging: true,
+				what: 'marquee',
+				o: {
+					x: Number(e.pageX) - left, 
+					y: Number(e.pageY) - top
+				},
+				c: {
+					x: 0,
+					y: 0
 				}
 			});
 
@@ -204,6 +226,20 @@ const WorkArea = (props) => {
 			return false;
 		}
 
+		if (dragCoords.isDragging && dragCoords.what == 'marquee') {
+			const { top, left } = workArea.current.getBoundingClientRect();
+			
+			setDragCoords({
+				...dragCoords,
+				c: {
+					x: e.pageX - left,
+					y: e.pageY - top
+				}
+			});
+			
+			return false;
+		}
+
 		if (connectorAnchor != null && connectorAnchor.fromRef != null) {
 			setConnectorAnchor({
 				...connectorAnchor,
@@ -251,7 +287,7 @@ const WorkArea = (props) => {
 
 	const renderPanel = (panel, ind) => {
 		const isSelected = selectedPanels.includes(ind);
-		
+
 		return (
 			<PanelWrapper 
 				key={ind}
@@ -314,6 +350,11 @@ const WorkArea = (props) => {
 				strokeWidth={2}
 				workArea={workArea}
 				/>
+			{
+				(dragCoords.isDragging && dragCoords.what == 'marquee')
+					? <Marquee dragCoords={dragCoords} toolbar={props.toolbar} />
+					: null
+			}
 			{props.panels.map(renderPanel)}
 			{props.connections.map(renderConnection)}
 		</div>

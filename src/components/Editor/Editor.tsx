@@ -27,6 +27,7 @@ const Editor = (props) => {
 
     const [ snap, setSnap ] = React.useState<boolean>(false);
     const [ grid, setGrid ] = React.useState<boolean>(true);
+    const [ marquee, setMarquee ] = React.useState<boolean>(false);
 
     const [ panels, setPanels ] = React.useState<Panel[]>([]);
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
@@ -48,6 +49,14 @@ const Editor = (props) => {
                     position += 20;
                     setPanels([...panels, panel]);
                 }
+            }
+        },
+        'Tools': {
+            'Select': {
+                execute: (item) => { 
+                    setMarquee(!marquee);
+                },
+                active: marquee
             }
         },
         'Options': {
@@ -75,6 +84,7 @@ const Editor = (props) => {
             <WorkArea 
                 toolbar={toolbar} 
                 snap={snap} 
+                marquee={marquee} setMarquee={setMarquee}
                 panels={panels} setPanels={setPanels}
                 connections={connections} setConnections={setConnections}
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
