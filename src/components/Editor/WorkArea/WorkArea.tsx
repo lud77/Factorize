@@ -36,7 +36,8 @@ const WorkArea = (props) => {
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState(buildScreenSize());
-	
+	const [ selectedPanels, setSelectedPanels ] = React.useState<number[]>([]); 	
+
 	const virtual = React.useRef<any>();
 
 	const removeConnectionByOutputRef = (ref) => {
@@ -249,14 +250,27 @@ const WorkArea = (props) => {
 	};
 
 	const renderPanel = (panel, ind) => {
+		const isSelected = selectedPanels.includes(ind);
+		
 		return (
 			<PanelWrapper 
-				key={ind} 
-				ind={ind} 
-				panel={panel} 
-				workAreaOffset={workAreaOffset} 
-				connections={connections} 
-				connectorAnchor={connectorAnchor} 
+				key={ind}
+				ind={ind}
+				panel={panel}
+				workAreaOffset={workAreaOffset}
+				connections={connections}
+				connectorAnchor={connectorAnchor}
+				isSelected={isSelected}
+				onSelect={(e) => {
+					const panel = e.target.closest('.Panel');
+					const ind = parseInt(panel.dataset.key);
+
+					if (selectedPanels.includes(ind)) {
+						setSelectedPanels(selectedPanels.filter((panelInd) => panelInd != ind));
+					} else {
+						setSelectedPanels([...selectedPanels, ind]);
+					}
+				}}
 				/>
 		);
 	};

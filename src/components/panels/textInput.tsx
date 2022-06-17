@@ -6,7 +6,7 @@ import InputEndpoint from '../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../Editor/Panel/OutputEndpoint';
 
 export default (getNextEndpointId) => {
-    const create = (title): Panel => {
+    const create = (title, x = 0, y = 0): Panel => {
         const Component = (props) => {
             return <>
                 <div className="Row">
@@ -25,8 +25,8 @@ export default (getNextEndpointId) => {
             title, 
             refs: { outputText },
             Component,
-            x: 0,
-            y: 0
+            x,
+            y
         };
     };
     

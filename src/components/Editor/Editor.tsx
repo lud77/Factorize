@@ -14,6 +14,8 @@ const { ipcRenderer } = window.require('electron')
 
 const getNextComponent = getSequence();
 
+let position = 10;
+
 const Editor = (props) => {
     const makeConnection = (source, target): Connection => 
         ({
@@ -35,13 +37,15 @@ const Editor = (props) => {
         'Panels': {
             'Audio': {
                 execute: () => { 
-                    const panel = props.panels.Audio.create(`Audio ${getNextComponent()}`);
+                    const panel = props.panels.Audio.create(`Audio ${getNextComponent()}`, position, position);
+                    position += 20;
                     setPanels([...panels, panel]);
                 }
             },
             'TextInput': {
                 execute: () => { 
-                    const panel = props.panels.TextInput.create(`Text Input ${getNextComponent()}`);
+                    const panel = props.panels.TextInput.create(`Text Input ${getNextComponent()}`, position, position);
+                    position += 20;
                     setPanels([...panels, panel]);
                 }
             }
