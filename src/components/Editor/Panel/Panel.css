@@ -85,10 +85,10 @@
 }
 
 .Panel.Selected {
-    border: 2px solid var(--main-highlight);
+    border: 2px solid var(--selection);
 }
 
 .Panel.Selected .InputEndpoint,
 .Panel.Selected .OutputEndpoint {
-    border: 1px solid var(--main-highlight);
+    border: 1px solid var(--selection);
 }
