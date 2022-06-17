@@ -25,11 +25,16 @@ const WorkArea = (props) => {
 		height: window.innerHeight
 	});
 
+	const updatePanel = (key, update) => {
+		return setPanels([...panels.slice(0, key), update, ...panels.slice(key + 1)]);
+	};
+
 	const workArea = React.useRef<any>();
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState(buildScreenSize());
+	const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
 
 	const virtual = React.useRef<any>();
 
@@ -61,6 +66,7 @@ const WorkArea = (props) => {
 		const connected = e.target.classList.contains('Connected');
 
 		const draggingPanel = e.target.classList.contains('Panel') || e.target.classList.contains('Title');
+		const draggingWorkArea = e.target.classList.contains('WorkArea');
 		const creatingInputConnection = e.target.classList.contains('InputEndpoint') && !connected;
 		const creatingOutputConnection = e.target.classList.contains('OutputEndpoint') && !connected;
 		const detachingInputConnection = (connectorAnchor == null) && e.target.classList.contains('InputEndpoint') && connected;
@@ -68,6 +74,7 @@ const WorkArea = (props) => {
 
 		if (
 			!draggingPanel && 
+			!draggingWorkArea &&
 			!creatingInputConnection && 
 			!creatingOutputConnection && 
 			!detachingInputConnection && 
@@ -79,14 +86,32 @@ const WorkArea = (props) => {
 
 			setDragCoords({
 				isDragging: true,
+				what: 'panel',
 				el: panel,
 				o: {
 					x: Number(e.pageX), 
 					y: Number(e.pageY)
 				}, 
 				c: { 
-					x: parseInt(panel.style.left), 
-					y: parseInt(panel.style.top) 
+					x: panel.style.left ? parseInt(panel.style.left) : 0, 
+					y: panel.style.top ? parseInt(panel.style.top) : 0
+				}
+			});
+
+			return;
+		}
+
+		if (draggingWorkArea) {
+			setDragCoords({
+				isDragging: true,
+				what: 'workarea',
+				o: {
+					x: Number(e.pageX), 
+					y: Number(e.pageY)
+				},
+				c: {
+					x: workAreaOffset[0],
+					y: workAreaOffset[1]
 				}
 			});
 
@@ -154,12 +179,25 @@ const WorkArea = (props) => {
 	const mouseMove = (e) => {
 		if (!dragCoords.isDragging && (connectorAnchor == null)) return;
 
-		if (dragCoords.isDragging) {
+		if (dragCoords.isDragging && dragCoords.what == 'panel') {
+			const panelKey = parseInt(dragCoords.el.dataset.key);
 			const func = (props.snap ? snapping : linear);
-			dragCoords.el.style.left = func(e.clientX - dragCoords.o.x + dragCoords.c.x) + 'px';
-			dragCoords.el.style.top = func(e.clientY - dragCoords.o.y + dragCoords.c.y) + 'px';
-			redraw(Math.random());
 
+			updatePanel(panelKey, { 
+				...panels[panelKey],  
+				x: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
+				y: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
+			});
+
+			return false;
+		}
+
+		if (dragCoords.isDragging && dragCoords.what == 'workarea') {
+			setWorkAreaOffset([
+				e.clientX - dragCoords.o.x + dragCoords.c.x,
+				e.clientY - dragCoords.o.y + dragCoords.c.y
+			]);
+			
 			return false;
 		}
 
@@ -208,17 +246,20 @@ const WorkArea = (props) => {
 		setConnectorAnchor(null);
 	};
 
-	let position = 100;
-
-	const renderPanel = (panel, key) => {
-		const initialPosition = { left: position + 'px', top: position + 'px' };
-		position += 20;
+	const PanelWrapper = (props) => {
+		const { ind, panel } = props;
 
 		return (
-			<div key={key} data-key={key} className="Panel" style={initialPosition}> 
+			<div data-key={ind} className="Panel" style={{ left: panel.x + 'px', top: panel.y + 'px' }}> 
 				<div className="Title">{panel.title}</div>
 				<panel.Component panel={panel} connections={connections} connectorAnchor={connectorAnchor} />
 			</div>
+		);
+	};
+
+	const renderPanel = (panel, ind) => {
+		return (
+			<PanelWrapper panel={panel} ind={ind} key={ind} />
 		);
 	};
 
@@ -260,7 +301,7 @@ const WorkArea = (props) => {
 				stroke="white"
 				strokeWidth={2}
 				workArea={workArea}
-				/>		
+				/>
 			{props.panels.map(renderPanel)}
 			{props.connections.map(renderConnection)}
 		</div>

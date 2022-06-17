@@ -3,4 +3,6 @@ export interface Panel {
     title: string;
     refs: object;
     Component: JSX.Element;
+    x: number;
+    y: number;
 }

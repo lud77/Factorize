@@ -24,7 +24,9 @@ export default (getNextEndpointId) => {
             type: 'TextInput', 
             title, 
             refs: { outputText },
-            Component
+            Component,
+            x: 0,
+            y: 0
         };
     };
     

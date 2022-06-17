@@ -29,7 +29,9 @@ export default (getNextEndpointId) => {
             type: 'Audio', 
             title, 
             refs: { inputVolume, inputFrequency, outputAudio, outputWhatev },
-            Component
+            Component,
+            x: 0,
+            y: 0
         };
     };
 

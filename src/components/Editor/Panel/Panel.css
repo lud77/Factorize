@@ -5,7 +5,7 @@
     border-radius: 10px;
     border: 2px solid var(--border);
     background-color: #31363A;
-    position: absolute;
+    position: relative;
     z-index: 1;
 }
 
