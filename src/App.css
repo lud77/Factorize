@@ -2,10 +2,14 @@
   --main-highlight: white;
   --medium-highlight: #babfca;
   --background: #262626;
-  --border: #4D5256;
-  --connection: #ADA257;
-  --connection-highlight: #BDB287;
+  --border: #4d5256;
+  --panel-background: #31363a;
+  --panel-highlight: #4c5257;
+  --connection: #ada257;
+  --connection-highlight: #bdb287;
   --selection: #df8414;
+  --selection-highlight: #e39433;
+  --selection-lowlight: #8b520d;
   --item-text-size: 12px;
 }
 
