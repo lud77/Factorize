@@ -23,8 +23,8 @@ const Editor = (props) => {
 
     const toolbar = React.useRef<any>();
 
-    const [snap, setSnap] = React.useState<boolean>(false);
-    const [grid, setGrid] = React.useState<boolean>(false);
+    const [ snap, setSnap ] = React.useState<boolean>(false);
+    const [ grid, setGrid ] = React.useState<boolean>(true);
 
     const [ panels, setPanels ] = React.useState<Panel[]>([]);
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
