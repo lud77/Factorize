@@ -2,6 +2,7 @@ import * as React from 'react';
 import { transform } from 'typescript';
 
 import Connector from './Connector/Connector';
+import PanelWrapper from './PanelWrapper';
 
 import { DragCoords } from '../types';
 
@@ -247,20 +248,16 @@ const WorkArea = (props) => {
 		setConnectorAnchor(null);
 	};
 
-	const PanelWrapper = (props) => {
-		const { ind, panel } = props;
-
-		return (
-			<div data-key={ind} className="Panel" style={{ left: (panel.x + workAreaOffset[0]) + 'px', top: (panel.y + workAreaOffset[1]) + 'px' }}> 
-				<div className="Title">{panel.title}</div>
-				<panel.Component panel={panel} connections={connections} connectorAnchor={connectorAnchor} />
-			</div>
-		);
-	};
-
 	const renderPanel = (panel, ind) => {
 		return (
-			<PanelWrapper panel={panel} ind={ind} key={ind} />
+			<PanelWrapper 
+				key={ind} 
+				ind={ind} 
+				panel={panel} 
+				workAreaOffset={workAreaOffset} 
+				connections={connections} 
+				connectorAnchor={connectorAnchor} 
+				/>
 		);
 	};
 
