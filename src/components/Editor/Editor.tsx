@@ -29,6 +29,7 @@ const Editor = (props) => {
     const [ panels, setPanels ] = React.useState<Panel[]>([]);
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
+    const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
 
     const menus = {
         'Panels': {
@@ -62,7 +63,7 @@ const Editor = (props) => {
     };
 
     return (
-        <div className={`Editor ${grid ? 'Gridded' : ''}`}>
+        <div className={`Editor ${grid ? 'Gridded' : ''}`} style={{ backgroundPosition: `left ${workAreaOffset[0]}px top ${workAreaOffset[1]}px` }}>
             <Toolbar 
                 toolbar={toolbar} 
                 menus={menus} default="Panels" 
@@ -74,6 +75,7 @@ const Editor = (props) => {
                 connections={connections} setConnections={setConnections}
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
                 makeConnection={makeConnection}
+                workAreaOffset={workAreaOffset} setWorkAreaOffset={setWorkAreaOffset}
                 />;
         </div>
     );

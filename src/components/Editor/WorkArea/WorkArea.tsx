@@ -13,7 +13,8 @@ const WorkArea = (props) => {
 		panels, setPanels, 
 		connections, setConnections,
 		connectorAnchor, setConnectorAnchor,
-		makeConnection
+		makeConnection,
+		workAreaOffset, setWorkAreaOffset
 	} = props;
 
 	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
@@ -34,8 +35,7 @@ const WorkArea = (props) => {
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState(buildScreenSize());
-	const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
-
+	
 	const virtual = React.useRef<any>();
 
 	const removeConnectionByOutputRef = (ref) => {
@@ -83,6 +83,7 @@ const WorkArea = (props) => {
 
 		if (draggingPanel) {
 			const panel = e.target.closest('.Panel');
+			const panelKey = parseInt(panel.dataset.key);
 
 			setDragCoords({
 				isDragging: true,
@@ -93,8 +94,8 @@ const WorkArea = (props) => {
 					y: Number(e.pageY)
 				}, 
 				c: { 
-					x: panel.style.left ? parseInt(panel.style.left) : 0, 
-					y: panel.style.top ? parseInt(panel.style.top) : 0
+					x: panels[panelKey].x, 
+					y: panels[panelKey].y
 				}
 			});
 
@@ -250,7 +251,7 @@ const WorkArea = (props) => {
 		const { ind, panel } = props;
 
 		return (
-			<div data-key={ind} className="Panel" style={{ left: panel.x + 'px', top: panel.y + 'px' }}> 
+			<div data-key={ind} className="Panel" style={{ left: (panel.x + workAreaOffset[0]) + 'px', top: (panel.y + workAreaOffset[1]) + 'px' }}> 
 				<div className="Title">{panel.title}</div>
 				<panel.Component panel={panel} connections={connections} connectorAnchor={connectorAnchor} />
 			</div>
