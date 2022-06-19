@@ -140,6 +140,8 @@ const WorkArea = (props) => {
 				}
 			});
 
+			setSelectedPanels([]);
+
 			return;
 		}
 
@@ -229,14 +231,33 @@ const WorkArea = (props) => {
 		if (dragCoords.isDragging && dragCoords.what == 'marquee') {
 			const { top, left } = workArea.current.getBoundingClientRect();
 			
+			const marqueeRight = e.pageX - left;
+			const marqueeBottom = e.pageY - top;
+
 			setDragCoords({
 				...dragCoords,
 				c: {
-					x: e.pageX - left,
-					y: e.pageY - top
+					x: marqueeRight,
+					y: marqueeBottom 
 				}
 			});
+
+			const included = 
+				panels
+					.map((panel, ind) => {
+						const absoluteX = panel.x + workAreaOffset[0];
+						const absoluteY = panel.y + workAreaOffset[1];
 			
+						if (absoluteX < dragCoords.o?.x) return -1;
+						if (absoluteY < dragCoords.o?.y) return -1;
+						if (absoluteX > marqueeRight) return -1;
+						if (absoluteY > marqueeBottom) return -1;
+						return ind;
+					})
+					.filter((ind) => ind != -1);
+
+			setSelectedPanels(included);
+
 			return false;
 		}
 
@@ -289,6 +310,19 @@ const WorkArea = (props) => {
 		setSelectedPanels([]);
 	};
 
+	const toggleSelection = (ind) => {
+		if (selectedPanels.includes(ind)) {
+			setSelectedPanels(selectedPanels.filter((panelInd) => panelInd != ind));
+		} else {
+			setSelectedPanels([...selectedPanels, ind]);
+		}
+	};
+
+	const select = (ind) => {
+		if (selectedPanels.includes(ind)) return;
+		setSelectedPanels([...selectedPanels, ind]);
+	};
+
 	const renderPanel = (panel, ind) => {
 		const isSelected = selectedPanels.includes(ind);
 
@@ -307,11 +341,7 @@ const WorkArea = (props) => {
 					const panel = e.target.closest('.Panel');
 					const ind = parseInt(panel.dataset.key);
 
-					if (selectedPanels.includes(ind)) {
-						setSelectedPanels(selectedPanels.filter((panelInd) => panelInd != ind));
-					} else {
-						setSelectedPanels([...selectedPanels, ind]);
-					}
+					toggleSelection(ind);
 				}}
 				/>
 		);

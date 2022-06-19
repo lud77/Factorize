@@ -23,6 +23,12 @@ const Editor = (props) => {
             target 
         });
 
+    const makePanel = (type) => {
+        const panel = props.panels[type].create(`${type} ${getNextComponent()}`, position, position);
+        position += 20;
+        setPanels([...panels, panel]);
+    };
+
     const toolbar = React.useRef<any>();
 
     const [ snap, setSnap ] = React.useState<boolean>(false);
@@ -37,18 +43,10 @@ const Editor = (props) => {
     const menus = {
         'Panels': {
             'Audio': {
-                execute: () => { 
-                    const panel = props.panels.Audio.create(`Audio ${getNextComponent()}`, position, position);
-                    position += 20;
-                    setPanels([...panels, panel]);
-                }
+                execute: () => makePanel('Audio')
             },
             'TextInput': {
-                execute: () => { 
-                    const panel = props.panels.TextInput.create(`Text Input ${getNextComponent()}`, position, position);
-                    position += 20;
-                    setPanels([...panels, panel]);
-                }
+                execute: () => makePanel('TextInput')
             }
         },
         'Tools': {
