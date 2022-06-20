@@ -348,7 +348,7 @@ const WorkArea = (props) => {
 					if (!e.ctrlKey) {
 						setSelectedPanels(Set([ind]));
 					} else {
-						setSelectedPanels(selectedPanels.add(ind));
+						toggleSelection(ind);
 					}
 				}}
 				/>
