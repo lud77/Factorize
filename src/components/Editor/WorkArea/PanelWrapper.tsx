@@ -5,8 +5,10 @@ const PanelWrapper = (props) => {
     const { ind, panel, workAreaOffset, connections, connectorAnchor } = props;
 
     const style = {
-        left: (panel.x + workAreaOffset[0]) + 'px',
-        top: (panel.y + workAreaOffset[1]) + 'px'
+        left: (panel.left + workAreaOffset[0]) + 'px',
+        top: (panel.top + workAreaOffset[1]) + 'px',
+        width: panel.width + 'px',
+        height: panel.height + 'px'
     };
 
     return (

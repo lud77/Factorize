@@ -6,7 +6,7 @@ import InputEndpoint from '../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../Editor/Panel/OutputEndpoint';
 
 export default (getNextEndpointId) => {
-    const create = (title, x = 0, y = 0): Panel => {
+    const create = (title, left = 0, top = 0): Panel => {
         const Component = (props) => {
             return <>
                 <div className="Row">
@@ -19,19 +19,19 @@ export default (getNextEndpointId) => {
                 </div>
             </>;
         };
-    
+
         const inputVolume = getNextEndpointId();
         const inputFrequency = getNextEndpointId();
         const outputAudio = getNextEndpointId();
         const outputWhatev = getNextEndpointId();
-        
-        return { 
-            type: 'Audio', 
-            title, 
+
+        return {
+            type: 'Audio',
+            title,
             refs: { inputVolume, inputFrequency, outputAudio, outputWhatev },
             Component,
-            x,
-            y
+            left,
+            top
         };
     };
 

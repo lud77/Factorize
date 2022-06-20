@@ -16,7 +16,8 @@ const WorkArea = (props) => {
 		connections, setConnections,
 		connectorAnchor, setConnectorAnchor,
 		makeConnection,
-		workAreaOffset, setWorkAreaOffset
+		workAreaOffset, setWorkAreaOffset,
+		inclusiveSelection
 	} = props;
 
 	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
@@ -100,8 +101,8 @@ const WorkArea = (props) => {
 					y: Number(e.pageY)
 				},
 				c: {
-					x: panels[panelKey].x,
-					y: panels[panelKey].y
+					x: panels[panelKey].left,
+					y: panels[panelKey].top
 				}
 			});
 
@@ -136,8 +137,8 @@ const WorkArea = (props) => {
 					y: Number(e.pageY) - top
 				},
 				c: {
-					x: 0,
-					y: 0
+					x: Number(e.pageX) - left,
+					y: Number(e.pageY) - top
 				}
 			});
 
@@ -218,8 +219,8 @@ const WorkArea = (props) => {
 
 			updatePanel(panelKey, {
 				...panels[panelKey],
-				x: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
-				y: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
+				left: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
+				top: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
 			});
 
 			return false;
@@ -251,13 +252,28 @@ const WorkArea = (props) => {
 			const included =
 				panels
 					.map((panel, ind) => {
-						const absoluteX = panel.x + workAreaOffset[0];
-						const absoluteY = panel.y + workAreaOffset[1];
+						const panelLeft = panel.left + workAreaOffset[0];
+						const panelTop = panel.top + workAreaOffset[1];
+						const panelRight = panelLeft + panel.width - 1;
+						const panelBottom = panelTop + panel.height - 1;
 
-						if (absoluteX < dragCoords.o?.x) return -1;
-						if (absoluteY < dragCoords.o?.y) return -1;
-						if (absoluteX > marqueeRight) return -1;
-						if (absoluteY > marqueeBottom) return -1;
+						const selectLeft =  Math.min(dragCoords.o.x, dragCoords.c.x);
+						const selectTop =  Math.min(dragCoords.o.y, dragCoords.c.y);
+						const selectRight =  Math.max(dragCoords.o.x, dragCoords.c.x);
+						const selectBottom =  Math.max(dragCoords.o.y, dragCoords.c.y);
+
+						if (inclusiveSelection) {
+							if (panelRight < selectLeft) return -1;
+							if (panelBottom < selectTop) return -1;
+							if (panelLeft > selectRight) return -1;
+							if (panelTop > selectBottom) return -1;
+						} else {
+							if (panelLeft < selectLeft) return -1;
+							if (panelTop < selectTop) return -1;
+							if (panelRight > selectRight) return -1;
+							if (panelBottom > selectBottom) return -1;
+						}
+
 						return ind;
 					})
 					.filter((ind) => ind != -1);

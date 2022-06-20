@@ -26,13 +26,18 @@ const Editor = (props) => {
     const makePanel = (type) => {
         const panel = props.panels[type].create(`${type} ${getNextComponent()}`, position, position);
         position += 20;
-        setPanels([...panels, panel]);
+        setPanels([...panels, {
+            ...panel,
+            width: 120,
+            height: 70
+        }]);
     };
 
     const toolbar = React.useRef<any>();
 
     const [ snap, setSnap ] = React.useState<boolean>(false);
     const [ grid, setGrid ] = React.useState<boolean>(true);
+    const [ inclusiveSelection, setInclusiveSelection ] = React.useState<boolean>(true);
 
     const [ panels, setPanels ] = React.useState<Panel[]>([]);
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
@@ -60,6 +65,12 @@ const Editor = (props) => {
                     setSnap(!snap);
                 },
                 active: snap
+            },
+            'Inclusive Selection': {
+                execute: (item) => {
+                    setInclusiveSelection(!inclusiveSelection);
+                },
+                active: inclusiveSelection
             }
         }
     };
@@ -73,6 +84,7 @@ const Editor = (props) => {
             <WorkArea
                 toolbar={toolbar}
                 snap={snap}
+                inclusiveSelection={inclusiveSelection}
                 panels={panels} setPanels={setPanels}
                 connections={connections} setConnections={setConnections}
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
