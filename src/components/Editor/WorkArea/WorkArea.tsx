@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { transform } from 'typescript';
+const { Set } = require('immutable');
 
 import Connector from './Connector/Connector';
 import PanelWrapper from './PanelWrapper';
@@ -11,9 +11,9 @@ import './WorkArea.css';
 import '../Panel/Panel.css';
 
 const WorkArea = (props) => {
-	const { 
+	const {
 		marquee, setMarquee,
-		panels, setPanels, 
+		panels, setPanels,
 		connections, setConnections,
 		connectorAnchor, setConnectorAnchor,
 		makeConnection,
@@ -25,7 +25,7 @@ const WorkArea = (props) => {
 	const buildScreenSize = () => ({
 		top: 0,
 		left: 0,
-		width: window.innerWidth, 
+		width: window.innerWidth,
 		height: window.innerHeight
 	});
 
@@ -38,11 +38,13 @@ const WorkArea = (props) => {
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState(buildScreenSize());
-	const [ selectedPanels, setSelectedPanels ] = React.useState<number[]>([]); 	
+	const [ selectedPanels, setSelectedPanels ] = React.useState<Set<number>>(Set());
+
+	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
 
 	const removeConnectionByOutputRef = (ref) => {
 		const connection = connections.find((connection) => connection.source === ref);
-		
+
 		if (connection) {
 			setConnections(connections.filter((connection) => connection.source !== ref));
 			return connection;
@@ -53,7 +55,7 @@ const WorkArea = (props) => {
 
 	const removeConnectionByInputRef = (ref) => {
 		const connection = connections.find((connection) => connection.target === ref);
-		
+
 		if (connection) {
 			setConnections(connections.filter((connection) => connection.target !== ref));
 			return connection;
@@ -69,20 +71,20 @@ const WorkArea = (props) => {
 		const onWorkArea = e.target.classList.contains('WorkArea');
 
 		const draggingPanel = e.target.classList.contains('Panel') || e.target.classList.contains('Title');
-		const draggingWorkArea = onWorkArea && !marquee;
-		const selectingArea = onWorkArea && marquee;
+		const draggingWorkArea = onWorkArea && !e.shiftKey;
+		const selectingArea = onWorkArea && e.shiftKey;
 		const creatingInputConnection = e.target.classList.contains('InputEndpoint') && !connected;
 		const creatingOutputConnection = e.target.classList.contains('OutputEndpoint') && !connected;
 		const detachingInputConnection = (connectorAnchor == null) && e.target.classList.contains('InputEndpoint') && connected;
 		const detachingOutputConnection = (connectorAnchor == null) && e.target.classList.contains('OutputEndpoint') && connected;
 
 		if (
-			!draggingPanel && 
+			!draggingPanel &&
 			!draggingWorkArea &&
 			!selectingArea &&
-			!creatingInputConnection && 
-			!creatingOutputConnection && 
-			!detachingInputConnection && 
+			!creatingInputConnection &&
+			!creatingOutputConnection &&
+			!detachingInputConnection &&
 			!detachingOutputConnection
 		) return;
 
@@ -95,11 +97,11 @@ const WorkArea = (props) => {
 				what: 'panel',
 				el: panel,
 				o: {
-					x: Number(e.pageX), 
+					x: Number(e.pageX),
 					y: Number(e.pageY)
-				}, 
-				c: { 
-					x: panels[panelKey].x, 
+				},
+				c: {
+					x: panels[panelKey].x,
 					y: panels[panelKey].y
 				}
 			});
@@ -112,7 +114,7 @@ const WorkArea = (props) => {
 				isDragging: true,
 				what: 'workarea',
 				o: {
-					x: Number(e.pageX), 
+					x: Number(e.pageX),
 					y: Number(e.pageY)
 				},
 				c: {
@@ -131,7 +133,7 @@ const WorkArea = (props) => {
 				isDragging: true,
 				what: 'marquee',
 				o: {
-					x: Number(e.pageX) - left, 
+					x: Number(e.pageX) - left,
 					y: Number(e.pageY) - top
 				},
 				c: {
@@ -140,7 +142,12 @@ const WorkArea = (props) => {
 				}
 			});
 
-			setSelectedPanels([]);
+			if (!e.ctrlKey) {
+				setBackupSelectedPanels(Set());
+				setSelectedPanels(Set());
+			} else {
+				setBackupSelectedPanels(Set(selectedPanels));
+			}
 
 			return;
 		}
@@ -154,7 +161,7 @@ const WorkArea = (props) => {
 				toRef: panels[panel.dataset.key].refs[e.target.dataset.ref],
 				from: { x: e.pageX, y: e.pageY }
 			});
-			
+
 			return;
 		}
 
@@ -167,7 +174,7 @@ const WorkArea = (props) => {
 				toRef: null,
 				from: null
 			});
-			
+
 			return;
 		}
 
@@ -210,8 +217,8 @@ const WorkArea = (props) => {
 			const panelKey = parseInt(dragCoords.el.dataset.key);
 			const func = (props.snap ? snapping : linear);
 
-			updatePanel(panelKey, { 
-				...panels[panelKey],  
+			updatePanel(panelKey, {
+				...panels[panelKey],
 				x: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
 				y: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
 			});
@@ -224,13 +231,13 @@ const WorkArea = (props) => {
 				e.clientX - dragCoords.o.x + dragCoords.c.x,
 				e.clientY - dragCoords.o.y + dragCoords.c.y
 			]);
-			
+
 			return false;
 		}
 
 		if (dragCoords.isDragging && dragCoords.what == 'marquee') {
 			const { top, left } = workArea.current.getBoundingClientRect();
-			
+
 			const marqueeRight = e.pageX - left;
 			const marqueeBottom = e.pageY - top;
 
@@ -238,16 +245,16 @@ const WorkArea = (props) => {
 				...dragCoords,
 				c: {
 					x: marqueeRight,
-					y: marqueeBottom 
+					y: marqueeBottom
 				}
 			});
 
-			const included = 
+			const included =
 				panels
 					.map((panel, ind) => {
 						const absoluteX = panel.x + workAreaOffset[0];
 						const absoluteY = panel.y + workAreaOffset[1];
-			
+
 						if (absoluteX < dragCoords.o?.x) return -1;
 						if (absoluteY < dragCoords.o?.y) return -1;
 						if (absoluteX > marqueeRight) return -1;
@@ -256,7 +263,7 @@ const WorkArea = (props) => {
 					})
 					.filter((ind) => ind != -1);
 
-			setSelectedPanels(included);
+			setSelectedPanels(Set(included).concat(backupSelectedPanels));
 
 			return false;
 		}
@@ -285,7 +292,7 @@ const WorkArea = (props) => {
 			const panel = e.target.closest('.Panel');
 
 			const toRef = panels[panel.dataset.key].refs[e.target.dataset.ref];
-	
+
 			setConnections([
 				...connections,
 				makeConnection(connectorAnchor.fromRef, toRef)
@@ -296,7 +303,7 @@ const WorkArea = (props) => {
 			const panel = e.target.closest('.Panel');
 
 			const fromRef = panels[panel.dataset.key].refs[e.target.dataset.ref];
-	
+
 			setConnections([
 				...connections,
 				makeConnection(fromRef, connectorAnchor.toRef)
@@ -307,27 +314,26 @@ const WorkArea = (props) => {
 	};
 
 	const mouseClick = () => {
-		setSelectedPanels([]);
+		setSelectedPanels(Set());
 	};
 
 	const toggleSelection = (ind) => {
-		if (selectedPanels.includes(ind)) {
-			setSelectedPanels(selectedPanels.filter((panelInd) => panelInd != ind));
+		if (selectedPanels.has(ind)) {
+			setSelectedPanels(selectedPanels.delete(ind));
 		} else {
-			setSelectedPanels([...selectedPanels, ind]);
+			setSelectedPanels(selectedPanels.add(ind));
 		}
 	};
 
 	const select = (ind) => {
-		if (selectedPanels.includes(ind)) return;
-		setSelectedPanels([...selectedPanels, ind]);
+		setSelectedPanels(selectedPanels.add(ind));
 	};
 
 	const renderPanel = (panel, ind) => {
-		const isSelected = selectedPanels.includes(ind);
+		const isSelected = selectedPanels.has(ind);
 
 		return (
-			<PanelWrapper 
+			<PanelWrapper
 				key={ind}
 				ind={ind}
 				panel={panel}
@@ -366,13 +372,13 @@ const WorkArea = (props) => {
 	});
 
 	return (
-		<div 
-			className="WorkArea" 
+		<div
+			className="WorkArea"
 			ref={workArea}
 			style={screenSize}
-			onMouseDown={mouseDown} 
-			onMouseMove={mouseMove} 
-			onMouseUp={mouseUp} 
+			onMouseDown={mouseDown}
+			onMouseMove={mouseMove}
+			onMouseUp={mouseUp}
 			onClick={mouseClick}
 			>
 			<Connector
