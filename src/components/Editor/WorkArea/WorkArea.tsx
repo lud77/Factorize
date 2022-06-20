@@ -325,10 +325,6 @@ const WorkArea = (props) => {
 		}
 	};
 
-	const select = (ind) => {
-		setSelectedPanels(selectedPanels.add(ind));
-	};
-
 	const renderPanel = (panel, ind) => {
 		const isSelected = selectedPanels.has(ind);
 
@@ -344,10 +340,16 @@ const WorkArea = (props) => {
 				onSelect={(e) => {
 					e.stopPropagation();
 
+					if (!e.shiftKey) return;
+
 					const panel = e.target.closest('.Panel');
 					const ind = parseInt(panel.dataset.key);
 
-					toggleSelection(ind);
+					if (!e.ctrlKey) {
+						setSelectedPanels(Set([ind]));
+					} else {
+						setSelectedPanels(selectedPanels.add(ind));
+					}
 				}}
 				/>
 		);
