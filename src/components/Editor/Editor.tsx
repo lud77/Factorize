@@ -17,10 +17,10 @@ const getNextComponent = getSequence();
 let position = 10;
 
 const Editor = (props) => {
-    const makeConnection = (source, target): Connection => 
+    const makeConnection = (source, target): Connection =>
         ({
-            source, 
-            target 
+            source,
+            target
         });
 
     const makePanel = (type) => {
@@ -33,7 +33,6 @@ const Editor = (props) => {
 
     const [ snap, setSnap ] = React.useState<boolean>(false);
     const [ grid, setGrid ] = React.useState<boolean>(true);
-    const [ marquee, setMarquee ] = React.useState<boolean>(false);
 
     const [ panels, setPanels ] = React.useState<Panel[]>([]);
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
@@ -49,24 +48,16 @@ const Editor = (props) => {
                 execute: () => makePanel('TextInput')
             }
         },
-        'Tools': {
-            'Select': {
-                execute: (item) => { 
-                    setMarquee(!marquee);
-                },
-                active: marquee
-            }
-        },
         'Options': {
             'Grid': {
-                execute: (item) => { 
+                execute: (item) => {
                     setGrid(!grid);
                 },
                 active: grid
             },
             'Snap': {
                 execute: (item) => {
-                    setSnap(!snap); 
+                    setSnap(!snap);
                 },
                 active: snap
             }
@@ -75,14 +66,13 @@ const Editor = (props) => {
 
     return (
         <div className={`Editor ${grid ? 'Gridded' : ''}`} style={{ backgroundPosition: `left ${workAreaOffset[0]}px top ${workAreaOffset[1]}px` }}>
-            <Toolbar 
-                toolbar={toolbar} 
-                menus={menus} default="Panels" 
+            <Toolbar
+                toolbar={toolbar}
+                menus={menus} default="Panels"
                 />
-            <WorkArea 
-                toolbar={toolbar} 
-                snap={snap} 
-                marquee={marquee} setMarquee={setMarquee}
+            <WorkArea
+                toolbar={toolbar}
+                snap={snap}
                 panels={panels} setPanels={setPanels}
                 connections={connections} setConnections={setConnections}
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}

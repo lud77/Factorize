@@ -12,7 +12,6 @@ import '../Panel/Panel.css';
 
 const WorkArea = (props) => {
 	const {
-		marquee, setMarquee,
 		panels, setPanels,
 		connections, setConnections,
 		connectorAnchor, setConnectorAnchor,
