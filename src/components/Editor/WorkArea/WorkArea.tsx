@@ -328,7 +328,10 @@ const WorkArea = (props) => {
 		setConnectorAnchor(null);
 	};
 
-	const mouseClick = () => {
+	const mouseClick = (e) => {
+		e.stopPropagation();
+
+		if (e.shiftKey) return;
 		setSelectedPanels(Set());
 	};
 

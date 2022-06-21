@@ -37,6 +37,7 @@
     flex-grow: 1;
     vertical-align: baseline;
     margin-bottom: 5px;
+    cursor: default;
 }
 
 .Panel .Item input {
@@ -52,6 +53,7 @@
     border: 1px solid var(--border);
     margin-left: -1.1em;
     margin-right: 0.3em;
+    user-select: none;
 }
 
 .Panel .OutputEndpoint {
@@ -63,13 +65,14 @@
     border: 1px solid var(--border);
     margin-right: -1.1em;
     margin-left: 0.3em;
+    user-select: none;
 }
-  
+
 .Panel .Connected {
     background-color: var(--connection);
     border: 1px solid var(--connection);
 }
-  
+
 .Panel .Connected:hover {
     background-color: var(--connection-highlight);
     border: 1px solid var(--connection-highlight);
@@ -81,7 +84,7 @@
 .Panel .OutputEndpoint.Hovering,
 .Panel .InputEndpoint.Connecting,
 .Panel .OutputEndpoint.Connecting,
-.Panel .InputEndpoint:not(.Connected):hover, 
+.Panel .InputEndpoint:not(.Connected):hover,
 .Panel .OutputEndpoint:not(.Connected):hover {
     background-color: var(--main-highlight);
     border: 1px solid var(--main-highlight);
