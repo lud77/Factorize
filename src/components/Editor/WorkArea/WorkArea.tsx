@@ -207,6 +207,48 @@ const WorkArea = (props) => {
 		}
 	};
 
+	const selectInclusive = (panels) =>
+		panels
+			.map((panel, ind) => {
+				const panelLeft = panel.left + workAreaOffset[0];
+				const panelTop = panel.top + workAreaOffset[1];
+				const panelRight = panelLeft + panel.width - 1;
+				const panelBottom = panelTop + panel.height - 1;
+
+				const selectLeft =  Math.min(dragCoords.o.x, dragCoords.c.x);
+				const selectTop =  Math.min(dragCoords.o.y, dragCoords.c.y);
+				const selectRight =  Math.max(dragCoords.o.x, dragCoords.c.x);
+				const selectBottom =  Math.max(dragCoords.o.y, dragCoords.c.y);
+
+				if (panelRight < selectLeft) return -1;
+				if (panelBottom < selectTop) return -1;
+				if (panelLeft > selectRight) return -1;
+				if (panelTop > selectBottom) return -1;
+				return ind;
+			})
+			.filter((ind) => ind != -1);
+
+	const selectExclusive = (panels) =>
+		panels
+			.map((panel, ind) => {
+				const panelLeft = panel.left + workAreaOffset[0];
+				const panelTop = panel.top + workAreaOffset[1];
+				const panelRight = panelLeft + panel.width - 1;
+				const panelBottom = panelTop + panel.height - 1;
+
+				const selectLeft =  Math.min(dragCoords.o.x, dragCoords.c.x);
+				const selectTop =  Math.min(dragCoords.o.y, dragCoords.c.y);
+				const selectRight =  Math.max(dragCoords.o.x, dragCoords.c.x);
+				const selectBottom =  Math.max(dragCoords.o.y, dragCoords.c.y);
+
+				if (panelLeft < selectLeft) return -1;
+				if (panelTop < selectTop) return -1;
+				if (panelRight > selectRight) return -1;
+				if (panelBottom > selectBottom) return -1;
+				return ind;
+			})
+			.filter((ind) => ind != -1);
+
 	const linear = (x) => x;
 	const snapping = (x) => Math.floor(x / 16) * 16;
 
@@ -249,34 +291,7 @@ const WorkArea = (props) => {
 				}
 			});
 
-			const included =
-				panels
-					.map((panel, ind) => {
-						const panelLeft = panel.left + workAreaOffset[0];
-						const panelTop = panel.top + workAreaOffset[1];
-						const panelRight = panelLeft + panel.width - 1;
-						const panelBottom = panelTop + panel.height - 1;
-
-						const selectLeft =  Math.min(dragCoords.o.x, dragCoords.c.x);
-						const selectTop =  Math.min(dragCoords.o.y, dragCoords.c.y);
-						const selectRight =  Math.max(dragCoords.o.x, dragCoords.c.x);
-						const selectBottom =  Math.max(dragCoords.o.y, dragCoords.c.y);
-
-						if (inclusiveSelection) {
-							if (panelRight < selectLeft) return -1;
-							if (panelBottom < selectTop) return -1;
-							if (panelLeft > selectRight) return -1;
-							if (panelTop > selectBottom) return -1;
-						} else {
-							if (panelLeft < selectLeft) return -1;
-							if (panelTop < selectTop) return -1;
-							if (panelRight > selectRight) return -1;
-							if (panelBottom > selectBottom) return -1;
-						}
-
-						return ind;
-					})
-					.filter((ind) => ind != -1);
+			const included = inclusiveSelection ? selectInclusive(panels) : selectExclusive(panels);
 
 			setSelectedPanels(Set(included).concat(backupSelectedPanels));
 
