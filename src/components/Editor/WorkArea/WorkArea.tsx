@@ -207,7 +207,7 @@ const WorkArea = (props) => {
 		}
 	};
 
-	const selectInclusive = (panels) =>
+	const selectInclusive = (panels, selection) =>
 		panels
 			.map((panel, ind) => {
 				const panelLeft = panel.left + workAreaOffset[0];
@@ -215,20 +215,15 @@ const WorkArea = (props) => {
 				const panelRight = panelLeft + panel.width - 1;
 				const panelBottom = panelTop + panel.height - 1;
 
-				const selectLeft =  Math.min(dragCoords.o.x, dragCoords.c.x);
-				const selectTop =  Math.min(dragCoords.o.y, dragCoords.c.y);
-				const selectRight =  Math.max(dragCoords.o.x, dragCoords.c.x);
-				const selectBottom =  Math.max(dragCoords.o.y, dragCoords.c.y);
-
-				if (panelRight < selectLeft) return -1;
-				if (panelBottom < selectTop) return -1;
-				if (panelLeft > selectRight) return -1;
-				if (panelTop > selectBottom) return -1;
-				return ind;
+				if (panelRight < selection.left) return { ind: -1 };
+				if (panelBottom < selection.top) return { ind: -1 };
+				if (panelLeft > selection.right) return { ind: -1 };
+				if (panelTop > selection.bottom) return { ind: -1 };
+				return { panel, ind };
 			})
-			.filter((ind) => ind != -1);
+			.filter(({ ind }) => ind != -1);
 
-	const selectExclusive = (panels) =>
+	const selectExclusive = (panels, selection) =>
 		panels
 			.map((panel, ind) => {
 				const panelLeft = panel.left + workAreaOffset[0];
@@ -236,18 +231,13 @@ const WorkArea = (props) => {
 				const panelRight = panelLeft + panel.width - 1;
 				const panelBottom = panelTop + panel.height - 1;
 
-				const selectLeft =  Math.min(dragCoords.o.x, dragCoords.c.x);
-				const selectTop =  Math.min(dragCoords.o.y, dragCoords.c.y);
-				const selectRight =  Math.max(dragCoords.o.x, dragCoords.c.x);
-				const selectBottom =  Math.max(dragCoords.o.y, dragCoords.c.y);
-
-				if (panelLeft < selectLeft) return -1;
-				if (panelTop < selectTop) return -1;
-				if (panelRight > selectRight) return -1;
-				if (panelBottom > selectBottom) return -1;
-				return ind;
+				if (panelLeft < selection.Left) return { ind: -1 };
+				if (panelTop < selection.top) return { ind: -1 };
+				if (panelRight > selection.right) return { ind: -1 };
+				if (panelBottom > selection.bottom) return { ind: -1 };
+				return { panel, ind };
 			})
-			.filter((ind) => ind != -1);
+			.filter(({ ind }) => ind != -1);
 
 	const linear = (x) => x;
 	const snapping = (x) => Math.floor(x / 16) * 16;
@@ -291,7 +281,18 @@ const WorkArea = (props) => {
 				}
 			});
 
-			const included = inclusiveSelection ? selectInclusive(panels) : selectExclusive(panels);
+			const selection = {
+				left: Math.min(dragCoords.o.x, dragCoords.c.x),
+				top: Math.min(dragCoords.o.y, dragCoords.c.y),
+				right: Math.max(dragCoords.o.x, dragCoords.c.x),
+				bottom: Math.max(dragCoords.o.y, dragCoords.c.y)
+			};
+
+			// console.log('selection', selection);
+
+			const included =
+				(inclusiveSelection ? selectInclusive : selectExclusive)(panels, selection)
+					.map(({ ind }) => ind);
 
 			setSelectedPanels(Set(included).concat(backupSelectedPanels));
 
@@ -406,6 +407,29 @@ const WorkArea = (props) => {
 		setScreenSize(buildScreenSize());
 	});
 
+	const renderView = () => {
+		if (!workArea.current) return <>
+			{props.panels.map(renderPanel)}
+			{props.connections.map(renderConnection)}
+		</>;
+
+		const { top, left } = workArea.current.getBoundingClientRect();
+
+		const viewport = {
+			left: 0,
+			top: 0,
+			right: screenSize.width - 1,
+			bottom: screenSize.height - 1
+		};
+
+		// console.log('viewport', viewport);
+		// console.log(selectInclusive(props.panels, viewport).map(({ panel }) => panel).length);
+		return <>
+			{selectInclusive(props.panels, viewport).map(({ panel }) => panel).map(renderPanel)}
+			{props.connections.map(renderConnection)}
+		</>;
+	};
+
 	return (
 		<div
 			className="WorkArea"
@@ -433,8 +457,7 @@ const WorkArea = (props) => {
 					? <Marquee dragCoords={dragCoords} toolbar={props.toolbar} />
 					: null
 			}
-			{props.panels.map(renderPanel)}
-			{props.connections.map(renderConnection)}
+			{renderView()}
 		</div>
 	);
 };
