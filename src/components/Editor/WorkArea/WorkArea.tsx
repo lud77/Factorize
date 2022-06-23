@@ -22,6 +22,8 @@ const WorkArea = (props) => {
 
 	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
 
+	const getPanelRef = (key, ref) => panels[key].refs[ref];
+
 	const buildScreenSize = () => ({
 		top: 0,
 		left: 0,
@@ -158,7 +160,7 @@ const WorkArea = (props) => {
 			setConnectorAnchor({
 				fromRef: null,
 				to: null,
-				toRef: panels[panel.dataset.key].refs[e.target.dataset.ref],
+				toRef: getPanelRef(panel.dataset.key, e.target.dataset.ref),
 				from: { x: e.pageX, y: e.pageY }
 			});
 
@@ -169,7 +171,7 @@ const WorkArea = (props) => {
 			const panel = e.target.closest('.Panel');
 
 			setConnectorAnchor({
-				fromRef: panels[panel.dataset.key].refs[e.target.dataset.ref],
+				fromRef: getPanelRef(panel.dataset.key, e.target.dataset.ref),
 				to: { x: e.pageX, y: e.pageY },
 				toRef: null,
 				from: null
@@ -180,7 +182,7 @@ const WorkArea = (props) => {
 
 		if (detachingInputConnection) {
 			const panel = e.target.closest('.Panel');
-			const connection = removeConnectionByInputRef(panels[panel.dataset.key].refs[e.target.dataset.ref]);
+			const connection = removeConnectionByInputRef(getPanelRef(panel.dataset.key, e.target.dataset.ref));
 			if (connection == null) return;
 
 			setConnectorAnchor({
@@ -194,7 +196,7 @@ const WorkArea = (props) => {
 
 		if (detachingOutputConnection) {
 			const panel = e.target.closest('.Panel');
-			const connection = removeConnectionByOutputRef(panels[panel.dataset.key].refs[e.target.dataset.ref]);
+			const connection = removeConnectionByOutputRef(getPanelRef(panel.dataset.key, e.target.dataset.ref));
 			if (connection == null) return;
 
 			setConnectorAnchor({
@@ -322,7 +324,7 @@ const WorkArea = (props) => {
 		if ((connectorAnchor != null && connectorAnchor.fromRef != null) && e.target.classList.contains('InputEndpoint') && !e.target.classList.contains('Connected')) {
 			const panel = e.target.closest('.Panel');
 
-			const toRef = panels[panel.dataset.key].refs[e.target.dataset.ref];
+			const toRef = getPanelRef(panel.dataset.key, e.target.dataset.ref);
 
 			setConnections([
 				...connections,
@@ -333,7 +335,7 @@ const WorkArea = (props) => {
 		if ((connectorAnchor != null && connectorAnchor.toRef != null) && (e.target.classList.contains('OutputEndpoint'))) {
 			const panel = e.target.closest('.Panel');
 
-			const fromRef = panels[panel.dataset.key].refs[e.target.dataset.ref];
+			const fromRef = getPanelRef(panel.dataset.key, e.target.dataset.ref);
 
 			setConnections([
 				...connections,
