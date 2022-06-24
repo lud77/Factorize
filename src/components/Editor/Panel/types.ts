@@ -1,8 +1,9 @@
 export interface Panel {
     type: string;
     title: string;
-    refs: object;
-    Component: JSX.Element;
-    x: number;
-    y: number;
+    inputRefs: object;
+    outputRefs: object;
+    Component: JSX;
+    left: number;
+    top: number;
 }

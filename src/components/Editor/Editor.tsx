@@ -12,11 +12,12 @@ import './Editor.css';
 
 const { ipcRenderer } = window.require('electron')
 
-const getNextComponent = getSequence();
-
 let position = 10;
 
 const Editor = (props) => {
+    const [panelIdByInputEndpointId, setPanelIdByInputEndpointId] = React.useState({});
+    const [panelIdByOutputEndpointId, setPanelIdByOutputEndpointId] = React.useState({});
+
     const makeConnection = (source, target): Connection =>
         ({
             source,
@@ -24,10 +25,29 @@ const Editor = (props) => {
         });
 
     const makePanel = (type) => {
-        const panel = props.panels[type].create(`${type} ${getNextComponent()}`, position, position);
+        const panelId = props.getNextPanelId();
+        const panel = props.panels[type].create(`${type} ${panelId}`, position, position);
         position += 20;
+
+        const inputIndex = panelIdByInputEndpointId;
+        const outputIndex = panelIdByOutputEndpointId;
+
+        Object.values(panel.inputRefs)
+            .forEach((endpointId) => {
+                inputIndex[endpointId] = panelId;
+            });
+
+        Object.values(panel.outputRefs)
+            .forEach((endpointId) => {
+                outputIndex[endpointId] = panelId
+            });
+
+        setPanelIdByInputEndpointId(inputIndex);
+        setPanelIdByOutputEndpointId(outputIndex);
+
         setPanels([...panels, {
             ...panel,
+            panelId,
             width: 120,
             height: 70
         }]);
@@ -90,6 +110,7 @@ const Editor = (props) => {
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
                 makeConnection={makeConnection}
                 workAreaOffset={workAreaOffset} setWorkAreaOffset={setWorkAreaOffset}
+                panelIdByInputEndpointId={panelIdByInputEndpointId} panelIdByOutputEndpointId={panelIdByOutputEndpointId}
                 />;
         </div>
     );

@@ -6,7 +6,7 @@ export default (props) => {
     const onMouseOver = (e) => {
         if (props.connectorAnchor == null) return;
         if (e.target.classList.contains('Connected')) return;
-        
+
         e.target.classList.add('Hovering');
     };
 
@@ -17,9 +17,9 @@ export default (props) => {
     };
 
     return <div className="Input Item">
-        <div 
-            className={`InputEndpoint Endpoint ${isInputConnected(props.panel.refs[`input${props.name}`]) ? 'Connected' : ''}`}
-            data-id={props.panel.refs[`input${props.name}`]} 
+        <div
+            className={`InputEndpoint Endpoint ${isInputConnected(props.panel.inputRefs[`input${props.name}`]) ? 'Connected' : ''}`}
+            data-id={props.panel.inputRefs[`input${props.name}`]}
             data-ref={`input${props.name}`}
             onMouseOver={onMouseOver}
             onMouseOut={onMouseOut}

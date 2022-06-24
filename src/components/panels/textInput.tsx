@@ -6,7 +6,7 @@ import InputEndpoint from '../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../Editor/Panel/OutputEndpoint';
 
 export default (getNextEndpointId) => {
-    const create = (title, left = 0, top = 0): Panel => {
+    const create = (title: string, left: number = 0, top: number = 0): Panel => {
         const Component = (props) => {
             return <>
                 <div className="Row">
@@ -23,11 +23,12 @@ export default (getNextEndpointId) => {
         return {
             type: 'TextInput',
             title,
-            refs: { outputText },
+            inputRefs: {},
+            outputRefs: { outputText },
             Component,
             left,
             top
-        };
+        } as Panel;
     };
 
     return {

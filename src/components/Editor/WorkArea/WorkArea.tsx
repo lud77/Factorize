@@ -17,12 +17,14 @@ const WorkArea = (props) => {
 		connectorAnchor, setConnectorAnchor,
 		makeConnection,
 		workAreaOffset, setWorkAreaOffset,
-		inclusiveSelection
+		inclusiveSelection,
+		panelIdByInputEndpointId, panelIdByOutputEndpointId
 	} = props;
 
 	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
 
-	const getPanelRef = (key, ref) => panels[key].refs[ref];
+	const getPanelInputRef = (key, ref) => panels[key].inputRefs[ref];
+	const getPanelOutputRef = (key, ref) => panels[key].outputRefs[ref];
 
 	const buildScreenSize = () => ({
 		top: 0,
@@ -44,8 +46,17 @@ const WorkArea = (props) => {
 
 	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
 
+	const getPanelInputEndpointIds = (panel) => Object.values(panel.inputRefs);
+	const getPanelOutputEndpointIds = (panel) => Object.values(panel.outputRefs);
+
+	const findConnectionByInputEndpointId = (ref) => connections.find((connection) => connection.target === ref);
+	const findConnectionByOutputEndpointId = (ref) => connections.find((connection) => connection.source === ref);
+
+	const getConnectionSourceEndpoint = (connection) => connection.source;
+	const getConnectionTargetEndpoint = (connection) => connection.target;
+
 	const removeConnectionByOutputRef = (ref) => {
-		const connection = connections.find((connection) => connection.source === ref);
+		const connection = findConnectionByOutputEndpointId(ref);
 
 		if (connection) {
 			setConnections(connections.filter((connection) => connection.source !== ref));
@@ -56,7 +67,7 @@ const WorkArea = (props) => {
 	};
 
 	const removeConnectionByInputRef = (ref) => {
-		const connection = connections.find((connection) => connection.target === ref);
+		const connection = findConnectionByInputEndpointId(ref);
 
 		if (connection) {
 			setConnections(connections.filter((connection) => connection.target !== ref));
@@ -160,7 +171,7 @@ const WorkArea = (props) => {
 			setConnectorAnchor({
 				fromRef: null,
 				to: null,
-				toRef: getPanelRef(panel.dataset.key, e.target.dataset.ref),
+				toRef: getPanelInputRef(panel.dataset.key, e.target.dataset.ref),
 				from: { x: e.pageX, y: e.pageY }
 			});
 
@@ -171,7 +182,7 @@ const WorkArea = (props) => {
 			const panel = e.target.closest('.Panel');
 
 			setConnectorAnchor({
-				fromRef: getPanelRef(panel.dataset.key, e.target.dataset.ref),
+				fromRef: getPanelOutputRef(panel.dataset.key, e.target.dataset.ref),
 				to: { x: e.pageX, y: e.pageY },
 				toRef: null,
 				from: null
@@ -182,7 +193,7 @@ const WorkArea = (props) => {
 
 		if (detachingInputConnection) {
 			const panel = e.target.closest('.Panel');
-			const connection = removeConnectionByInputRef(getPanelRef(panel.dataset.key, e.target.dataset.ref));
+			const connection = removeConnectionByInputRef(getPanelInputRef(panel.dataset.key, e.target.dataset.ref));
 			if (connection == null) return;
 
 			setConnectorAnchor({
@@ -196,7 +207,7 @@ const WorkArea = (props) => {
 
 		if (detachingOutputConnection) {
 			const panel = e.target.closest('.Panel');
-			const connection = removeConnectionByOutputRef(getPanelRef(panel.dataset.key, e.target.dataset.ref));
+			const connection = removeConnectionByOutputRef(getPanelOutputRef(panel.dataset.key, e.target.dataset.ref));
 			if (connection == null) return;
 
 			setConnectorAnchor({
@@ -209,37 +220,43 @@ const WorkArea = (props) => {
 		}
 	};
 
+	const getPanelWorkAreaCoords = (panel) => {
+		const left = panel.left + workAreaOffset[0];
+		const top = panel.top + workAreaOffset[1];
+
+		return {
+			left,
+			top,
+			right: left + panel.width - 1,
+			bottom: top + panel.height - 1
+		};
+	};
+
 	const selectInclusive = (panels, selection) =>
 		panels
-			.map((panel, ind) => {
-				const panelLeft = panel.left + workAreaOffset[0];
-				const panelTop = panel.top + workAreaOffset[1];
-				const panelRight = panelLeft + panel.width - 1;
-				const panelBottom = panelTop + panel.height - 1;
+			.map((panel) => {
+				const panelCoords = getPanelWorkAreaCoords(panel);
 
-				if (panelRight < selection.left) return { ind: -1 };
-				if (panelBottom < selection.top) return { ind: -1 };
-				if (panelLeft > selection.right) return { ind: -1 };
-				if (panelTop > selection.bottom) return { ind: -1 };
-				return { panel, ind };
+				if (panelCoords.right < selection.left) return null;
+				if (panelCoords.bottom < selection.top) return null;
+				if (panelCoords.left > selection.right) return null;
+				if (panelCoords.top > selection.bottom) return null;
+				return panel;
 			})
-			.filter(({ ind }) => ind != -1);
+			.filter(Boolean);
 
 	const selectExclusive = (panels, selection) =>
 		panels
-			.map((panel, ind) => {
-				const panelLeft = panel.left + workAreaOffset[0];
-				const panelTop = panel.top + workAreaOffset[1];
-				const panelRight = panelLeft + panel.width - 1;
-				const panelBottom = panelTop + panel.height - 1;
+			.map((panel) => {
+				const panelCoords = getPanelWorkAreaCoords(panel);
 
-				if (panelLeft < selection.Left) return { ind: -1 };
-				if (panelTop < selection.top) return { ind: -1 };
-				if (panelRight > selection.right) return { ind: -1 };
-				if (panelBottom > selection.bottom) return { ind: -1 };
-				return { panel, ind };
+				if (panelCoords.left < selection.Left) return null;
+				if (panelCoords.top < selection.top) return null;
+				if (panelCoords.right > selection.right) return null;
+				if (panelCoords.bottom > selection.bottom) return null;
+				return panel;
 			})
-			.filter(({ ind }) => ind != -1);
+			.filter(Boolean);
 
 	const linear = (x) => x;
 	const snapping = (x) => Math.floor(x / 16) * 16;
@@ -290,11 +307,9 @@ const WorkArea = (props) => {
 				bottom: Math.max(dragCoords.o.y, dragCoords.c.y)
 			};
 
-			// console.log('selection', selection);
-
 			const included =
 				(inclusiveSelection ? selectInclusive : selectExclusive)(panels, selection)
-					.map(({ ind }) => ind);
+					.map(({ panelId }) => panelId);
 
 			setSelectedPanels(Set(included).concat(backupSelectedPanels));
 
@@ -324,7 +339,7 @@ const WorkArea = (props) => {
 		if ((connectorAnchor != null && connectorAnchor.fromRef != null) && e.target.classList.contains('InputEndpoint') && !e.target.classList.contains('Connected')) {
 			const panel = e.target.closest('.Panel');
 
-			const toRef = getPanelRef(panel.dataset.key, e.target.dataset.ref);
+			const toRef = getPanelInputRef(panel.dataset.key, e.target.dataset.ref);
 
 			setConnections([
 				...connections,
@@ -335,7 +350,7 @@ const WorkArea = (props) => {
 		if ((connectorAnchor != null && connectorAnchor.toRef != null) && (e.target.classList.contains('OutputEndpoint'))) {
 			const panel = e.target.closest('.Panel');
 
-			const fromRef = getPanelRef(panel.dataset.key, e.target.dataset.ref);
+			const fromRef = getPanelOutputRef(panel.dataset.key, e.target.dataset.ref);
 
 			setConnections([
 				...connections,
@@ -353,21 +368,20 @@ const WorkArea = (props) => {
 		setSelectedPanels(Set());
 	};
 
-	const toggleSelection = (ind) => {
-		if (selectedPanels.has(ind)) {
-			setSelectedPanels(selectedPanels.delete(ind));
+	const toggleSelection = (panelId) => {
+		if (selectedPanels.has(panelId)) {
+			setSelectedPanels(selectedPanels.delete(panelId));
 		} else {
-			setSelectedPanels(selectedPanels.add(ind));
+			setSelectedPanels(selectedPanels.add(panelId));
 		}
 	};
 
-	const renderPanel = (panel, ind) => {
-		const isSelected = selectedPanels.has(ind);
+	const renderPanel = (panel) => {
+		const isSelected = selectedPanels.has(panel.panelId);
 
 		return (
 			<PanelWrapper
-				key={ind}
-				ind={ind}
+				key={panel.panelId}
 				panel={panel}
 				workAreaOffset={workAreaOffset}
 				connections={connections}
@@ -379,12 +393,12 @@ const WorkArea = (props) => {
 					if (!e.shiftKey) return;
 
 					const panel = e.target.closest('.Panel');
-					const ind = parseInt(panel.dataset.key);
+					const panelId = parseInt(panel.dataset.key);
 
 					if (!e.ctrlKey) {
-						setSelectedPanels(Set([ind]));
+						setSelectedPanels(Set([panelId]));
 					} else {
-						toggleSelection(ind);
+						toggleSelection(panelId);
 					}
 				}}
 				/>
@@ -409,13 +423,51 @@ const WorkArea = (props) => {
 		setScreenSize(buildScreenSize());
 	});
 
+	const addConnectedPanels = (viewablePanels, nonViewablePanels, viewablePanelsById) => {
+		if (nonViewablePanels.length == 0) return viewablePanels;
+
+		const contacting =
+			nonViewablePanels
+				.map((nvPanel) => getPanelOutputEndpointIds(nvPanel).map((endpointId) => [nvPanel, endpointId]))
+				.flat()
+				.map(([nvPanel, endpointId]) => {
+					const connection = findConnectionByOutputEndpointId(endpointId);
+					return connection ? [nvPanel, connection] : null
+				})
+				.filter(Boolean)
+				.map(([nvPanel, connection]) => [nvPanel, connection?.target || null])
+				.filter(Boolean)
+				.map(([nvPanel, inputEndpointId]) => (inputEndpointId !== null) ? [nvPanel, panelIdByInputEndpointId[inputEndpointId]] : null)
+				.filter(Boolean)
+				.filter(([nvPanel, panelId]) => panelId !== null && viewablePanelsById[panelId] !== undefined)
+				.map(([nvPanel]) => nvPanel)
+				.filter(Boolean);
+
+		const contacted =
+			nonViewablePanels
+				.map((nvPanel) => getPanelInputEndpointIds(nvPanel).map((endpointId) => [nvPanel, endpointId]))
+				.flat()
+				.map(([nvPanel, endpointId]) => {
+					const connection = findConnectionByInputEndpointId(endpointId);
+					return connection ? [nvPanel, connection] : null
+				})
+				.filter(Boolean)
+				.map(([nvPanel, connection]) => [nvPanel, connection?.source || null])
+				.filter(Boolean)
+				.map(([nvPanel, outputEndpointId]) => (outputEndpointId !== null) ? [nvPanel, panelIdByOutputEndpointId[outputEndpointId]] : null)
+				.filter(Boolean)
+				.filter(([nvPanel, panelId]) => panelId !== null && viewablePanelsById[panelId] !== undefined)
+				.map(([nvPanel]) => nvPanel)
+				.filter(Boolean);
+
+		return Set([...viewablePanels, ...contacting, ...contacted]).toArray();
+	};
+
 	const renderView = () => {
 		if (!workArea.current) return <>
-			{props.panels.map(renderPanel)}
-			{props.connections.map(renderConnection)}
+			{panels.map(renderPanel)}
+			{connections.map(renderConnection)}
 		</>;
-
-		const { top, left } = workArea.current.getBoundingClientRect();
 
 		const viewport = {
 			left: 0,
@@ -424,11 +476,20 @@ const WorkArea = (props) => {
 			bottom: screenSize.height - 1
 		};
 
-		// console.log('viewport', viewport);
-		// console.log(selectInclusive(props.panels, viewport).map(({ panel }) => panel).length);
+		const viewablePanels = selectInclusive(panels, viewport);
+		const viewableIds = viewablePanels.map((panel) => panel.panelId);
+
+		const viewablePanelsById = {};
+		viewablePanels.forEach((panel) => {
+			viewablePanelsById[panel.panelId] = panel;
+		});
+
+		const nonViewablePanels = panels.filter((panel) => !viewablePanelsById[panel.panelId]);
+		const toRender = addConnectedPanels(viewablePanels, nonViewablePanels, viewablePanelsById);
+
 		return <>
-			{selectInclusive(props.panels, viewport).map(({ panel }) => panel).map(renderPanel)}
-			{props.connections.map(renderConnection)}
+			{toRender.map(renderPanel)}
+			{connections.map(renderConnection)}
 		</>;
 	};
 

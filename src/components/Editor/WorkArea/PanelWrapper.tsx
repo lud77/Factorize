@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import * as React from 'react';
 
 const PanelWrapper = (props) => {
-    const { ind, panel, workAreaOffset, connections, connectorAnchor } = props;
+    const { panel, workAreaOffset, connections, connectorAnchor } = props;
 
     const style = {
         left: (panel.left + workAreaOffset[0]) + 'px',
@@ -13,7 +13,7 @@ const PanelWrapper = (props) => {
 
     return (
         <div
-            data-key={ind}
+            data-key={panel.panelId}
             className={`Panel ${props.isSelected ? 'Selected' : ''}`}
             style={style}
             onClick={props.onSelect}

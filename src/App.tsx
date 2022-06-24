@@ -8,10 +8,12 @@ import getSequence from './utils/sequence';
 const getNextEndpointId = getSequence();
 const panels = panelsFactory(getNextEndpointId);
 
+const getNextPanelId = getSequence();
+
 const App = () => {
 	return (
 		<div className="App">
-			<Editor panels={panels}></Editor>
+			<Editor panels={panels} getNextPanelId={getNextPanelId}></Editor>
 		</div>
 	);
 };

@@ -5,16 +5,16 @@ export default (props) => {
 
     return 	<div className="Output Item">
         {props.children}
-        <div 
+        <div
             className={`
                 OutputEndpoint Endpoint
-                ${isOutputConnected(props.panel.refs[`output${props.name}`]) ? 'Connected' : ''} 
-                ${(props.connectorAnchor != null) && (props.connectorAnchor?.fromRef == props.panel.refs[`output${props.name}`]) ? 'Connecting' : ''}
+                ${isOutputConnected(props.panel.outputRefs[`output${props.name}`]) ? 'Connected' : ''}
+                ${(props.connectorAnchor != null) && (props.connectorAnchor?.fromRef == props.panel.outputRefs[`output${props.name}`]) ? 'Connecting' : ''}
             `}
-            data-id={props.panel.refs[`output${props.name}`]} 
+            data-id={props.panel.outputRefs[`output${props.name}`]}
             data-ref={`output${props.name}`}
             onMouseOver={props.onMouseOver}
-            onMouseOut={props.onMouseOut}							
+            onMouseOut={props.onMouseOut}
             ></div>
     </div>;
 };
