@@ -11,6 +11,11 @@
   --selection-highlight: #e39433;
   --selection-lowlight: #8b520d;
   --item-text-size: 12px;
+
+  --blue: #007BC8;
+  --green: #189172;
+  --purple: #A474C1;
+  --red: #CB725C;
 }
 
 body {

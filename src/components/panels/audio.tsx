@@ -5,38 +5,34 @@ import { Panel } from '../Editor/Panel/types';
 import InputEndpoint from '../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../Editor/Panel/OutputEndpoint';
 
-export default (getNextEndpointId) => {
-    const create = (title: string, left: number = 0, top: number = 0): Panel => {
-        const Component = (props) => {
-            return <>
-                <div className="Row">
-                    <InputEndpoint name="Volume" {...props}>Volume</InputEndpoint>
-                    <OutputEndpoint name="Audio" {...props}>Audio</OutputEndpoint>
-                </div>
-                <div className="Row">
-                    <InputEndpoint name="Frequency" {...props}>Frequency</InputEndpoint>
-                    <OutputEndpoint name="Whatev" {...props}>Whatev</OutputEndpoint>
-                </div>
-            </>;
-        };
-
-        const inputVolume = getNextEndpointId();
-        const inputFrequency = getNextEndpointId();
-        const outputAudio = getNextEndpointId();
-        const outputWhatev = getNextEndpointId();
-
-        return {
-            type: 'Audio',
-            title,
-            inputRefs: { inputVolume, inputFrequency },
-            outputRefs: { outputAudio, outputWhatev },
-            Component,
-            left,
-            top
-        } as Panel;
+const create = (title: string, panelId: number, left: number = 0, top: number = 0): Panel => {
+    const Component = (props) => {
+        return <>
+            <div className="Row">
+                <InputEndpoint name="Volume" panelId={panelId} {...props}>Volume</InputEndpoint>
+                <OutputEndpoint name="Audio" panelId={panelId} {...props}>Audio</OutputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Frequency" panelId={panelId} {...props}>Frequency</InputEndpoint>
+                <OutputEndpoint name="Whatev" panelId={panelId} {...props}>Whatev</OutputEndpoint>
+            </div>
+        </>;
     };
+
+    const inputEndpoints = ['Volume', 'Frequency'];
+    const outputEndpoints = ['Audio', 'Whatev'];
 
     return {
-        create
-    };
-}
+        type: 'Audio',
+        title,
+        inputEndpoints,
+        outputEndpoints,
+        Component,
+        left,
+        top
+    } as Panel;
+};
+
+export default {
+    create
+};

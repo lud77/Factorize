@@ -3,57 +3,48 @@ import * as React from 'react';
 import WorkArea from './WorkArea/WorkArea';
 import Toolbar from './Toolbar/Toolbar';
 
-import getSequence from '../../utils/sequence';
-
 import { ConnectorAnchor, Connection } from './types';
 import { Panel } from './Panel/types';
 
 import './Editor.css';
+import { createSolutionBuilderHost } from 'typescript';
 
 const { ipcRenderer } = window.require('electron')
 
 let position = 10;
 
 const Editor = (props) => {
-    const [panelIdByInputEndpointId, setPanelIdByInputEndpointId] = React.useState({});
-    const [panelIdByOutputEndpointId, setPanelIdByOutputEndpointId] = React.useState({});
-
-    const makeConnection = (source, target): Connection =>
+    const makeConnection = (source: number, target: number, sourcePanelId: number, targetPanelId: number): Connection =>
         ({
             source,
-            target
+            target,
+            sourcePanelId,
+            targetPanelId
         });
 
     const makePanel = (type) => {
         const panelId = props.getNextPanelId();
-        const panel = props.panels[type].create(`${type} ${panelId}`, position, position);
+        const panel = props.panels[type].create(`${type} ${panelId}`, panelId, position, position);
+
+        const inputRefs =
+            panel.inputEndpoints
+                .reduce((a, endpointName) => ({ ...a, [`input${endpointName}`]: props.getNextEndpointId() }), {});
+
+        const outputRefs =
+            panel.outputEndpoints
+                .reduce((a, endpointName) => ({ ...a, [`output${endpointName}`]: props.getNextEndpointId() }), {});
+
         position += 20;
-
-        const inputIndex = panelIdByInputEndpointId;
-        const outputIndex = panelIdByOutputEndpointId;
-
-        Object.values(panel.inputRefs)
-            .forEach((endpointId) => {
-                inputIndex[endpointId] = panelId;
-            });
-
-        Object.values(panel.outputRefs)
-            .forEach((endpointId) => {
-                outputIndex[endpointId] = panelId
-            });
-
-        setPanelIdByInputEndpointId(inputIndex);
-        setPanelIdByOutputEndpointId(outputIndex);
 
         setPanels([...panels, {
             ...panel,
             panelId,
+            inputRefs,
+            outputRefs,
             width: 120,
             height: 70
         }]);
     };
-
-    const toolbar = React.useRef<any>();
 
     const [ snap, setSnap ] = React.useState<boolean>(false);
     const [ grid, setGrid ] = React.useState<boolean>(true);
@@ -73,6 +64,20 @@ const Editor = (props) => {
                 execute: () => makePanel('TextInput')
             }
         },
+        // 'Controls': {
+        //     '▶': {
+        //         execute: () => {},
+        //         active: false
+        //     },
+        //     '⏸': {
+        //         execute: () => {},
+        //         active: false
+        //     },
+        //     '■': {
+        //         execute: () => {},
+        //         active: false
+        //     }
+        // },
         'Options': {
             'Grid': {
                 execute: (item) => {
@@ -97,12 +102,9 @@ const Editor = (props) => {
 
     return (
         <div className={`Editor ${grid ? 'Gridded' : ''}`} style={{ backgroundPosition: `left ${workAreaOffset[0]}px top ${workAreaOffset[1]}px` }}>
-            <Toolbar
-                toolbar={toolbar}
-                menus={menus} default="Panels"
-                />
+            <Toolbar menus={menus} default="Panels" />
             <WorkArea
-                toolbar={toolbar}
+                getNextEndpointId={props.getNextEndpointId}
                 snap={snap}
                 inclusiveSelection={inclusiveSelection}
                 panels={panels} setPanels={setPanels}
@@ -110,7 +112,6 @@ const Editor = (props) => {
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
                 makeConnection={makeConnection}
                 workAreaOffset={workAreaOffset} setWorkAreaOffset={setWorkAreaOffset}
-                panelIdByInputEndpointId={panelIdByInputEndpointId} panelIdByOutputEndpointId={panelIdByOutputEndpointId}
                 />;
         </div>
     );

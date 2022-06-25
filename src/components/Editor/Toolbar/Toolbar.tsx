@@ -12,14 +12,14 @@ const Toolbar = (props) => {
 
     const isSelected = (item) => item === primary;
 
-    return <div className="Toolbar" ref={props.toolbar}>
+    return <div className="Toolbar">
         <div className="Menu Primary">
             {
                 Object.keys(props.menus)
                     .map((item, key) => (
-                        <div 
-                            key={key} 
-                            className={`Item ${isSelected(item) ? 'Selected' : ''}`} 
+                        <div
+                            key={key}
+                            className={`Item ${isSelected(item) ? 'Selected' : ''}`}
                             onClick={selectPrimaryItem(item)}
                             >{item}</div>
                     ))
@@ -32,9 +32,9 @@ const Toolbar = (props) => {
                         const current = props.menus[primary][item];
 
                         return (
-                            <div 
-                                key={primary + '_' + key} 
-                                className={`Item ${current.active ? 'Active' : ''}`} 
+                            <div
+                                key={primary + '_' + key}
+                                className={`Item ${current.active ? 'Active' : ''}`}
                                 onClick={(e) => current.execute(e.target)}
                                 >{item}</div>
                         );

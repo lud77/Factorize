@@ -1,7 +1,7 @@
-import textInput from './textInput';
-import audio from './audio';
+import TextInput from './textInput';
+import Audio from './audio';
 
-export default (getNextEndpointId) => ({
-    TextInput: textInput(getNextEndpointId),
-    Audio: audio(getNextEndpointId)
+export default () => ({
+    TextInput,
+    Audio
 });

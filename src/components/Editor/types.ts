@@ -7,7 +7,7 @@ export interface DragCoords {
 }
 
 export interface Point {
-    x: number; 
+    x: number;
     y: number;
 }
 
@@ -16,9 +16,13 @@ export interface ConnectorAnchor {
     toRef: Element;
     to: Point;
     from: Point;
+    fromPanelId?: number;
+    toPanelId?: number;
 }
 
 export interface Connection {
     source: number;
     target: number;
+    sourcePanelId: number;
+    targetPanelId: number;
 }
