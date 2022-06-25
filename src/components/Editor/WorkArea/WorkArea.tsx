@@ -22,8 +22,8 @@ const WorkArea = (props) => {
 
 	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
 
-	const getPanelInputRef = (key, ref) => panels[key].inputRefs[ref];
-	const getPanelOutputRef = (key, ref) => panels[key].outputRefs[ref];
+	const getPanelInputRef = (panelId, ref) => panels[panelId].inputRefs[ref];
+	const getPanelOutputRef = (panelId, ref) => panels[panelId].outputRefs[ref];
 
 	const buildScreenSize = () => ({
 		top: 0,
@@ -31,10 +31,6 @@ const WorkArea = (props) => {
 		width: window.innerWidth,
 		height: window.innerHeight
 	});
-
-	const updatePanel = (key, update) => {
-		return setPanels([...panels.slice(0, key), update, ...panels.slice(key + 1)]);
-	};
 
 	const workArea = React.useRef<any>();
 
@@ -102,7 +98,7 @@ const WorkArea = (props) => {
 
 		if (draggingPanel) {
 			const panel = e.target.closest('.Panel');
-			const panelKey = parseInt(panel.dataset.key);
+			const panelId = parseInt(panel.dataset.key);
 
 			setDragCoords({
 				isDragging: true,
@@ -113,8 +109,8 @@ const WorkArea = (props) => {
 					y: Number(e.pageY)
 				},
 				c: {
-					x: panels[panelKey].left,
-					y: panels[panelKey].top
+					x: panels[panelId].left,
+					y: panels[panelId].top
 				}
 			});
 
@@ -166,7 +162,7 @@ const WorkArea = (props) => {
 
 		if (creatingInputConnection) {
 			const toPanel = e.target.closest('.Panel');
-			const toPanelId = toPanel.dataset.key;
+			const toPanelId = parseInt(toPanel.dataset.key);
 
 			setConnectorAnchor({
 				fromRef: null,
@@ -181,7 +177,7 @@ const WorkArea = (props) => {
 
 		if (creatingOutputConnection) {
 			const fromPanel = e.target.closest('.Panel');
-			const fromPanelId = fromPanel.dataset.key;
+			const fromPanelId = parseInt(fromPanel.dataset.key);
 
 			setConnectorAnchor({
 				fromRef: getPanelOutputRef(fromPanelId, e.target.dataset.ref),
@@ -196,7 +192,7 @@ const WorkArea = (props) => {
 
 		if (detachingInputConnection) {
 			const toPanel = e.target.closest('.Panel');
-			const toPanelId = toPanel.dataset.key;
+			const toPanelId = parseInt(toPanel.dataset.key);
 
 			const connection = removeConnectionByInputRef(getPanelInputRef(toPanelId, e.target.dataset.ref));
 			if (connection == null) return;
@@ -213,7 +209,7 @@ const WorkArea = (props) => {
 
 		if (detachingOutputConnection) {
 			const fromPanel = e.target.closest('.Panel');
-			const fromPanelId = fromPanel.dataset.key;
+			const fromPanelId = parseInt(fromPanel.dataset.key);
 
 			const connection = removeConnectionByOutputRef(getPanelOutputRef(fromPanelId, e.target.dataset.ref));
 			if (connection == null) return;
@@ -242,7 +238,7 @@ const WorkArea = (props) => {
 	};
 
 	const selectInclusive = (panels, selection) =>
-		panels
+		Object.values(panels)
 			.map((panel) => {
 				const panelCoords = getPanelWorkAreaCoords(panel);
 
@@ -255,7 +251,7 @@ const WorkArea = (props) => {
 			.filter(Boolean);
 
 	const selectExclusive = (panels, selection) =>
-		panels
+		Object.values(panels)
 			.map((panel) => {
 				const panelCoords = getPanelWorkAreaCoords(panel);
 
@@ -274,13 +270,16 @@ const WorkArea = (props) => {
 		if (!dragCoords.isDragging && (connectorAnchor == null)) return;
 
 		if (dragCoords.isDragging && dragCoords.what == 'panel') {
-			const panelKey = parseInt(dragCoords.el.dataset.key);
+			const panelId = parseInt(dragCoords.el.dataset.key);
 			const func = (props.snap ? snapping : linear);
 
-			updatePanel(panelKey, {
-				...panels[panelKey],
-				left: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
-				top: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
+			setPanels({
+				...panels,
+				[panelId]: {
+					...panels[panelId],
+					left: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
+					top: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
+				}
 			});
 
 			return false;
@@ -348,7 +347,7 @@ const WorkArea = (props) => {
 		if ((connectorAnchor != null && connectorAnchor.fromRef != null) && e.target.classList.contains('InputEndpoint') && !e.target.classList.contains('Connected')) {
 			const toPanel = e.target.closest('.Panel');
 
-			const toPanelId = toPanel.dataset.key;
+			const toPanelId = parseInt(toPanel.dataset.key);
 			const toRef = getPanelInputRef(toPanelId, e.target.dataset.ref);
 
 			setConnections([
@@ -360,7 +359,7 @@ const WorkArea = (props) => {
 		if ((connectorAnchor != null && connectorAnchor.toRef != null) && (e.target.classList.contains('OutputEndpoint'))) {
 			const fromPanel = e.target.closest('.Panel');
 
-			const fromPanelId = fromPanel.dataset.key;
+			const fromPanelId = parseInt(fromPanel.dataset.key);
 			const fromRef = getPanelOutputRef(fromPanelId, e.target.dataset.ref);
 
 			setConnections([
@@ -436,7 +435,7 @@ const WorkArea = (props) => {
 
 	const renderView = () => {
 		if (!workArea.current) return <>
-			{panels.map(renderPanel)}
+			{Object.values(panels).map(renderPanel)}
 			{connections.map(renderConnection)}
 		</>;
 
@@ -455,10 +454,10 @@ const WorkArea = (props) => {
 			viewablePanelsById[panel.panelId] = panel;
 		});
 
-		const nonViewablePanels = panels.filter((panel) => !viewablePanelsById[panel.panelId]);
+		const nonViewablePanels = Object.values(panels).filter((panel) => !viewablePanelsById[panel.panelId]);
 
 		return <>
-			{panels.map(renderPanel)}
+			{Object.values(panels).map(renderPanel)}
 			{connections.map(renderConnection)}
 		</>;
 	};

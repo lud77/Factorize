@@ -14,6 +14,15 @@ const { ipcRenderer } = window.require('electron')
 let position = 10;
 
 const Editor = (props) => {
+    const [ snap, setSnap ] = React.useState<boolean>(false);
+    const [ grid, setGrid ] = React.useState<boolean>(true);
+    const [ inclusiveSelection, setInclusiveSelection ] = React.useState<boolean>(true);
+
+    const [ panels, setPanels ] = React.useState<Panel[]>([]);
+	const [ connections, setConnections ] = React.useState<Connection[]>([]);
+	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
+    const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
+
     const makeConnection = (source: number, target: number, sourcePanelId: number, targetPanelId: number): Connection =>
         ({
             source,
@@ -36,24 +45,17 @@ const Editor = (props) => {
 
         position += 20;
 
-        setPanels([...panels, {
+        const newPanel = {
             ...panel,
             panelId,
             inputRefs,
             outputRefs,
             width: 120,
             height: 70
-        }]);
+        };
+
+        setPanels({ ...panels, [newPanel.panelId]: newPanel });
     };
-
-    const [ snap, setSnap ] = React.useState<boolean>(false);
-    const [ grid, setGrid ] = React.useState<boolean>(true);
-    const [ inclusiveSelection, setInclusiveSelection ] = React.useState<boolean>(true);
-
-    const [ panels, setPanels ] = React.useState<Panel[]>([]);
-	const [ connections, setConnections ] = React.useState<Connection[]>([]);
-	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
-    const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
 
     const menus = {
         'Panels': {
