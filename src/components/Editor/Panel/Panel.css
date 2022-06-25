@@ -1,6 +1,6 @@
 .Panel {
+    box-sizing: border-box;
     font-size: 14px;
-    width: 144px;
     padding: 5px;
     border-radius: 10px;
     border: 2px solid var(--border);

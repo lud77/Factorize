@@ -454,10 +454,11 @@ const WorkArea = (props) => {
 			viewablePanelsById[panel.panelId] = panel;
 		});
 
-		const nonViewablePanels = Object.values(panels).filter((panel) => !viewablePanelsById[panel.panelId]);
+		const nonViewablePanels = Object.values(panels)
+			.filter((panel) => !viewablePanelsById[panel.panelId]);
 
 		return <>
-			{Object.values(panels).map(renderPanel)}
+			{viewablePanels.map(renderPanel)}
 			{connections.map(renderConnection)}
 		</>;
 	};

@@ -50,8 +50,8 @@ const Editor = (props) => {
             panelId,
             inputRefs,
             outputRefs,
-            width: 120,
-            height: 70
+            width: 134,
+            height: 84
         };
 
         setPanels({ ...panels, [newPanel.panelId]: newPanel });
