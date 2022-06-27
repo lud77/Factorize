@@ -6,8 +6,10 @@ import Toolbar from './Toolbar/Toolbar';
 import { ConnectorAnchor, Connection } from './types';
 import { Panel } from './Panel/types';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+
 import './Editor.css';
-import { createSolutionBuilderHost } from 'typescript';
 
 const { ipcRenderer } = window.require('electron')
 
@@ -74,19 +76,22 @@ const Editor = (props) => {
                     if (!play) setPlay(true);
                     setPause(false);
                 },
-                active: play
+                active: play,
+                icon: <FontAwesomeIcon icon={solid('play')} />
             },
             'Pause': {
                 execute: () => {
                     setPause(!pause);
                 },
-                active: pause
+                active: pause,
+                icon: <FontAwesomeIcon icon={solid('pause')} />
             },
             'Stop': {
                 execute: () => {
                     if (play) setPlay(false);
                     setPause(false);
-                }
+                },
+                icon: <FontAwesomeIcon icon={solid('stop')} />
             }
         },
         'Options': {

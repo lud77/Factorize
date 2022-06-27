@@ -1,5 +1,5 @@
-import { ClassNames } from '@emotion/react';
 import * as React from 'react';
+import { createSecureContext } from 'tls';
 
 import './Toolbar.css';
 
@@ -11,6 +11,14 @@ const Toolbar = (props) => {
     };
 
     const isSelected = (item) => item === primary;
+
+    const icon = (current) => (
+        current.icon
+            ? <>
+                {current.icon}&nbsp;&nbsp;
+            </>
+            : ''
+    );
 
     return <div className="Toolbar">
         <div className="Menu Primary">
@@ -36,7 +44,9 @@ const Toolbar = (props) => {
                                 key={primary + '_' + key}
                                 className={`Item ${current.active ? 'Active' : ''}`}
                                 onClick={(e) => current.execute(e.target)}
-                                >{item}</div>
+                                >
+                                {icon(current)}{item}
+                            </div>
                         );
                     })
             }
