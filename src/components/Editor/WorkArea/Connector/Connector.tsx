@@ -19,7 +19,7 @@ import { Props, Point } from './Props';
  * @param arrowSize size of arrows
  */
 
-export default function Connector(props: Props) {
+const Connector = (props: Props) => {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
 
     const getMeasures = (el: HTMLElement) => {
@@ -112,4 +112,6 @@ export default function Connector(props: Props) {
             />
         </div>
     );
-}
+};
+
+export default Connector;
