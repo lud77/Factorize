@@ -40,6 +40,7 @@ const WorkArea = (props) => {
 	const [ selectedPanels, setSelectedPanels ] = React.useState<Set<number>>(Set());
 
 	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
+	const [ resizeTimeoutHandler, setResizeTimeoutHandler ] = React.useState<NodeJS.Timeout | null>(null);
 
 	const getPanelInputEndpointIds = (panel) => Object.values(panel.inputRefs);
 	const getPanelOutputEndpointIds = (panel) => Object.values(panel.outputRefs);
@@ -430,7 +431,12 @@ const WorkArea = (props) => {
 	};
 
 	window.addEventListener('resize', () => {
-		setScreenSize(buildScreenSize());
+		if (resizeTimeoutHandler !== null) return;
+
+		setResizeTimeoutHandler(setTimeout(() => {
+			setScreenSize(buildScreenSize());
+			setResizeTimeoutHandler(null);
+		}, 100));
 	});
 
 	const renderView = () => {
