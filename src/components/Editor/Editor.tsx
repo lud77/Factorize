@@ -17,6 +17,8 @@ const Editor = (props) => {
     const [ snap, setSnap ] = React.useState<boolean>(false);
     const [ grid, setGrid ] = React.useState<boolean>(true);
     const [ inclusiveSelection, setInclusiveSelection ] = React.useState<boolean>(true);
+    const [ play, setPlay ] = React.useState<boolean>(false);
+    const [ pause, setPause ] = React.useState<boolean>(false);
 
     const [ panels, setPanels ] = React.useState<Panel[]>([]);
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
@@ -66,20 +68,27 @@ const Editor = (props) => {
                 execute: () => makePanel('TextInput')
             }
         },
-        // 'Controls': {
-        //     '▶': {
-        //         execute: () => {},
-        //         active: false
-        //     },
-        //     '⏸': {
-        //         execute: () => {},
-        //         active: false
-        //     },
-        //     '■': {
-        //         execute: () => {},
-        //         active: false
-        //     }
-        // },
+        'Controls': {
+            'Play': {
+                execute: () => {
+                    if (!play) setPlay(true);
+                    setPause(false);
+                },
+                active: play
+            },
+            'Pause': {
+                execute: () => {
+                    setPause(!pause);
+                },
+                active: pause
+            },
+            'Stop': {
+                execute: () => {
+                    if (play) setPlay(false);
+                    setPause(false);
+                }
+            }
+        },
         'Options': {
             'Grid': {
                 execute: (item) => {
@@ -107,6 +116,7 @@ const Editor = (props) => {
             <Toolbar menus={menus} default="Panels" />
             <WorkArea
                 getNextEndpointId={props.getNextEndpointId}
+                play={play} pause={pause}
                 snap={snap}
                 inclusiveSelection={inclusiveSelection}
                 panels={panels} setPanels={setPanels}

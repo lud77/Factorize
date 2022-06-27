@@ -5,7 +5,7 @@ export interface Point {
     y: number;
 }
 
-export interface ShapeConnectorProps extends React.SVGProps<SVGPathElement> {
+export interface ConnectorProps extends React.SVGProps<SVGPathElement> {
     startPoint: Point;
     endPoint: Point;
     stroke?: string;
@@ -13,6 +13,15 @@ export interface ShapeConnectorProps extends React.SVGProps<SVGPathElement> {
     startArrow?: boolean;
     endArrow?: boolean;
     arrowSize?: number;
+    grids?: number;
+    stem?: number;
+    roundCorner?: boolean;
+    minStep?: number;
+    coordsStart?: object;
+    coordsEnd?: object;
+    workArea?: object;
+    play?: boolean;
+    pause?: boolean;
 }
 
 export interface Props extends React.SVGProps<SVGPathElement> {
@@ -29,7 +38,16 @@ export interface Props extends React.SVGProps<SVGPathElement> {
     startArrow?: boolean;
     endArrow?: boolean;
     arrowSize?: number;
-    workArea: { 
-        current: object; 
+    workArea: {
+        current: object;
     };
+    play?: boolean;
+    pause?: boolean;
+}
+
+export interface ArrowProps {
+    tip: Point;
+    size: number;
+    stroke?: string;
+    rotateAngle?: number;
 }

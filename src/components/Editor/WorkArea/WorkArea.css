@@ -3,15 +3,18 @@
     overflow: hidden;
 }
 
-.VirtualHandle {
-    position: absolute;
-    display: none;
-    width: 1px;
-    height: 1px;
-    background-color: var(--main-highlight);
-    border: none;
+.Connector path.active {
+    stroke-dasharray: 5,20;
+    animation: dash 5s linear;
+    animation-iteration-count: infinite;
 }
 
-.VirtualHandle.active {
-    display: inline-block;
+.Connector path.active.paused {
+    animation-play-state: paused;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: -300;
+    }
 }

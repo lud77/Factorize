@@ -19,6 +19,7 @@ import '../Panel/Panel.css';
 
 const WorkArea = (props) => {
 	const {
+		play, pause,
 		panels, setPanels,
 		connections, setConnections,
 		connectorAnchor, setConnectorAnchor,
@@ -382,6 +383,7 @@ const WorkArea = (props) => {
 			stroke={'#ADA257'}
 			strokeWidth={2}
 			workArea={workArea}
+			play={play} pause={pause}
 		/>);
 	};
 
@@ -407,7 +409,7 @@ const WorkArea = (props) => {
 			: null;
 	};
 
-	const renderConnectorBuilder = () => {
+	const renderConnectionBuilder = () => {
 		return <Connector
 			draw={draw}
 			el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? getEndpointElById(connectorAnchor.fromRef) : undefined}
@@ -432,7 +434,7 @@ const WorkArea = (props) => {
 			onMouseUp={mouseUp}
 			onClick={mouseClick}
 			>
-			{renderConnectorBuilder()}
+			{renderConnectionBuilder()}
 			{renderMarquee()}
 			{renderView()}
 		</div>

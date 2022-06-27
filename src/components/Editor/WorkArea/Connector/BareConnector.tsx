@@ -1,20 +1,7 @@
 import Arrow from "./Arrow";
 import React from "react";
 
-import { ShapeConnectorProps } from "./Props";
-
-interface ConnectorProps extends ShapeConnectorProps {
-    grids?: number;
-    stem?: number;
-    roundCorner?: boolean;
-    minStep?: number;
-    arrowSize?: number;
-    endArrow?: boolean;
-    startArrow?: boolean;
-    coordsStart?: object;
-    coordsEnd?: object;
-    workArea?: object;
-}
+import { ConnectorProps } from "./Props";
 
 /**
  * Custom S shape svg connector
@@ -33,16 +20,14 @@ export default function (props: ConnectorProps) {
     const {
         stroke,
         strokeWidth,
-        startArrow,
-        endArrow,
-        startPoint,
-        endPoint,
+        startArrow, endArrow,
+        startPoint, endPoint,
         arrowSize,
         roundCorner,
         minStep,
-        coordsStart,
-        coordsEnd,
+        coordsStart, coordsEnd,
         workArea,
+        play, pause,
         ...rest
     } = props;
 
@@ -65,7 +50,7 @@ export default function (props: ConnectorProps) {
     if (stem >= Math.abs(distanceX)) {
         stem = Math.abs(distanceX) - Math.abs(stepX);
     }
-    
+
     let step = Math.min(Math.abs(stepX), Math.abs(stepY));
 
     step = Math.min(step, props.minStep || step);
@@ -84,26 +69,38 @@ export default function (props: ConnectorProps) {
         const path = `
             M ${coordinates.start.x} ${coordinates.start.y}
             h ${stem}
-            q ${quarterX} 0 ${halfX} ${halfY} 
-            q ${quarterX} ${halfY} ${halfX} ${halfY} 
+            q ${quarterX} 0 ${halfX} ${halfY}
+            q ${quarterX} ${halfY} ${halfX} ${halfY}
             h ${stem}
         `;
 
         return (
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <svg className='Connector' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'>
                 <path
                     {...rest}
                     d={path}
-                    stroke={props.stroke || "orange"}
-                    strokeWidth={props.strokeWidth || 3}
-                    fill="transparent"
+                    stroke={props.stroke || 'orange'}
+                    strokeWidth={props.strokeWidth || 2}
+                    fill='transparent'
                     />
+                {
+                    play
+                        ? <path
+                            {...rest}
+                            d={path}
+                            stroke={props.stroke || 'orange'}
+                            strokeWidth={(props.strokeWidth + 2) || 4}
+                            fill='transparent'
+                            className={`active ${pause ? 'paused' : ''}`}
+                            />
+                        : null
+                }
                 {props.endArrow && (
                     <Arrow
                         tip={coordinates.end}
                         size={adjustedArrowSize}
                         rotateAngle={0}
-                        stroke={props.stroke || "orange"}
+                        stroke={props.stroke || 'orange'}
                         />
                 )}
             </svg>
@@ -114,8 +111,8 @@ export default function (props: ConnectorProps) {
         const factor = distanceX * distanceY > 0 ? 1 : -1;
 
         let path = `
-            M ${coordinates.start.x} ${coordinates.start.y} 
-            h ${stem} 
+            M ${coordinates.start.x} ${coordinates.start.y}
+            h ${stem}
             q ${step * radius} 0 ${step * radius} ${-step * factor * radius}
             v ${distanceY / 2 + step * 2 * factor * radius}
             q 0 ${-step * factor * radius} ${-step * radius} ${-step * factor * radius}
@@ -127,14 +124,26 @@ export default function (props: ConnectorProps) {
         `;
 
         return (
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <svg className='Connector' width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                 <path
                     {...rest}
                     d={path}
                     stroke={props.stroke || "orange"}
-                    strokeWidth={props.strokeWidth || 3}
+                    strokeWidth={props.strokeWidth || 2}
                     fill="transparent"
                 />
+                {
+                    play
+                        ? <path
+                            {...rest}
+                            d={path}
+                            stroke={props.stroke || "orange"}
+                            strokeWidth={(props.strokeWidth + 2) || 4}
+                            fill="transparent"
+                            className={`active ${pause ? 'paused' : ''}`}
+                            />
+                        : null
+                }
                 {props.endArrow && (
                     <Arrow
                         tip={coordinates.end}

@@ -1,12 +1,6 @@
 import React from "react";
-import { Point } from "./Props";
 
-export interface ArrowProps {
-  tip: Point;
-  size: number;
-  stroke?: string;
-  rotateAngle?: number;
-}
+import { ArrowProps } from "./Props";
 
 /**
  * Return an arrow path for svg
