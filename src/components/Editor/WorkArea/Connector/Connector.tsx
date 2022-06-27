@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import BareConnector from './BareConnector';
 import { Props, Point } from './Props';
 
+import { getBounds } from '../../../../utils/measures';
 
 /**
  * Connect elements with svg paths
@@ -22,40 +23,21 @@ import { Props, Point } from './Props';
 const Connector = (props: Props) => {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-    const getMeasures = (el: HTMLElement) => {
-        const parentEl = el.offsetParent;
-        const box = el.getBoundingClientRect();
-
-        const top = box.top + window.pageYOffset + (parentEl?.scrollTop || 0);
-        const right = box.right + window.pageXOffset + (parentEl?.scrollLeft || 0);
-        const bottom = box.bottom + window.pageYOffset + (parentEl?.scrollTop || 0);
-        const left = box.left + window.pageXOffset + (parentEl?.scrollLeft || 0);
-
-        return {
-            top,
-            right,
-            bottom,
-            left,
-            width: right - left,
-            height: bottom - top
-        };
-    };
-
     const getStartCoords = (el) => {
-        const measures = getMeasures(el);
+        const { right, top, height } = getBounds(el);
 
         return {
-            x: measures.right,
-            y: measures.top + measures.height / 2
+            x: right,
+            y: top + height / 2
         };
     };
 
     const getEndCoords = (el) => {
-      const measures = getMeasures(el);
+      const { left, top, height } = getBounds(el);
 
       return {
-          x: measures.left,
-          y: measures.top + measures.height / 2
+          x: left,
+          y: top + height / 2
       };
     };
 
@@ -91,11 +73,11 @@ const Connector = (props: Props) => {
         <div
             ref={wrapperRef}
             style={{
-                position: "absolute",
+                position: 'absolute',
                 top: 0,
                 width: window.innerWidth + 'px',
                 height: window.innerHeight + 'px',
-                pointerEvents: "none",
+                pointerEvents: 'none'
             }}
         >
             <BareConnector

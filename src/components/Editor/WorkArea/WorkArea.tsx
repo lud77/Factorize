@@ -7,6 +7,13 @@ import Marquee from './Marquee';
 
 import { DragCoords } from '../types';
 
+import {
+	buildScreenSize,
+	getSelectorsFor,
+	linear,
+	snapping
+} from '../../../utils/measures';
+
 import './WorkArea.css';
 import '../Panel/Panel.css';
 
@@ -20,17 +27,12 @@ const WorkArea = (props) => {
 		inclusiveSelection
 	} = props;
 
+	const { selectInclusive, selectExclusive } = getSelectorsFor(workAreaOffset);
+
 	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
 
 	const getPanelInputRef = (panelId, ref) => panels[panelId].inputRefs[ref];
 	const getPanelOutputRef = (panelId, ref) => panels[panelId].outputRefs[ref];
-
-	const buildScreenSize = () => ({
-		top: 0,
-		left: 0,
-		width: window.innerWidth,
-		height: window.innerHeight
-	});
 
 	const workArea = React.useRef<any>();
 
@@ -42,14 +44,8 @@ const WorkArea = (props) => {
 	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
 	const [ resizeTimeoutHandler, setResizeTimeoutHandler ] = React.useState<NodeJS.Timeout | null>(null);
 
-	const getPanelInputEndpointIds = (panel) => Object.values(panel.inputRefs);
-	const getPanelOutputEndpointIds = (panel) => Object.values(panel.outputRefs);
-
 	const findConnectionByInputEndpointId = (ref) => connections.find((connection) => connection.target == ref);
 	const findConnectionByOutputEndpointId = (ref) => connections.find((connection) => connection.source == ref);
-
-	const getConnectionSourceEndpoint = (connection) => connection.source;
-	const getConnectionTargetEndpoint = (connection) => connection.target;
 
 	const removeConnectionByOutputRef = (ref) => {
 		const connection = findConnectionByOutputEndpointId(ref);
@@ -226,47 +222,6 @@ const WorkArea = (props) => {
 		}
 	};
 
-	const getPanelWorkAreaCoords = (panel) => {
-		const left = panel.left + workAreaOffset[0];
-		const top = panel.top + workAreaOffset[1];
-
-		return {
-			left,
-			top,
-			right: left + panel.width - 1,
-			bottom: top + panel.height - 1
-		};
-	};
-
-	const selectInclusive = (panels, selection) =>
-		Object.values(panels)
-			.map((panel) => {
-				const panelCoords = getPanelWorkAreaCoords(panel);
-
-				if (panelCoords.right < selection.left) return null;
-				if (panelCoords.bottom < selection.top) return null;
-				if (panelCoords.left > selection.right) return null;
-				if (panelCoords.top > selection.bottom) return null;
-				return panel;
-			})
-			.filter(Boolean);
-
-	const selectExclusive = (panels, selection) =>
-		Object.values(panels)
-			.map((panel) => {
-				const panelCoords = getPanelWorkAreaCoords(panel);
-
-				if (panelCoords.left < selection.Left) return null;
-				if (panelCoords.top < selection.top) return null;
-				if (panelCoords.right > selection.right) return null;
-				if (panelCoords.bottom > selection.bottom) return null;
-				return panel;
-			})
-			.filter(Boolean);
-
-	const linear = (x) => x;
-	const snapping = (x) => Math.floor(x / 16) * 16;
-
 	const mouseMove = (e) => {
 		if (!dragCoords.isDragging && (connectorAnchor == null)) return;
 
@@ -440,33 +395,31 @@ const WorkArea = (props) => {
 	});
 
 	const renderView = () => {
-		if (!workArea.current) return <>
+		return <>
 			{Object.values(panels).map(renderPanel)}
 			{connections.map(renderConnection)}
 		</>;
+	};
 
-		const viewport = {
-			left: 0,
-			top: 0,
-			right: screenSize.width - 1,
-			bottom: screenSize.height - 1
-		};
+	const renderMarquee = () => {
+		return (dragCoords.isDragging && dragCoords.what == 'marquee')
+			? <Marquee dragCoords={dragCoords} />
+			: null;
+	};
 
-		const viewablePanels = selectInclusive(panels, viewport);
-		const viewableIds = viewablePanels.map((panel) => panel.panelId);
-
-		const viewablePanelsById = {};
-		viewablePanels.forEach((panel) => {
-			viewablePanelsById[panel.panelId] = panel;
-		});
-
-		const nonViewablePanels = Object.values(panels)
-			.filter((panel) => !viewablePanelsById[panel.panelId]);
-
-		return <>
-			{viewablePanels.map(renderPanel)}
-			{connections.map(renderConnection)}
-		</>;
+	const renderConnectorBuilder = () => {
+		return <Connector
+			draw={draw}
+			el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? getEndpointElById(connectorAnchor.fromRef) : undefined}
+			el2={(connectorAnchor != null && connectorAnchor.toRef != null) ? getEndpointElById(connectorAnchor.toRef) : undefined}
+			coordsStart={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.from : undefined}
+			coordsEnd={(connectorAnchor != null && connectorAnchor.fromRef != null) ? connectorAnchor.to : undefined}
+			roundCorner={true}
+			endArrow={true}
+			stroke="white"
+			strokeWidth={2}
+			workArea={workArea}
+			/>;
 	};
 
 	return (
@@ -479,23 +432,8 @@ const WorkArea = (props) => {
 			onMouseUp={mouseUp}
 			onClick={mouseClick}
 			>
-			<Connector
-				draw={draw}
-				el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? getEndpointElById(connectorAnchor.fromRef) : undefined}
-				el2={(connectorAnchor != null && connectorAnchor.toRef != null) ? getEndpointElById(connectorAnchor.toRef) : undefined}
-				coordsStart={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.from : undefined}
-				coordsEnd={(connectorAnchor != null && connectorAnchor.fromRef != null) ? connectorAnchor.to : undefined}
-				roundCorner={true}
-				endArrow={true}
-				stroke="white"
-				strokeWidth={2}
-				workArea={workArea}
-				/>
-			{
-				(dragCoords.isDragging && dragCoords.what == 'marquee')
-					? <Marquee dragCoords={dragCoords} />
-					: null
-			}
+			{renderConnectorBuilder()}
+			{renderMarquee()}
 			{renderView()}
 		</div>
 	);
