@@ -22,7 +22,7 @@ import { Props, Point } from './Props';
 export default function Connector(props: Props) {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-    function getMeasures(el: HTMLElement) {
+    const getMeasures = (el: HTMLElement) => {
         const parentEl = el.offsetParent;
         const box = el.getBoundingClientRect();
 
@@ -39,48 +39,48 @@ export default function Connector(props: Props) {
             width: right - left,
             height: bottom - top
         };
-    }
+    };
 
-    function getStartCoords(el) {
+    const getStartCoords = (el) => {
         const measures = getMeasures(el);
-        
+
         return {
             x: measures.right,
             y: measures.top + measures.height / 2
         };
-    }
+    };
 
-    function getEndCoords(el) {
+    const getEndCoords = (el) => {
       const measures = getMeasures(el);
-        
+
       return {
           x: measures.left,
           y: measures.top + measures.height / 2
       };
-    }
+    };
 
-    const transformCoords = (workArea: Element) => (p: Point): Point => { 
+    const transformCoords = (workArea: Element) => (p: Point): Point => {
       const { x, y } = p;
       const { top, left } = workArea.getBoundingClientRect();
-      
+
       const offsetLeft = left + window.scrollX;
       const offsetTop = top + window.scrollY;
-    
+
       return {
           x: x - offsetLeft,
           y: y - offsetTop
       };
     };
 
-    function getNewCoordinates(transformer) {
+    const getNewCoordinates = (transformer) => {
         const start = props.coordsStart ? props.coordsStart : getStartCoords(props.el1);
         const end = props.coordsEnd ? props.coordsEnd : getEndCoords(props.el2);
 
-        return { 
-            start: transformer(start), 
-            end: transformer(end) 
+        return {
+            start: transformer(start),
+            end: transformer(end)
         };
-    }
+    };
 
     if (!props.el1 && !props.coordsStart) return null;
     if (!props.el2 && !props.coordsEnd) return null;
