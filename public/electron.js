@@ -1,5 +1,5 @@
 const path = require('path');
-const { Menu, app, BrowserWindow, ipcMain } = require('electron');
+const { Menu, app, BrowserWindow, ipcMain, dialog } = require('electron');
 
 const isDev = require('electron-is-dev');
 
@@ -10,10 +10,10 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
-
             contextIsolation: false
         },
-        frame: true // title bar
+        frame: true, // title bar
+        autoHideMenuBar: true
     });
 
     // and load the index.html of the app.
@@ -49,7 +49,7 @@ app.whenReady()
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
-    } 
+    }
 });
 
 app.on('activate', () => {
@@ -59,7 +59,61 @@ app.on('activate', () => {
 });
 
 app.on('ready', () => {
-    const menu = new Menu();
-    
-    Menu.setApplicationMenu(menu  );
+    const isMac = process.platform === 'darwin'
+
+    const template = [...(isMac ? [{
+        label: app.name,
+        submenu: [
+            { role: 'about' },
+            { type: 'separator' },
+            { role: 'services' },
+            { type: 'separator' },
+            { role: 'hide' },
+            { role: 'hideOthers' },
+            { role: 'unhide' },
+            { type: 'separator' },
+            { role: 'quit' }
+        ]
+    }] : []),
+    {
+        label: 'File',
+        submenu: [
+            {
+                label: 'New file...',
+                accelerator: process.platform === 'darwin' ? 'Cmd+N' : 'Ctrl+N'
+            },
+            { type: 'separator' },
+            {
+                label: 'Open file...',
+                accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+O',
+                click: () => {
+                    dialog
+                        .showOpenDialog({ properties: ['openFile'] })
+                        // .then((res) => console.log(res));
+                }
+            },
+            { type: 'separator' },
+            {
+                label: 'Save',
+                accelerator: process.platform === 'darwin' ? 'Cmd+S' : 'Ctrl+S'
+            },
+            {
+                label: 'Save as...',
+                accelerator: process.platform === 'darwin' ? 'Cmd+Shift+S' : 'Ctrl+Shift+S',
+                click: () => {
+                    dialog
+                        .showSaveDialog({ properties: ['openFile'] })
+                        // .then((res) => console.log(res));
+                }
+            },
+            // {
+            //     label: 'Save all'
+            // },
+            { type: 'separator' },
+            { role: isMac ? 'close' : 'quit' }
+        ]
+    }];
+
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
 });
