@@ -4,7 +4,7 @@
 
 .Statusbar {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     border-top: 1px solid #000;
     position: fixed;
     bottom: 0px;
