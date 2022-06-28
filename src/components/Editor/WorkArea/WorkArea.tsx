@@ -331,7 +331,7 @@ const WorkArea = (props) => {
 	const mouseClick = (e) => {
 		e.stopPropagation();
 
-		if (e.shiftKey) return;
+		if (e.shiftKey || e.ctrlKey) return;
 		setSelectedPanels(Set());
 	};
 
