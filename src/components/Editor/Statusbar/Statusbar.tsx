@@ -8,7 +8,7 @@ import './Statusbar.css';
 const Statusbar = (props) => {
     return <div className="Statusbar">
         <div className="Element">
-            <FontAwesomeIcon icon={solid('bell')} />
+            <FontAwesomeIcon icon={solid('bell')} />&nbsp;&nbsp;{props.status}
         </div>
     </div>;
 };

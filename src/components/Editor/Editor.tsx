@@ -159,7 +159,7 @@ const Editor = (props) => {
                 makeConnection={makeConnection}
                 workAreaOffset={workAreaOffset} setWorkAreaOffset={setWorkAreaOffset}
                 />;
-            <Statusbar />
+            <Statusbar status="Test" />
         </div>
     );
 };
