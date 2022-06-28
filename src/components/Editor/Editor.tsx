@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import WorkArea from './WorkArea/WorkArea';
 import Toolbar from './Toolbar/Toolbar';
+import Statusbar from './Statusbar/Statusbar';
 
 import { ConnectorAnchor, Connection } from './types';
 import { Panel } from './Panel/types';
@@ -158,6 +159,7 @@ const Editor = (props) => {
                 makeConnection={makeConnection}
                 workAreaOffset={workAreaOffset} setWorkAreaOffset={setWorkAreaOffset}
                 />;
+            <Statusbar />
         </div>
     );
 };

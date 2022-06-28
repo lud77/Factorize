@@ -1,0 +1,22 @@
+:root {
+    --statusbar-font-size: 12px;
+}
+
+.Statusbar {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #000;
+    position: fixed;
+    bottom: 0px;
+    z-index: 2;
+    width: 100%;
+    font-size: var(--statusbar-font-size);
+    background-color: var(--blue);
+    color: var(--main-highlight);
+}
+
+.Statusbar .Element {
+    display: flex;
+    flex-direction: row;
+    padding: calc(var(--toolbar-font-size) * 2 / 6) calc(var(--toolbar-font-size) * 2 / 4);
+}
