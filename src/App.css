@@ -1,6 +1,8 @@
 :root {
   --main-highlight: white;
   --medium-highlight: #babfca;
+  --medium-lowlight: #9298a5;
+  --lowlight: #686d79;
   --background: #262626;
   --border: #4d5256;
   --panel-background: #31363a;

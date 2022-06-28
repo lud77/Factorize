@@ -37,7 +37,7 @@ const Editor = (props) => {
 
     const makePanel = (type) => {
         const panelId = props.getNextPanelId();
-        const panel = props.panels[type].create(`${type} ${panelId}`, panelId, position, position);
+        const panel = props.panels[type].create(`${type} ${panelId}`, panelId, position, position + 100);
 
         const inputRefs =
             panel.inputEndpoints
@@ -63,62 +63,83 @@ const Editor = (props) => {
 
     const menus = {
         'Panels': {
-            'Audio': {
-                execute: () => makePanel('Audio')
-            },
-            'TextInput': {
-                execute: () => makePanel('TextInput')
+            submenus: {
+                'Basic': {
+                    submenus: {
+                        'TextInput': {
+                            execute: () => makePanel('TextInput')
+                        }
+                    },
+                    chevron: true
+                },
+                'Sounds': {
+                    submenus: {
+                        'Audio': {
+                            execute: () => makePanel('Audio')
+                        }
+                    },
+                    chevron: true
+                },
+                'Materials': {
+                    // submenus: {
+
+                    // }
+                }
             }
         },
         'Controls': {
-            'Play': {
-                execute: () => {
-                    if (!play) setPlay(true);
-                    setPause(false);
+            submenus: {
+                'Play': {
+                    execute: () => {
+                        if (!play) setPlay(true);
+                        setPause(false);
+                    },
+                    active: play,
+                    icon: <FontAwesomeIcon icon={solid('play')} />
                 },
-                active: play,
-                icon: <FontAwesomeIcon icon={solid('play')} />
-            },
-            'Pause': {
-                execute: () => {
-                    setPause(!pause);
+                'Pause': {
+                    execute: () => {
+                        setPause(!pause);
+                    },
+                    active: pause,
+                    icon: <FontAwesomeIcon icon={solid('pause')} />
                 },
-                active: pause,
-                icon: <FontAwesomeIcon icon={solid('pause')} />
-            },
-            'Stop': {
-                execute: () => {
-                    if (play) setPlay(false);
-                    setPause(false);
-                },
-                icon: <FontAwesomeIcon icon={solid('stop')} />
+                'Stop': {
+                    execute: () => {
+                        if (play) setPlay(false);
+                        setPause(false);
+                    },
+                    icon: <FontAwesomeIcon icon={solid('stop')} />
+                }
             }
         },
         'Options': {
-            'Grid': {
-                execute: (item) => {
-                    setGrid(!grid);
+            submenus: {
+                'Grid': {
+                    execute: (item) => {
+                        setGrid(!grid);
+                    },
+                    active: grid
                 },
-                active: grid
-            },
-            'Snap': {
-                execute: (item) => {
-                    setSnap(!snap);
+                'Snap': {
+                    execute: (item) => {
+                        setSnap(!snap);
+                    },
+                    active: snap
                 },
-                active: snap
-            },
-            'Inclusive Selection': {
-                execute: (item) => {
-                    setInclusiveSelection(!inclusiveSelection);
-                },
-                active: inclusiveSelection
+                'Inclusive Selection': {
+                    execute: (item) => {
+                        setInclusiveSelection(!inclusiveSelection);
+                    },
+                    active: inclusiveSelection
+                }
             }
         }
     };
 
     return (
         <div className={`Editor ${grid ? 'Gridded' : ''}`} style={{ backgroundPosition: `left ${workAreaOffset[0]}px top ${workAreaOffset[1]}px` }}>
-            <Toolbar menus={menus} default="Panels" />
+            <Toolbar menus={menus} primary="Panels" />
             <WorkArea
                 getNextEndpointId={props.getNextEndpointId}
                 play={play} pause={pause}

@@ -6,16 +6,20 @@
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid #000;
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    box-shadow: 0px 5px 20px 5px var(--background);
 }
 
-.Menu {
+.Toolbar .Menu {
     display: flex;
     flex-direction: row;
     padding-left: calc(var(--toolbar-font-size) * 2 / 4);
     padding-top: calc(var(--toolbar-font-size) / 4);
 }
 
-.Menu .Item {
+.Toolbar .Menu .Item {
     padding: calc(var(--toolbar-font-size) * 2 / 4) calc(var(--toolbar-font-size) * 4 / 4);
     cursor: default;
     margin-right: 1px;
@@ -23,38 +27,74 @@
     user-select: none;
 }
 
-.Primary {
+.Toolbar .Primary {
     background-color: var(--background);
 }
 
-.Primary .Item {
+.Toolbar .Primary .Item {
 }
 
-.Primary .Item.Selected,
-.Primary .Item:hover {
+.Toolbar .Primary .Item.Selected,
+.Toolbar .Primary .Item:hover {
     color: var(--background);
     background-color: var(--medium-highlight);
 }
 
-.Secondary {
+.Toolbar .Secondary {
     color: var(--background);
     background-color: var(--medium-highlight);
     padding-bottom: calc(var(--toolbar-font-size) / 4);
 }
 
-.Secondary .Item {
+.Toolbar .Secondary .Item {
 }
 
-.Secondary .Item:hover {
+.Toolbar .Secondary .Item:hover {
     color: var(--medium-highlight);
     background-color: var(--background);
 }
 
-.Secondary .Item.Active {
+.Toolbar .Secondary .Item.Active {
     color: var(--main-highlight);
     background-color: var(--border)
 }
 
-.Secondary .Item.Active:hover {
+.Toolbar .Secondary .Item.Active:hover {
     background-color: black;
+}
+
+.Toolbar .Secondary .Submenu.Item.Selected {
+    padding-bottom: 0px;
+}
+
+.Toolbar .Secondary .Submenu.Item.Selected,
+.Toolbar .Secondary .Submenu.Item:hover {
+    color: var(--main-highlight);
+    background-color: var(--lowlight);
+}
+
+.Toolbar .Secondary .Submenu.Item.Selected .Chevron {
+    display: inline-block;
+    transition: transform 1s;
+    transform: rotate(90deg);
+}
+
+.Toolbar .Tertiary {
+    background-color: var(--lowlight);
+    box-shadow: 0px 10px 10px -10px inset var(--background);
+    height: calc(var(--toolbar-font-size) * 2.1);
+    padding-bottom: calc(var(--toolbar-font-size) / 4);
+    overflow: hidden;
+    transition: height 1s;
+}
+
+.Toolbar .Tertiary.Hidden {
+    height: 0px;
+    padding: 0;
+    margin: 0;
+}
+
+.Toolbar .Tertiary .Item:hover {
+    color: var(--lowlight);
+    background-color: var(--medium-highlight);
 }
