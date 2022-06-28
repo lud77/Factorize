@@ -37,7 +37,7 @@ const Editor = (props) => {
 
     const makePanel = (type) => {
         const panelId = props.getNextPanelId();
-        const panel = props.panels[type].create(`${type} ${panelId}`, panelId, position, position + 100);
+        const panel = props.panels[type].create(`${type} ${panelId}`, panelId, position - workAreaOffset[0], position + 100 - workAreaOffset[1]);
 
         const inputRefs =
             panel.inputEndpoints
@@ -47,7 +47,7 @@ const Editor = (props) => {
             panel.outputEndpoints
                 .reduce((a, endpointName) => ({ ...a, [`output${endpointName}`]: props.getNextEndpointId() }), {});
 
-        position += 20;
+        position = (position + 20) % 100;
 
         const newPanel = {
             ...panel,
@@ -72,6 +72,12 @@ const Editor = (props) => {
                     },
                     chevron: true
                 },
+                'Functions': {
+                    submenus: {
+
+                    },
+                    chevron: true
+                },
                 'Sounds': {
                     submenus: {
                         'Audio': {
@@ -81,9 +87,10 @@ const Editor = (props) => {
                     chevron: true
                 },
                 'Materials': {
-                    // submenus: {
+                    submenus: {
 
-                    // }
+                    },
+                    chevron: true
                 }
             }
         },
