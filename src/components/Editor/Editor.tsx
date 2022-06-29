@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import WorkArea from './WorkArea/WorkArea';
 import Toolbar from './Toolbar/Toolbar';
@@ -6,9 +8,6 @@ import Statusbar from './Statusbar/Statusbar';
 
 import { ConnectorAnchor, Connection } from './types';
 import { Panel } from './Panel/types';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import './Editor.css';
 
