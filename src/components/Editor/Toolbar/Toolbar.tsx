@@ -59,7 +59,7 @@ const Toolbar = (props) => {
                                 key={primary + '_' + key}
                                 className={`Item ${current.submenus ? 'Submenu' : ''} ${(item == secondary) ? 'Selected' : ''} ${current.active ? 'Active' : ''}`}
                                 onClick={(e) => {
-                                    selectSecondaryItem(item)(e);
+                                    selectSecondaryItem(item !== secondary ? item : null)(e);
                                     if (current.execute) current.execute(e.target);
                                 }}
                                 >
