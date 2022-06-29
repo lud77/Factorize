@@ -5,6 +5,7 @@
 .Statusbar {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     border-top: 1px solid #000;
     position: fixed;
     bottom: 0px;
@@ -16,8 +17,20 @@
     box-shadow: 0px -5px 20px 5px var(--background);
 }
 
-.Statusbar .Element {
+.Statusbar .LHS {
     display: flex;
     flex-direction: row;
+}
+
+.Statusbar .RHS {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.Statusbar .LHS .Element {
+    padding: calc(var(--toolbar-font-size) * 2 / 6) calc(var(--toolbar-font-size) * 2 / 4);
+}
+
+.Statusbar .RHS .Element {
     padding: calc(var(--toolbar-font-size) * 2 / 6) calc(var(--toolbar-font-size) * 2 / 4);
 }
