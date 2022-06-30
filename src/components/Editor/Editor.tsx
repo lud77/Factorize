@@ -37,7 +37,7 @@ const Editor = (props) => {
 
     const makePanel = (palette, type) => {
         const panelId = props.getNextPanelId();
-        const panel = props.panels[palette][type].create(`${type} ${panelId}`, panelId, position - workAreaOffset[0], position + 100 - workAreaOffset[1]);
+        const panel = props.panelPalettes[palette][type].create(`${type} ${panelId}`, panelId, position - workAreaOffset[0], position + 100 - workAreaOffset[1]);
 
         const inputRefs =
             panel.inputEndpoints
@@ -61,12 +61,11 @@ const Editor = (props) => {
         setPanels({ ...panels, [newPanel.panelId]: newPanel });
     };
 
-    const panelMenu = (palette) => {
-        console.log('palette', palette);
+    const panelMenu = (paletteName, palette) => {
         return Object.keys(palette)
             .map((panel) => ({
                 name: panel,
-                execute: () => makePanel(palette, panel)
+                execute: () => makePanel(paletteName, panel)
             }))
             .reduce((a, v) => ({
                 ...a,
@@ -75,11 +74,10 @@ const Editor = (props) => {
     };
 
     const paletteMenu = (palettes) => {
-        console.log('palettes', palettes);
         return Object.keys(palettes)
-            .map((palette) => ({
-                name: palette,
-                submenus: panelMenu(props.panelPalettes[palette]),
+            .map((paletteName) => ({
+                name: paletteName,
+                submenus: panelMenu(paletteName, palettes[paletteName]),
                 chevron: true
             }))
             .reduce((a, v) => ({
