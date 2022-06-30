@@ -5,6 +5,7 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import WorkArea from './WorkArea/WorkArea';
 import Toolbar from './Toolbar/Toolbar';
 import Statusbar from './Statusbar/Statusbar';
+import ValuesEditor from './ValuesEditor';
 
 import { ConnectorAnchor, Connection } from './types';
 import { Panel } from './Panel/types';
@@ -88,6 +89,7 @@ const Editor = (props) => {
 
     const menus = {
         'Panels': { submenus: paletteMenu(props.panelPalettes) },
+        'Values': { component: <ValuesEditor /> },
         'Controls': {
             submenus: {
                 'Play': {
