@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { Panel } from '../Editor/Panel/types';
+import { Panel } from '../../Editor/Panel/types';
 
-import InputEndpoint from '../Editor/Panel/InputEndpoint';
-import OutputEndpoint from '../Editor/Panel/OutputEndpoint';
+import InputEndpoint from '../../Editor/Panel/InputEndpoint';
+import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (title: string, panelId: number, left: number = 0, top: number = 0): Panel => {
     const Component = (props) => {

@@ -1,7 +1,11 @@
-import TextInput from './textInput';
-import Audio from './audio';
+import Basic from './Basic';
+import Functions from './Functions';
+import Sound from './Sound';
+import Materials from './Materials';
 
-export default () => ({
-    TextInput,
-    Audio
-});
+export default {
+    Basic,
+    Functions,
+    Sound,
+    Materials
+};

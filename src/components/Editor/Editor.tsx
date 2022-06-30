@@ -35,9 +35,9 @@ const Editor = (props) => {
             targetPanelId
         });
 
-    const makePanel = (type) => {
+    const makePanel = (palette, type) => {
         const panelId = props.getNextPanelId();
-        const panel = props.panels[type].create(`${type} ${panelId}`, panelId, position - workAreaOffset[0], position + 100 - workAreaOffset[1]);
+        const panel = props.panels[palette][type].create(`${type} ${panelId}`, panelId, position - workAreaOffset[0], position + 100 - workAreaOffset[1]);
 
         const inputRefs =
             panel.inputEndpoints
@@ -61,39 +61,35 @@ const Editor = (props) => {
         setPanels({ ...panels, [newPanel.panelId]: newPanel });
     };
 
+    const panelMenu = (palette) => {
+        console.log('palette', palette);
+        return Object.keys(palette)
+            .map((panel) => ({
+                name: panel,
+                execute: () => makePanel(palette, panel)
+            }))
+            .reduce((a, v) => ({
+                ...a,
+                [v.name]: v
+            }), {});
+    };
+
+    const paletteMenu = (palettes) => {
+        console.log('palettes', palettes);
+        return Object.keys(palettes)
+            .map((palette) => ({
+                name: palette,
+                submenus: panelMenu(props.panelPalettes[palette]),
+                chevron: true
+            }))
+            .reduce((a, v) => ({
+                ...a,
+                [v.name]: v
+            }), {});
+    };
+
     const menus = {
-        'Panels': {
-            submenus: {
-                'Basic': {
-                    submenus: {
-                        'TextInput': {
-                            execute: () => makePanel('TextInput')
-                        }
-                    },
-                    chevron: true
-                },
-                'Functions': {
-                    submenus: {
-
-                    },
-                    chevron: true
-                },
-                'Sounds': {
-                    submenus: {
-                        'Audio': {
-                            execute: () => makePanel('Audio')
-                        }
-                    },
-                    chevron: true
-                },
-                'Materials': {
-                    submenus: {
-
-                    },
-                    chevron: true
-                }
-            }
-        },
+        'Panels': { submenus: paletteMenu(props.panelPalettes) },
         'Controls': {
             submenus: {
                 'Play': {
