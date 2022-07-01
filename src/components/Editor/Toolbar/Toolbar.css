@@ -20,10 +20,13 @@
 }
 
 .Toolbar .Menu .Item {
-    padding: calc(var(--toolbar-font-size) * 2 / 4) calc(var(--toolbar-font-size) * 4 / 4);
-    cursor: default;
+    display: flex;
+    align-items: center;
+    height: calc(var(--toolbar-font-size) * 2);
+    padding: 0 calc(var(--toolbar-font-size) * 4 / 4);
     margin-right: 1px;
     font-size: var(--toolbar-font-size);
+    cursor: default;
     user-select: none;
 }
 

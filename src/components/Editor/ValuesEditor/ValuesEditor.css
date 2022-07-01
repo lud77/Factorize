@@ -1,5 +1,14 @@
 .Toolbar .Secondary .IconItem {
-    padding: calc(var(--toolbar-font-size) * 1 / 4) calc(var(--toolbar-font-size) * 1 / 4);
+    display: flex;
+    align-items: center;
+    width: calc(var(--toolbar-font-size) * 5 / 3);
+    height: calc(var(--toolbar-font-size) * 2);
+    text-align: left;
+    margin-left: calc(var(--toolbar-font-size) / 2);
+    padding: 0 calc(var(--toolbar-font-size) * 1 / 4);
+}
+
+.Toolbar .Secondary .IconItem svg {
 }
 
 .Toolbar .Secondary .IconItem.Disabled {
@@ -12,6 +21,17 @@
 }
 
 .Toolbar .Secondary .TextItem {
-    padding: calc(var(--toolbar-font-size) * 1 / 8) calc(var(--toolbar-font-size) * 1 / 4);
+    display: flex;
+    align-items: center;
+    height: calc(var(--toolbar-font-size) * 2);
+    padding: 0 calc(var(--toolbar-font-size) / 2);
 }
 
+.Toolbar .Secondary .TextItem input {
+    font-size: calc(var(--toolbar-font-size));
+    height: calc(var(--toolbar-font-size) * 2);
+    padding: 0 1px;
+    margin: 0;
+    border: none;
+    border-radius: 5px;
+}
