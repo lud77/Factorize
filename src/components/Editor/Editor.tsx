@@ -13,6 +13,7 @@ import { Panel } from './Panel/types';
 
 import Machine from '../../domain/Machine';
 import Walker from '../../domain/Walker';
+import Palette from '../../domain/Palette';
 
 import './Editor.css';
 
@@ -54,30 +55,7 @@ const Editor = (props) => {
         pause, setPause
     });
 
-    const panelMenu = (paletteName, palette) => {
-        return Object.keys(palette)
-            .map((panel) => ({
-                name: panel,
-                execute: () => makePanel(paletteName, panel)
-            }))
-            .reduce((a, v) => ({
-                ...a,
-                [v.name]: v
-            }), {});
-    };
-
-    const paletteMenu = (palettes) => {
-        return Object.keys(palettes)
-            .map((paletteName) => ({
-                name: paletteName,
-                submenus: panelMenu(paletteName, palettes[paletteName]),
-                chevron: true
-            }))
-            .reduce((a, v) => ({
-                ...a,
-                [v.name]: v
-            }), {});
-    };
+    const { paletteMenu, flagPalette } = Palette(makePanel);
 
     const menus = {
         'Panels': { submenus: paletteMenu(props.panelPalettes) },
@@ -101,26 +79,11 @@ const Editor = (props) => {
             }
         },
         'Options': {
-            submenus: {
-                'Grid': {
-                    execute: (item) => {
-                        setGrid(!grid);
-                    },
-                    active: grid
-                },
-                'Snap': {
-                    execute: (item) => {
-                        setSnap(!snap);
-                    },
-                    active: snap
-                },
-                'Inclusive Selection': {
-                    execute: (item) => {
-                        setInclusiveSelection(!inclusiveSelection);
-                    },
-                    active: inclusiveSelection
-                }
-            }
+            submenus: flagPalette({
+                'Grid': [grid, setGrid],
+                'Snap': [snap, setSnap],
+                'Inclusive Selection': [inclusiveSelection, setInclusiveSelection]
+            })
         }
     };
 
