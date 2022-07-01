@@ -19,10 +19,3 @@ export interface ConnectorAnchor {
     fromPanelId?: number;
     toPanelId?: number;
 }
-
-export interface Connection {
-    source: number;
-    target: number;
-    sourcePanelId: number;
-    targetPanelId: number;
-}

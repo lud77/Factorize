@@ -7,14 +7,16 @@ import Toolbar from './Toolbar/Toolbar';
 import Statusbar from './Statusbar/Statusbar';
 import ValuesEditor from './ValuesEditor/ValuesEditor';
 
-import { ConnectorAnchor, Connection } from './types';
+import { ConnectorAnchor } from './types';
+import { Connection } from '../../types/Machine';
 import { Panel } from './Panel/types';
+
+import Machine from '../../domain/Machine';
+import Walker from '../../domain/Walker';
 
 import './Editor.css';
 
 const { ipcRenderer } = window.require('electron')
-
-let position = 10;
 
 const Editor = (props) => {
     const [ snap, setSnap ] = React.useState<boolean>(false);
@@ -29,43 +31,28 @@ const Editor = (props) => {
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
     const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
 
-    const makeConnection = (source: number, target: number, sourcePanelId: number, targetPanelId: number): Connection =>
-        ({
-            source,
-            target,
-            sourcePanelId,
-            targetPanelId
-        });
+    const {
+        makeConnection,
+        setPanel,
+        makePanel
+    } = Machine({
+        props,
+        panels, setPanels,
+        connections, setConnections,
+        workAreaOffset
+    });
 
-    const setPanel = (panel) => {
-        setPanels({ ...panels, [panel.panelId]: panel });
-    };
-
-    const makePanel = (palette, type) => {
-        const panelId = props.getNextPanelId();
-        const panel = props.panelPalettes[palette][type].create(`${type} ${panelId}`, panelId, position - workAreaOffset[0], position + 100 - workAreaOffset[1]);
-
-        const inputRefs =
-            panel.inputEndpoints
-                .reduce((a, endpointName) => ({ ...a, [`input${endpointName}`]: props.getNextEndpointId() }), {});
-
-        const outputRefs =
-            panel.outputEndpoints
-                .reduce((a, endpointName) => ({ ...a, [`output${endpointName}`]: props.getNextEndpointId() }), {});
-
-        position = (position + 20) % 100;
-
-        const newPanel = {
-            ...panel,
-            panelId,
-            inputRefs,
-            outputRefs,
-            width: 134,
-            height: 84
-        };
-
-        setPanel(newPanel);
-    };
+    const {
+        pressPlay,
+        pressPause,
+        pressStop
+    } = Walker({
+        panels,
+        setPanel,
+        connections, setConnections,
+        play, setPlay,
+        pause, setPause
+    });
 
     const panelMenu = (paletteName, palette) => {
         return Object.keys(palette)
@@ -98,25 +85,17 @@ const Editor = (props) => {
         'Controls': {
             submenus: {
                 'Play': {
-                    execute: () => {
-                        if (!play) setPlay(true);
-                        setPause(false);
-                    },
+                    execute: pressPlay,
                     active: play,
                     icon: <FontAwesomeIcon icon={solid('play')} />
                 },
                 'Pause': {
-                    execute: () => {
-                        setPause(!pause);
-                    },
+                    execute: pressPause,
                     active: pause,
                     icon: <FontAwesomeIcon icon={solid('pause')} />
                 },
                 'Stop': {
-                    execute: () => {
-                        if (play) setPlay(false);
-                        setPause(false);
-                    },
+                    execute: pressStop,
                     icon: <FontAwesomeIcon icon={solid('stop')} />
                 }
             }
