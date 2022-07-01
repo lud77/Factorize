@@ -1,0 +1,17 @@
+.Toolbar .Secondary .IconItem {
+    padding: calc(var(--toolbar-font-size) * 1 / 4) calc(var(--toolbar-font-size) * 1 / 4);
+}
+
+.Toolbar .Secondary .IconItem.Disabled {
+    color: var(--lowlight);
+}
+
+.Toolbar .Secondary .IconItem.Disabled:hover {
+    color: var(--lowlight);
+    background-color: var(--medium-highlight);
+}
+
+.Toolbar .Secondary .TextItem {
+    padding: calc(var(--toolbar-font-size) * 1 / 8) calc(var(--toolbar-font-size) * 1 / 4);
+}
+

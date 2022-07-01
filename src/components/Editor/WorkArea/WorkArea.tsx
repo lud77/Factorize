@@ -22,6 +22,7 @@ const WorkArea = (props) => {
 		play, pause,
 		panels, setPanels,
 		connections, setConnections,
+		focused, setFocus,
 		connectorAnchor, setConnectorAnchor,
 		makeConnection,
 		workAreaOffset, setWorkAreaOffset,
@@ -331,6 +332,8 @@ const WorkArea = (props) => {
 	const mouseClick = (e) => {
 		e.stopPropagation();
 
+		setFocus(null);
+
 		if (e.shiftKey || e.ctrlKey) return;
 		setSelectedPanels(Set());
 	};
@@ -357,10 +360,12 @@ const WorkArea = (props) => {
 				onSelect={(e) => {
 					e.stopPropagation();
 
-					if (!e.shiftKey) return;
-
 					const panel = e.target.closest('.Panel');
 					const panelId = parseInt(panel.dataset.key);
+
+					setFocus(panelId);
+
+					if (!e.shiftKey) return;
 
 					if (!e.ctrlKey) {
 						setSelectedPanels(Set([panelId]));

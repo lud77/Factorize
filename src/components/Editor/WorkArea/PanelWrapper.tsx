@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import * as React from 'react';
 
 const PanelWrapper = (props) => {
@@ -18,7 +17,7 @@ const PanelWrapper = (props) => {
             style={style}
             onClick={props.onSelect}
             >
-            <div className="Title">{panel.title}</div>
+            <div className="Title">{panel.title || '\u00A0'}</div>
             <panel.Component
                 panel={panel}
                 connections={connections}

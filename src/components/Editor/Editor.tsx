@@ -5,7 +5,7 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import WorkArea from './WorkArea/WorkArea';
 import Toolbar from './Toolbar/Toolbar';
 import Statusbar from './Statusbar/Statusbar';
-import ValuesEditor from './ValuesEditor';
+import ValuesEditor from './ValuesEditor/ValuesEditor';
 
 import { ConnectorAnchor, Connection } from './types';
 import { Panel } from './Panel/types';
@@ -23,6 +23,7 @@ const Editor = (props) => {
     const [ play, setPlay ] = React.useState<boolean>(false);
     const [ pause, setPause ] = React.useState<boolean>(false);
 
+    const [ focused, setFocus ] = React.useState<number | null>(null);
     const [ panels, setPanels ] = React.useState<Panel[]>([]);
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
@@ -35,6 +36,10 @@ const Editor = (props) => {
             sourcePanelId,
             targetPanelId
         });
+
+    const setPanel = (panel) => {
+        setPanels({ ...panels, [panel.panelId]: panel });
+    };
 
     const makePanel = (palette, type) => {
         const panelId = props.getNextPanelId();
@@ -59,7 +64,7 @@ const Editor = (props) => {
             height: 84
         };
 
-        setPanels({ ...panels, [newPanel.panelId]: newPanel });
+        setPanel(newPanel);
     };
 
     const panelMenu = (paletteName, palette) => {
@@ -89,7 +94,7 @@ const Editor = (props) => {
 
     const menus = {
         'Panels': { submenus: paletteMenu(props.panelPalettes) },
-        'Values': { component: <ValuesEditor /> },
+        'Values': { component: <ValuesEditor panel={focused !== null ? panels[focused] : null} setPanel={setPanel} /> },
         'Controls': {
             submenus: {
                 'Play': {
@@ -147,6 +152,7 @@ const Editor = (props) => {
                 getNextEndpointId={props.getNextEndpointId}
                 play={play} pause={pause}
                 snap={snap}
+                focused={focused} setFocus={setFocus}
                 inclusiveSelection={inclusiveSelection}
                 panels={panels} setPanels={setPanels}
                 connections={connections} setConnections={setConnections}
