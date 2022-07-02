@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Panel } from '../../Editor/Panel/types';
+import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -33,11 +33,21 @@ const create = (panelId: number): Panel => {
         name: 'Whatev'
     }];
 
+    const execute = () => {
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                console.log('Audio');
+                res(true);
+            }, 3000);
+        });
+    };
+
     return {
         type: 'Audio',
         inputEndpoints,
         outputEndpoints,
-        Component
+        Component,
+        execute
     } as Panel;
 };
 

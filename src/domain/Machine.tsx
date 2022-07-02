@@ -9,7 +9,8 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
             source,
             target,
             sourcePanelId,
-            targetPanelId
+            targetPanelId,
+            active: false
         });
 
     const setPanel = (panel) => {

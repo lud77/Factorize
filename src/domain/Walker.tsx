@@ -1,9 +1,11 @@
+import { Panel } from '../types/Panel';
+
 const Walker = ({ panels, setPanels, setPanel, connections, setConnections, play, setPlay, pause, setPause }) => {
-    let inExecution = [];
+    let inExecution: Panel[] = [];
 
     const reset = () => {
         const newPanels =
-            Object.values(panels)
+            Object.values<Panel>(panels)
                 .map((panel) => ({
                     ...panel,
                     inputEpValues: panel.inputEpDefaults
@@ -16,16 +18,15 @@ const Walker = ({ panels, setPanels, setPanel, connections, setConnections, play
         setPanels(newPanels);
 
         inExecution = // select starter panels
-            Object.values(panels)
+            Object.values<Panel>(panels)
                 .filter((panel) => panel.starter);
     };
 
     const step = () => {
-        inExecution.forEach((panel) => {
-            panel.execute();
-        });
-
-        return Promise.resolve(null);
+        return inExecution.reduce(
+            (chain, panel) => chain.then(panel.execute),
+            Promise.resolve()
+        );
     };
 
     const mainLoop = () => {

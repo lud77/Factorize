@@ -4,4 +4,5 @@ export interface Connection {
     target: number;
     sourcePanelId: number;
     targetPanelId: number;
+    active: boolean;
 }

@@ -3,6 +3,7 @@ export interface Panel {
     inputEndpoints: Array;
     outputEndpoints: Array;
     Component: JSX;
+    execute: Function;
     starter?: boolean;
     title?: string;
     inputRefs?: object;
