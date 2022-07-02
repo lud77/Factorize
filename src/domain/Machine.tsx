@@ -18,15 +18,19 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
 
     const makePanel = (palette, type) => {
         const panelId = props.getNextPanelId();
-        const panel = props.panelPalettes[palette][type].create(`${type} ${panelId}`, panelId, position - workAreaOffset[0], position + 100 - workAreaOffset[1]);
+        const panel = props.panelPalettes[palette][type].create(panelId);
 
         const inputRefs =
             panel.inputEndpoints
-                .reduce((a, endpointName) => ({ ...a, [`input${endpointName}`]: props.getNextEndpointId() }), {});
+                .reduce((a, { name }) => ({ ...a, [`input${name}`]: props.getNextEndpointId() }), {});
+
+        const inputEpDefaults =
+            panel.inputEndpoints
+                .reduce((a, { name, defaultValue }) => ({ ...a, [`input${name}`]: defaultValue }), {});
 
         const outputRefs =
             panel.outputEndpoints
-                .reduce((a, endpointName) => ({ ...a, [`output${endpointName}`]: props.getNextEndpointId() }), {});
+                .reduce((a, { name }) => ({ ...a, [`output${name}`]: props.getNextEndpointId() }), {});
 
         position = (position + 20) % 100;
 
@@ -34,9 +38,14 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
             ...panel,
             panelId,
             inputRefs,
+            inputEpDefaults,
+            inputEpValues: inputEpDefaults,
             outputRefs,
+            title: `${type} ${panelId}`,
             width: 134,
-            height: 84
+            height: 84,
+            left: position - workAreaOffset[0],
+            top: position + 100 - workAreaOffset[1]
         };
 
         setPanel(newPanel);

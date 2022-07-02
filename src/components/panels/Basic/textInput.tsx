@@ -5,7 +5,7 @@ import { Panel } from '../../Editor/Panel/types';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const create = (title: string, panelId: number, left: number = 0, top: number = 0): Panel => {
+const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
@@ -18,16 +18,17 @@ const create = (title: string, panelId: number, left: number = 0, top: number = 
     };
 
     const inputEndpoints = [];
-    const outputEndpoints = ['Text'];
+
+    const outputEndpoints = [{
+        name: 'Text'
+    }];
 
     return {
         type: 'TextInput',
-        title,
+        starter: true,
         inputEndpoints,
         outputEndpoints,
-        Component,
-        left,
-        top
+        Component
     } as Panel;
 };
 

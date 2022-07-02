@@ -1,12 +1,19 @@
-const Walker = ({ panels, setPanel, connections, setConnections, play, setPlay, pause, setPause }) => {
+const Walker = ({ panels, setPanels, setPanel, connections, setConnections, play, setPlay, pause, setPause }) => {
     let inExecution = [];
 
     const reset = () => {
-        Object.values(panels)
-            .forEach((panel) => {
-                panel.inputEndpoints
-                    .forEach((ep) => ep.reset());
-            });
+        const newPanels =
+            Object.values(panels)
+                .map((panel) => ({
+                    ...panel,
+                    inputEpValues: panel.inputEpDefaults
+                }))
+                .reduce((a, v) => ({
+                    ...a,
+                    [v.panelId]: v
+                }), {});
+
+        setPanels(newPanels);
 
         inExecution = // select starter panels
             Object.values(panels)

@@ -48,7 +48,7 @@ const Editor = (props) => {
         pressPause,
         pressStop
     } = Walker({
-        panels,
+        panels, setPanels,
         setPanel,
         connections, setConnections,
         play, setPlay,
