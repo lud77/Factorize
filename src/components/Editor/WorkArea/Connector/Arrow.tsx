@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ArrowProps } from "./Props";
+import { ArrowProps } from '../../../../types/ArrowProps';
 
 /**
  * Return an arrow path for svg

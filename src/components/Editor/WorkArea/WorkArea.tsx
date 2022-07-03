@@ -1,11 +1,11 @@
 import * as React from 'react';
-const { Set } = require('immutable');
+import { Set } from 'immutable';
 
 import Connector from './Connector/Connector';
 import PanelWrapper from './PanelWrapper';
 import Marquee from './Marquee';
 
-import { DragCoords } from '../types';
+import { DragCoords } from '../../../types/DragCoords';
 
 import {
 	buildScreenSize,

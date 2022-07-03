@@ -1,7 +1,7 @@
-import Arrow from "./Arrow";
-import React from "react";
+import React from 'react';
 
-import { ConnectorProps } from "./Props";
+import Arrow from './Arrow';
+import { ConnectorProps } from '../../../../types/Props';
 
 /**
  * Custom S shape svg connector

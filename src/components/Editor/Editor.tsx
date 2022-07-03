@@ -7,9 +7,9 @@ import Toolbar from './Toolbar/Toolbar';
 import Statusbar from './Statusbar/Statusbar';
 import ValuesEditor from './ValuesEditor/ValuesEditor';
 
-import { ConnectorAnchor } from './types';
+import { ConnectorAnchor } from '../../types/ConnectorAnchor';
 import { Connection } from '../../types/Machine';
-import { Panel } from './Panel/types';
+import { Panel } from '../../types/Panel';
 
 import Machine from '../../domain/Machine';
 import Walker from '../../domain/Walker';

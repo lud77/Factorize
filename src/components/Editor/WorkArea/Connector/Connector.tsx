@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import BareConnector from './BareConnector';
-import { Props, Point } from './Props';
 
+import { Props } from '../../../../types/Props';
+import { Point } from '../../../../types/Point';
 import { getBounds } from '../../../../utils/measures';
 
 /**
