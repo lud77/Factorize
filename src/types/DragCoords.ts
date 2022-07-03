@@ -5,13 +5,11 @@ interface AnchorPoint {
     o: Point;
 }
 
-interface AnchorPoints extends Array<AnchorPoint>{}
-
 export interface DragCoords {
     isDragging: boolean;
     what?: string;
     el?: Element;
     o?: Point;
-    os?: AnchorPoints;
+    os?: AnchorPoint[];
     c?: Point;
 }

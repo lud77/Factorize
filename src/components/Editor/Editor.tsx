@@ -59,7 +59,7 @@ const Editor = (props) => {
 
     const menus = {
         'Panels': { submenus: paletteMenu(props.panelPalettes) },
-        'Values': { component: <ValuesEditor panel={focused !== null ? panels[focused] : null} setPanel={setPanel} /> },
+        'Values': { component: <ValuesEditor panel={focused !== null ? panels[focused] : null} setPanel={setPanel} setFocus={setFocus} /> },
         'Controls': {
             submenus: {
                 'Play': {
