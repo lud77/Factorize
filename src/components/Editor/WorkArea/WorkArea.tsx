@@ -99,6 +99,37 @@ const WorkArea = (props) => {
 			const panel = e.target.closest('.Panel');
 			const panelId = parseInt(panel.dataset.key);
 
+			if ((selectedPanels.size > 0) && selectedPanels.contains(panelId)) {
+				const selectedPanelsAnchors =
+					selectedPanels
+						.map((panelId) => panels[panelId])
+						.map((panel) => ({
+							panelId: panel.panelId,
+							o: {
+								x: panel.left,
+								y: panel.top
+							}
+						}))
+						.toArray();
+
+				setDragCoords({
+					isDragging: true,
+					what: 'panels',
+					el: panel,
+					o: {
+						x: Number(e.pageX),
+						y: Number(e.pageY)
+					},
+					os: selectedPanelsAnchors,
+					c: {
+						x: panels[panelId].left,
+						y: panels[panelId].top
+					}
+				});
+
+				return;
+			}
+
 			setDragCoords({
 				isDragging: true,
 				what: 'panel',
@@ -226,6 +257,34 @@ const WorkArea = (props) => {
 
 	const mouseMove = (e) => {
 		if (!dragCoords.isDragging && (connectorAnchor == null)) return;
+
+		if (dragCoords.isDragging && dragCoords.what == 'panels') {
+			const func = (props.snap ? snapping : linear);
+
+			const distance = {
+				dx: e.clientX - dragCoords.o.x,
+				dy: e.clientY - dragCoords.o.y
+			};
+
+			const updates =
+				dragCoords.os.reduce((a, v) => {
+					return {
+						...a,
+						[v.panelId]: {
+							...panels[v.panelId],
+							left: func(v.o.x + distance.dx),
+							top: func(v.o.y + distance.dy)
+						}
+					};
+				}, {});
+
+			setPanels({
+				...panels,
+				...updates
+			});
+
+			return false;
+		}
 
 		if (dragCoords.isDragging && dragCoords.what == 'panel') {
 			const panelId = parseInt(dragCoords.el.dataset.key);
