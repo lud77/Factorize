@@ -35,7 +35,13 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
 
         position = (position + 20) % 100;
 
+        const defaults = {
+            width: 134,
+            height: 84
+        };
+
         const newPanel = {
+            ...defaults,
             ...panel,
             panelId,
             inputRefs,
@@ -43,8 +49,6 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
             inputEpValues: inputEpDefaults,
             outputRefs,
             title: `${type} ${panelId}`,
-            width: 134,
-            height: 84,
             left: position - workAreaOffset[0],
             top: position + 100 - workAreaOffset[1]
         };

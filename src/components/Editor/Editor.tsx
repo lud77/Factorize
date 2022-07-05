@@ -23,6 +23,7 @@ const Editor = (props) => {
     const [ snap, setSnap ] = React.useState<boolean>(false);
     const [ grid, setGrid ] = React.useState<boolean>(true);
     const [ inclusiveSelection, setInclusiveSelection ] = React.useState<boolean>(true);
+
     const [ play, setPlay ] = React.useState<boolean>(false);
     const [ pause, setPause ] = React.useState<boolean>(false);
 
@@ -59,7 +60,7 @@ const Editor = (props) => {
 
     const menus = {
         'Panels': { submenus: paletteMenu(props.panelPalettes) },
-        'Values': { component: <ValuesEditor panel={focused !== null ? panels[focused] : null} setPanel={setPanel} setFocus={setFocus} /> },
+        'Values': { component: <ValuesEditor panel={focused !== null ? panels[focused] : null} setPanel={setPanel} /> },
         'Controls': {
             submenus: {
                 'Play': {

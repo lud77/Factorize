@@ -5,14 +5,17 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import './ValuesEditor.css';
 
-const ValuesEditor = ({ panel, setPanel, setFocus }) => {
+const ValuesEditor = ({ panel, setPanel }) => {
     const disabled = panel == null;
     const locked = disabled || (!disabled && panel.locked === true);
+
+    const setLock = (locked) => setPanel({ ...panel, locked })
+    const toggleLock = () => setLock(!panel.locked);
 
     return <>
         <div
             className={`IconItem ${disabled ? 'Disabled' : ''}`}
-            onClick={disabled ? () => {} : () => { setPanel({ ...panel, locked: !panel.locked }) }}
+            onClick={disabled ? () => {} : () => { toggleLock(); }}
             >
             {
                 locked
@@ -28,7 +31,7 @@ const ValuesEditor = ({ panel, setPanel, setFocus }) => {
                 onChange={(e) => { setPanel({ ...panel, title: e.target.value }) }}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                        setFocus(null);
+                        setLock(true);
                     }
                 }}
                 />
