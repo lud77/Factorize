@@ -46,7 +46,7 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
             panelId,
             inputRefs,
             inputEpDefaults,
-            inputEpValues: inputEpDefaults,
+            inputEpValues: { ...inputEpDefaults },
             outputRefs,
             title: `${type} ${panelId}`,
             left: position - workAreaOffset[0],
