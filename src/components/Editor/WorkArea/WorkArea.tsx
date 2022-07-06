@@ -19,6 +19,7 @@ import '../Panel/Panel.css';
 
 const WorkArea = (props) => {
 	const {
+		machine,
 		play, pause,
 		panels, setPanels,
 		connections, setConnections,
@@ -45,31 +46,6 @@ const WorkArea = (props) => {
 
 	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
 	const [ resizeTimeoutHandler, setResizeTimeoutHandler ] = React.useState<NodeJS.Timeout | null>(null);
-
-	const findConnectionByInputEndpointId = (ref) => connections.find((connection) => connection.target == ref);
-	const findConnectionByOutputEndpointId = (ref) => connections.find((connection) => connection.source == ref);
-
-	const removeConnectionByOutputRef = (ref) => {
-		const connection = findConnectionByOutputEndpointId(ref);
-
-		if (connection) {
-			setConnections(connections.filter((connection) => connection.source !== ref));
-			return connection;
-		}
-
-		return null;
-	};
-
-	const removeConnectionByInputRef = (ref) => {
-		const connection = findConnectionByInputEndpointId(ref);
-
-		if (connection) {
-			setConnections(connections.filter((connection) => connection.target !== ref));
-			return connection;
-		}
-
-		return null;
-	};
 
 	const mouseDown = (e) => {
 		e.preventDefault();
@@ -224,7 +200,7 @@ const WorkArea = (props) => {
 			const toPanel = e.target.closest('.Panel');
 			const toPanelId = parseInt(toPanel.dataset.key);
 
-			const connection = removeConnectionByInputRef(getPanelInputRef(toPanelId, e.target.dataset.ref));
+			const connection = machine.removeConnectionByInputRef(getPanelInputRef(toPanelId, e.target.dataset.ref));
 			if (connection == null) return;
 
 			setConnectorAnchor({
@@ -241,7 +217,7 @@ const WorkArea = (props) => {
 			const fromPanel = e.target.closest('.Panel');
 			const fromPanelId = parseInt(fromPanel.dataset.key);
 
-			const connection = removeConnectionByOutputRef(getPanelOutputRef(fromPanelId, e.target.dataset.ref));
+			const connection = machine.removeConnectionByOutputRef(getPanelOutputRef(fromPanelId, e.target.dataset.ref));
 			if (connection == null) return;
 
 			setConnectorAnchor({
@@ -361,7 +337,11 @@ const WorkArea = (props) => {
 
 		setDragCoords({ isDragging: false });
 
-		if ((connectorAnchor != null && connectorAnchor.fromRef != null) && e.target.classList.contains('InputEndpoint') && !e.target.classList.contains('Connected')) {
+		if (
+			(connectorAnchor != null && connectorAnchor.fromRef != null) &&
+			e.target.classList.contains('InputEndpoint') &&
+			!e.target.classList.contains('Connected')
+		) {
 			const toPanel = e.target.closest('.Panel');
 
 			const toPanelId = parseInt(toPanel.dataset.key);

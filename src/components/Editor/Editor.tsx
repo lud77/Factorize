@@ -36,7 +36,9 @@ const Editor = (props) => {
     const {
         makeConnection,
         setPanel,
-        makePanel
+        makePanel,
+        removeConnectionByOutputRef,
+        removeConnectionByInputRef
     } = Machine({
         props,
         panels, setPanels,
@@ -92,6 +94,10 @@ const Editor = (props) => {
         <div className={`Editor ${grid ? 'Gridded' : ''}`} style={{ backgroundPosition: `left ${workAreaOffset[0]}px top ${workAreaOffset[1]}px` }}>
             <Toolbar menus={menus} primary="Panels" />
             <WorkArea
+                machine={{
+                    removeConnectionByOutputRef,
+                    removeConnectionByInputRef
+                }}
                 getNextEndpointId={props.getNextEndpointId}
                 play={play} pause={pause}
                 snap={snap}

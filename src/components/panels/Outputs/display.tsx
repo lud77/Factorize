@@ -11,13 +11,13 @@ const create = (panelId: number): Panel => {
             <div className="Row">
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
             </div>
-            <div className="Row"><span>{props.panel.values.Value}</span></div>
+            <div className="Row"><span>{props.panel.inputEpValues.inputValue}</span></div>
         </>;
     };
 
     const inputEndpoints = [{
         name: 'Value',
-        default: ''
+        defaultValue: ''
     }];
 
     const outputEndpoints = [];

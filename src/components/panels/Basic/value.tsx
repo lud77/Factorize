@@ -18,7 +18,7 @@ const create = (panelId: number): Panel => {
 
     const outputEndpoints = [{
         name: 'Value',
-        default: 5
+        defaultValue: 5
     }];
 
     const execute = () => {

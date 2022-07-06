@@ -20,7 +20,8 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [];
 
     const outputEndpoints = [{
-        name: 'Text'
+        name: 'Text',
+        defaultValue: ''
     }];
 
     const execute = () => {

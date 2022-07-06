@@ -16,7 +16,7 @@ const create = (panelId: number): Panel => {
 
     const inputEndpoints = [{
         name: 'Text',
-        default: ''
+        defaultValue: ''
     }];
 
     const outputEndpoints = [];

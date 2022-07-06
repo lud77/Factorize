@@ -24,7 +24,7 @@ const Walker = ({ panels, setPanels, setPanel, connections, setConnections, play
 
     const step = () => {
         return inExecution.reduce(
-            (chain, panel) => chain.then(panel.execute),
+            (chain, panel) => chain.then(() => panel.execute(panel.inputEpValues)),
             Promise.resolve()
         );
     };
