@@ -1,6 +1,11 @@
+:root {
+    --panel-font-size: 12px;
+    --panel-collar: 10px;
+}
+
 .Panel {
     box-sizing: border-box;
-    font-size: 14px;
+    font-size: var(--panel-font-size);
     padding: 5px;
     border-radius: 10px;
     border: 2px solid var(--border);
@@ -11,9 +16,15 @@
 }
 
 .Panel .Title {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: calc(var(--panel-font-size));
+    height: calc(var(--panel-font-size) - var(--panel-collar));
+    padding-bottom: var(--panel-collar);
     width: 100%;
     text-align: center;
-    padding-bottom: 10px;
     user-select: none;
     cursor: move;
 }
