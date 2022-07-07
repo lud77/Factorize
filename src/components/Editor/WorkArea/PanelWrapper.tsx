@@ -20,6 +20,7 @@ const PanelWrapper = (props) => {
             <div className="Title">{panel.title || '\u00A0'}</div>
             <panel.Component
                 panel={panel}
+                setPanel={props.setPanel}
                 connections={connections}
                 connectorAnchor={connectorAnchor}
                 />

@@ -20,10 +20,10 @@ const create = (panelId: number): Panel => {
 
     const inputEndpoints = [{
         name: 'Addend1',
-        default: 0
+        defaultValue: 0
     }, {
         name: 'Addend2',
-        default: 0
+        defaultValue: 0
     }];
 
     const outputEndpoints = [{

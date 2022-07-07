@@ -4,27 +4,50 @@ let position = 10;
 
 const Machine = ({ props, panels, setPanels, connections, setConnections, workAreaOffset }) => {
 
+    console.log('panels from machine', panels);
+
     const setPanel = (panel) => {
+        console.log('current panels', panels);
+        console.log('setting panels', { ...panels, [panel.panelId]: panel });
         setPanels({ ...panels, [panel.panelId]: panel });
+    };
+
+    const getOutputValue = (panelId, epRef) => {
+        console.log('get output value');
+        const panel = panels[panelId];
+        const ep = panel.outputEpByRef[epRef];
+        return panel.outputEpValues[ep];
+    };
+
+    const setInputValue = (panelId, epRef, newValue) => {
+        console.log('set input value');
+        const panel = panels[panelId];
+        const ep = panel.inputEpByRef[epRef];
+
+        const updatedPanel = {
+            ...panel,
+            inputEpValues: {
+                ...panel.inputEpValues,
+                [ep]: newValue
+            }
+        };
+
+        setPanel(updatedPanel);
+
+        return newValue;
+    };
+
+    const propagateValue = (sourcePanelId, sourceEpRef, targetPanelId, targetEpRef) => {
+        const newValue = getOutputValue(sourcePanelId, sourceEpRef);
+        setInputValue(targetPanelId, targetEpRef, newValue);
     };
 
     const makeConnection = (sourceEpRef: number, targetEpRef: number, sourcePanelId: number, targetPanelId: number): Connection => {
         // makeConnectionHook(source, target, sourcePanelId, targetPanelId);
 
-        const sourcePanel = panels[sourcePanelId];
-        const targetPanel = panels[targetPanelId];
-        const sourceEp = sourcePanel.outputEpByRef[sourceEpRef];
-        const targetEp = targetPanel.inputEpByRef[targetEpRef];
+        const newValue = propagateValue(sourcePanelId, sourceEpRef, targetPanelId, targetEpRef);
 
-        const updatePanel = {
-            ...targetPanel,
-            inputEpValues: {
-                ...targetPanel.inputEpValues,
-                [targetEp]: sourcePanel.outputEpValues[sourceEp]
-            }
-        };
 
-        setPanel(updatePanel);
 
         return {
             source: sourceEpRef,

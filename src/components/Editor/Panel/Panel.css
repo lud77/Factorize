@@ -51,7 +51,19 @@
     cursor: default;
 }
 
-.Panel .Item input {
+.Panel .InteractiveItem {
+    line-height: var(--item-text-size);
+    font-size: var(--item-text-size);
+    flex-grow: 1;
+    vertical-align: baseline;
+    margin-bottom: 5px;
+}
+
+.Panel .InteractiveItem input:focus {
+    background-color: ivory;
+}
+
+.Panel .InteractiveItem input {
     width: 95%;
 }
 

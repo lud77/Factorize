@@ -9,7 +9,6 @@ import ValuesEditor from './ValuesEditor/ValuesEditor';
 
 import { ConnectorAnchor } from '../../types/ConnectorAnchor';
 import { Connection } from '../../types/Machine';
-import { Panel } from '../../types/Panel';
 
 import Machine from '../../domain/Machine';
 import Walker from '../../domain/Walker';
@@ -28,7 +27,7 @@ const Editor = (props) => {
     const [ pause, setPause ] = React.useState<boolean>(false);
 
     const [ focused, setFocus ] = React.useState<number | null>(null);
-    const [ panels, setPanels ] = React.useState<Panel[]>([]);
+    const [ panels, setPanels ] = React.useState<object>({});
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
     const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
@@ -103,7 +102,7 @@ const Editor = (props) => {
                 snap={snap}
                 focused={focused} setFocus={setFocus}
                 inclusiveSelection={inclusiveSelection}
-                panels={panels} setPanels={setPanels}
+                panels={panels} setPanels={setPanels} setPanel={setPanel}
                 connections={connections} setConnections={setConnections}
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
                 makeConnection={makeConnection}

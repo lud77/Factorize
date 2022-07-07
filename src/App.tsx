@@ -11,7 +11,12 @@ const getNextEndpointId = getSequence();
 const App = () => {
 	return (
 		<div className="App">
-			<Editor panelPalettes={panelPalettes} getNextPanelId={getNextPanelId} getNextEndpointId={getNextEndpointId}></Editor>
+			<Editor
+				panelPalettes={panelPalettes}
+				getNextPanelId={getNextPanelId}
+				getNextEndpointId={getNextEndpointId}
+				>
+			</Editor>
 		</div>
 	);
 };

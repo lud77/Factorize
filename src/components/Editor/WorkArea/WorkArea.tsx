@@ -21,7 +21,7 @@ const WorkArea = (props) => {
 	const {
 		machine,
 		play, pause,
-		panels, setPanels,
+		panels, setPanels, setPanel,
 		connections, setConnections,
 		focused, setFocus,
 		connectorAnchor, setConnectorAnchor,
@@ -48,8 +48,6 @@ const WorkArea = (props) => {
 	const [ resizeTimeoutHandler, setResizeTimeoutHandler ] = React.useState<NodeJS.Timeout | null>(null);
 
 	const mouseDown = (e) => {
-		e.preventDefault();
-
 		const connected = e.target.classList.contains('Connected');
 		const onWorkArea = e.target.classList.contains('WorkArea');
 
@@ -232,6 +230,8 @@ const WorkArea = (props) => {
 	};
 
 	const mouseMove = (e) => {
+		e.preventDefault();
+
 		if (!dragCoords.isDragging && (connectorAnchor == null)) return;
 
 		if (dragCoords.isDragging && dragCoords.what == 'panels') {
@@ -369,8 +369,7 @@ const WorkArea = (props) => {
 	};
 
 	const mouseClick = (e) => {
-		e.stopPropagation();
-
+		//e.stopPropagation();
 		setFocus(null);
 
 		if (e.shiftKey || e.ctrlKey) return;
@@ -391,7 +390,7 @@ const WorkArea = (props) => {
 		return (
 			<PanelWrapper
 				key={panel.panelId}
-				panel={panel}
+				panel={panel} setPanel={setPanel}
 				workAreaOffset={workAreaOffset}
 				connections={connections}
 				connectorAnchor={connectorAnchor}
@@ -404,13 +403,15 @@ const WorkArea = (props) => {
 
 					setFocus(panelId);
 
-					if (!e.shiftKey) return;
+					if (!e.shiftKey) return true;
 
 					if (!e.ctrlKey) {
 						setSelectedPanels(Set([panelId]));
 					} else {
 						toggleSelection(panelId);
 					}
+
+					return true;
 				}}
 				/>
 		);

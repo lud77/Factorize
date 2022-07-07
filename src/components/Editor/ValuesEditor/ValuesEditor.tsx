@@ -28,7 +28,9 @@ const ValuesEditor = ({ panel, setPanel }) => {
                 placeholder="Title"
                 disabled={locked}
                 value={disabled ? '' : panel.title}
-                onChange={(e) => { setPanel({ ...panel, title: e.target.value }) }}
+                onChange={(e) => {
+                    setPanel({ ...panel, title: e.target.value });
+                }}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         setLock(true);
