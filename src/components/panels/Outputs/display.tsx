@@ -7,11 +7,22 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
+        const displayStyle = {
+            fontFamily: 'courier',
+            fontSize: '45px',
+            lineHeight: '35px',
+            textAlign: 'center',
+            width: '100%',
+            overflow: 'hidden'
+        };
+
         return <>
             <div className="Row">
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
             </div>
-            <div className="Row"><span>{props.panel.inputEpValues.inputValue}</span></div>
+            <div className="Row">
+                <span style={displayStyle}>{props.panel.inputEpValues.inputValue}</span>
+            </div>
         </>;
     };
 
