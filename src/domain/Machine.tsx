@@ -147,24 +147,51 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
 	const findConnectionByInputEpRef = (ref) => connections.find((connection) => connection.target == ref);
 	const findConnectionByOutputEpRef = (ref) => connections.find((connection) => connection.source == ref);
 
+    const x = (sourceOutputEp) => {
+        const sourceEpRef = sourcePanel.outputRefs[sourceOutputEp];
+
+        const outGoingConnection = findConnectionByOutputEpRef(sourceEpRef);
+        if (!outGoingConnection) return setPanels({ ...panels, [newSource.panelId]: newSource });
+
+        const { targetPanelId, target } = outGoingConnection;
+        const targetPanel = panels[targetPanelId];
+        const ep = targetPanel.inputEpByRef[target];
+
+        const newTarget = {
+            ...targetPanel,
+            inputEpValues: {
+                ...targetPanel.inputEpValues,
+                [ep]: value
+            }
+        };
+
+        setPanels({
+            ...panels,
+            [newSource.panelId]: newSource,
+            [newTarget.panelId]: newTarget
+        });
+    };
+
+    const stopPropagatingValue = (connection) => {
+        const { targetPanelId, target } = connection;
+        const targetPanel = panels[targetPanelId];
+        const ep = targetPanel.inputEpByRef[target]
+
+        setPanel({
+            ...targetPanel,
+            inputEpValues: {
+                ...targetPanel.inputEpValues,
+                [ep]: targetPanel.inputEpDefaults[ep]
+            }
+        });
+    };
+
     const removeConnectionByOutputRef = (ref) => {
 		const connection = findConnectionByOutputEpRef(ref);
 
 		if (connection) {
-            const { targetPanelId, target } = connection;
-            const targetPanel = panels[targetPanelId];
-            const ep = targetPanel.inputEpByRef[target]
-
-            setPanel({
-                ...targetPanel,
-                inputEpValues: {
-                    ...targetPanel.inputEpValues,
-                    [ep]: targetPanel.inputEpDefaults[ep]
-                }
-            });
-
+            stopPropagatingValue(connection);
 			setConnections(connections.filter((connection) => connection.source !== ref));
-
 			return connection;
 		}
 
@@ -175,6 +202,7 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
 		const connection = findConnectionByInputEpRef(ref);
 
 		if (connection) {
+            stopPropagatingValue(connection);
 			setConnections(connections.filter((connection) => connection.target !== ref));
 			return connection;
 		}
