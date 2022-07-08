@@ -28,8 +28,6 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
             }
         };
 
-        console.log('updatedPanel', updatedPanel);
-
         setPanel(updatedPanel);
 
         return newValue;
@@ -40,15 +38,43 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
         setInputValue(targetPanelId, targetEpRef, newValue);
     };
 
-    const propagateValueAlong = (sourceEpRef, value) => {
-        const { targetPanelId, target } = findConnectionByOutputEp(sourceEpRef);
-        setInputValue(targetPanelId, target, value);
+    const propagateValueAlong = (sourcePanel, sourceOutputEp, value) => {
+        const newSource = {
+            ...sourcePanel,
+            outputEpValues: {
+                ...sourcePanel.outputEpValues,
+                [sourceOutputEp]: value
+            }
+        };
+
+        const sourceEpRef = sourcePanel.outputRefs[sourceOutputEp];
+
+        const outGoingConnection = findConnectionByOutputEpRef(sourceEpRef);
+        if (!outGoingConnection) return setPanels({ ...panels, [newSource.panelId]: newSource });
+
+        const { targetPanelId, target } = outGoingConnection;
+        const targetPanel = panels[targetPanelId];
+        const ep = targetPanel.inputEpByRef[target];
+
+        const newTarget = {
+            ...targetPanel,
+            inputEpValues: {
+                ...targetPanel.inputEpValues,
+                [ep]: value
+            }
+        };
+
+        setPanels({
+            ...panels,
+            [newSource.panelId]: newSource,
+            [newTarget.panelId]: newTarget
+        });
     };
 
     const makeConnection = (sourceEpRef: number, targetEpRef: number, sourcePanelId: number, targetPanelId: number): Connection => {
         // makeConnectionHook(source, target, sourcePanelId, targetPanelId);
 
-        const newValue = propagateOutputValue(sourcePanelId, sourceEpRef, targetPanelId, targetEpRef);
+            const newValue = propagateOutputValue(sourcePanelId, sourceEpRef, targetPanelId, targetEpRef);
 
 
 
@@ -118,11 +144,11 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
         setPanel(newPanel);
     };
 
-	const findConnectionByInputEp = (ref) => connections.find((connection) => connection.target == ref);
-	const findConnectionByOutputEp = (ref) => connections.find((connection) => connection.source == ref);
+	const findConnectionByInputEpRef = (ref) => connections.find((connection) => connection.target == ref);
+	const findConnectionByOutputEpRef = (ref) => connections.find((connection) => connection.source == ref);
 
     const removeConnectionByOutputRef = (ref) => {
-		const connection = findConnectionByOutputEp (ref);
+		const connection = findConnectionByOutputEpRef (ref);
 
 		if (connection) {
 			setConnections(connections.filter((connection) => connection.source !== ref));
@@ -133,7 +159,7 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
 	};
 
 	const removeConnectionByInputRef = (ref) => {
-		const connection = findConnectionByInputEp(ref);
+		const connection = findConnectionByInputEpRef(ref);
 
 		if (connection) {
 			setConnections(connections.filter((connection) => connection.target !== ref));
@@ -147,8 +173,8 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
         makeConnection,
         setPanel,
         makePanel,
-        findConnectionByInputEp,
-        findConnectionByOutputEp,
+        findConnectionByInputEpRef,
+        findConnectionByOutputEpRef,
         removeConnectionByOutputRef,
         removeConnectionByInputRef,
         propagateValueAlong

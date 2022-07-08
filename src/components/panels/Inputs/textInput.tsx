@@ -7,15 +7,7 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, setPanel, propagateValueAlong }) => (e) => {
-        setPanel({
-            ...panel,
-            outputEpValues: {
-                ...panel.outputEpValues,
-                outputText: e.target.value
-            }
-        });
-
-        propagateValueAlong(panel.outputRefs.outputText, e.target.value);
+        propagateValueAlong(panel, 'outputText', e.target.value);
 
         return true;
     };
