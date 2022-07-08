@@ -148,10 +148,23 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
 	const findConnectionByOutputEpRef = (ref) => connections.find((connection) => connection.source == ref);
 
     const removeConnectionByOutputRef = (ref) => {
-		const connection = findConnectionByOutputEpRef (ref);
+		const connection = findConnectionByOutputEpRef(ref);
 
 		if (connection) {
+            const { targetPanelId, target } = connection;
+            const targetPanel = panels[targetPanelId];
+            const ep = targetPanel.inputEpByRef[target]
+
+            setPanel({
+                ...targetPanel,
+                inputEpValues: {
+                    ...targetPanel.inputEpValues,
+                    [ep]: targetPanel.inputEpDefaults[ep]
+                }
+            });
+
 			setConnections(connections.filter((connection) => connection.source !== ref));
+
 			return connection;
 		}
 
