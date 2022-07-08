@@ -32,18 +32,21 @@ const Editor = (props) => {
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
     const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
 
-    const {
-        makeConnection,
-        setPanel,
-        makePanel,
-        removeConnectionByOutputRef,
-        removeConnectionByInputRef
-    } = Machine({
+    const machine = Machine({
         props,
         panels, setPanels,
         connections, setConnections,
         workAreaOffset
     });
+
+    const {
+        makeConnection,
+        setPanel,
+        makePanel,
+        removeConnectionByOutputRef,
+        removeConnectionByInputRef,
+        propagateValueAlong
+    } = machine;
 
     const {
         pressPlay,
@@ -93,10 +96,7 @@ const Editor = (props) => {
         <div className={`Editor ${grid ? 'Gridded' : ''}`} style={{ backgroundPosition: `left ${workAreaOffset[0]}px top ${workAreaOffset[1]}px` }}>
             <Toolbar menus={menus} primary="Panels" />
             <WorkArea
-                machine={{
-                    removeConnectionByOutputRef,
-                    removeConnectionByInputRef
-                }}
+                machine={machine}
                 getNextEndpointId={props.getNextEndpointId}
                 play={play} pause={pause}
                 snap={snap}

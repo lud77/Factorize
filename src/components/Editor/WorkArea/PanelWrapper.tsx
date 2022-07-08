@@ -1,7 +1,13 @@
 import * as React from 'react';
 
 const PanelWrapper = (props) => {
-    const { panel, workAreaOffset, connections, connectorAnchor } = props;
+    const {
+        panel, setPanel,
+        workAreaOffset,
+        connections,
+        connectorAnchor,
+        propagateValueAlong
+    } = props;
 
     const style = {
         left: (panel.left + workAreaOffset[0]) + 'px',
@@ -20,7 +26,8 @@ const PanelWrapper = (props) => {
             <div className="Title">{panel.title || '\u00A0'}</div>
             <panel.Component
                 panel={panel}
-                setPanel={props.setPanel}
+                setPanel={setPanel}
+                propagateValueAlong={propagateValueAlong}
                 connections={connections}
                 connectorAnchor={connectorAnchor}
                 />

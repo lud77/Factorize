@@ -391,6 +391,7 @@ const WorkArea = (props) => {
 			<PanelWrapper
 				key={panel.panelId}
 				panel={panel} setPanel={setPanel}
+				propagateValueAlong={props.machine.propagateValueAlong}
 				workAreaOffset={workAreaOffset}
 				connections={connections}
 				connectorAnchor={connectorAnchor}

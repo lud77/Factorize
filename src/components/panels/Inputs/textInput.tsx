@@ -6,15 +6,7 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (panelId: number): Panel => {
-    const handleChange = (panel, setPanel) => (e) => {
-        console.log('onChange textInput', e.target.value);
-        console.log({
-            ...panel,
-            outputEpValues: {
-                ...panel.outputEpValues,
-                outputText: e.target.value
-            }
-        });
+    const handleChange = ({ panel, setPanel, propagateValueAlong }) => (e) => {
         setPanel({
             ...panel,
             outputEpValues: {
@@ -22,6 +14,8 @@ const create = (panelId: number): Panel => {
                 outputText: e.target.value
             }
         });
+
+        propagateValueAlong(panel.outputRefs.outputText, e.target.value);
 
         return true;
     };
@@ -32,7 +26,7 @@ const create = (panelId: number): Panel => {
                 <div className="InteractiveItem">
                     <input
                         type="text"
-                        onChange={handleChange(props.panel, props.setPanel)}
+                        onChange={handleChange(props)}
                         />
                 </div>
             </div>
