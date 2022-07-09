@@ -31,10 +31,15 @@ const create = (panelId: number): Panel => {
         default: undefined
     }];
 
-    const execute = (values) => {
-        if (!values.Addend1) return;
-        if (!values.Addend2) return;
-        return Promise.resolve(values.Addend1 + values.Addend2);
+    const execute = (panel, values) => {
+        console.log('add execute', values);
+        if (values.inputAddend1 == null || values.inputAddend2 == null) return {
+            outputResult: ''
+        };
+
+        return {
+            outputResult: values.inputAddend1 + values.inputAddend2
+        };
     };
 
     return {

@@ -1,25 +1,27 @@
 import { Panel } from '../types/Panel';
 
-const Walker = ({ panels, setPanels, setPanel, connections, setConnections, play, setPlay, pause, setPause }) => {
+const Walker = ({ setPanels, connections, setConnections, play, setPlay, pause, setPause }) => {
     let inExecution: Panel[] = [];
 
     const reset = () => {
-        const newPanels =
-            Object.values<Panel>(panels)
-                .map((panel) => ({
-                    ...panel,
-                    inputEpValues: panel.inputEpDefaults
-                }))
-                .reduce((a, v) => ({
-                    ...a,
-                    [v.panelId]: v
-                }), {});
+        setPanels((panels) => {
+            const newPanels =
+                Object.values<Panel>(panels)
+                    .map((panel) => ({
+                        ...panel,
+                        inputEpValues: panel.inputEpDefaults
+                    }))
+                    .reduce((a, v) => ({
+                        ...a,
+                        [v.panelId]: v
+                    }), {});
 
-        setPanels(newPanels);
+            setPanels(newPanels);
 
-        inExecution = // select starter panels
-            Object.values<Panel>(panels)
-                .filter((panel) => panel.starter);
+            inExecution = // select starter panels
+                Object.values<Panel>(panels)
+                    .filter((panel) => panel.starter);
+        });
     };
 
     const step = () => {

@@ -2,11 +2,11 @@ import * as React from 'react';
 
 const PanelWrapper = (props) => {
     const {
-        panel, setPanel,
+        panel,
         workAreaOffset,
         connections,
         connectorAnchor,
-        propagateValueAlong
+        machine
     } = props;
 
     const style = {
@@ -26,8 +26,7 @@ const PanelWrapper = (props) => {
             <div className="Title">{panel.title || '\u00A0'}</div>
             <panel.Component
                 panel={panel}
-                setPanel={setPanel}
-                propagateValueAlong={propagateValueAlong}
+                machine={machine}
                 connections={connections}
                 connectorAnchor={connectorAnchor}
                 />

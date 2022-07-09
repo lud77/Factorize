@@ -6,8 +6,10 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (panelId: number): Panel => {
-    const handleChange = ({ panel, setPanel, propagateValueAlong }) => (e) => {
-        propagateValueAlong(panel, 'outputText', e.target.value);
+    const handleChange = ({ panel, machine }) => (e) => {
+        // propagateValueAlong(panel, 'outputText', e.target.value);
+
+        machine.executePanelLogic(panelId, { tuningText: e.target.value });
 
         return true;
     };
@@ -35,13 +37,10 @@ const create = (panelId: number): Panel => {
         defaultValue: ''
     }];
 
-    const execute = () => {
-        return new Promise((res, rej) => {
-            setTimeout(() => {
-                console.log('TextInput');
-                res(true);
-            }, 2000);
-        });
+    const execute = (panel, inputs) => {
+        return {
+            outputText: inputs.tuningText
+        };
     };
 
     return {

@@ -41,7 +41,6 @@ const Editor = (props) => {
 
     const {
         makeConnection,
-        setPanel,
         makePanel,
         removeConnectionByOutputRef,
         removeConnectionByInputRef,
@@ -53,8 +52,7 @@ const Editor = (props) => {
         pressPause,
         pressStop
     } = Walker({
-        panels, setPanels,
-        setPanel,
+        setPanels,
         connections, setConnections,
         play, setPlay,
         pause, setPause
@@ -64,7 +62,7 @@ const Editor = (props) => {
 
     const menus = {
         'Panels': { submenus: paletteMenu(props.panelPalettes) },
-        'Values': { component: <ValuesEditor panel={focused !== null ? panels[focused] : null} setPanel={setPanel} /> },
+        'Values': { component: <ValuesEditor panel={focused !== null ? panels[focused] : null} setPanels={setPanels} /> },
         'Controls': {
             submenus: {
                 'Play': {
@@ -102,7 +100,7 @@ const Editor = (props) => {
                 snap={snap}
                 focused={focused} setFocus={setFocus}
                 inclusiveSelection={inclusiveSelection}
-                panels={panels} setPanels={setPanels} setPanel={setPanel}
+                panels={panels} setPanels={setPanels}
                 connections={connections} setConnections={setConnections}
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
                 makeConnection={makeConnection}

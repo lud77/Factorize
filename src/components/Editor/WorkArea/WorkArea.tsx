@@ -21,7 +21,7 @@ const WorkArea = (props) => {
 	const {
 		machine,
 		play, pause,
-		panels, setPanels, setPanel,
+		panels, setPanels,
 		connections, setConnections,
 		focused, setFocus,
 		connectorAnchor, setConnectorAnchor,
@@ -369,10 +369,13 @@ const WorkArea = (props) => {
 	};
 
 	const mouseClick = (e) => {
-		//e.stopPropagation();
 		setFocus(null);
 
-		if (e.shiftKey || e.ctrlKey) return;
+		if (e.shiftKey || e.ctrlKey) {
+			console.log(panels);
+			return;
+		}
+
 		setSelectedPanels(Set());
 	};
 
@@ -390,8 +393,8 @@ const WorkArea = (props) => {
 		return (
 			<PanelWrapper
 				key={panel.panelId}
-				panel={panel} setPanel={setPanel}
-				propagateValueAlong={props.machine.propagateValueAlong}
+				panel={panel}
+				machine={machine}
 				workAreaOffset={workAreaOffset}
 				connections={connections}
 				connectorAnchor={connectorAnchor}

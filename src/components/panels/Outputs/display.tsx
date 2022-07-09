@@ -9,7 +9,7 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         const displayStyle = {
             fontFamily: 'courier',
-            fontSize: '45px',
+            fontSize: '35px',
             lineHeight: '35px',
             textAlign: 'center',
             width: '100%',
@@ -33,7 +33,7 @@ const create = (panelId: number): Panel => {
 
     const outputEndpoints = [];
 
-    const execute = (values) => {};
+    const execute = (values) => { return values; };
 
     return {
         type: 'Display',
