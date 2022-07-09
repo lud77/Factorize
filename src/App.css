@@ -5,13 +5,13 @@
   --lowlight: #686d79;
   --background: #262626;
   --border: #4d5256;
-  --panel-background: #31363ab2;
-  --panel-highlight: #4c5257b2;
+  --panel-background: #414549b2;
+  --panel-highlight: #62676bb2;
   --connection: #ada257;
   --connection-highlight: #bdb287;
-  --selection: #df8414;
-  --selection-highlight: #e39433;
-  --selection-lowlight: #8b520d;
+  --selection: #df8414b2;
+  --selection-highlight: #e39433b2;
+  --selection-lowlight: #8b520db2;
   --item-text-size: 12px;
 
   --blue: #007BC8;
