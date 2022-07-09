@@ -245,21 +245,27 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
     const stopPropagatingValue = (connection) => {
         const { targetPanelId, target } = connection;
 
-        setPanels((panels) => {
-            const targetPanel = panels[targetPanelId];
-            const ep = targetPanel.inputEpByRef[target]
+        const targetPanel = panels[targetPanelId];
+        const ep = targetPanel.inputEpByRef[target]
 
-            return {
-                ...panels,
-                [targetPanelId]: {
-                    ...targetPanel,
-                    inputEpValues: {
-                        ...targetPanel.inputEpValues,
-                        [ep]: targetPanel.inputEpDefaults[ep]
-                    }
-                }
-            };
-        });
+        executePanelLogic(targetPanelId, { [ep]: targetPanel.inputEpDefaults[ep] });
+
+        // setPanels((panels) => {
+        //     const targetPanel = panels[targetPanelId];
+        //     const ep = targetPanel.inputEpByRef[target]
+
+        //     return {
+        //         ...panels,
+        //         [targetPanelId]: {
+        //             ...targetPanel,
+        //             inputEpValues: {
+        //                 ...targetPanel.inputEpValues,
+        //                 [ep]: targetPanel.inputEpDefaults[ep]
+        //             }
+        //         }
+        //     };
+        // });
+
     };
 
     const removeConnectionByOutputRef = (ref) => {
