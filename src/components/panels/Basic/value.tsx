@@ -8,17 +8,20 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.executePanelLogic(panelId, {
-            tuningRoll: Array(panel.inputEpValues.inputDice).fill(1)
-                .map(() => Math.floor(panel.inputEpValues.inputFaces * Math.random() + 1))
+            tuningRoll: Array(parseInt(panel.inputEpValues.inputDice)).fill(1)
+                .map(() => Math.floor(parseInt(panel.inputEpValues.inputFaces) * Math.random() + 1))
                 .reduce((a, v) => a + v, 0)
         });
     };
 
     const Component = (props) => {
+        const { inputDice, inputFaces } = props.panel.inputEpValues;
+        const ready = parseInt(inputDice) > 0 && parseInt(inputFaces) > 0;
+
         return <>
             <div className="Row">
                 <div className="InteractiveItem">
-                    <button onClick={handleClick(props)}>Roll!</button>
+                    <button disabled={!ready} onClick={handleClick(props)}>Roll!</button>
                 </div>
             </div>
             <div className="Row">
