@@ -36,7 +36,8 @@ const Editor = (props) => {
         props,
         panels, setPanels,
         connections, setConnections,
-        workAreaOffset
+        workAreaOffset,
+        getNextEndpointId: props.getNextEndpointId
     });
 
     const {

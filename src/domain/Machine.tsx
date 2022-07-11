@@ -2,7 +2,13 @@ import { Connection } from '../types/Machine';
 
 let position = 10;
 
-const Machine = ({ props, panels, setPanels, connections, setConnections, workAreaOffset }) => {
+const Machine = ({
+    props,
+    panels, setPanels,
+    connections, setConnections,
+    workAreaOffset,
+    getNextEndpointId
+}) => {
     const reifySource = (sourcePanelId, sourceEpRef) => {
         const panel = panels[sourcePanelId];
         const ep = panel.outputEpByRef[sourceEpRef];
@@ -157,10 +163,6 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
     };
 
     const makeConnection = (sourceEpRef: number, targetEpRef: number, sourcePanelId: number, targetPanelId: number): Connection => {
-        // makeConnectionHook(source, target, sourcePanelId, targetPanelId);
-
-        // const newValue = propagateOutputValue(sourcePanelId, sourceEpRef, targetPanelId, targetEpRef);
-
         const newValue = getOutputValue(sourcePanelId, sourceEpRef);
         const [ targetPanel, targetInputEp ] = reifyTarget(targetPanelId, targetEpRef);
 
@@ -239,6 +241,42 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
         });
     };
 
+    const addEndpoint = (panelId, label, name, defaultValue, value, register) => {
+        setPanels((panels) => {
+            const panel = panels[panelId];
+            const ep = `output${name}`;
+            const epRef = getNextEndpointId();
+
+            return {
+                ...panels,
+                [panelId]: {
+                    ...panel,
+                    height: panel.height + 21,
+                    [register]: [
+                        ...panel[register],
+                        [ep, epRef, label, name]
+                    ],
+                    outputRefs: {
+                        ...panel.outputRefs,
+                        [ep]: epRef
+                    },
+                    outputEpByRef: {
+                        ...panel.outputEpByRef,
+                        [epRef]: ep
+                    },
+                    outputEpDefaults: {
+                        ...panel.outputEpDefaults,
+                        [ep]: defaultValue
+                    },
+                    outputEpValues: {
+                        ...panel.outputEpValues,
+                        [ep]: value
+                    }
+                }
+            };
+        });
+    };
+
 	const findConnectionByInputEpRef = (ref) => connections.find((connection) => connection.target == ref);
 	const findConnectionByOutputEpRef = (ref) => connections.find((connection) => connection.source == ref);
 
@@ -249,23 +287,6 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
         const ep = targetPanel.inputEpByRef[target]
 
         executePanelLogic(targetPanelId, { [ep]: targetPanel.inputEpDefaults[ep] });
-
-        // setPanels((panels) => {
-        //     const targetPanel = panels[targetPanelId];
-        //     const ep = targetPanel.inputEpByRef[target]
-
-        //     return {
-        //         ...panels,
-        //         [targetPanelId]: {
-        //             ...targetPanel,
-        //             inputEpValues: {
-        //                 ...targetPanel.inputEpValues,
-        //                 [ep]: targetPanel.inputEpDefaults[ep]
-        //             }
-        //         }
-        //     };
-        // });
-
     };
 
     const removeConnectionByOutputRef = (ref) => {
@@ -300,7 +321,8 @@ const Machine = ({ props, panels, setPanels, connections, setConnections, workAr
         removeConnectionByOutputRef,
         removeConnectionByInputRef,
         propagateValueAlong,
-        executePanelLogic
+        executePanelLogic,
+        addEndpoint
     };
 };
 

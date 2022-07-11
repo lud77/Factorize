@@ -366,6 +366,8 @@ const WorkArea = (props) => {
 		}
 
 		setConnectorAnchor(null);
+
+		redraw(Math.random());
 	};
 
 	const mouseClick = (e) => {
@@ -424,7 +426,6 @@ const WorkArea = (props) => {
 	const renderConnection = (connection, key) => {
 		return (<Connector
 			key={key}
-			draw={draw}
 			el1={getEndpointElById(connection.source)}
 			el2={getEndpointElById(connection.target)}
 			roundCorner={true}
@@ -445,7 +446,7 @@ const WorkArea = (props) => {
 		}, 100));
 	});
 
-	const renderView = () => {
+	const renderView = (draw) => {
 		return <>
 			{Object.values(panels).map(renderPanel)}
 			{connections.map(renderConnection)}
@@ -460,7 +461,6 @@ const WorkArea = (props) => {
 
 	const renderConnectionBuilder = () => {
 		return <Connector
-			draw={draw}
 			el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? getEndpointElById(connectorAnchor.fromRef) : undefined}
 			el2={(connectorAnchor != null && connectorAnchor.toRef != null) ? getEndpointElById(connectorAnchor.toRef) : undefined}
 			coordsStart={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.from : undefined}
@@ -485,7 +485,7 @@ const WorkArea = (props) => {
 			>
 			{renderConnectionBuilder()}
 			{renderMarquee()}
-			{renderView()}
+			{renderView(draw)}
 		</div>
 	);
 };

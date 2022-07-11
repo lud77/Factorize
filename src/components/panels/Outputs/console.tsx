@@ -23,9 +23,9 @@ const create = (panelId: number): Panel => {
 
     const execute = (values) => {
         return Promise.resolve()
-        .then(() => {
-            console.log(values.Text);
-        });
+            .then(() => {
+                console.log(values.Text);
+            });
     };
 
     return {

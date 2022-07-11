@@ -7,8 +7,6 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
-        // propagateValueAlong(panel, 'outputText', e.target.value);
-
         machine.executePanelLogic(panelId, { tuningText: e.target.value });
 
         return true;

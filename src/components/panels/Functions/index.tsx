@@ -1,5 +1,5 @@
-import Add from '../Functions/add';
+import Sum from './sum';
 
 export default {
-    Add
+    Sum
 };

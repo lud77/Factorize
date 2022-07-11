@@ -33,7 +33,7 @@ const create = (panelId: number): Panel => {
 
     const outputEndpoints = [];
 
-    const execute = (values) => { return values; };
+    const execute = (values) => values;
 
     return {
         type: 'Display',

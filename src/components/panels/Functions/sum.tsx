@@ -32,10 +32,7 @@ const create = (panelId: number): Panel => {
     }];
 
     const execute = (panel, values) => {
-        console.log('add execute', values);
-        if (values.inputAddend1 == null || values.inputAddend2 == null) return {
-            outputResult: ''
-        };
+        if (values.inputAddend1 == null || values.inputAddend2 == null) return { outputResult: '' };
 
         return {
             outputResult: values.inputAddend1 + values.inputAddend2
