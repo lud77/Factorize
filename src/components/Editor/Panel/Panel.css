@@ -67,6 +67,14 @@
     width: 95%;
 }
 
+.Panel button {
+    width: 100%;
+    border-radius: 5px;
+    background-color: var(--panel-highlight);
+    border: none;
+    color: var(--main-highlight);
+}
+
 .Panel .InputEndpoint {
     display: inline-block;
     width: 1em;
