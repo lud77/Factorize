@@ -56,14 +56,15 @@ const Editor = (props) => {
         setPanels,
         connections, setConnections,
         play, setPlay,
-        pause, setPause
+        pause, setPause,
+        machine
     });
 
     const { paletteMenu, flagPalette } = Palette(makePanel);
 
     const menus = {
         'Panels': { submenus: paletteMenu(props.panelPalettes) },
-        'Values': { component: <ValuesEditor panel={focused !== null ? panels[focused] : null} setPanels={setPanels} /> },
+        'Values': { component: <ValuesEditor panel={focused != null ? panels[focused] : null} setPanels={setPanels} /> },
         'Controls': {
             submenus: {
                 'Play': {

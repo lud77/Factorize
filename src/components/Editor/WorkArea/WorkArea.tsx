@@ -48,6 +48,8 @@ const WorkArea = (props) => {
 	const [ resizeTimeoutHandler, setResizeTimeoutHandler ] = React.useState<NodeJS.Timeout | null>(null);
 
 	const mouseDown = (e) => {
+		if (e.button != 0) return true;
+
 		const connected = e.target.classList.contains('Connected');
 		const onWorkArea = e.target.classList.contains('WorkArea');
 
@@ -230,6 +232,8 @@ const WorkArea = (props) => {
 	};
 
 	const mouseMove = (e) => {
+		if (e.button != 0) return true;
+
 		e.preventDefault();
 
 		if (!dragCoords.isDragging && (connectorAnchor == null)) return;
@@ -254,10 +258,10 @@ const WorkArea = (props) => {
 					};
 				}, {});
 
-			setPanels({
+			setPanels((panels) => ({
 				...panels,
 				...updates
-			});
+			}));
 
 			return false;
 		}
@@ -266,14 +270,14 @@ const WorkArea = (props) => {
 			const panelId = parseInt(dragCoords.el.dataset.key);
 			const func = (props.snap ? snapping : linear);
 
-			setPanels({
+			setPanels((panels) => ({
 				...panels,
 				[panelId]: {
 					...panels[panelId],
 					left: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
 					top: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
 				}
-			});
+			}));
 
 			return false;
 		}
@@ -333,6 +337,8 @@ const WorkArea = (props) => {
 	};
 
 	const mouseUp = (e) => {
+		if (e.button != 0) return true;
+
 		e.preventDefault();
 
 		setDragCoords({ isDragging: false });
@@ -371,6 +377,8 @@ const WorkArea = (props) => {
 	};
 
 	const mouseClick = (e) => {
+		if (e.button != 0) return true;
+
 		setFocus(null);
 
 		if (e.shiftKey || e.ctrlKey) {

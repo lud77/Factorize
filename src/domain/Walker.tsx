@@ -1,45 +1,51 @@
 import { Panel } from '../types/Panel';
 
-const Walker = ({ setPanels, connections, setConnections, play, setPlay, pause, setPause }) => {
+const Walker = ({ setPanels, connections, setConnections, play, setPlay, pause, setPause, machine }) => {
     let inExecution: Panel[] = [];
 
     const reset = () => {
         setPanels((panels) => {
-            const newPanels =
-                Object.values<Panel>(panels)
-                    .map((panel) => ({
-                        ...panel,
-                        inputEpValues: panel.inputEpDefaults
-                    }))
-                    .reduce((a, v) => ({
-                        ...a,
-                        [v.panelId]: v
-                    }), {});
-
-            setPanels(newPanels);
-
             inExecution = // select starter panels
                 Object.values<Panel>(panels)
                     .filter((panel) => panel.starter);
+
+            return panels;
+        });
+    };
+
+    const revert = () => {
+        setPanels((panels) => {
+            return Object.values<Panel>(panels)
+                .map((panel) => ({
+                    ...panel,
+                    inputEpValues: panel.inputEpDefaults
+                }))
+                .reduce((a, v) => ({
+                    ...a,
+                    [v.panelId]: v
+                }), {});
         });
     };
 
     const step = () => {
         return inExecution.reduce(
-            (chain, panel) => chain.then(() => panel.execute(panel.inputEpValues)),
+            (chain, panel) => chain.then(() => { /* machine.executePanelLogic(panel.panelId, {}) */ }),
             Promise.resolve()
         );
     };
 
     const mainLoop = () => {
         step().then(() => {
+            console.log('looping');
             if (play) setTimeout(mainLoop, 1);
         });
     };
 
     const pressPlay = () => {
-        if (!play) setPlay(true);
         setPause(false);
+        if (play) return;
+
+        setPlay(true);
         mainLoop();
     };
 

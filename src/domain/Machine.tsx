@@ -36,11 +36,6 @@ const Machine = ({
         setPanels((panels) => {
             const panel = panels[panelId];
 
-            console.log('updateOutputPanels', panelId, {
-                ...panel.outputEpValues,
-                ...updates
-            });
-
             return {
                 ...panels,
                 [panelId]: {
@@ -108,7 +103,7 @@ const Machine = ({
             const panel = panels[panelId];
             const ep = panel.inputEpByRef[epRef];
 
-            const updatedPanel = {
+            return {
                 ...panels,
                 [panelId]: {
                     ...panel,
@@ -118,8 +113,6 @@ const Machine = ({
                     }
                 }
             };
-
-            return updatedPanel;
         });
 
         return newValue;
