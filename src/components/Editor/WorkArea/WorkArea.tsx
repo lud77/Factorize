@@ -1,9 +1,14 @@
 import * as React from 'react';
 import { Set } from 'immutable';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+
 import Connector from './Connector/Connector';
 import PanelWrapper from './PanelWrapper';
 import Marquee from './Marquee';
+
+import ContextMenu from '../ContextMenu/ContextMenu';
 
 import { DragCoords } from '../../../types/DragCoords';
 
@@ -39,6 +44,8 @@ const WorkArea = (props) => {
 
 	const workArea = React.useRef<any>();
 
+	const [ contextMenuData, setContextMenuData ] = React.useState(null);
+
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
 	const [ screenSize, setScreenSize ] = React.useState(buildScreenSize());
@@ -48,7 +55,7 @@ const WorkArea = (props) => {
 	const [ resizeTimeoutHandler, setResizeTimeoutHandler ] = React.useState<NodeJS.Timeout | null>(null);
 
 	const mouseDown = (e) => {
-		if (e.button != 0) return true;
+		if (e.button != 0) return;
 
 		const connected = e.target.classList.contains('Connected');
 		const onWorkArea = e.target.classList.contains('WorkArea');
@@ -232,7 +239,7 @@ const WorkArea = (props) => {
 	};
 
 	const mouseMove = (e) => {
-		if (e.button != 0) return true;
+		if (e.button != 0) return;
 
 		e.preventDefault();
 
@@ -337,7 +344,7 @@ const WorkArea = (props) => {
 	};
 
 	const mouseUp = (e) => {
-		if (e.button != 0) return true;
+		if (e.button != 0) return;
 
 		e.preventDefault();
 
@@ -377,8 +384,9 @@ const WorkArea = (props) => {
 	};
 
 	const mouseClick = (e) => {
-		if (e.button != 0) return true;
+		if (e.button != 0) return;
 
+		setContextMenuData(null);
 		setFocus(null);
 
 		if (e.shiftKey || e.ctrlKey) {
@@ -387,6 +395,27 @@ const WorkArea = (props) => {
 		}
 
 		setSelectedPanels(Set());
+
+		return true;
+	};
+
+	const contextMenuOpen = (e) => {
+		if (e.target.closest('.Panel')) {
+			setContextMenuData({
+				left: e.clientX,
+				top: e.clientY,
+				items: [{
+					icon: <FontAwesomeIcon icon={solid('trash-can')} />,
+					label: 'Delete Panel',
+					handler: () => { console.log('delete panel'); }
+				}]
+			});
+
+			return;
+		}
+
+		setContextMenuData(null);
+		return;
 	};
 
 	const toggleSelection = (panelId) => {
@@ -490,7 +519,9 @@ const WorkArea = (props) => {
 			onMouseMove={mouseMove}
 			onMouseUp={mouseUp}
 			onClick={mouseClick}
+			onContextMenu={contextMenuOpen}
 			>
+			{contextMenuData != null ? <ContextMenu {...contextMenuData} setContextMenuData={setContextMenuData} /> : null}
 			{renderConnectionBuilder()}
 			{renderMarquee()}
 			{renderView(draw)}

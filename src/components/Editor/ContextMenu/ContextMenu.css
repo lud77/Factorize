@@ -1,0 +1,37 @@
+:root {
+    --context-menu-font-size: 12px;
+}
+
+.ContextMenu {
+    font-size: var(--context-menu-font-size);
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    z-index: 2;
+    list-style-type: none;
+    width: 180px;
+
+    background-color: var(--medium-highlight);
+    color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+
+    cursor: default;
+}
+
+.ContextMenu li.Item {
+    padding: 0.5em;
+}
+
+.ContextMenu li.Item:hover {
+    background-color: var(--medium-lowlight);
+    color: var(--background);
+}
+
+.ContextMenu li.Item .Icon {
+    margin: 0 0.25em;
+}
+
+.ContextMenu li.Item .Label {
+    margin: 0 0.25em;
+}
