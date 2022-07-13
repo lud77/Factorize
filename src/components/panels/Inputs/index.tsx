@@ -1,5 +1,7 @@
-import TextInput from './textInput';
+import Text from './text';
+import Number from './number';
 
 export default {
-    TextInput
+    Text,
+    Number
 };

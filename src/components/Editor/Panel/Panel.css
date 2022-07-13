@@ -13,6 +13,7 @@
     z-index: 1;
     background-color: var(--panel-background);
     background: linear-gradient(180deg, var(--panel-highlight) 0%, var(--panel-background) 20%);
+    user-select: none;
 }
 
 .Panel .Title {

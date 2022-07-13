@@ -42,7 +42,7 @@ const create = (panelId: number): Panel => {
     };
 
     return {
-        type: 'TextInput',
+        type: 'Text',
         starter: true,
         inputEndpoints,
         outputEndpoints,
