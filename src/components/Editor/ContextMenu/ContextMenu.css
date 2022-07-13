@@ -20,7 +20,7 @@
 }
 
 .ContextMenu li.Item {
-    padding: 0.5em;
+    padding: 0.75em;
 }
 
 .ContextMenu li.Item:hover {
@@ -29,9 +29,9 @@
 }
 
 .ContextMenu li.Item .Icon {
-    margin: 0 0.25em;
+    margin: 0;
 }
 
 .ContextMenu li.Item .Label {
-    margin: 0 0.25em;
+    margin: 0 0 0 0.75em ;
 }

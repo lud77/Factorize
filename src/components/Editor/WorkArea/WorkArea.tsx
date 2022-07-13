@@ -58,16 +58,7 @@ const WorkArea = (props) => {
 
 	const contextMenuItems = contextMenusSetup({
 		deletePanel: (ctx) => (e) => {
-			machine.removeConnectionsByPanelId(ctx.panelId);
-
-			setPanels((panels) => {
-				const newPanels = { ...panels };
-				delete newPanels[ctx.panelId];
-
-				return newPanels;
-			});
-
-			console.log('delete panel ' + ctx.panelId);
+			machine.removePanelById(ctx.panelId);
 		}
 	});
 

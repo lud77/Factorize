@@ -281,6 +281,17 @@ const Machine = ({
         });
     };
 
+    const removePanelById = (panelId) => {
+		removeConnectionsByPanelId(panelId);
+
+		setPanels((panels) => {
+			delete panels[panelId];
+			const newPanels = { ...panels };
+
+			return newPanels;
+		});
+	};
+
 	const findConnectionByInputEpRef = (ref) => connections.find((connection) => connection.target == ref);
 	const findConnectionByOutputEpRef = (ref) => connections.find((connection) => connection.source == ref);
 
@@ -325,6 +336,7 @@ const Machine = ({
         removeConnectionByOutputRef,
         removeConnectionByInputRef,
         removeConnectionsByPanelId,
+        removePanelById,
         propagateValueAlong,
         executePanelLogic,
         addEndpoint
