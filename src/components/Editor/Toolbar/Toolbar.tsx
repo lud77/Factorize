@@ -40,7 +40,7 @@ const Toolbar = (props) => {
                             selectPrimaryItem(item)(e);
                         }}
                         >
-                        {icon(current)}{item}
+                        {icon(current)}{current.label}
                     </div>
                 );
             });
@@ -65,7 +65,7 @@ const Toolbar = (props) => {
                                 if (current.execute) current.execute(e.target);
                             }}
                             >
-                            {icon(current)}{item}
+                            {icon(current)}{current.label}
                         </div>
                     );
                 });
@@ -85,7 +85,7 @@ const Toolbar = (props) => {
                         className={`Item ${current?.active ? 'Active' : ''}`}
                         onClick={(e) => current.execute(e.target)}
                         >
-                        {icon(current)}{item}
+                        {icon(current)}{current.label}
                     </div>
                 );
             });

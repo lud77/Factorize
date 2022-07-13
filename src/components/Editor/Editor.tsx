@@ -63,27 +63,38 @@ const Editor = (props) => {
     const { paletteMenu, flagPalette } = Palette(makePanel);
 
     const menus = {
-        'Panels': { submenus: paletteMenu(props.panelPalettes) },
-        'Values': { component: <ValuesEditor panel={focused != null ? panels[focused] : null} setPanels={setPanels} /> },
+        'Panels': {
+            label: 'Panels',
+            submenus: paletteMenu(props.panelPalettes)
+        },
+        'Values': {
+            label: 'Values',
+            component: <ValuesEditor panel={focused != null ? panels[focused] : null} setPanels={setPanels} />
+        },
         'Controls': {
+            label: 'Controls',
             submenus: {
                 'Play': {
                     execute: pressPlay,
+                    label: 'Play',
                     active: play,
                     icon: <FontAwesomeIcon icon={solid('play')} />
                 },
                 'Pause': {
                     execute: pressPause,
+                    label: 'Pause',
                     active: pause,
                     icon: <FontAwesomeIcon icon={solid('pause')} />
                 },
                 'Stop': {
                     execute: pressStop,
+                    label: 'Stop',
                     icon: <FontAwesomeIcon icon={solid('stop')} />
                 }
             }
         },
         'Options': {
+            label: 'Options',
             submenus: flagPalette({
                 'Grid': [grid, setGrid],
                 'Snap': [snap, setSnap],

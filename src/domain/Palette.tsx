@@ -3,6 +3,7 @@ const Palette = (makePanel) => {
         return Object.keys(palette)
             .map((panel) => ({
                 name: panel,
+                label: panel,
                 execute: () => makePanel(paletteName, panel)
             }))
             .reduce((a, v) => ({
@@ -15,6 +16,7 @@ const Palette = (makePanel) => {
         return Object.keys(palettes)
             .map((paletteName) => ({
                 name: paletteName,
+                label: paletteName,
                 submenus: panelMenu(paletteName, palettes[paletteName]),
                 chevron: true
             }))
@@ -31,6 +33,7 @@ const Palette = (makePanel) => {
 
                 return {
                     name: flagName,
+                    label: flagName,
                     execute: () => { setFlag(!flag); },
                     active: flag
                 };
