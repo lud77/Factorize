@@ -1,5 +1,5 @@
 const Palette = (makePanel) => {
-    const panelMenu = (paletteName, palette) => {
+    const panelPalette = (paletteName, palette) => {
         return Object.keys(palette)
             .map((panel) => ({
                 name: panel,
@@ -12,12 +12,12 @@ const Palette = (makePanel) => {
             }), {});
     };
 
-    const paletteMenu = (palettes) => {
+    const panelGroupPalette = (palettes) => {
         return Object.keys(palettes)
             .map((paletteName) => ({
                 name: paletteName,
                 label: paletteName,
-                submenus: panelMenu(paletteName, palettes[paletteName]),
+                submenus: panelPalette(paletteName, palettes[paletteName]),
                 chevron: true
             }))
             .reduce((a, v) => ({
@@ -45,7 +45,7 @@ const Palette = (makePanel) => {
     };
 
     return {
-        paletteMenu,
+        panelGroupPalette,
         flagPalette
     };
 };

@@ -1,11 +1,8 @@
 import * as React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import WorkArea from './WorkArea/WorkArea';
 import Toolbar from './Toolbar/Toolbar';
 import Statusbar from './Statusbar/Statusbar';
-import ValuesEditor from './ValuesEditor/ValuesEditor';
 
 import { ConnectorAnchor } from '../../types/ConnectorAnchor';
 import { Connection } from '../../types/Machine';
@@ -13,6 +10,7 @@ import { Connection } from '../../types/Machine';
 import Machine from '../../domain/Machine';
 import Walker from '../../domain/Walker';
 import Palette from '../../domain/Palette';
+import { toolbarMenus } from '../../domain/Menus';
 
 import './Editor.css';
 
@@ -48,11 +46,7 @@ const Editor = (props) => {
         propagateValueAlong
     } = machine;
 
-    const {
-        pressPlay,
-        pressPause,
-        pressStop
-    } = Walker({
+    const walker = Walker({
         setPanels,
         connections, setConnections,
         play, setPlay,
@@ -60,48 +54,23 @@ const Editor = (props) => {
         machine
     });
 
-    const { paletteMenu, flagPalette } = Palette(makePanel);
+    const { panelGroupPalette, flagPalette } = Palette(makePanel);
 
-    const menus = {
-        'Panels': {
-            label: 'Panels',
-            submenus: paletteMenu(props.panelPalettes)
-        },
-        'Values': {
-            label: 'Values',
-            component: <ValuesEditor panel={focused != null ? panels[focused] : null} setPanels={setPanels} />
-        },
-        'Controls': {
-            label: 'Controls',
-            submenus: {
-                'Play': {
-                    execute: pressPlay,
-                    label: 'Play',
-                    active: play,
-                    icon: <FontAwesomeIcon icon={solid('play')} />
-                },
-                'Pause': {
-                    execute: pressPause,
-                    label: 'Pause',
-                    active: pause,
-                    icon: <FontAwesomeIcon icon={solid('pause')} />
-                },
-                'Stop': {
-                    execute: pressStop,
-                    label: 'Stop',
-                    icon: <FontAwesomeIcon icon={solid('stop')} />
-                }
-            }
-        },
-        'Options': {
-            label: 'Options',
-            submenus: flagPalette({
-                'Grid': [grid, setGrid],
-                'Snap': [snap, setSnap],
-                'Inclusive Selection': [inclusiveSelection, setInclusiveSelection]
-            })
-        }
-    };
+    const panelsMenu = panelGroupPalette(props.panelPalettes)
+
+    const flagsMenu = flagPalette({
+        'Grid': [grid, setGrid],
+        'Snap': [snap, setSnap],
+        'Inclusive Selection': [inclusiveSelection, setInclusiveSelection]
+    });
+
+    const menus = toolbarMenus({
+        panels, setPanels, makePanel,
+        play, pause,
+        focused,
+        panelsMenu, flagsMenu,
+        walker
+    });
 
     return (
         <div className={`Editor ${grid ? 'Gridded' : ''}`} style={{ backgroundPosition: `left ${workAreaOffset[0]}px top ${workAreaOffset[1]}px` }}>
