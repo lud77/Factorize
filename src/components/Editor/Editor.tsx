@@ -10,7 +10,7 @@ import { Connection } from '../../types/Machine';
 import Machine from '../../domain/Machine';
 import Walker from '../../domain/Walker';
 import Palette from '../../domain/Palette';
-import { toolbarMenus } from '../../domain/Menus';
+import { toolbarMenusSetup } from '../../domain/Menus';
 
 import './Editor.css';
 
@@ -64,12 +64,12 @@ const Editor = (props) => {
         'Inclusive Selection': [inclusiveSelection, setInclusiveSelection]
     });
 
-    const menus = toolbarMenus({
-        panels, setPanels, makePanel,
+    const menus = toolbarMenusSetup({
+        panels, setPanels,
         play, pause,
         focused,
-        panelsMenu, flagsMenu,
-        walker
+        walker,
+        flagsMenu, panelsMenu
     });
 
     return (

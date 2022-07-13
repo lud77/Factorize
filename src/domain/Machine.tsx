@@ -270,6 +270,17 @@ const Machine = ({
         });
     };
 
+    const removeConnectionsByPanelId = (panelId) => {
+        const outGoing = connections.filter((connection) => connection.sourcePanelId === panelId)
+        outGoing.forEach((connection) => {
+            stopPropagatingValue(connection);
+        });
+
+        setConnections((connections) => {
+            return connections.filter((connection) => (connection.sourcePanelId !== panelId) && (connection.targetPanelId !== panelId))
+        });
+    };
+
 	const findConnectionByInputEpRef = (ref) => connections.find((connection) => connection.target == ref);
 	const findConnectionByOutputEpRef = (ref) => connections.find((connection) => connection.source == ref);
 
@@ -313,6 +324,7 @@ const Machine = ({
         findConnectionByOutputEpRef,
         removeConnectionByOutputRef,
         removeConnectionByInputRef,
+        removeConnectionsByPanelId,
         propagateValueAlong,
         executePanelLogic,
         addEndpoint

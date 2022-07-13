@@ -5,7 +5,7 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import ValuesEditor from '../components/Editor/ValuesEditor/ValuesEditor';
 
-const toolbarMenus = ({
+const toolbarMenusSetup = ({
     panels, setPanels,
     play, pause,
     focused,
@@ -56,6 +56,15 @@ const toolbarMenus = ({
     };
 };
 
+const contextMenusSetup = (handlers) => {
+    return [{
+        icon: <FontAwesomeIcon icon={solid('trash-can')} />,
+        label: 'Delete Panel',
+        handler: handlers.deletePanel
+    }];
+};
+
 export {
-    toolbarMenus
+    toolbarMenusSetup,
+    contextMenusSetup
 };

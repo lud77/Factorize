@@ -10,6 +10,8 @@ import Marquee from './Marquee';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
 
+import { contextMenusSetup } from '../../../domain/Menus';
+
 import { DragCoords } from '../../../types/DragCoords';
 
 import {
@@ -44,7 +46,7 @@ const WorkArea = (props) => {
 
 	const workArea = React.useRef<any>();
 
-	const [ contextMenuData, setContextMenuData ] = React.useState(null);
+	const [ contextMenuData, setContextMenuData ] = React.useState<object | null>(null);
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
@@ -53,6 +55,21 @@ const WorkArea = (props) => {
 
 	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
 	const [ resizeTimeoutHandler, setResizeTimeoutHandler ] = React.useState<NodeJS.Timeout | null>(null);
+
+	const contextMenuItems = contextMenusSetup({
+		deletePanel: (ctx) => (e) => {
+			machine.removeConnectionsByPanelId(ctx.panelId);
+
+			setPanels((panels) => {
+				const newPanels = { ...panels };
+				delete newPanels[ctx.panelId];
+
+				return newPanels;
+			});
+
+			console.log('delete panel ' + ctx.panelId);
+		}
+	});
 
 	const mouseDown = (e) => {
 		if (e.button != 0) return;
@@ -401,14 +418,16 @@ const WorkArea = (props) => {
 
 	const contextMenuOpen = (e) => {
 		if (e.target.closest('.Panel')) {
+			const panelEl = e.target.closest('.Panel');
+			const panelId = parseInt(panelEl.dataset.key);
+
 			setContextMenuData({
 				left: e.clientX,
 				top: e.clientY,
-				items: [{
-					icon: <FontAwesomeIcon icon={solid('trash-can')} />,
-					label: 'Delete Panel',
-					handler: () => { console.log('delete panel'); }
-				}]
+				items: contextMenuItems,
+				target: {
+					panelId
+				}
 			});
 
 			return;
