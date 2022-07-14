@@ -520,22 +520,24 @@ const WorkArea = (props) => {
 		/>);
 	};
 
-	window.onresize = () => {
-		resizeEvents = limitEvents(resizeEvents);
-		resizeEvents.push([Date.now()]);
+	if (!window.onresize) {
+		window.onresize = () => {
+			resizeEvents = limitEvents(resizeEvents);
+			resizeEvents.push([Date.now()]);
 
-		if (resizeEvents.length == 5) {
-			setTimeout(() => {
-				console.log('resized on timeout', resizeEvents.length, Date.now());
-				setScreenSize(buildScreenSize());
-			}, 500);
-			return;
-		}
+			if (resizeEvents.length == 4) {
+				setTimeout(() => {
+					console.log('resized on timeout', resizeEvents.length, Date.now());
+					setScreenSize(buildScreenSize());
+				}, 500);
+				return;
+			}
 
-		if (resizeEvents.length > 5) return;
-		console.log('resized', resizeEvents.length, Date.now());
-		setScreenSize(buildScreenSize());
-	};
+			if (resizeEvents.length > 5) return;
+			console.log('resized', resizeEvents.length, Date.now());
+			setScreenSize(buildScreenSize());
+		};
+	}
 
 	const renderView = (draw) => {
 		return <>
