@@ -24,6 +24,10 @@ import {
 import './WorkArea.css';
 import '../Panel/Panel.css';
 
+let resizeEvents: number[][] = [];
+
+const limitEvents = (events) => events.filter(([ts]) => Date.now() - ts < 500);
+
 const WorkArea = (props) => {
 	const {
 		machine,
@@ -516,14 +520,22 @@ const WorkArea = (props) => {
 		/>);
 	};
 
-	window.addEventListener('resize', () => {
-		if (resizeTimeoutHandler !== null) return;
+	window.onresize = () => {
+		resizeEvents = limitEvents(resizeEvents);
+		resizeEvents.push([Date.now()]);
 
-		setResizeTimeoutHandler(setTimeout(() => {
-			setScreenSize(buildScreenSize());
-			setResizeTimeoutHandler(null);
-		}, 100));
-	});
+		if (resizeEvents.length == 5) {
+			setTimeout(() => {
+				console.log('resized on timeout', resizeEvents.length, Date.now());
+				setScreenSize(buildScreenSize());
+			}, 500);
+			return;
+		}
+
+		if (resizeEvents.length > 5) return;
+		console.log('resized', resizeEvents.length, Date.now());
+		setScreenSize(buildScreenSize());
+	};
 
 	const renderView = (draw) => {
 		return <>

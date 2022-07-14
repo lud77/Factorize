@@ -22,7 +22,7 @@ as ```npm install``` produces an error when trying to resolve webpack
 
 --- Bugs
 
-- [ ] Window resize causes slowdown and stalling
+- [x] Window resize causes slowdown and stalling --- PROBABLY FIXED
 - [ ] Performance issues, connectors losing contact with panels
 
 --- QA
