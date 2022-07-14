@@ -100,12 +100,14 @@
     user-select: none;
 }
 
-.Panel .Connected {
+.Panel .Connected,
+.Panel .Multiconnect {
     background-color: var(--connection);
     border: 1px solid var(--connection);
 }
 
-.Panel .Connected:hover {
+.Panel .Connected:hover,
+.Panel .Multiconnect:hover {
     background-color: var(--connection-highlight);
     border: 1px solid var(--connection-highlight);
 }

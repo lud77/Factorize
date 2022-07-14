@@ -4,12 +4,14 @@ export default (props) => {
     console.log('output endpoint', props.connections)
     const isOutputConnected = (ref) => props.connections.find((connection) => connection.source === ref);
 
+    const connectedClass = props.single ? 'Connected' : 'Multiconnect';
+
     return 	<div className="Output Item">
         {props.children}
         <div
             className={`
                 OutputEndpoint Endpoint
-                ${isOutputConnected(props.panel.outputRefs[`output${props.name}`]) ? 'Connected' : ''}
+                ${isOutputConnected(props.panel.outputRefs[`output${props.name}`]) ? connectedClass : ''}
                 ${(props.connectorAnchor != null) && (props.connectorAnchor?.fromRef == props.panel.outputRefs[`output${props.name}`]) ? 'Connecting' : ''}
                 ${props.removable ? 'Removable' : ''}
             `}

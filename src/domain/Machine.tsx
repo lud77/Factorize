@@ -419,6 +419,9 @@ const Machine = ({
 	const findConnectionByTargetRef = (ref) => connections.find((connection) => connection.target == ref);
 	const findConnectionBySourceRef = (ref) => connections.find((connection) => connection.source == ref);
 
+    const getConnectionsByTargetRef = (ref) => connections.filter((connection) => connection.target == ref);
+	const getConnectionsBySourceRef = (ref) => connections.filter((connection) => connection.source == ref);
+
     const stopPropagatingValue = (connection) => {
         const { targetPanelId, target } = connection;
 
@@ -430,9 +433,8 @@ const Machine = ({
 
     const removeConnectionBySourceRef = (ref) => {
 		const connection = findConnectionBySourceRef(ref);
-        console.log('x0', connection);
-		if (connection) {
-            console.log('x1');
+
+        if (connection) {
             stopPropagatingValue(connection);
 			setConnections((connections) => connections.filter((connection) => connection.source != ref));
 			return connection;
@@ -445,6 +447,7 @@ const Machine = ({
 		const connection = findConnectionByTargetRef(ref);
 
 		if (connection) {
+            stopPropagatingValue(connection);
             setConnections((connections) => connections.filter((connection) => connection.target != ref));
 			return connection;
 		}
