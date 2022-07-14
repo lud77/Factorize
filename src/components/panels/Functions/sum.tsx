@@ -23,6 +23,9 @@ const create = (panelId: number): Panel => {
                 <div className="InteractiveItem">
                     <button onClick={handleClick(props)}>+</button>
                 </div>
+                <div className="InteractiveItem">
+                    <button onClick={handleClick(props)}>-</button>
+                </div>
             </div>
             <div className="Row">
                 <InputEndpoint name="Addend1" panelId={panelId} {...props}>Addend 1</InputEndpoint>
@@ -34,7 +37,7 @@ const create = (panelId: number): Panel => {
             {
                 props.panel.addendEps.map(([ep, epRef, label, name], key) => (
                     <div className="Row" key={key}>
-                        <InputEndpoint name={name} panelId={panelId} {...props}>{label}</InputEndpoint>
+                        <InputEndpoint name={name} panelId={panelId} removable={true} {...props}>{label}</InputEndpoint>
                     </div>
                 ))
             }

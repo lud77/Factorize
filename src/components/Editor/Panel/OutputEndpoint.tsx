@@ -10,6 +10,7 @@ export default (props) => {
                 OutputEndpoint Endpoint
                 ${isOutputConnected(props.panel.outputRefs[`output${props.name}`]) ? 'Connected' : ''}
                 ${(props.connectorAnchor != null) && (props.connectorAnchor?.fromRef == props.panel.outputRefs[`output${props.name}`]) ? 'Connecting' : ''}
+                ${props.removable ? 'Removable' : ''}
             `}
             data-id={props.panel.outputRefs[`output${props.name}`]}
             data-ref={`output${props.name}`}

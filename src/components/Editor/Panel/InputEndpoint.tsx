@@ -18,7 +18,11 @@ export default (props) => {
 
     return <div className="Input Item">
         <div
-            className={`InputEndpoint Endpoint ${isInputConnected(props.panel.inputRefs[`input${props.name}`]) ? 'Connected' : ''}`}
+            className={`
+                InputEndpoint Endpoint
+                ${isInputConnected(props.panel.inputRefs[`input${props.name}`]) ? 'Connected' : ''}
+                ${props.removable ? 'Removable' : ''}
+            `}
             data-id={props.panel.inputRefs[`input${props.name}`]}
             data-ref={`input${props.name}`}
             onMouseOver={onMouseOver}

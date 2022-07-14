@@ -15,12 +15,14 @@ const ContextMenu = (props) => {
             onClick={handleClick}
             >
             {
-                props.items.map((item, key) => (
-                    <li key={key} className="Item" onClick={item.handler(props.target)}>
-                        <span className="Icon">{item.icon}</span>
-                        <span className="Label">{item.label}</span>
-                    </li>
-                ))
+                props.items
+                    .filter((item) => item.tags.filter((tag) => props.tags.includes(tag)).length)
+                    .map((item, key) => (
+                        <li key={key} className="Item" onClick={item.handler(props.target)}>
+                            <span className="Icon">{item.icon}</span>
+                            <span className="Label">{item.label}</span>
+                        </li>
+                    ))
             }
         </ul>
     </>;

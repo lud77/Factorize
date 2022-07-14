@@ -59,10 +59,13 @@ const WorkArea = (props) => {
 	const contextMenuItems = contextMenusSetup({
 		deletePanel: (ctx) => (e) => {
 			machine.removePanelById(ctx.panelId);
-		}
+		},
+		removeEp: () => {}
 	});
 
 	const mouseDown = (e) => {
+		setContextMenuData(null);
+
 		if (e.button != 0) return;
 
 		const connected = e.target.classList.contains('Connected');
@@ -394,7 +397,6 @@ const WorkArea = (props) => {
 	const mouseClick = (e) => {
 		if (e.button != 0) return;
 
-		setContextMenuData(null);
 		setFocus(null);
 
 		if (e.shiftKey || e.ctrlKey) {
@@ -412,13 +414,30 @@ const WorkArea = (props) => {
 			const panelEl = e.target.closest('.Panel');
 			const panelId = parseInt(panelEl.dataset.key);
 
+			const row = e.target.closest('.Row');
+
+			let ep = null;
+			if (row) {
+				const res = row.getElementsByClassName('Endpoint');
+				ep = res != null ? res[0] : null;
+			}
+
+			const removableEndpoint = (ep != null) && ep.classList.contains('Removable');
+
+			const tags = ['panel'];
+			const target = { panelId };
+
+			if (removableEndpoint) {
+				tags.push('removable endpoint');
+				target.endpoint = ep.dataset.ref;
+			}
+
 			setContextMenuData({
 				left: e.clientX,
 				top: e.clientY,
 				items: contextMenuItems,
-				target: {
-					panelId
-				}
+				target,
+				tags
 			});
 
 			return;
