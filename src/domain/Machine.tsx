@@ -234,7 +234,7 @@ const Machine = ({
         });
     };
 
-    const addEndpoint = (panelId, label, name, defaultValue, value, register) => {
+    const addOutputEndpoint = (panelId, label, name, defaultValue, value, register) => {
         setPanels((panels) => {
             const panel = panels[panelId];
             const ep = `output${name}`;
@@ -263,6 +263,42 @@ const Machine = ({
                     },
                     outputEpValues: {
                         ...panel.outputEpValues,
+                        [ep]: value
+                    }
+                }
+            };
+        });
+    };
+
+    const addInputEndpoint = (panelId, label, name, defaultValue, value, register) => {
+        setPanels((panels) => {
+            const panel = panels[panelId];
+            const ep = `input${name}`;
+            const epRef = getNextEndpointId();
+
+            return {
+                ...panels,
+                [panelId]: {
+                    ...panel,
+                    height: panel.height + 21,
+                    [register]: [
+                        ...panel[register],
+                        [ep, epRef, label, name]
+                    ],
+                    inputRefs: {
+                        ...panel.inputRefs,
+                        [ep]: epRef
+                    },
+                    inputEpByRef: {
+                        ...panel.inputEpByRef,
+                        [epRef]: ep
+                    },
+                    inputEpDefaults: {
+                        ...panel.inputEpDefaults,
+                        [ep]: defaultValue
+                    },
+                    inputEpValues: {
+                        ...panel.inputEpValues,
                         [ep]: value
                     }
                 }
@@ -339,7 +375,8 @@ const Machine = ({
         removePanelById,
         propagateValueAlong,
         executePanelLogic,
-        addEndpoint
+        addInputEndpoint,
+        addOutputEndpoint
     };
 };
 

@@ -7,8 +7,7 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
-        console.log('handleClick', panel);
-        machine.addEndpoint(
+        machine.addOutputEndpoint(
             panelId,
             `Out ${panel.outEps.length + 3}`,
             `Out${panel.outEps.length + 3}`,
@@ -16,7 +15,7 @@ const create = (panelId: number): Panel => {
             panel.inputEpValues.inputIn,
             'outEps'
         );
-   };
+    };
 
     const Component = (props) => {
         return <>
