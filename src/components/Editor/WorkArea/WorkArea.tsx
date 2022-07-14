@@ -61,7 +61,6 @@ const WorkArea = (props) => {
 			machine.removePanelById(ctx.panelId);
 		},
 		removeEp: (ctx) => (e) => {
-			console.log('removeEp', ctx);
 			if (ctx.endpoint.type === 'Input') return machine.removeInputEndpoint(ctx.panelId, ctx.endpoint.name, ctx.endpoint.ref, ctx.endpoint.registry);
 			if (ctx.endpoint.type === 'Output') return machine.removeOutputEndpoint(ctx.panelId, ctx.endpoint.name, ctx.endpoint.ref, ctx.endpoint.registry);
 		}
@@ -69,6 +68,11 @@ const WorkArea = (props) => {
 
 	const mouseDown = (e) => {
 		if (e.button != 0) return;
+
+		if (contextMenuData != null) {
+			setContextMenuData(null);
+			return;
+		}
 
 		const connected = e.target.classList.contains('Connected');
 		const onWorkArea = e.target.classList.contains('WorkArea');
