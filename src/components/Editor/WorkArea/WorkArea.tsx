@@ -70,6 +70,8 @@ const WorkArea = (props) => {
 		if (e.button != 0) return;
 
 		if (contextMenuData != null) {
+			if (e.target.closest('.ContextMenu')) return;
+
 			setContextMenuData(null);
 			return;
 		}
@@ -367,7 +369,7 @@ const WorkArea = (props) => {
 	const mouseUp = (e) => {
 		if (e.button != 0) return;
 
-		e.preventDefault();
+		// e.preventDefault();
 
 		setDragCoords({ isDragging: false });
 
