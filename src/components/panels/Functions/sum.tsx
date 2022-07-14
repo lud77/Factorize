@@ -23,9 +23,6 @@ const create = (panelId: number): Panel => {
                 <div className="InteractiveItem">
                     <button onClick={handleClick(props)}>+</button>
                 </div>
-                <div className="InteractiveItem">
-                    <button onClick={handleClick(props)}>-</button>
-                </div>
             </div>
             <div className="Row">
                 <InputEndpoint name="Addend1" panelId={panelId} {...props}>Addend 1</InputEndpoint>
