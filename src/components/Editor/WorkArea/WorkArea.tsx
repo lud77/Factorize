@@ -39,10 +39,10 @@ const WorkArea = (props) => {
 
 	const { selectInclusive, selectExclusive } = getSelectorsFor(workAreaOffset);
 
-	const getEndpointElById = (id: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-id="${id}"]`);
+	const getEndpointElByRef = (ref: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-ref="${ref}"]`);
 
-	const getPanelInputRef = (panelId, ref) => panels[panelId].inputRefs[ref];
-	const getPanelOutputRef = (panelId, ref) => panels[panelId].outputRefs[ref];
+	const getPanelInputRef = (panelId, name) => panels[panelId].inputRefs[name];
+	const getPanelOutputRef = (panelId, name) => panels[panelId].outputRefs[name];
 
 	const workArea = React.useRef<any>();
 
@@ -60,12 +60,14 @@ const WorkArea = (props) => {
 		deletePanel: (ctx) => (e) => {
 			machine.removePanelById(ctx.panelId);
 		},
-		removeEp: () => {}
+		removeEp: (ctx) => (e) => {
+			console.log('removeEp', ctx);
+			if (ctx.endpoint.type === 'Input') return machine.removeInputEndpoint(ctx.panelId, ctx.endpoint.name, ctx.endpoint.ref, ctx.endpoint.registry);
+			if (ctx.endpoint.type === 'Output') return machine.removeOutputEndpoint(ctx.panelId, ctx.endpoint.name, ctx.endpoint.ref, ctx.endpoint.registry);
+		}
 	});
 
 	const mouseDown = (e) => {
-		setContextMenuData(null);
-
 		if (e.button != 0) return;
 
 		const connected = e.target.classList.contains('Connected');
@@ -76,6 +78,10 @@ const WorkArea = (props) => {
 		const selectingArea = onWorkArea && e.shiftKey;
 		const creatingInputConnection = e.target.classList.contains('InputEndpoint') && !connected;
 		const creatingOutputConnection = e.target.classList.contains('OutputEndpoint') && !connected;
+		console.log('connected', connected);
+		console.log('e.target', e.target);
+		console.log('creatingInputConnection', creatingInputConnection);
+		console.log('creatingOutputConnection', creatingOutputConnection);
 		const detachingInputConnection = (connectorAnchor == null) && e.target.classList.contains('InputEndpoint') && connected;
 		const detachingOutputConnection = (connectorAnchor == null) && e.target.classList.contains('OutputEndpoint') && connected;
 
@@ -191,7 +197,7 @@ const WorkArea = (props) => {
 			setConnectorAnchor({
 				fromRef: null,
 				to: null,
-				toRef: getPanelInputRef(toPanelId, e.target.dataset.ref),
+				toRef: getPanelInputRef(toPanelId, e.target.dataset.name),
 				toPanelId,
 				from: { x: e.pageX, y: e.pageY }
 			});
@@ -204,7 +210,7 @@ const WorkArea = (props) => {
 			const fromPanelId = parseInt(fromPanel.dataset.key);
 
 			setConnectorAnchor({
-				fromRef: getPanelOutputRef(fromPanelId, e.target.dataset.ref),
+				fromRef: getPanelOutputRef(fromPanelId, e.target.dataset.name),
 				fromPanelId,
 				to: { x: e.pageX, y: e.pageY },
 				toRef: null,
@@ -218,7 +224,7 @@ const WorkArea = (props) => {
 			const toPanel = e.target.closest('.Panel');
 			const toPanelId = parseInt(toPanel.dataset.key);
 
-			const connection = machine.removeConnectionByInputRef(getPanelInputRef(toPanelId, e.target.dataset.ref));
+			const connection = machine.removeConnectionByTargetRef(getPanelInputRef(toPanelId, e.target.dataset.name));
 			if (connection == null) return;
 
 			setConnectorAnchor({
@@ -235,7 +241,7 @@ const WorkArea = (props) => {
 			const fromPanel = e.target.closest('.Panel');
 			const fromPanelId = parseInt(fromPanel.dataset.key);
 
-			const connection = machine.removeConnectionByOutputRef(getPanelOutputRef(fromPanelId, e.target.dataset.ref));
+			const connection = machine.removeConnectionBySourceRef(getPanelOutputRef(fromPanelId, e.target.dataset.name));
 			if (connection == null) return;
 
 			setConnectorAnchor({
@@ -369,7 +375,7 @@ const WorkArea = (props) => {
 			const toPanel = e.target.closest('.Panel');
 
 			const toPanelId = parseInt(toPanel.dataset.key);
-			const toRef = getPanelInputRef(toPanelId, e.target.dataset.ref);
+			const toRef = getPanelInputRef(toPanelId, e.target.dataset.name);
 
 			setConnections([
 				...connections,
@@ -381,7 +387,7 @@ const WorkArea = (props) => {
 			const fromPanel = e.target.closest('.Panel');
 
 			const fromPanelId = parseInt(fromPanel.dataset.key);
-			const fromRef = getPanelOutputRef(fromPanelId, e.target.dataset.ref);
+			const fromRef = getPanelOutputRef(fromPanelId, e.target.dataset.name);
 
 			setConnections([
 				...connections,
@@ -419,7 +425,7 @@ const WorkArea = (props) => {
 			let ep = null;
 			if (row) {
 				const res = row.getElementsByClassName('Endpoint');
-				ep = res != null ? res[0] : null;
+				ep = (res != null) ? res[0] : null;
 			}
 
 			const removableEndpoint = (ep != null) && ep.classList.contains('Removable');
@@ -429,7 +435,7 @@ const WorkArea = (props) => {
 
 			if (removableEndpoint) {
 				tags.push('removable endpoint');
-				target.endpoint = ep.dataset.ref;
+				target.endpoint = ep.dataset;
 			}
 
 			setContextMenuData({
@@ -469,6 +475,7 @@ const WorkArea = (props) => {
 				isSelected={isSelected}
 				onSelect={(e) => {
 					e.stopPropagation();
+					setContextMenuData(null);
 
 					const panel = e.target.closest('.Panel');
 					const panelId = parseInt(panel.dataset.key);
@@ -492,8 +499,8 @@ const WorkArea = (props) => {
 	const renderConnection = (connection, key) => {
 		return (<Connector
 			key={key}
-			el1={getEndpointElById(connection.source)}
-			el2={getEndpointElById(connection.target)}
+			el1={getEndpointElByRef(connection.source)}
+			el2={getEndpointElByRef(connection.target)}
 			roundCorner={true}
 			endArrow={true}
 			stroke={'#ADA257'}
@@ -527,8 +534,8 @@ const WorkArea = (props) => {
 
 	const renderConnectionBuilder = () => {
 		return <Connector
-			el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? getEndpointElById(connectorAnchor.fromRef) : undefined}
-			el2={(connectorAnchor != null && connectorAnchor.toRef != null) ? getEndpointElById(connectorAnchor.toRef) : undefined}
+			el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? getEndpointElByRef(connectorAnchor.fromRef) : undefined}
+			el2={(connectorAnchor != null && connectorAnchor.toRef != null) ? getEndpointElByRef(connectorAnchor.toRef) : undefined}
 			coordsStart={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.from : undefined}
 			coordsEnd={(connectorAnchor != null && connectorAnchor.fromRef != null) ? connectorAnchor.to : undefined}
 			roundCorner={true}

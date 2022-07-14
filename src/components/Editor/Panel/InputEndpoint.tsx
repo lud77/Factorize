@@ -23,8 +23,10 @@ export default (props) => {
                 ${isInputConnected(props.panel.inputRefs[`input${props.name}`]) ? 'Connected' : ''}
                 ${props.removable ? 'Removable' : ''}
             `}
-            data-id={props.panel.inputRefs[`input${props.name}`]}
-            data-ref={`input${props.name}`}
+            data-ref={props.panel.inputRefs[`input${props.name}`]}
+            data-name={`input${props.name}`}
+            data-registry={props.registry || null}
+            data-type="Input"
             onMouseOver={onMouseOver}
             onMouseOut={onMouseOut}
             ></div>

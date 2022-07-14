@@ -1,3 +1,4 @@
+import { updateSourceFile } from 'typescript';
 import { Connection } from '../types/Machine';
 
 let position = 10;
@@ -32,7 +33,26 @@ const Machine = ({
         updateOutputPanels(panelId, { [outputEp]: value });
     };
 
-    const updateOutputPanels = (panelId, updates) => {
+    const updateInputValues = (panelId, updates) => {
+        console.log('update input values ', panelId, updates);
+        setPanels((panels) => {
+            const panel = panels[panelId];
+
+            return {
+                ...panels,
+                [panelId]: {
+                    ...panel,
+                    inputEpValues: {
+                        ...panel.inputEpValues,
+                        ...updates
+                    }
+                }
+            };
+        });
+    };
+
+    const updateOutputValues = (panelId, updates) => {
+        console.log('update output values ', panelId, updates);
         setPanels((panels) => {
             const panel = panels[panelId];
 
@@ -49,23 +69,40 @@ const Machine = ({
         });
     };
 
-    const executePanelLogic = (panelId, valueUpdates) => {
-        const panel = panels[panelId];
+    const propagateOutputValuesFrom = (panelId, updatedOutputs) => {
+        const outgoingConns = findOutgoingConnectionsByPanel(panelId);
+        console.log('outgoingConns', outgoingConns);
 
         setPanels((panels) => {
-            const panel = panels[panelId];
+            const updates = {};
+
+            outgoingConns.forEach((conn) => {
+                const [ connectedPanel, connectedEp ] = reifyTarget(conn.targetPanelId, conn.target);
+                const [ , outputEp ] = reifySource(panelId, conn.source);
+                console.log('forEach', connectedPanel, { [connectedEp]: updatedOutputs[outputEp] });
+
+                if (!updates[conn.targetPanelId]) {
+                    updates[conn.targetPanelId] = panels[conn.targetPanelId];
+                }
+
+                updates[conn.targetPanelId].inputEpValues[connectedEp] = updatedOutputs[outputEp];
+            });
 
             return {
                 ...panels,
-                [panelId]: {
-                    ...panel,
-                    inputEpValues: {
-                        ...panel.inputEpValues,
-                        ...valueUpdates
-                    }
-                }
+                ...updates
             };
         });
+
+        return outgoingConns.map((conn) => conn.targetPanelId);
+    };
+
+    const executePanelLogic = (panelId, valueUpdates: object | null = null) => {
+        const panel = panels[panelId];
+
+        if (valueUpdates != null) {
+            updateInputValues(panelId, valueUpdates);
+        }
 
         Promise.resolve()
             .then(() => [
@@ -76,24 +113,19 @@ const Machine = ({
                 })
             ])
             .then(([ panelId, outputs ]) => {
-                const updates = {
+                const updatedOutputs = {
                     ...panel.outputEpValues,
                     ...outputs
                 };
 
-                console.log('updates', updates);
+                console.log('updates', panelId, updatedOutputs);
 
-                updateOutputPanels(panelId, updates);
+                updateOutputValues(panelId, updatedOutputs);
 
-                const outgoingConns = findOutgoingConnectionsByPanel(panel.panelId);
-                console.log('outgoingConns', outgoingConns);
+                const updatedPanelIds = propagateOutputValuesFrom(panel.panelId, updatedOutputs);
 
-                outgoingConns.forEach((conn) => {
-                    const [ connectedPanel, connectedEp ] = reifyTarget(conn.targetPanelId, conn.target);
-                    const [ , outputEp ] = reifySource(panelId, conn.source);
-                    console.log('forEach', connectedPanel, { [connectedEp]: updates[outputEp] });
-
-                    executePanelLogic(conn.targetPanelId, { [connectedEp]: updates[outputEp] });
+                updatedPanelIds.forEach((panelId) => {
+                    executePanelLogic(panelId);
                 });
             });
     };
@@ -234,7 +266,7 @@ const Machine = ({
         });
     };
 
-    const addOutputEndpoint = (panelId, label, name, defaultValue, value, register) => {
+    const addOutputEndpoint = (panelId, label, name, defaultValue, value, registry) => {
         setPanels((panels) => {
             const panel = panels[panelId];
             const ep = `output${name}`;
@@ -245,10 +277,11 @@ const Machine = ({
                 [panelId]: {
                     ...panel,
                     height: panel.height + 21,
-                    [register]: [
-                        ...panel[register],
+                    [registry]: [
+                        ...panel[registry],
                         [ep, epRef, label, name]
                     ],
+                    [`${registry}Counter`]: panel[`${registry}Counter`] + 1,
                     outputRefs: {
                         ...panel.outputRefs,
                         [ep]: epRef
@@ -270,7 +303,7 @@ const Machine = ({
         });
     };
 
-    const addInputEndpoint = (panelId, label, name, defaultValue, value, register) => {
+    const addInputEndpoint = (panelId, label, name, defaultValue, value, registry) => {
         setPanels((panels) => {
             const panel = panels[panelId];
             const ep = `input${name}`;
@@ -281,10 +314,11 @@ const Machine = ({
                 [panelId]: {
                     ...panel,
                     height: panel.height + 21,
-                    [register]: [
-                        ...panel[register],
+                    [registry]: [
+                        ...panel[registry],
                         [ep, epRef, label, name]
                     ],
+                    [`${registry}Counter`]: panel[`${registry}Counter`] + 1,
                     inputRefs: {
                         ...panel.inputRefs,
                         [ep]: epRef
@@ -306,15 +340,69 @@ const Machine = ({
         });
     };
 
+    const removeInputEndpoint = (panelId, ep, ref, registry) => {
+        console.log('removeInputEndpoint', panelId, ep, ref, registry);
+        removeConnectionByTargetRef(ref);
+
+        setPanels((panels) => {
+            const panel = panels[panelId];
+
+            delete panel.inputRefs[ep];
+            delete panel.inputEpByRef[ref];
+            delete panel.inputEpDefaults[ep];
+            delete panel.inputEpValues[ep];
+
+            return {
+                ...panels,
+                [panelId]: {
+                    ...panel,
+                    height: panel.height - 21,
+                    [registry]: panel[registry].filter(([candidateEp]) => candidateEp != ep),
+                    inputRefs: { ...panel.inputRefs },
+                    inputEpByRef: { ...panel.inputEpByRef },
+                    inputEpDefaults: { ...panel.inputEpDefaults },
+                    inputEpValues: { ...panel.inputEpValues }
+                }
+            };
+        });
+    };
+
+    const removeOutputEndpoint = (panelId, ep, ref, registry) => {
+        console.log('removeOutputEndpoint', panelId, ep, ref, registry);
+        removeConnectionBySourceRef(ref);
+
+        setPanels((panels) => {
+            const panel = panels[panelId];
+
+            delete panel.outputRefs[ep];
+            delete panel.outputEpByRef[ref];
+            delete panel.outputEpDefaults[ep];
+            delete panel.outputEpValues[ep];
+
+            return {
+                ...panels,
+                [panelId]: {
+                    ...panel,
+                    height: panel.height - 21,
+                    [registry]: panel[registry].filter(([candidateEp]) => candidateEp != ep),
+                    outputRefs: { ...panel.outputRefs },
+                    outputEpByRef: { ...panel.outputEpByRef },
+                    outputEpDefaults: { ...panel.outputEpDefaults },
+                    outputEpValues: { ...panel.outputEpValues }
+                }
+            };
+        });
+    };
+
     const removeConnectionsByPanelId = (panelId) => {
         const outGoing = connections.filter((connection) => connection.sourcePanelId === panelId)
         outGoing.forEach((connection) => {
             stopPropagatingValue(connection);
         });
 
-        setConnections((connections) => {
-            return connections.filter((connection) => (connection.sourcePanelId !== panelId) && (connection.targetPanelId !== panelId))
-        });
+        setConnections((connections) =>
+            connections.filter((connection) => (connection.sourcePanelId !== panelId) && (connection.targetPanelId !== panelId))
+        );
     };
 
     const removePanelById = (panelId) => {
@@ -328,8 +416,8 @@ const Machine = ({
 		});
 	};
 
-	const findConnectionByInputEpRef = (ref) => connections.find((connection) => connection.target == ref);
-	const findConnectionByOutputEpRef = (ref) => connections.find((connection) => connection.source == ref);
+	const findConnectionByTargetRef = (ref) => connections.find((connection) => connection.target == ref);
+	const findConnectionBySourceRef = (ref) => connections.find((connection) => connection.source == ref);
 
     const stopPropagatingValue = (connection) => {
         const { targetPanelId, target } = connection;
@@ -340,24 +428,24 @@ const Machine = ({
         executePanelLogic(targetPanelId, { [ep]: targetPanel.inputEpDefaults[ep] });
     };
 
-    const removeConnectionByOutputRef = (ref) => {
-		const connection = findConnectionByOutputEpRef(ref);
-
+    const removeConnectionBySourceRef = (ref) => {
+		const connection = findConnectionBySourceRef(ref);
+        console.log('x0', connection);
 		if (connection) {
+            console.log('x1');
             stopPropagatingValue(connection);
-			setConnections(connections.filter((connection) => connection.source !== ref));
+			setConnections((connections) => connections.filter((connection) => connection.source != ref));
 			return connection;
 		}
 
 		return null;
 	};
 
-	const removeConnectionByInputRef = (ref) => {
-		const connection = findConnectionByInputEpRef(ref);
+	const removeConnectionByTargetRef = (ref) => {
+		const connection = findConnectionByTargetRef(ref);
 
 		if (connection) {
-            stopPropagatingValue(connection);
-			setConnections(connections.filter((connection) => connection.target !== ref));
+            setConnections((connections) => connections.filter((connection) => connection.target != ref));
 			return connection;
 		}
 
@@ -367,16 +455,18 @@ const Machine = ({
     return {
         makeConnection,
         makePanel,
-        findConnectionByInputEpRef,
-        findConnectionByOutputEpRef,
-        removeConnectionByOutputRef,
-        removeConnectionByInputRef,
+        findConnectionBySourceRef,
+        findConnectionByTargetRef,
+        removeConnectionBySourceRef,
+        removeConnectionByTargetRef,
         removeConnectionsByPanelId,
         removePanelById,
         propagateValueAlong,
         executePanelLogic,
         addInputEndpoint,
-        addOutputEndpoint
+        addOutputEndpoint,
+        removeInputEndpoint,
+        removeOutputEndpoint
     };
 };
 

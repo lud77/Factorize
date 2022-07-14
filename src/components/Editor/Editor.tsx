@@ -40,10 +40,7 @@ const Editor = (props) => {
 
     const {
         makeConnection,
-        makePanel,
-        removeConnectionByOutputRef,
-        removeConnectionByInputRef,
-        propagateValueAlong
+        makePanel
     } = machine;
 
     const walker = Walker({

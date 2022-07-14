@@ -9,8 +9,8 @@ const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
             panelId,
-            `Addend ${panel.addendEps.length + 3}`,
-            `Addend${panel.addendEps.length + 3}`,
+            `Addend`,
+            `Addend${panel.addendEpsCounter}`,
             0,
             0,
             'addendEps'
@@ -25,16 +25,16 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="Addend1" panelId={panelId} {...props}>Addend 1</InputEndpoint>
+                <InputEndpoint name="Addend1" panelId={panelId} {...props}>Addend</InputEndpoint>
                 <OutputEndpoint name="Result" panelId={panelId} {...props}>Result</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Addend2" panelId={panelId} {...props}>Addend 2</InputEndpoint>
+                <InputEndpoint name="Addend2" panelId={panelId} {...props}>Addend</InputEndpoint>
             </div>
             {
                 props.panel.addendEps.map(([ep, epRef, label, name], key) => (
                     <div className="Row" key={key}>
-                        <InputEndpoint name={name} panelId={panelId} removable={true} {...props}>{label}</InputEndpoint>
+                        <InputEndpoint name={name} panelId={panelId} removable={true} registry="addendEps" {...props}>{label}</InputEndpoint>
                     </div>
                 ))
             }
@@ -54,17 +54,15 @@ const create = (panelId: number): Panel => {
         default: 0
     }];
 
-    const isNum = (x) => !isNaN(x);
-
     const execute = (panel, values) => {
-        const eps =
-            Array(panel.addendEps.length + 2).fill(1)
-                .map((addend, i) => `inputAddend${i + 1}`);
+        const eps = ['inputAddend1', 'inputAddend2'].concat(panel.addendEps.map(([ep]) => ep));
 
-        const allNumbers = eps.reduce((a, ep) => a && isNum(values[ep]), true);
+        const allNumbers = eps.reduce((a, ep) => a && !isNaN(values[ep]), true);
+
+        console.log('execute sum', panel.addendEps, eps.reduce((a, ep) => a + parseInt(values[ep]), 0));
 
         if (!allNumbers) return { outputResult: '' };
-        return { outputResult: eps.reduce((a, ep) => a + values[ep], 0) };
+        return { outputResult: eps.reduce((a, ep) => a + parseInt(values[ep]), 0) };
     };
 
     return {
@@ -75,6 +73,7 @@ const create = (panelId: number): Panel => {
         width: 134,
         height: 94,
         addendEps: [],
+        addendEpsCounter: 3,
         Component,
         execute
     } as Panel;

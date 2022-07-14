@@ -9,8 +9,8 @@ const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addOutputEndpoint(
             panelId,
-            `Out ${panel.outEps.length + 3}`,
-            `Out${panel.outEps.length + 3}`,
+            `Out`,
+            `Out${panel.outEpsCounter}`,
             '',
             panel.inputEpValues.inputIn,
             'outEps'
@@ -26,15 +26,15 @@ const create = (panelId: number): Panel => {
             </div>
             <div className="Row">
                 <InputEndpoint name="In" panelId={panelId} {...props}>In</InputEndpoint>
-                <OutputEndpoint name="Out1" panelId={panelId} {...props}>Out 1</OutputEndpoint>
+                <OutputEndpoint name="Out1" panelId={panelId} {...props}>Out</OutputEndpoint>
             </div>
             <div className="Row">
-                <OutputEndpoint name="Out2" panelId={panelId} {...props}>Out 2</OutputEndpoint>
+                <OutputEndpoint name="Out2" panelId={panelId} {...props}>Out</OutputEndpoint>
             </div>
             {
                 props.panel.outEps.map(([ep, epRef, label, name], key) => (
                     <div className="Row" key={key}>
-                        <OutputEndpoint name={name} panelId={panelId} {...props}>{label}</OutputEndpoint>
+                        <OutputEndpoint name={name} panelId={panelId} removable={true} registry="outEps" {...props}>{label}</OutputEndpoint>
                     </div>
                 ))
             }
@@ -64,7 +64,7 @@ const create = (panelId: number): Panel => {
             .map(([ep, epRef, label, name]) => ({ [ep]: values.inputIn }))
             .reduce((a, v) => ({ ...a, ...v }), update);
 
-        console.log('execute', panel.outEps, results);
+        console.log('execute fan', panel.outEps, results);
 
         return results;
     };
@@ -77,6 +77,7 @@ const create = (panelId: number): Panel => {
         width: 134,
         height: 94,
         outEps: [],
+        outEpsCounter: 3,
         Component,
         execute
     } as Panel;
