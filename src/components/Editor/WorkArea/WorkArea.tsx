@@ -24,9 +24,9 @@ import {
 import './WorkArea.css';
 import '../Panel/Panel.css';
 
-let resizeEvents: number[][] = [];
+let resizeEvents: number[] = [];
 
-const limitEvents = (events) => events.filter(([ts]) => Date.now() - ts < 500);
+const limitEvents = (events) => events.filter((ts) => Date.now() - ts < 500);
 
 const WorkArea = (props) => {
 	const {
@@ -88,10 +88,6 @@ const WorkArea = (props) => {
 		const selectingArea = onWorkArea && e.shiftKey;
 		const creatingInputConnection = e.target.classList.contains('InputEndpoint') && !connected;
 		const creatingOutputConnection = e.target.classList.contains('OutputEndpoint') && !connected;
-		console.log('connected', connected);
-		console.log('e.target', e.target);
-		console.log('creatingInputConnection', creatingInputConnection);
-		console.log('creatingOutputConnection', creatingOutputConnection);
 		const detachingInputConnection = (connectorAnchor == null) && e.target.classList.contains('InputEndpoint') && connected;
 		const detachingOutputConnection = (connectorAnchor == null) && e.target.classList.contains('OutputEndpoint') && connected;
 
@@ -209,7 +205,7 @@ const WorkArea = (props) => {
 				to: null,
 				toRef: getPanelInputRef(toPanelId, e.target.dataset.name),
 				toPanelId,
-				from: { x: e.pageX, y: e.pageY }
+				from: { x: e.pageX, y: e.pageY },
 			});
 
 			return;
@@ -382,27 +378,38 @@ const WorkArea = (props) => {
 			e.target.classList.contains('InputEndpoint') &&
 			!e.target.classList.contains('Connected')
 		) {
-			const toPanel = e.target.closest('.Panel');
+			const toPanelEl = e.target.closest('.Panel');
 
-			const toPanelId = parseInt(toPanel.dataset.key);
+			const toPanelId = parseInt(toPanelEl.dataset.key);
 			const toRef = getPanelInputRef(toPanelId, e.target.dataset.name);
 
-			setConnections([
-				...connections,
-				makeConnection(connectorAnchor.fromRef, toRef, connectorAnchor.fromPanelId, toPanelId)
-			]);
+			const newConnection = makeConnection(connectorAnchor.fromRef, toRef, connectorAnchor.fromPanelId, toPanelId);
+
+			if (newConnection) {
+				setConnections([
+					...connections,
+					newConnection
+				]);
+			}
 		}
 
-		if ((connectorAnchor != null && connectorAnchor.toRef != null) && (e.target.classList.contains('OutputEndpoint'))) {
-			const fromPanel = e.target.closest('.Panel');
+		if (
+			(connectorAnchor != null && connectorAnchor.toRef != null) &&
+			(e.target.classList.contains('OutputEndpoint'))
+		) {
+			const fromPanelEl = e.target.closest('.Panel');
 
-			const fromPanelId = parseInt(fromPanel.dataset.key);
+			const fromPanelId = parseInt(fromPanelEl.dataset.key);
 			const fromRef = getPanelOutputRef(fromPanelId, e.target.dataset.name);
 
-			setConnections([
-				...connections,
-				makeConnection(fromRef, connectorAnchor.toRef, fromPanelId, connectorAnchor.toPanelId)
-			]);
+			const newConnection = makeConnection(fromRef, connectorAnchor.toRef, fromPanelId, connectorAnchor.toPanelId);
+
+			if (newConnection) {
+				setConnections([
+					...connections,
+					newConnection
+				]);
+			}
 		}
 
 		setConnectorAnchor(null);
@@ -514,6 +521,7 @@ const WorkArea = (props) => {
 			roundCorner={true}
 			endArrow={true}
 			stroke={'#ADA257'}
+			svgClass={`Signal-${connection.signal}`}
 			strokeWidth={2}
 			workArea={workArea}
 			play={play} pause={pause}
@@ -523,7 +531,7 @@ const WorkArea = (props) => {
 	if (!window.onresize) {
 		window.onresize = () => {
 			resizeEvents = limitEvents(resizeEvents);
-			resizeEvents.push([Date.now()]);
+			resizeEvents.push(Date.now());
 
 			if (resizeEvents.length == 4) {
 				setTimeout(() => {

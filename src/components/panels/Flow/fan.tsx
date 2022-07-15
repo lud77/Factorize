@@ -12,6 +12,7 @@ const create = (panelId: number): Panel => {
             `Out`,
             `Out${panel.outEpsCounter}`,
             '',
+            'Value',
             panel.inputEpValues.inputIn,
             'outEps'
         );
@@ -43,15 +44,18 @@ const create = (panelId: number): Panel => {
 
     const inputEndpoints = [{
         name: 'In',
-        defaultValue: ''
+        defaultValue: '',
+        signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Out1',
-        defaultValue: ''
+        defaultValue: '',
+        signal: 'Value'
     }, {
         name: 'Out2',
-        defaultValue: ''
+        defaultValue: '',
+        signal: 'Value'
     }];
 
     const execute = (panel, values) => {

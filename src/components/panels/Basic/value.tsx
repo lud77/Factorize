@@ -36,15 +36,18 @@ const create = (panelId: number): Panel => {
 
     const inputEndpoints = [{
         name: 'Dice',
-        defaultValue: 1
+        defaultValue: 1,
+        signal: 'Value'
     }, {
         name: 'Faces',
-        defaultValue: 6
+        defaultValue: 6,
+        signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Value',
-        defaultValue: 1
+        defaultValue: 1,
+        signal: 'Value'
     }];
 
     const execute = (panel, values) => ({ outputValue: values.tuningRoll });

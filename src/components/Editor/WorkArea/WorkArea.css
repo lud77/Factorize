@@ -13,6 +13,24 @@
     animation-play-state: paused;
 }
 
+.Connector.Signal-Value {
+    stroke: var(--connection-value);
+}
+
+.Arrow.Signal-Value {
+    stroke: var(--connection-value);
+    fill: var(--connection-value);
+}
+
+.Connector.Signal-Stream {
+    stroke: var(--connection-stream);
+}
+
+.Arrow.Signal-Stream {
+    stroke: var(--connection-stream);
+    fill: var(--connection-stream);
+}
+
 @keyframes dash {
     to {
         stroke-dashoffset: -300;

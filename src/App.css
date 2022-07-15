@@ -7,8 +7,6 @@
   --border: #4d5256;
   --panel-background: #414549b2;
   --panel-highlight: #62676bb2;
-  --connection: #ada257;
-  --connection-highlight: #bdb287;
   --selection: #e6912bb2;
   --selection-highlight: #e9a553b2;
   --selection-lowlight: #9c6521b2;
@@ -18,6 +16,21 @@
   --green: #189172;
   --purple: #A474C1;
   --red: #CB725C;
+  --gold: #ada257;
+
+  --blue-hl: #3293cf;
+  --green-hl: #42a58c;
+  --purple-hl: #bf9fd3;
+  --red-hl: #dd9685;
+  --gold-hl: #bdb287;
+
+  --connection: #ada257;
+  --connection-highlight: #bdb287;
+
+  --connection-value: #007BC8;
+  --connection-value-hl: #3293cf;
+  --connection-stream: #189172;
+  --connection-stream-hl: #42a58c;
 }
 
 body {

@@ -100,26 +100,38 @@
     user-select: none;
 }
 
-.Panel .Connected,
-.Panel .Multiconnect {
-    background-color: var(--connection);
-    border: 1px solid var(--connection);
+.Panel .Connected.Signal-Value,
+.Panel .Multiconnect.Signal-Value {
+    background-color: var(--connection-value);
+    border: 1px solid var(--connection-value);
 }
 
-.Panel .Connected:hover,
-.Panel .Multiconnect:hover {
-    background-color: var(--connection-highlight);
-    border: 1px solid var(--connection-highlight);
+.Panel .Connected.Signal-Stream,
+.Panel .Multiconnect.Signal-Stream {
+    background-color: var(--connection-stream);
+    border: 1px solid var(--connection-stream);
 }
 
-.Panel.Selected .InputEndpoint:not(.Connected):not(.Hovering):hover,
-.Panel.Selected .OutputEndpoint:not(.Connected):not(.Hovering):hover,
+.Panel .Connected.Signal-Value:hover,
+.Panel .Multiconnect.Signal-Value:hover {
+    background-color: var(--connection-value-hl);
+    border: 1px solid var(--connection-value-hl);
+}
+
+.Panel .Connected.Signal-Stream:hover,
+.Panel .Multiconnect.Signal-Stream:hover {
+    background-color: var(--connection-stream-hl);
+    border: 1px solid var(--connection-stream-hl);
+}
+
+.Panel.Selected .InputEndpoint:not(.Connected):not(.Multiconnect):not(.Hovering):hover,
+.Panel.Selected .OutputEndpoint:not(.Connected):not(.Multiconnect):not(.Hovering):hover
 .Panel .InputEndpoint.Hovering,
 .Panel .OutputEndpoint.Hovering,
 .Panel .InputEndpoint.Connecting,
 .Panel .OutputEndpoint.Connecting,
-.Panel .InputEndpoint:not(.Connected):hover,
-.Panel .OutputEndpoint:not(.Connected):hover {
+.Panel .InputEndpoint:not(.Connected):not(.Multiconnect):hover,
+.Panel .OutputEndpoint:not(.Connected):not(.Multiconnect):hover {
     background-color: var(--main-highlight);
     border: 1px solid var(--main-highlight);
 }
@@ -129,8 +141,8 @@
     background: linear-gradient(180deg, var(--selection-highlight) 0%, var(--selection-lowlight) 20%);
 }
 
-.Panel.Selected .InputEndpoint:not(.Connected):not(.Hovering),
-.Panel.Selected .OutputEndpoint:not(.Connected):not(.Hovering) {
+.Panel.Selected .InputEndpoint:not(.Connected):not(.Multiconnect):not(.Hovering),
+.Panel.Selected .OutputEndpoint:not(.Connected):not(.Multiconnect):not(.Hovering) {
     border: 1px solid var(--selection);
     background-color: var(--selection);
 }

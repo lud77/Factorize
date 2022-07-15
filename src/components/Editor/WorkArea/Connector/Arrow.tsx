@@ -18,8 +18,13 @@ export default function Arrow(props: ArrowProps) {
         z
     `;
 
+    const strokeProp = !props.svgClass
+        ? { stroke: props.stroke, fill: props.stroke  }
+        : null;
+
     return (
         <path
+            className={`Arrow ${props.svgClass}`}
             d={path}
             fill={props.stroke}
             stroke={props.stroke}

@@ -28,6 +28,7 @@ export default function (props: ConnectorProps) {
         coordsStart, coordsEnd,
         workArea,
         play, pause,
+        svgClass,
         ...rest
     } = props;
 
@@ -74,12 +75,20 @@ export default function (props: ConnectorProps) {
             h ${stem}
         `;
 
+        const strokeProp = !svgClass
+            ? { stroke: props.stroke || "orange" }
+            : null;
+
+        const svgClassProp = svgClass
+            ? { svgClass }
+            : null;
+
         return (
-            <svg className='Connector' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'>
+            <svg className={`Connector ${svgClass}`} width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'>
                 <path
                     {...rest}
+                    {...strokeProp}
                     d={path}
-                    stroke={props.stroke || 'orange'}
                     strokeWidth={props.strokeWidth || 2}
                     fill='transparent'
                     />
@@ -87,8 +96,8 @@ export default function (props: ConnectorProps) {
                     play
                         ? <path
                             {...rest}
+                            {...strokeProp}
                             d={path}
-                            stroke={props.stroke || 'orange'}
                             strokeWidth={(props.strokeWidth + 2) || 4}
                             fill='transparent'
                             className={`active ${pause ? 'paused' : ''}`}
@@ -97,10 +106,11 @@ export default function (props: ConnectorProps) {
                 }
                 {props.endArrow && (
                     <Arrow
+                        {...strokeProp}
+                        {...svgClassProp}
                         tip={coordinates.end}
                         size={adjustedArrowSize}
                         rotateAngle={0}
-                        stroke={props.stroke || 'orange'}
                         />
                 )}
             </svg>
@@ -123,12 +133,20 @@ export default function (props: ConnectorProps) {
             H ${coordinates.end.x}
         `;
 
+        const strokeProp = !svgClass
+            ? { stroke: props.stroke || "orange" }
+            : null;
+
+        const svgClassProp = svgClass
+            ? { svgClass }
+            : null;
+
         return (
-            <svg className='Connector' width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <svg className={`Connector ${svgClass}`} width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                 <path
                     {...rest}
+                    {...strokeProp}
                     d={path}
-                    stroke={props.stroke || "orange"}
                     strokeWidth={props.strokeWidth || 2}
                     fill="transparent"
                 />
@@ -136,8 +154,8 @@ export default function (props: ConnectorProps) {
                     play
                         ? <path
                             {...rest}
+                            {...strokeProp}
                             d={path}
-                            stroke={props.stroke || "orange"}
                             strokeWidth={(props.strokeWidth + 2) || 4}
                             fill="transparent"
                             className={`active ${pause ? 'paused' : ''}`}
@@ -146,10 +164,11 @@ export default function (props: ConnectorProps) {
                 }
                 {props.endArrow && (
                     <Arrow
+                        {...strokeProp}
+                        {...svgClassProp}
                         tip={coordinates.end}
                         size={adjustedArrowSize}
                         rotateAngle={0}
-                        stroke={props.stroke || "orange"}
                         />
                 )}
             </svg>

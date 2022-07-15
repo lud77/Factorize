@@ -32,7 +32,8 @@ const create = (panelId: number): Panel => {
 
     const outputEndpoints = [{
         name: 'Text',
-        defaultValue: ''
+        defaultValue: '',
+        signal: 'Value'
     }];
 
     const execute = (panel, inputs) => {
