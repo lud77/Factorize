@@ -146,3 +146,7 @@
     border: 1px solid var(--selection);
     background-color: var(--selection);
 }
+
+.Panel.Selected button {
+    background-color: var(--selection-highlight);
+}
