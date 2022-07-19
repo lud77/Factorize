@@ -5,5 +5,5 @@ import Number from './number';
 export default {
     Text,
     Number,
-    File
+    'File Selector': File
 };

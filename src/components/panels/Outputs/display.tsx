@@ -11,6 +11,7 @@ const create = (panelId: number): Panel => {
             fontFamily: 'courier',
             fontSize: '35px',
             lineHeight: '35px',
+            height: '35px',
             textAlign: 'center',
             width: '100%',
             overflow: 'hidden'

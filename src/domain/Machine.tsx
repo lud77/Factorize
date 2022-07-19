@@ -88,33 +88,38 @@ const Machine = ({
                 updates[conn.targetPanelId].inputEpValues[connectedEp] = updatedOutputs[outputEp];
             });
 
-            return {
+            const updatedPanels = {
                 ...panels,
                 ...updates
             };
-        });
 
-        return outgoingConns.map((conn) => conn.targetPanelId);
+            const updatedPanelsIds = outgoingConns.map((conn) => conn.targetPanelId);
+            updatedPanelsIds.forEach((panelId) => executePanelLogic(panelId));
+
+            return updatedPanels;
+        });
     };
 
     const executePanelLogic = (panelId, valueUpdates: object | null = null) => {
         const panel = panels[panelId];
 
+        console.log('executePanelLogic valueUpdates', panelId, valueUpdates);
+
         if (valueUpdates != null) {
             updateInputValues(panelId, valueUpdates);
         }
 
-        Promise.resolve()
-            .then(() => [
-                panelId,
-                panel.execute(panel, {
-                    ...panel.inputEpValues,
+        return Promise.resolve()
+            .then(() => {
+                return panel.execute(panel, {
+                    ...panel.inputEpValues || {},
                     ...valueUpdates
-                })
-            ])
-            .then(([ panelId, outputs ]) => {
+                },
+                setPanels);
+            })
+            .then((outputs) => {
                 const updatedOutputs = {
-                    ...panel.outputEpValues,
+                    ...panel.outputEpValues || {},
                     ...outputs
                 };
 
@@ -122,11 +127,7 @@ const Machine = ({
 
                 updateOutputValues(panelId, updatedOutputs);
 
-                const updatedPanelIds = propagateOutputValuesFrom(panel.panelId, updatedOutputs);
-
-                updatedPanelIds.forEach((panelId) => {
-                    executePanelLogic(panelId);
-                });
+                return propagateOutputValuesFrom(panelId, updatedOutputs);
             });
     };
 

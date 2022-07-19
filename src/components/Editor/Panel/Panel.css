@@ -28,6 +28,7 @@
     text-align: center;
     user-select: none;
     cursor: move;
+    margin-bottom: 4px;
 }
 
 .Panel .Input {

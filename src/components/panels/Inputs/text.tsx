@@ -53,5 +53,6 @@ const create = (panelId: number): Panel => {
 };
 
 export default {
+    type: 'Text',
     create
 };
