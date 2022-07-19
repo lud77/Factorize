@@ -13,6 +13,7 @@ as ```npm install``` produces an error when trying to resolve webpack
     - etc
 - [ ] Settings page
 - [ ] Plugin system
+- [ ] Main-thread service framework to avoid squashing everything into electron.js
 
 --- Engine
 
