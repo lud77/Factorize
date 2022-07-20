@@ -5,7 +5,7 @@ import Toolbar from './Toolbar/Toolbar';
 import Statusbar from './Statusbar/Statusbar';
 
 import { ConnectorAnchor } from '../../types/ConnectorAnchor';
-import { Connection } from '../../types/Machine';
+import { Connection } from '../../types/Connection';
 
 import Machine from '../../domain/Machine';
 import Walker from '../../domain/Walker';
