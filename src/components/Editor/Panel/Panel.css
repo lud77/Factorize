@@ -107,6 +107,12 @@
     border: 1px solid var(--connection-value);
 }
 
+.Panel .Connected.Signal-Pulse,
+.Panel .Multiconnect.Signal-Pulse {
+    background-color: var(--connection-pulse);
+    border: 1px solid var(--connection-pulse);
+}
+
 .Panel .Connected.Signal-Stream,
 .Panel .Multiconnect.Signal-Stream {
     background-color: var(--connection-stream);
@@ -117,6 +123,12 @@
 .Panel .Multiconnect.Signal-Value:hover {
     background-color: var(--connection-value-hl);
     border: 1px solid var(--connection-value-hl);
+}
+
+.Panel .Connected.Signal-Pulse:hover,
+.Panel .Multiconnect.Signal-Pulse:hover {
+    background-color: var(--connection-pulse-hl);
+    border: 1px solid var(--connection-pulse-hl);
 }
 
 .Panel .Connected.Signal-Stream:hover,

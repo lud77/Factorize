@@ -22,6 +22,15 @@
     fill: var(--connection-value);
 }
 
+.Connector.Signal-Pulse {
+    stroke: var(--connection-pulse);
+}
+
+.Arrow.Signal-Pulse {
+    stroke: var(--connection-pulse);
+    fill: var(--connection-pulse);
+}
+
 .Connector.Signal-Stream {
     stroke: var(--connection-stream);
 }

@@ -29,6 +29,8 @@
 
   --connection-value: #007BC8;
   --connection-value-hl: #3293cf;
+  --connection-pulse: #CB725C;
+  --connection-pulse-hl: #ca8776;
   --connection-stream: #189172;
   --connection-stream-hl: #42a58c;
 }
