@@ -21,10 +21,11 @@ as ```npm install``` produces an error when trying to resolve webpack
 - [ ] Groupings
 - [ ] Actual panels
 
---- Bugs
+--- Bugs / Performance
 
 - [x] Window resize causes slowdown and stalling --- PROBABLY FIXED
-- [ ] Performance issues, connectors losing contact with panels
+- [x] Connectors losing contact with panels
+- [ ] Only render panels in view
 
 --- QA
 
