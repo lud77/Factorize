@@ -29,11 +29,12 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, values) => {
         if (isNaN(values.inputValue)) return { outputInvertedValue: '' };
-        return { outputInvertedValue: 1/values.inputValue };
+        console.log('execute invert', { outputInvertedValue: 1/parseFloat(values.inputValue) });
+        return { outputInvertedValue: 1/parseFloat(values.inputValue) };
     };
 
     return {
-        type: 'Not',
+        type: 'Invert',
         starter: true,
         inputEndpoints,
         outputEndpoints,

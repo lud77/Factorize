@@ -29,11 +29,11 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, values) => {
         if (isNaN(values.inputValue)) return { outputNegatedValue: '' };
-        return { outputNegatedValue: -values.inputValue };
+        return { outputNegatedValue: -parseFloat(values.inputValue) };
     };
 
     return {
-        type: 'Not',
+        type: 'Negate',
         starter: true,
         inputEndpoints,
         outputEndpoints,

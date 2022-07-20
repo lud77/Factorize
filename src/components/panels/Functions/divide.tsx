@@ -35,7 +35,7 @@ const create = (panelId: number): Panel => {
     }];
 
     const execute = (panel, values) => {
-        return { outputResult: values.inputDividend / values.inputDivisor };
+        return { outputResult: parseFloat(values.inputDividend) / parseFloat(values.inputDivisor) };
     };
 
     return {

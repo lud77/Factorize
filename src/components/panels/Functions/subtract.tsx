@@ -35,7 +35,7 @@ const create = (panelId: number): Panel => {
     }];
 
     const execute = (panel, values) => {
-        return { outputResult: values.inputMinuend - values.inputSubtrahend };
+        return { outputResult: parseFloat(values.inputMinuend) - parseFloat(values.inputSubtrahend) };
     };
 
     return {
