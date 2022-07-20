@@ -53,10 +53,7 @@ const create = (panelId: number): Panel => {
     }];
 
     const execute = (panel, inputs) => {
-        console.log('execute file', inputs);
-        return {
-            outputPath: inputs.tuningFilePath
-        };
+        return { outputPath: inputs.tuningFilePath };
     };
 
     return {
