@@ -4,44 +4,42 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import isBoolean from '../../../utils/isBoolean';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
-        const displayStyle = {
-            fontFamily: 'courier',
-            fontSize: '35px',
-            lineHeight: '35px',
-            height: '35px',
-            textAlign: 'center',
-            width: '100%',
-            overflow: 'hidden'
-        };
-
         return <>
             <div className="Row">
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
-            </div>
-            <div className="Row">
-                <span style={displayStyle}>{`${props.panel.inputEpValues.inputValue}`}</span>
+                <OutputEndpoint name="NegatedValue" panelId={panelId} {...props}>¬Value</OutputEndpoint>
             </div>
         </>;
     };
 
     const inputEndpoints = [{
         name: 'Value',
-        defaultValue: '',
+        defaultValue: 0,
         signal: 'Value'
     }];
 
-    const outputEndpoints = [];
+    const outputEndpoints = [{
+        name: 'NegatedValue',
+        default: 0,
+        signal: 'Value'
+    }];
 
-    const execute = (values) => values;
+    const execute = (panel, values) => {
+        if (!isBoolean(values.inputValue)) return { outputNegatedValue: '' };
+        return { outputNegatedValue: !values.inputValue };
+    };
 
     return {
-        type: 'Display',
+        type: 'Not',
         starter: true,
         inputEndpoints,
         outputEndpoints,
+        width: 134,
+        height: 94,
         Component,
         execute
     } as Panel;

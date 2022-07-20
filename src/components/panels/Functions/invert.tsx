@@ -7,41 +7,38 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
-        const displayStyle = {
-            fontFamily: 'courier',
-            fontSize: '35px',
-            lineHeight: '35px',
-            height: '35px',
-            textAlign: 'center',
-            width: '100%',
-            overflow: 'hidden'
-        };
-
         return <>
             <div className="Row">
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
-            </div>
-            <div className="Row">
-                <span style={displayStyle}>{`${props.panel.inputEpValues.inputValue}`}</span>
+                <OutputEndpoint name="InvertedValue" panelId={panelId} {...props}>1/Value</OutputEndpoint>
             </div>
         </>;
     };
 
     const inputEndpoints = [{
         name: 'Value',
-        defaultValue: '',
+        defaultValue: 0,
         signal: 'Value'
     }];
 
-    const outputEndpoints = [];
+    const outputEndpoints = [{
+        name: 'InvertedValue',
+        default: 0,
+        signal: 'Value'
+    }];
 
-    const execute = (values) => values;
+    const execute = (panel, values) => {
+        if (isNaN(values.inputValue)) return { outputInvertedValue: '' };
+        return { outputInvertedValue: 1/values.inputValue };
+    };
 
     return {
-        type: 'Display',
+        type: 'Not',
         starter: true,
         inputEndpoints,
         outputEndpoints,
+        width: 134,
+        height: 94,
         Component,
         execute
     } as Panel;

@@ -9,12 +9,12 @@ const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
             panelId,
-            `Addend`,
-            `Addend${panel.addendEpsCounter}`,
+            `Multiplicand`,
+            `Multiplicand${panel.multiplicandEpsCounter}`,
             0,
             'Value',
             0,
-            'addendEps'
+            'multiplicandEps'
         );
     };
 
@@ -26,16 +26,16 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="Addend1" panelId={panelId} {...props}>Addend</InputEndpoint>
+                <InputEndpoint name="Multiplicand1" panelId={panelId} {...props}>Multiplicand</InputEndpoint>
                 <OutputEndpoint name="Result" panelId={panelId} {...props}>Result</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Addend2" panelId={panelId} {...props}>Addend</InputEndpoint>
+                <InputEndpoint name="Multiplicand2" panelId={panelId} {...props}>Multiplicand</InputEndpoint>
             </div>
             {
-                props.panel.addendEps.map(([ep, epRef, label, name], key) => (
+                props.panel.multiplicandEps.map(([ep, epRef, label, name], key) => (
                     <div className="Row" key={key}>
-                        <InputEndpoint name={name} panelId={panelId} removable={true} registry="addendEps" {...props}>{label}</InputEndpoint>
+                        <InputEndpoint name={name} panelId={panelId} removable={true} registry="multiplicandEps" {...props}>{label}</InputEndpoint>
                     </div>
                 ))
             }
@@ -43,11 +43,11 @@ const create = (panelId: number): Panel => {
     };
 
     const inputEndpoints = [{
-        name: 'Addend1',
+        name: 'Multiplicand1',
         defaultValue: 0,
         signal: 'Value'
     }, {
-        name: 'Addend2',
+        name: 'Multiplicand2',
         defaultValue: 0,
         signal: 'Value'
     }];
@@ -59,11 +59,11 @@ const create = (panelId: number): Panel => {
     }];
 
     const execute = (panel, values) => {
-        const eps = ['inputAddend1', 'inputAddend2'].concat(panel.addendEps.map(([ep]) => ep));
+        const eps = ['inputMultiplicand1', 'inputMultiplicand2'].concat(panel.multiplicandEps.map(([ep]) => ep));
 
         const allNumbers = eps.reduce((a, ep) => a && !isNaN(values[ep]), true);
 
-        console.log('execute sum', panel.addendEps, eps.reduce((a, ep) => a + parseInt(values[ep]), 0));
+        console.log('execute sum', panel.multiplicandEps, eps.reduce((a, ep) => a + parseInt(values[ep]), 0));
 
         if (!allNumbers) return { outputResult: '' };
         return { outputResult: eps.reduce((a, ep) => a + parseInt(values[ep]), 0) };
@@ -76,8 +76,8 @@ const create = (panelId: number): Panel => {
         outputEndpoints,
         width: 134,
         height: 94,
-        addendEps: [],
-        addendEpsCounter: 3,
+        multiplicandEps: [],
+        multiplicandEpsCounter: 3,
         Component,
         execute
     } as Panel;

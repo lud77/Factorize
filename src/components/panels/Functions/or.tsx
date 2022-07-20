@@ -4,17 +4,18 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import isBoolean from '../../../utils/isBoolean';
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
             panelId,
-            `Addend`,
-            `Addend${panel.addendEpsCounter}`,
+            `Operand`,
+            `Operand${panel.operandEpsCounter}`,
             0,
             'Value',
             0,
-            'addendEps'
+            'operandEps'
         );
     };
 
@@ -26,16 +27,16 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="Addend1" panelId={panelId} {...props}>Addend</InputEndpoint>
+                <InputEndpoint name="Operand1" panelId={panelId} {...props}>Operand</InputEndpoint>
                 <OutputEndpoint name="Result" panelId={panelId} {...props}>Result</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Addend2" panelId={panelId} {...props}>Addend</InputEndpoint>
+                <InputEndpoint name="Operand2" panelId={panelId} {...props}>Operand</InputEndpoint>
             </div>
             {
-                props.panel.addendEps.map(([ep, epRef, label, name], key) => (
+                props.panel.operandEps.map(([ep, epRef, label, name], key) => (
                     <div className="Row" key={key}>
-                        <InputEndpoint name={name} panelId={panelId} removable={true} registry="addendEps" {...props}>{label}</InputEndpoint>
+                        <InputEndpoint name={name} panelId={panelId} removable={true} registry="operandEps" {...props}>{label}</InputEndpoint>
                     </div>
                 ))
             }
@@ -43,11 +44,11 @@ const create = (panelId: number): Panel => {
     };
 
     const inputEndpoints = [{
-        name: 'Addend1',
+        name: 'Operand1',
         defaultValue: 0,
         signal: 'Value'
     }, {
-        name: 'Addend2',
+        name: 'Operand2',
         defaultValue: 0,
         signal: 'Value'
     }];
@@ -59,25 +60,25 @@ const create = (panelId: number): Panel => {
     }];
 
     const execute = (panel, values) => {
-        const eps = ['inputAddend1', 'inputAddend2'].concat(panel.addendEps.map(([ep]) => ep));
+        const eps = ['inputOperand1', 'inputOperand2'].concat(panel.operandEps.map(([ep]) => ep));
 
-        const allNumbers = eps.reduce((a, ep) => a && !isNaN(values[ep]), true);
+        const allBooleans = eps.map((ep) => values[ep]).every(isBoolean);
 
-        console.log('execute sum', panel.addendEps, eps.reduce((a, ep) => a + parseInt(values[ep]), 0));
+        console.log('execute or', panel.operandEps, eps.find((ep) => values[ep] == true));
 
-        if (!allNumbers) return { outputResult: '' };
-        return { outputResult: eps.reduce((a, ep) => a + parseInt(values[ep]), 0) };
+        if (!allBooleans) return { outputResult: '' };
+        return { outputResult: eps.find((ep) => values[ep] == true) }
     };
 
     return {
-        type: 'Sum',
+        type: 'Or',
         starter: true,
         inputEndpoints,
         outputEndpoints,
         width: 134,
         height: 94,
-        addendEps: [],
-        addendEpsCounter: 3,
+        operandEps: [],
+        operandEpsCounter: 3,
         Component,
         execute
     } as Panel;
