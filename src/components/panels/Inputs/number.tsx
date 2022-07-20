@@ -7,7 +7,7 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
-        machine.executePanelLogic(panelId, { tuningNumber: parseInt(e.target.value) });
+        machine.executePanelLogic(panelId, { tuningNumber: parseFloat(e.target.value) });
 
         return true;
     };
