@@ -28,9 +28,9 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [x] INPUT: Toggle: (UI -> Value) set output to true or false depending on toggle
     - [ ] INPUT: Deviator: (UI + Value -> Value) set 1 of 2 outputs to the input value depending on status of UI switch
     - [ ] OUTPUT: Led: (Value -> UI) turn on a led if the value is non-zero
-    - [ ] BASIC: Counter: (Pulse -> Value) count pulses (also has a Reset pin)
-    - [ ] BASIC: Memory: (Pulse + Value -> Value) store content of value input when it receives a pulse
-    - [ ] INPUT: Button: (UI -> Pulse) send a pulse when user presses button
+    - [x] BASIC: Counter: (Pulse -> Value) count pulses (also has a Reset pin)
+    - [x] BASIC: Memory: (Pulse + Value -> Value) store content of value input when it receives a pulse
+    - [x] INPUT: Button: (UI -> Pulse) send a pulse when user presses button
     - [ ] FLOW: If: (Value -> Pulse) send pulse along Then or Else branches based on value of expression
     - [ ] FLOW: Delta: (Value -> Pulse) send a pulse when input changes
     - [ ] FLOW: Delay: (Pulse -> X secs -> Pulse)
