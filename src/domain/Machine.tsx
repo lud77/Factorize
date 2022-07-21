@@ -117,7 +117,10 @@ const Machine = ({
                 return Promise.all([changes, panel.execute(
                     panel,
                     changes,
-                    setPanels
+                    {
+                        setPanels,
+                        sendPulseTo
+                    }
                 )]);
             })
             .then(([changes, outputs]) => {

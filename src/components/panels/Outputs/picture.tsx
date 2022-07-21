@@ -59,7 +59,7 @@ const create = (panelId: number): Panel => {
         signal: 'Value'
     }];
 
-    const execute = (panel, inputs, setPanels) => {
+    const execute = (panel, inputs, { setPanels }) => {
         console.log('execute picture', inputs);
         if (inputs.inputPath == '') {
             setPanels((panels) => {
