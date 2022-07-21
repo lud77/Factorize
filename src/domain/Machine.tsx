@@ -153,7 +153,7 @@ const Machine = ({
                             .map((connection) => {
                                 const targetPanel = panels[connection.targetPanelId];
                                 const ep = targetPanel.inputEpByRef[connection.target];
-                                const updates = targetPanel.onPulse(ep, targetPanel);
+                                const updates = targetPanel.onPulse(ep, targetPanel, sendPulseTo);
 
                                 return {
                                     [targetPanel.panelId]: {

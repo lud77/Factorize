@@ -31,7 +31,7 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [x] BASIC: Counter: (Pulse -> Value) count pulses (also has a Reset pin)
     - [x] BASIC: Memory: (Pulse + Value -> Value) store content of value input when it receives a pulse
     - [x] INPUT: Button: (UI -> Pulse) send a pulse when user presses button
-    - [ ] FLOW: If: (Value -> Pulse) send pulse along Then or Else branches based on value of expression
+    - [x] FLOW: If: (Value -> Pulse) send pulse along Then or Else branches based on value of expression
     - [ ] FLOW: Delta: (Value -> Pulse) send a pulse when input changes
     - [ ] FLOW: Delay: (Pulse -> X secs -> Pulse)
     - [ ] EVENTS: Clock: (every X secs -> Pulse)
