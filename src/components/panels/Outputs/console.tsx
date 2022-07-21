@@ -9,24 +9,34 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Text" panelId={panelId} {...props}>Text</InputEndpoint>
+                <InputEndpoint name="Log" panelId={panelId} signal="Pulse" {...props}>Log</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Message" panelId={panelId} signal="Value" {...props}>Message</InputEndpoint>
             </div>
         </>;
     };
 
     const inputEndpoints = [{
-        name: 'Text',
-        defaultValue: ''
+        name: 'Log',
+        signal: 'Pulse'
+    }, {
+        name: 'Message',
+        defaultValue: '',
+        signal: 'Value'
     }];
 
     const outputEndpoints = [];
 
-    const execute = (values) => {
-        return Promise.resolve()
-            .then(() => {
-                console.log(values.Text);
-            });
+    const onPulse = (ep, panel) => {
+        switch (ep) {
+            case 'inputLog':
+                console.log('FACTORIZE:', Date.now(), panel.inputEpValues.inputMessage);
+                return {};
+        }
     };
+
+    const execute = (panel, values) => values;
 
     return {
         type: 'Console',
@@ -34,7 +44,9 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         Component,
-        execute
+        execute,
+        onPulse,
+        height: 74
     } as Panel;
 };
 
