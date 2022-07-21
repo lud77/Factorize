@@ -1,4 +1,3 @@
-import { updateSourceFile } from 'typescript';
 import { Connection } from '../types/Connection';
 
 let position = 10;
@@ -129,31 +128,6 @@ const Machine = ({
 
                 return propagateOutputValuesFrom(panelId, updatedOutputs);
             });
-    };
-
-    const setInputValue = (panelId, epRef, newValue) => {
-        setPanels((panels) => {
-            const panel = panels[panelId];
-            const ep = panel.inputEpByRef[epRef];
-
-            return {
-                ...panels,
-                [panelId]: {
-                    ...panel,
-                    inputEpValues: {
-                        ...panel.inputEpValues,
-                        [ep]: newValue
-                    }
-                }
-            };
-        });
-
-        return newValue;
-    };
-
-    const propagateOutputValue = (sourcePanelId, sourceEpRef, targetPanelId, targetEpRef) => {
-        const newValue = getOutputValue(sourcePanelId, sourceEpRef);
-        setInputValue(targetPanelId, targetEpRef, newValue);
     };
 
     const propagateValueAlong = (sourcePanelId, sourceOutputEp, value) => {
