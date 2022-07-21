@@ -6,11 +6,15 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (panelId: number): Panel => {
+    const rollDice = (dice, faces) => {
+        return Array(parseInt(dice)).fill(1)
+            .map(() => Math.floor(parseInt(faces) * Math.random() + 1))
+            .reduce((a, v) => a + v, 0)
+    };
+
     const handleClick = ({ panel, machine }) => (e) => {
         machine.executePanelLogic(panelId, {
-            tuningRoll: Array(parseInt(panel.inputEpValues.inputDice)).fill(1)
-                .map(() => Math.floor(parseInt(panel.inputEpValues.inputFaces) * Math.random() + 1))
-                .reduce((a, v) => a + v, 0)
+            tuningRoll: rollDice(panel.inputEpValues.inputDice, panel.inputEpValues.inputFaces)
         });
     };
 
@@ -25,8 +29,11 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="Dice" panelId={panelId} {...props}>Dice</InputEndpoint>
+                <InputEndpoint name="Roll" panelId={panelId} signal="Pulse" {...props}>Roll</InputEndpoint>
                 <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Dice" panelId={panelId} {...props}>Dice</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Faces" panelId={panelId} {...props}>Faces</InputEndpoint>
@@ -35,6 +42,9 @@ const create = (panelId: number): Panel => {
     };
 
     const inputEndpoints = [{
+        name: 'Roll',
+        signal: 'Pulse'
+    }, {
         name: 'Dice',
         defaultValue: 1,
         signal: 'Value'
@@ -50,6 +60,13 @@ const create = (panelId: number): Panel => {
         signal: 'Value'
     }];
 
+    const onPulse = (ep, panel) => {
+        switch (ep) {
+            case 'inputRoll':
+                return { outputValue: rollDice(panel.inputEpValues.inputDice, panel.inputEpValues.inputFaces) };
+        }
+    };
+
     const execute = (panel, values) => ({ outputValue: values.tuningRoll });
 
     return {
@@ -58,9 +75,10 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         width: 134,
-        height: 94,
+        height: 114,
         Component,
-        execute
+        execute,
+        onPulse
     } as Panel;
 };
 
