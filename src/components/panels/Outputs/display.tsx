@@ -35,7 +35,7 @@ const create = (panelId: number): Panel => {
 
     const outputEndpoints = [];
 
-    const execute = (values) => values;
+    const execute = (panel, values) => values;
 
     return {
         type: 'Display',

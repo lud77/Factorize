@@ -9,8 +9,6 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
-        // machine.executePanelLogic(panelId, {});
-        console.log('fire!');
         machine.sendPulseTo(panel.panelId, 'outputSend');
     };
 

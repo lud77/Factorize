@@ -51,7 +51,7 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => values;
 
     return {
-        type: 'Console',
+        type: 'If',
         starter: true,
         inputEndpoints,
         outputEndpoints,

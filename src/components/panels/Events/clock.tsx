@@ -53,7 +53,7 @@ const create = (panelId: number): Panel => {
     };
 
     return {
-        type: 'Console',
+        type: 'Clock',
         starter: true,
         inputEndpoints,
         outputEndpoints,

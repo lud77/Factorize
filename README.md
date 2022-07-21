@@ -32,7 +32,7 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [x] BASIC: Memory: (Pulse + Value -> Value) store content of value input when it receives a pulse
     - [x] INPUT: Button: (UI -> Pulse) send a pulse when user presses button
     - [x] FLOW: If: (Value -> Pulse) send pulse along Then or Else branches based on value of expression
-    - [ ] FLOW: Delta: (Value -> Pulse) send a pulse when input changes
+    - [x] FLOW: Delta: (Value -> Pulse) send a pulse when input changes
     - [ ] FLOW: Delay: (Pulse -> X secs -> Pulse)
     - [ ] EVENTS: Clock: (every X secs -> Pulse)
     - [ ] FLOW: Wait: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then gives sends a pulse through the output

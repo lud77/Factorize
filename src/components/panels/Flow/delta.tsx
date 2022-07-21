@@ -9,48 +9,36 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Store" panelId={panelId} signal="Pulse" {...props}>Store</InputEndpoint>
-                <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
-            </div>
-            <div className="Row">
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
+                <OutputEndpoint name="Changed" panelId={panelId} signal="Pulse" {...props}>Changed</OutputEndpoint>
             </div>
         </>;
     };
 
     const inputEndpoints = [{
-        name: 'Store',
-        signal: 'Pulse'
-    }, {
         name: 'Value',
         defaultValue: '',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
-        name: 'Value',
-        defaultValue: '',
-        signal: 'Value'
+        name: 'Changed',
+        signal: 'Pulse'
     }];
 
-    const onPulse = (ep, panel) => {
-        switch (ep) {
-            case 'inputStore':
-                return { outputValue: panel.inputEpValues.inputValue };
-        }
+    const execute = (panel, values, { sendPulseTo }) => {
+        sendPulseTo(panel.panelId, 'outputChanged');
+        return values;
     };
 
-    const execute = (panel, values) => values;
-
     return {
-        type: 'Memory',
+        type: 'Delta',
         starter: true,
         inputEndpoints,
         outputEndpoints,
         Component,
         execute,
-        onPulse,
-        height: 74
+        height: 54
     } as Panel;
 };
 

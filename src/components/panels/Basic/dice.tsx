@@ -70,7 +70,7 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => ({ outputValue: values.tuningRoll });
 
     return {
-        type: 'Value',
+        type: 'Dice',
         starter: true,
         inputEndpoints,
         outputEndpoints,
