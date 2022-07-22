@@ -1,18 +1,25 @@
+
+
 const Documents = ({
     setPanels,
     setConnections,
     panelIdSequence,
     endpointIdSequence
 }) => {
-    const newDocument = () => {
+    const create = () => {
         setPanels({});
         setConnections([]);
         panelIdSequence.force(0);
         endpointIdSequence.force(0);
     };
 
+    const saveAs = () => {
+
+    };
+
     return {
-        newDocument
+        create,
+        saveAs
     };
 };
 

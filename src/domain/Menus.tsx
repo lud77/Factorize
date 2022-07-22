@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import ValuesEditor from '../components/Editor/ValuesEditor/ValuesEditor';
+import System from '../domain/System';
 
 const toolbarMenusSetup = ({
     panels, setPanels,
@@ -24,8 +25,12 @@ return {
             label: 'Home',
             submenus: {
                 'New File...': {
-                    execute: documents.newDocument,
+                    execute: documents.create,
                     label: 'New File...'
+                },
+                'Quit': {
+                    execute: System.quit,
+                    label: 'Quit'
                 }
             }
         },

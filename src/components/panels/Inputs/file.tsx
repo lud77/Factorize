@@ -5,18 +5,18 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const { ipcRenderer } = window.require('electron');
+import System from '../../../domain/System';
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
-        ipcRenderer.send('api:select-file', '');
-        ipcRenderer.once('api:file-path', (e, msg) => {
-            if (msg.cancelled) return;
+        System.openFileDialog()
+            .then((path) => {
+                if (path == null) return;
 
-            machine.executePanelLogic(panelId, {
-                tuningFilePath: msg.path
+                machine.executePanelLogic(panelId, {
+                    tuningFilePath: path
+                });
             });
-        });
 
         return true;
     };
