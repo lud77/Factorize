@@ -58,7 +58,7 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse,
-        height: 84
+        height: 74
     } as Panel;
 };
 
