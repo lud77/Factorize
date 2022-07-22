@@ -9,37 +9,42 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
-                <OutputEndpoint name="InvertedValue" panelId={panelId} {...props}>1/Value</OutputEndpoint>
+                <InputEndpoint name="Number" panelId={panelId} {...props}>Number</InputEndpoint>
+                <OutputEndpoint name="Remainder" panelId={panelId} {...props}>Remainder</OutputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Modulus" panelId={panelId} {...props}>Modulus</InputEndpoint>
             </div>
         </>;
     };
 
     const inputEndpoints = [{
-        name: 'Value',
+        name: 'Number',
+        defaultValue: 0,
+        signal: 'Value'
+    }, {
+        name: 'Modulus',
         defaultValue: 0,
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
-        name: 'InvertedValue',
+        name: 'Remainder',
         default: 0,
         signal: 'Value'
     }];
 
     const execute = (panel, values) => {
-        if (isNaN(values.inputValue)) return { outputInvertedValue: '' };
-        console.log('execute invert', { outputInvertedValue: 1/parseFloat(values.inputValue) });
-        return { outputInvertedValue: 1/parseFloat(values.inputValue) };
+        return { outputRemainder: parseInt(values.inputNumber) % parseInt(values.inputModulus) };
     };
 
     return {
-        type: 'Invert',
+        type: 'Modulus',
         starter: true,
         inputEndpoints,
         outputEndpoints,
         width: 134,
-        height: 54,
+        height: 74,
         Component,
         execute
     } as Panel;

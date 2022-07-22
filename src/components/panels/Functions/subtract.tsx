@@ -44,7 +44,7 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         width: 134,
-        height: 94,
+        height: 74,
         Component,
         execute
     } as Panel;

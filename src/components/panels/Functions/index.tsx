@@ -1,8 +1,9 @@
 import Sum from './sum';
 import Subtract from './subtract';
-import Negate from './negate';
 import Multiply from './multiply';
 import Divide from './divide';
+import Modulus from './modulus';
+import Negate from './negate';
 import Invert from './invert';
 
 import Threshold from './threshold';
@@ -15,9 +16,10 @@ import Not from './not';
 export default {
     Sum,
     Subtract,
-    Negate,
     Multiply,
     Divide,
+    Modulus,
+    Negate,
     Invert,
     Threshold,
     And,

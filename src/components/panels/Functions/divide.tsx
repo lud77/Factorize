@@ -39,12 +39,12 @@ const create = (panelId: number): Panel => {
     };
 
     return {
-        type: 'Subtract',
+        type: 'Divide',
         starter: true,
         inputEndpoints,
         outputEndpoints,
         width: 134,
-        height: 94,
+        height: 74,
         Component,
         execute
     } as Panel;
