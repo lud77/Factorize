@@ -9,8 +9,16 @@ import { Connection } from '../../types/Connection';
 
 import Machine from '../../domain/Machine';
 import Walker from '../../domain/Walker';
+import Documents from '../../domain/Documents';
 import Palette from '../../domain/Palette';
 import { toolbarMenusSetup } from '../../domain/Menus';
+import getSequence from '../../utils/sequence';
+
+const panelIdSequence = getSequence();
+const getNextPanelId = panelIdSequence.next;
+
+const endpointIdSequence = getSequence();
+const getNextEndpointId = endpointIdSequence.next;
 
 import './Editor.css';
 
@@ -35,7 +43,8 @@ const Editor = (props) => {
         panels, setPanels,
         connections, setConnections,
         workAreaOffset,
-        getNextEndpointId: props.getNextEndpointId
+        getNextPanelId,
+        getNextEndpointId
     });
 
     const {
@@ -61,11 +70,19 @@ const Editor = (props) => {
         'Inclusive Selection': [inclusiveSelection, setInclusiveSelection]
     });
 
+    const documents = Documents({
+        setPanels,
+        setConnections,
+        panelIdSequence,
+        endpointIdSequence
+    });
+
     const menus = toolbarMenusSetup({
         panels, setPanels,
         play, pause,
         focused,
         walker,
+        documents,
         flagsMenu, panelsMenu
     });
 
@@ -74,7 +91,7 @@ const Editor = (props) => {
             <Toolbar menus={menus} primary="Panels" />
             <WorkArea
                 machine={machine}
-                getNextEndpointId={props.getNextEndpointId}
+                getNextEndpointId={getNextEndpointId}
                 play={play} pause={pause}
                 snap={snap}
                 focused={focused} setFocus={setFocus}

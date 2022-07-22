@@ -9,6 +9,7 @@ const Machine = ({
     panels, setPanels,
     connections, setConnections,
     workAreaOffset,
+    getNextPanelId,
     getNextEndpointId
 }) => {
     const reifySource = (sourcePanelId, sourceEpRef) => {
@@ -217,12 +218,12 @@ const Machine = ({
     };
 
     const makePanel = (palette, type) => {
-        const panelId = props.getNextPanelId();
+        const panelId = getNextPanelId();
         const panel = props.panelPalettes[palette][type].create(panelId);
 
         const inputRefs =
             panel.inputEndpoints
-                .reduce((a, { name }) => ({ ...a, [`input${name}`]: props.getNextEndpointId() }), {});
+                .reduce((a, { name }) => ({ ...a, [`input${name}`]: getNextEndpointId() }), {});
 
         const inputEpByRef =
             panel.inputEndpoints
@@ -238,7 +239,7 @@ const Machine = ({
 
         const outputRefs =
             panel.outputEndpoints
-                .reduce((a, { name }) => ({ ...a, [`output${name}`]: props.getNextEndpointId() }), {});
+                .reduce((a, { name }) => ({ ...a, [`output${name}`]: getNextEndpointId() }), {});
 
         const outputEpByRef =
             panel.outputEndpoints

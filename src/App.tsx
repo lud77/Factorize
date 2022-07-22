@@ -3,18 +3,12 @@ import './App.css';
 import Editor from './components/Editor/Editor';
 
 import panelPalettes from './components/panels';
-import getSequence from './utils/sequence';
-
-const getNextPanelId = getSequence().next;
-const getNextEndpointId = getSequence().next;
 
 const App = () => {
 	return (
 		<div className="App">
 			<Editor
 				panelPalettes={panelPalettes}
-				getNextPanelId={getNextPanelId}
-				getNextEndpointId={getNextEndpointId}
 				>
 			</Editor>
 		</div>

@@ -10,6 +10,7 @@ const toolbarMenusSetup = ({
     play, pause,
     focused,
     walker,
+    documents,
     flagsMenu, panelsMenu
 }) => {
     const {
@@ -18,7 +19,16 @@ const toolbarMenusSetup = ({
         pressStop
     } = walker;
 
-    return {
+return {
+        'Home': {
+            label: 'Home',
+            submenus: {
+                'New File...': {
+                    execute: documents.newDocument,
+                    label: 'New File...'
+                }
+            }
+        },
         'Panels': {
             label: 'Panels',
             submenus: panelsMenu
