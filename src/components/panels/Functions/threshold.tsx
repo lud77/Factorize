@@ -19,8 +19,7 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Equal" panelId={panelId} {...props}>Equal</OutputEndpoint>
             </div>
             <div className="Row">
-                <OutputEndpoint name="Low
-                " panelId={panelId} {...props}>Low</OutputEndpoint>
+                <OutputEndpoint name="Low" panelId={panelId} {...props}>Low</OutputEndpoint>
             </div>
         </>;
     };
