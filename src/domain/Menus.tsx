@@ -8,25 +8,23 @@ import System from '../domain/System';
 
 const toolbarMenusSetup = ({
     panels, setPanels,
+    connections,
     play, pause,
     focused,
-    walker,
-    documents,
+    walker, documents,
     flagsMenu, panelsMenu
 }) => {
-    const {
-        pressPlay,
-        pressPause,
-        pressStop
-    } = walker;
-
-return {
+    return {
         'Home': {
             label: 'Home',
             submenus: {
-                'New File...': {
+                'New File': {
                     execute: documents.create,
-                    label: 'New File...'
+                    label: 'New File'
+                },
+                'Save as...': {
+                    execute: () => documents.saveAs({ panels, connections }),
+                    label: 'Save As...'
                 },
                 'Quit': {
                     execute: System.quit,
@@ -46,19 +44,19 @@ return {
             label: 'Controls',
             submenus: {
                 'Play': {
-                    execute: pressPlay,
+                    execute: walker.pressPlay,
                     label: 'Play',
                     active: play,
                     icon: <FontAwesomeIcon icon={solid('play')} />
                 },
                 'Pause': {
-                    execute: pressPause,
+                    execute: walker.pressPause,
                     label: 'Pause',
                     active: pause,
                     icon: <FontAwesomeIcon icon={solid('pause')} />
                 },
                 'Stop': {
-                    execute: pressStop,
+                    execute: walker.pressStop,
                     label: 'Stop',
                     icon: <FontAwesomeIcon icon={solid('stop')} />
                 }

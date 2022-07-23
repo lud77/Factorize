@@ -79,6 +79,7 @@ const Editor = (props) => {
 
     const menus = toolbarMenusSetup({
         panels, setPanels,
+        connections,
         play, pause,
         focused,
         walker,

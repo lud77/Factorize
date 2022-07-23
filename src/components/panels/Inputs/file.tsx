@@ -10,11 +10,11 @@ import System from '../../../domain/System';
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         System.openFileDialog()
-            .then((path) => {
-                if (path == null) return;
+            .then((filePath) => {
+                if (filePath == null) return;
 
                 machine.executePanelLogic(panelId, {
-                    tuningFilePath: path
+                    tuningFilePath: filePath
                 });
             });
 
