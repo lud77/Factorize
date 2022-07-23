@@ -29,7 +29,9 @@
 }
 
 .ContextMenu li.Item .Icon {
+    display: inline-block;
     margin: 0;
+    width: 1em;
 }
 
 .ContextMenu li.Item .Label {
