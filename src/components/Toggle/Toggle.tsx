@@ -5,7 +5,7 @@ import './Toggle.css';
 const Toggle = (props) => {
     return (
         <label className="Toggle">
-            <input type="checkbox" onChange={props.onChange} />
+            <input type="checkbox" onChange={props.onChange} checked={props.status ? 'checked' : ''} />
             <span className="Slider Rounded"></span>
         </label>
     );
