@@ -35,7 +35,7 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [x] FLOW: If: (Value -> Pulse) send pulse along Then or Else branches based on value of expression
     - [x] FLOW: Delta: (Value -> Pulse) send a pulse when input changes
     - [x] OUTPUT: Led: (Value -> UI) turn on a led if the value is non-zero
-    - [ ] OUTPUT: Logfile: (Value + Pulse -> OS) append message to file
+    - [x] OUTPUT: Logfile: (Value + Pulse -> OS) append message to file
     - [ ] INPUT: Deviator: (UI + Value -> Value) set 1 of 2 outputs to the input value depending on status of UI switch
     - [ ] FLOW: Delay: (Pulse -> X secs -> Pulse)
     - [ ] EVENTS: Clock: (every X secs -> Pulse)
