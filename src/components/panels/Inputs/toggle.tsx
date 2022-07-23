@@ -8,6 +8,8 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 import Toggle from '../../Toggle/Toggle';
 
+const panelType = 'Toggle';
+
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
         machine.executePanelLogic(panelId, {
@@ -42,7 +44,7 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => ({ outputActive: values.tuningActive });
 
     return {
-        type: 'Toggle',
+        type: panelType,
         starter: true,
         inputEndpoints,
         outputEndpoints,
@@ -54,5 +56,6 @@ const create = (panelId: number): Panel => {
 };
 
 export default {
+    type: panelType,
     create
 };

@@ -5,6 +5,8 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
+const panelType = 'Modulus';
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -39,7 +41,7 @@ const create = (panelId: number): Panel => {
     };
 
     return {
-        type: 'Modulus',
+        type: panelType,
         starter: true,
         inputEndpoints,
         outputEndpoints,
@@ -51,5 +53,6 @@ const create = (panelId: number): Panel => {
 };
 
 export default {
+    type: panelType,
     create
 };

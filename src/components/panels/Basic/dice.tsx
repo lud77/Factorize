@@ -5,6 +5,8 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
+const panelType = 'Dice';
+
 const create = (panelId: number): Panel => {
     const rollDice = (dice, faces) => {
         return Array(parseInt(dice)).fill(1)
@@ -70,7 +72,7 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => ({ outputValue: values.tuningRoll });
 
     return {
-        type: 'Dice',
+        type: panelType,
         starter: true,
         inputEndpoints,
         outputEndpoints,
@@ -83,5 +85,6 @@ const create = (panelId: number): Panel => {
 };
 
 export default {
+    type: panelType,
     create
 };

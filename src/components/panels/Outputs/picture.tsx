@@ -6,7 +6,9 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const { ipcRenderer } = window.require('electron');
+import System from '../../../domain/System';
+
+const panelType = 'Picture';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -81,9 +83,13 @@ const create = (panelId: number): Panel => {
             };
         }
 
-        return new Promise((resolve, reject) => {
-            ipcRenderer.once('api:file-contents', (e, msg) => {
-                console.log('received', msg);
+        return System.readImageFile(inputs.inputPath)
+            .then((info) => {
+                const res = {
+                    outputPictureData: info.data,
+                    outputPictureWidth: info.meta.width,
+                    outputPictureHeight: info.meta.height
+                };
 
                 setPanels((panels) => {
                     const updatePanel = panels[panel.panelId];
@@ -92,23 +98,17 @@ const create = (panelId: number): Panel => {
                         ...panels,
                         [panel.panelId]: {
                             ...updatePanel,
-                            height: 109 + (111 * ((msg.meta.height || 0) / (msg.meta.width || 1)))
+                            height: 109 + (111 * ((res.outputPictureHeight || 0) / (res.outputPictureWidth || 1)))
                         }
                     };
                 });
 
-                resolve({
-                    outputPictureData: msg.data,
-                    outputPictureWidth: msg.meta.width,
-                    outputPictureHeight: msg.meta.height
-                });
+                return res;
             });
-            ipcRenderer.send('api:read-file', inputs.inputPath);
-        });
     };
 
     return {
-        type: 'Picture',
+        type: panelType,
         starter: true,
         inputEndpoints,
         outputEndpoints,
@@ -119,5 +119,6 @@ const create = (panelId: number): Panel => {
 };
 
 export default {
+    type: panelType,
     create
 };

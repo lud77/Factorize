@@ -7,6 +7,8 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 import Led from '../../Led/Led';
 
+const panelType = 'Leds';
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
 
@@ -43,7 +45,7 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => values;
 
     return {
-        type: 'Leds',
+        type: panelType,
         starter: true,
         inputEndpoints,
         outputEndpoints,
@@ -54,5 +56,6 @@ const create = (panelId: number): Panel => {
 };
 
 export default {
+    type: panelType,
     create
 };

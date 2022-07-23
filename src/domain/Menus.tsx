@@ -8,7 +8,7 @@ import System from '../domain/System';
 
 const toolbarMenusSetup = ({
     panels, setPanels,
-    connections,
+    connections, setConnections,
     play, pause,
     focused,
     walker, documents,
@@ -21,6 +21,10 @@ const toolbarMenusSetup = ({
                 'New File': {
                     execute: documents.create,
                     label: 'New File'
+                },
+                'Open File...': {
+                    execute: () => documents.open({ setPanels, setConnections }),
+                    label: 'Open File...'
                 },
                 'Save as...': {
                     execute: () => documents.saveAs({ panels, connections }),

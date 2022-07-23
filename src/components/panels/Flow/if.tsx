@@ -5,6 +5,8 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
+const panelType = 'If';
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -51,7 +53,7 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => values;
 
     return {
-        type: 'If',
+        type: panelType,
         starter: true,
         inputEndpoints,
         outputEndpoints,
@@ -63,5 +65,6 @@ const create = (panelId: number): Panel => {
 };
 
 export default {
+    type: panelType,
     create
 };

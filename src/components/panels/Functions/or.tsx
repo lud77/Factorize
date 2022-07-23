@@ -6,6 +6,8 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import isBoolean from '../../../utils/isBoolean';
 
+const panelType = 'Or';
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
@@ -71,7 +73,7 @@ const create = (panelId: number): Panel => {
     };
 
     return {
-        type: 'Or',
+        type: panelType,
         starter: true,
         inputEndpoints,
         outputEndpoints,
@@ -85,5 +87,6 @@ const create = (panelId: number): Panel => {
 };
 
 export default {
+    type: panelType,
     create
 };

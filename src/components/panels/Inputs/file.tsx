@@ -7,6 +7,8 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 import System from '../../../domain/System';
 
+const panelType = 'File';
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         System.openFileDialog()
@@ -57,7 +59,7 @@ const create = (panelId: number): Panel => {
     };
 
     return {
-        type: 'File',
+        type: panelType,
         starter: true,
         inputEndpoints,
         outputEndpoints,
@@ -67,5 +69,6 @@ const create = (panelId: number): Panel => {
 };
 
 export default {
+    type: panelType,
     create
 };

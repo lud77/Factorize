@@ -420,6 +420,7 @@ const WorkArea = (props) => {
 
 		if (e.shiftKey || e.ctrlKey) {
 			console.log(panels);
+			console.log(connections);
 			return;
 		}
 

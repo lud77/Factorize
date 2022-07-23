@@ -73,13 +73,14 @@ const Editor = (props) => {
     const documents = Documents({
         setPanels,
         setConnections,
+        setFilePath: props.setFilePath,
         panelIdSequence,
         endpointIdSequence
     });
 
     const menus = toolbarMenusSetup({
         panels, setPanels,
-        connections,
+        connections, setConnections,
         play, pause,
         focused,
         walker,

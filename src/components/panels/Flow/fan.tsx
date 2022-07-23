@@ -5,6 +5,8 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
+const panelType = 'Fan';
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addOutputEndpoint(
@@ -74,7 +76,7 @@ const create = (panelId: number): Panel => {
     };
 
     return {
-        type: 'Value',
+        type: panelType,
         starter: true,
         inputEndpoints,
         outputEndpoints,
@@ -88,5 +90,6 @@ const create = (panelId: number): Panel => {
 };
 
 export default {
+    type: panelType,
     create
 };

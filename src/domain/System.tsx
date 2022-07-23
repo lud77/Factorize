@@ -32,9 +32,33 @@ const writeFile = (filePath, contents) => {
     ipcRenderer.send('api:write-file', { filePath, contents });
 };
 
+const readFile = (filePath) => {
+    return new Promise((resolve) => {
+        ipcRenderer.once('api:file-contents', (e, msg) => {
+            console.log('received', msg);
+
+            resolve(msg);
+        });
+        ipcRenderer.send('api:read-file', filePath);
+    });
+};
+
+const readImageFile = (filePath) => {
+    return new Promise((resolve) => {
+        ipcRenderer.once('api:file-contents', (e, msg) => {
+            console.log('received', msg);
+
+            resolve(msg);
+        });
+        ipcRenderer.send('api:read-image-file', filePath);
+    });
+};
+
 export default {
     quit,
     openFileDialog,
     saveFileDialog,
-    writeFile
+    writeFile,
+    readFile,
+    readImageFile
 };
