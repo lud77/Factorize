@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs').promises;
 
 const { Menu, app, BrowserWindow, ipcMain, dialog } = require('electron');
 const isDev = require('electron-is-dev');
@@ -40,7 +39,10 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady()
     .then(createWindow)
-    .then(addServices);
+    .then(addServices)
+    .then(() => {
+
+    });
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -87,14 +89,19 @@ app.on('ready', () => {
                 accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+O',
                 click: () => {
                     dialog
-                        .showOpenDialog({ properties: ['openFile'] })
+                        .showOpenDialogSync({ properties: ['openFile'] })
                         // .then((res) => console.log(res));
                 }
             },
             { type: 'separator' },
             {
                 label: 'Save',
-                accelerator: process.platform === 'darwin' ? 'Cmd+S' : 'Ctrl+S'
+                accelerator: process.platform === 'darwin' ? 'Cmd+S' : 'Ctrl+S',
+                click: () => {
+                    dialog
+                        .showSaveDialogSync({ properties: ['openFile'] })
+                        // .then((res) => console.log(res));
+                }
             },
             {
                 label: 'Save as...',

@@ -80,7 +80,7 @@ const addServices = (win) => {
             });
     });
 
-    ipcMain.on('api:read-file', (event, filePath) => {
+    ipcMain.on('api:read-image-file', (event, filePath) => {
         Promise.all([filePath, fs.readFile(filePath, 'base64'), getImageDimensions(filePath)])
             .then(([filePath, fileContents, meta]) => {
                 console.log('size', meta);
@@ -97,12 +97,29 @@ const addServices = (win) => {
                 win.webContents.send('api:file-contents', { data, meta });
             })
             .catch((e) => {
+                console.log('error while reading image file', e);
+            });
+    });
+
+    ipcMain.on('api:read-file', (event, filePath) => {
+        Promise.all([filePath, fs.readFile(filePath, 'utf-8')])
+            .then(([filePath, fileContents]) => {
+                if (!filePath) {
+                    win.webContents.send('api:file-contents', {
+                        cancelled: true
+                    });
+
+                    return null;
+                }
+
+                win.webContents.send('api:file-contents', { data: fileContents });
+            })
+            .catch((e) => {
                 console.log('error while reading file', e);
             });
     });
 
     ipcMain.on('api:write-file', (event, { filePath, contents }) => {
-        console.log('writing file', filePath, contents);
         fs.writeFile(filePath, contents, (err) => {
             console.log('error while writing file', e);
         });

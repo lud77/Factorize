@@ -5,7 +5,7 @@ import { flushSync } from 'react-dom';
 const Documents = ({
     setPanels,
     setConnections,
-    setFilePath,
+    filePath, setFilePath,
     panelIdSequence,
     endpointIdSequence
 }) => {
@@ -45,6 +45,7 @@ const Documents = ({
 
     const unpackDocument = (filePath, packedDocument) => {
         setFilePath(filePath);
+
         const documentInfo = parseJson(packedDocument);
 
         const reconstitutedPanels = reconstitutePanels(documentInfo.panels);
@@ -57,15 +58,27 @@ const Documents = ({
             setConnections(documentInfo.connections);
         });
 
+        flushSync(() => {
         panelIdSequence.force(documentInfo.lastPanelId);
-        endpointIdSequence.force(documentInfo.lastEndpointId);
+        });
+
+        flushSync(() => {
+            endpointIdSequence.force(documentInfo.lastEndpointId);
+        });
     };
 
     const create = () => {
+        setFilePath('');
         setPanels({});
         setConnections([]);
         panelIdSequence.force(-1);
         endpointIdSequence.force(-1);
+    };
+
+    const save = (documentInfo) => {
+        if (filePath == '') return saveAs(documentInfo);
+
+        System.writeFile(filePath, packDocument(documentInfo));
     };
 
     const saveAs = (documentInfo) => {
@@ -91,6 +104,7 @@ const Documents = ({
 
     return {
         create,
+        save,
         saveAs,
         open
     };

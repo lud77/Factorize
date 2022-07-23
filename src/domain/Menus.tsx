@@ -26,6 +26,10 @@ const toolbarMenusSetup = ({
                     execute: () => documents.open({ setPanels, setConnections }),
                     label: 'Open File...'
                 },
+                'Save': {
+                    execute: () => documents.save({ panels, connections }),
+                    label: 'Save'
+                },
                 'Save as...': {
                     execute: () => documents.saveAs({ panels, connections }),
                     label: 'Save As...'

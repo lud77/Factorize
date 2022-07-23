@@ -73,7 +73,7 @@ const Editor = (props) => {
     const documents = Documents({
         setPanels,
         setConnections,
-        setFilePath: props.setFilePath,
+        filePath: props.filePath, setFilePath: props.setFilePath,
         panelIdSequence,
         endpointIdSequence
     });
