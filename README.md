@@ -8,8 +8,10 @@ as ```npm install``` produces an error when trying to resolve webpack
 --- System integration
 
 - [ ] Main menu' commands
-    - [ ] save
-    - [ ] load
+    - [x] new
+    - [x] save
+    - [x] save as
+    - [x] open
     - etc
 - [ ] Settings page
 - [ ] Plugin system
