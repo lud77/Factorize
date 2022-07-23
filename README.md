@@ -7,15 +7,15 @@ as ```npm install``` produces an error when trying to resolve webpack
 
 --- System integration
 
-- [ ] Main menu' commands
+- [~] Main menu' commands
     - [x] new
     - [x] save
     - [x] save as
     - [x] open
     - etc
+- [x] Main-thread service framework to avoid squashing everything into electron.js
 - [ ] Settings page
 - [ ] Plugin system
-- [ ] Main-thread service framework to avoid squashing everything into electron.js
 - [ ] Add lateral scrolling to toolbar to be able to reach out-of-screen items
 
 --- Context menu
@@ -25,8 +25,8 @@ as ```npm install``` produces an error when trying to resolve webpack
 
 --- Engine
 
-- [ ] Introduce Pulse-type signals
-- [ ] Actual panels
+- [x] Introduce Pulse-type signals
+- [~] Actual panels
     - [x] FUNCTIONS: Threshold: (Value -> Value) sets outputs (High, Equal, Low) to true depending on whether first input is <=> than second
     - [x] INPUT: Toggle: (UI -> Value) set output to true or false depending on toggle
     - [x] BASIC: Counter: (Pulse -> Value) count pulses (also has a Reset pin)
@@ -48,7 +48,7 @@ as ```npm install``` produces an error when trying to resolve webpack
 - [x] Window resize causes slowdown and stalling --- PROBABLY FIXED
 - [x] Connectors losing contact with panels
 - [ ] Only render panels in view
-- [ ] Disallow Value-type signals from create feedback loops
+- [ ] Disallow Value-type signals from creating feedback loops
 
 --- QA
 
