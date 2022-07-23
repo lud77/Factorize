@@ -32,6 +32,10 @@ const writeFile = (filePath, contents) => {
     ipcRenderer.send('api:write-file', { filePath, contents });
 };
 
+const appendToFile = (filePath, contents) => {
+    ipcRenderer.send('api:append-to-file', { filePath, contents });
+};
+
 const readFile = (filePath) => {
     return new Promise((resolve) => {
         ipcRenderer.once('api:file-contents', (e, msg) => {
@@ -59,6 +63,7 @@ export default {
     openFileDialog,
     saveFileDialog,
     writeFile,
+    appendToFile,
     readFile,
     readImageFile
 };

@@ -14,7 +14,7 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Path" panelId={panelId} {...props}>Path</InputEndpoint>
+                <InputEndpoint name="File" panelId={panelId} {...props}>File</InputEndpoint>
                 <OutputEndpoint name="PictureData" panelId={panelId} {...props}>Picture</OutputEndpoint>
             </div>
             <div className="Row">
@@ -41,7 +41,7 @@ const create = (panelId: number): Panel => {
     };
 
     const inputEndpoints = [{
-        name: 'Path',
+        name: 'File',
         defaultValue: '',
         signal: 'Value'
     }];
@@ -63,7 +63,7 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, inputs, { setPanels }) => {
         console.log('execute picture', inputs);
-        if (inputs.inputPath == '') {
+        if (inputs.inputFile == '') {
             setPanels((panels) => {
                 const updatePanel = panels[panel.panelId];
 
@@ -83,7 +83,7 @@ const create = (panelId: number): Panel => {
             };
         }
 
-        return System.readImageFile(inputs.inputPath)
+        return System.readImageFile(inputs.inputFile)
             .then((info) => {
                 const res = {
                     outputPictureData: info.data,

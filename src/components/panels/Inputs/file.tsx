@@ -11,7 +11,7 @@ const panelType = 'File';
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
-        System.openFileDialog()
+        System.saveFileDialog()
             .then((filePath) => {
                 if (filePath == null) return;
 

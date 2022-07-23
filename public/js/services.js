@@ -125,6 +125,12 @@ const addServices = (win) => {
         });
     });
 
+    ipcMain.on('api:append-to-file', (event, { filePath, contents }) => {
+        fs.appendFile(filePath, contents, (err) => {
+            console.log('error while appending to file', e);
+        });
+    });
+
     return win;
 };
 
