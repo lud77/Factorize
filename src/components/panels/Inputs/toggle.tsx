@@ -18,13 +18,10 @@ const create = (panelId: number): Panel => {
     };
 
     const Component = (props) => {
-        const { inputDice, inputFaces } = props.panel.inputEpValues;
-        const ready = parseInt(inputDice) > 0 && parseInt(inputFaces) > 0;
-
         return <>
             <div className="Row">
                 <div className="InteractiveItem">
-                    <Toggle onChange={handleChange(props)} />
+                    <Toggle onChange={handleChange(props)} status={ props.panel.outputEpValues.outputActive }/>
                 </div>
             </div>
             <div className="Row">

@@ -21,6 +21,7 @@ const create = (panelId: number): Panel => {
                     <input
                         type="text"
                         onChange={handleChange(props)}
+                        value={ props.panel.outputEpValues.outputNumber }
                         />
                 </div>
             </div>
