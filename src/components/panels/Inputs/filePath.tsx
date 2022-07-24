@@ -7,7 +7,7 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 import System from '../../../domain/System';
 
-const panelType = 'File';
+const panelType = 'FilePath';
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {

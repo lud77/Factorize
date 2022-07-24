@@ -7,7 +7,7 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 import System from '../../../domain/System';
 
-const panelType = 'Append';
+const panelType = 'FileAppend';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -59,7 +59,7 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse,
-        height: 74
+        height: 94
     } as Panel;
 };
 

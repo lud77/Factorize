@@ -1,13 +1,13 @@
 import Console from './console';
-import Append from './append';
+import FileAppend from './fileAppend';
 import Display from './display';
 import Picture from './picture';
-import Led from './leds';
+import LedStrip from './ledStrip';
 
 export default {
     Console,
-    'File Append': Append,
+    FileAppend,
     Display,
     Picture,
-    'Led Strip': Led
+    LedStrip
 };
