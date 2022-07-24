@@ -13,16 +13,16 @@ import Documents from '../../domain/Documents';
 import Palette from '../../domain/Palette';
 import { toolbarMenusSetup } from '../../domain/Menus';
 import getSequence from '../../utils/sequence';
+import panelPalettes from '../../components/panels';
+import dictionary from '../../components/panels/dictionary';
+
+import './Editor.css';
 
 const panelIdSequence = getSequence();
 const getNextPanelId = panelIdSequence.next;
 
 const endpointIdSequence = getSequence();
 const getNextEndpointId = endpointIdSequence.next;
-
-import './Editor.css';
-
-const { ipcRenderer } = window.require('electron')
 
 const Editor = (props) => {
     const [ snap, setSnap ] = React.useState<boolean>(false);
@@ -38,8 +38,16 @@ const Editor = (props) => {
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
     const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
 
+    const documents = Documents({
+        setPanels,
+        setConnections,
+        filePath: props.filePath, setFilePath: props.setFilePath,
+        panelIdSequence,
+        endpointIdSequence
+    });
+
     const machine = Machine({
-        props,
+        dictionary,
         panels, setPanels,
         connections, setConnections,
         workAreaOffset,
@@ -49,7 +57,7 @@ const Editor = (props) => {
 
     const {
         makeConnection,
-        makePanel
+        addPanel
     } = machine;
 
     const walker = Walker({
@@ -60,22 +68,14 @@ const Editor = (props) => {
         machine
     });
 
-    const { panelGroupPalette, flagPalette } = Palette(makePanel);
+    const { panelGroupPalette, flagPalette } = Palette(addPanel);
 
-    const panelsMenu = panelGroupPalette(props.panelPalettes)
+    const panelsMenu = panelGroupPalette(panelPalettes)
 
     const flagsMenu = flagPalette({
         'Grid': [grid, setGrid],
         'Snap': [snap, setSnap],
         'Inclusive Selection': [inclusiveSelection, setInclusiveSelection]
-    });
-
-    const documents = Documents({
-        setPanels,
-        setConnections,
-        filePath: props.filePath, setFilePath: props.setFilePath,
-        panelIdSequence,
-        endpointIdSequence
     });
 
     const menus = toolbarMenusSetup({

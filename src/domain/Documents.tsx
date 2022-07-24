@@ -1,6 +1,7 @@
+import { flushSync } from 'react-dom';
+
 import System from './System';
 import dictionary from '../components/panels/dictionary';
-import { flushSync } from 'react-dom';
 
 const Documents = ({
     setPanels,

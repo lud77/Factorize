@@ -1,10 +1,10 @@
-const Palette = (makePanel) => {
+const Palette = (addPanel) => {
     const panelPalette = (paletteName, palette) => {
         return Object.keys(palette)
-            .map((panel) => ({
-                name: panel,
-                label: panel,
-                execute: () => makePanel(paletteName, panel)
+            .map((panelType) => ({
+                name: panelType,
+                label: panelType,
+                execute: () => addPanel(panelType)
             }))
             .reduce((a, v) => ({
                 ...a,

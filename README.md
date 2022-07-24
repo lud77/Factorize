@@ -20,8 +20,9 @@ as ```npm install``` produces an error when trying to resolve webpack
 
 --- Context menu
 
-- [ ] Disconnect panel -> removes all connections
-- [ ] Duplicate panel -> creates an clone of the panel
+- [x] Disconnect panel -> removes all connections
+- [x] Duplicate panel -> creates an clone of the panel
+- [?] Find origin -> moves view to middle of the graph
 
 --- Engine
 

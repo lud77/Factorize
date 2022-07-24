@@ -63,6 +63,20 @@ const WorkArea = (props) => {
 		removeEp: (ctx) => (e) => {
 			if (ctx.endpoint.type === 'Input') return machine.removeInputEndpoint(ctx.panelId, ctx.endpoint.name, ctx.endpoint.ref, ctx.endpoint.registry);
 			if (ctx.endpoint.type === 'Output') return machine.removeOutputEndpoint(ctx.panelId, ctx.endpoint.name, ctx.endpoint.ref, ctx.endpoint.registry);
+		},
+		duplicatePanel: (ctx) => (e) => {
+			machine.duplicatePanelById(ctx.panelId);
+		},
+		disconnectPanel: (ctx) => (e) => {
+			machine.removeConnectionsByPanelId(ctx.panelId);
+		},
+		findOrigin: (ctx) => (e) => {
+			const numPanels = Object.values(panels).length;
+			const [totX, totY] = Object.values(panels).reduce(([ x, y ], v) => [ x + v.left, y + v.top ], [0, 0]);
+			const [avgX, avgY] = [totX / numPanels, totY / numPanels];
+			// setWorkAreaOffset([avgX, avgY]);
+			console.log(panels[0], workAreaOffset);
+			setWorkAreaOffset([panels[0].left, panels[0].top]);
 		}
 	});
 
@@ -463,7 +477,19 @@ const WorkArea = (props) => {
 			return;
 		}
 
-		setContextMenuData(null);
+		if (e.target.closest('.ContextMenu')) {
+			setContextMenuData(null);
+			return;
+		}
+
+		setContextMenuData({
+			left: e.clientX,
+			top: e.clientY,
+			items: contextMenuItems,
+			target: e.target,
+			tags: ['workarea']
+		});
+
 		return;
 	};
 

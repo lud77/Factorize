@@ -79,6 +79,16 @@ const toolbarMenusSetup = ({
 
 const contextMenusSetup = (handlers) => {
     return [{
+        icon: <FontAwesomeIcon icon={solid('clone')} />,
+        label: 'Duplicate Panel',
+        handler: handlers.duplicatePanel,
+        tags: ['panel']
+    }, {
+        icon: <FontAwesomeIcon icon={solid('link-slash')} />,
+        label: 'Disconnect Panel',
+        handler: handlers.disconnectPanel,
+        tags: ['panel']
+    }, {
         icon: <FontAwesomeIcon icon={solid('trash-can')} />,
         label: 'Delete Panel',
         handler: handlers.deletePanel,
@@ -88,6 +98,11 @@ const contextMenusSetup = (handlers) => {
         label: 'Remove Endpoint',
         handler: handlers.removeEp,
         tags: ['removable endpoint']
+    }, {
+        icon: <FontAwesomeIcon icon={solid('arrows-to-dot')} />,
+        label: 'Find Origin',
+        handler: handlers.findOrigin,
+        tags: ['workarea']
     }];
 };
 

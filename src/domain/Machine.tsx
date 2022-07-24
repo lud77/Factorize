@@ -5,7 +5,7 @@ import { Connection } from '../types/Connection';
 let position = 10;
 
 const Machine = ({
-    props,
+    dictionary,
     panels, setPanels,
     connections, setConnections,
     workAreaOffset,
@@ -217,9 +217,9 @@ const Machine = ({
         };
     };
 
-    const makePanel = (palette, type) => {
+    const makePanel = (type) => {
         const panelId = getNextPanelId();
-        const panel = props.panelPalettes[palette][type].create(panelId);
+        const panel = dictionary[type].create(panelId);
 
         const inputRefs =
             panel.inputEndpoints
@@ -281,10 +281,16 @@ const Machine = ({
             top: position + 100 - workAreaOffset[1]
         };
 
+        return newPanel;
+    };
+
+    const addPanel = (type) => {
+        const newPanel = makePanel(type);
+
         setPanels((panels) => {
             return {
                 ...panels,
-                [panelId]: newPanel
+                [newPanel.panelId]: newPanel
             };
         });
     };
@@ -451,7 +457,45 @@ const Machine = ({
 		});
 	};
 
-	const findConnectionByTargetRef = (ref, signal: string | null = null) => connections.find((connection) => (connection.target == ref) && (!signal || connection.signal == signal));
+    const duplicatePanelById = (panelId) => {
+        flushSync(() => {
+            setPanels((panels) => {
+                const source = panels[panelId];
+
+                const {
+                    width,
+                    height,
+                    inputEpValues,
+                    outputEpValues
+                } = source;
+
+                const copy = makePanel(source.type);
+
+                const newPanel = {
+                    ...copy,
+                    width,
+                    height,
+                    inputEpValues,
+                    outputEpValues
+                };
+
+                console.log('copy', copy);
+
+                const newPanels = {
+                    ...panels,
+                    [newPanel.panelId]: {
+                        ...newPanel
+                    }
+                };
+
+                console.log('newPanels', newPanels);
+
+                return newPanels;
+            });
+        });
+	};
+
+    const findConnectionByTargetRef = (ref, signal: string | null = null) => connections.find((connection) => (connection.target == ref) && (!signal || connection.signal == signal));
 	const findConnectionBySourceRef = (ref, signal: string | null = null) => connections.find((connection) => (connection.source == ref) && (!signal || connection.signal == signal));
 
 	const getConnectionsByTargetRef = (ref, signal: string | null = null) => connections.filter((connection) => (connection.target == ref) && (!signal || connection.signal == signal));
@@ -492,7 +536,7 @@ const Machine = ({
 
     return {
         makeConnection,
-        makePanel,
+        addPanel,
         findConnectionBySourceRef,
         findConnectionByTargetRef,
         getConnectionsBySourceRef,
@@ -508,7 +552,8 @@ const Machine = ({
         removeOutputEndpoint,
         getPanelInputRef,
         getPanelOutputRef,
-        sendPulseTo
+        sendPulseTo,
+        duplicatePanelById
     };
 };
 
