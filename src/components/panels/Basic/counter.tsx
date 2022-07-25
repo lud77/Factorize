@@ -25,6 +25,9 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Count" panelId={panelId} {...props}>Count</OutputEndpoint>
             </div>
             <div className="Row">
+                <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" {...props}>Reset</InputEndpoint>
+            </div>
+            <div className="Row">
                 <span style={displayStyle}>{`${props.panel.outputEpValues.outputCount}`}</span>
             </div>
         </>;
@@ -32,6 +35,9 @@ const create = (panelId: number): Panel => {
 
     const inputEndpoints = [{
         name: 'Event',
+        signal: 'Pulse'
+    }, {
+        name: 'Reset',
         signal: 'Pulse'
     }];
 
@@ -47,6 +53,10 @@ const create = (panelId: number): Panel => {
                 return {
                     outputCount: panel.outputEpValues.outputCount + 1
                 };
+            case 'inputReset':
+                return {
+                    outputCount: 0
+                };
         }
     };
 
@@ -59,7 +69,8 @@ const create = (panelId: number): Panel => {
         outputEndpoints,
         Component,
         execute,
-        onPulse
+        onPulse,
+        height: 104
     } as Panel;
 };
 
