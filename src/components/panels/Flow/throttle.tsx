@@ -29,7 +29,7 @@ const create = (panelId: number): Panel => {
         signal: 'Pulse'
     }, {
         name: 'Window',
-        defaultValue: 5, // seconds
+        defaultValue: Infinity, // seconds
         signal: 'Value'
     }, {
         name: 'Max',
