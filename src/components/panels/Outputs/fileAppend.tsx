@@ -1,3 +1,4 @@
+import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
@@ -44,7 +45,7 @@ const create = (panelId: number): Panel => {
             case 'inputLog':
                 if (panel.inputEpValues.inputFile === '' || panel.inputEpValues.inputMessage === '') return {}
 
-                System.appendToFile(panel.inputEpValues.inputFile, panel.inputEpValues.inputMessage + '\n');
+                System.appendToFile(panel.inputEpValues.inputFile, panel.inputEpValues.inputMessage + os.EOL);
                 return {};
         }
     };
