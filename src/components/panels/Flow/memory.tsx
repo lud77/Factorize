@@ -11,7 +11,7 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Store" panelId={panelId} signal="Pulse" {...props}>Store</InputEndpoint>
+                <InputEndpoint name="Store" panelId={panelId} signal="Pulse" description="Store the input [Value]" {...props}>Store</InputEndpoint>
                 <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
             </div>
             <div className="Row">

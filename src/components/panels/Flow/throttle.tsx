@@ -11,18 +11,18 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="In" panelId={panelId} signal="Pulse" {...props}>In</InputEndpoint>
-                <OutputEndpoint name="Accepted" panelId={panelId} signal="Pulse" {...props}>Accepted</OutputEndpoint>
+                <InputEndpoint name="In" panelId={panelId} signal="Pulse" description="Pulse to transmit" {...props}>In</InputEndpoint>
+                <OutputEndpoint name="Accepted" panelId={panelId} signal="Pulse" description="No more than [Max] pulses received in the last [Window]" {...props}>Accepted</OutputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Window" panelId={panelId} {...props}>Window</InputEndpoint>
-                <OutputEndpoint name="Discarded" panelId={panelId} signal="Pulse" {...props}>Discarded</OutputEndpoint>
+                <OutputEndpoint name="Discarded" panelId={panelId} signal="Pulse" description="More than [Max] pulses received in the last [Window]" {...props}>Discarded</OutputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Max" panelId={panelId} {...props}>Max</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" {...props}>Reset</InputEndpoint>
+                <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Reset counter for this window" {...props}>Reset</InputEndpoint>
             </div>
         </>;
     };

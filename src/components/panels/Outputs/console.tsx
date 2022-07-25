@@ -11,10 +11,10 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Log" panelId={panelId} signal="Pulse" {...props}>Log</InputEndpoint>
+                <InputEndpoint name="Log" panelId={panelId} signal="Pulse" description="Write the [Message] to console" {...props}>Log</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Message" panelId={panelId} signal="Value" {...props}>Message</InputEndpoint>
+                <InputEndpoint name="Message" panelId={panelId} {...props}>Message</InputEndpoint>
             </div>
         </>;
     };

@@ -31,7 +31,7 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="Roll" panelId={panelId} signal="Pulse" {...props}>Roll</InputEndpoint>
+                <InputEndpoint name="Roll" panelId={panelId} signal="Pulse" description="Roll the dice" {...props}>Roll</InputEndpoint>
                 <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
             </div>
             <div className="Row">

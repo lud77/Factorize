@@ -13,13 +13,13 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Log" panelId={panelId} signal="Pulse" {...props}>Log</InputEndpoint>
+                <InputEndpoint name="Log" panelId={panelId} signal="Pulse" description="Append the [Message] to the [File]" {...props}>Log</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Message" panelId={panelId} signal="Value" {...props}>Message</InputEndpoint>
+                <InputEndpoint name="Message" panelId={panelId} {...props}>Message</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="File" panelId={panelId} signal="Value" {...props}>File</InputEndpoint>
+                <InputEndpoint name="File" panelId={panelId} {...props}>File</InputEndpoint>
             </div>
         </>;
     };

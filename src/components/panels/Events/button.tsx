@@ -23,7 +23,7 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <OutputEndpoint name="Send" panelId={panelId} signal="Pulse" {...props}>Send</OutputEndpoint>
+                <OutputEndpoint name="Send" panelId={panelId} signal="Pulse" description="UI button pressed" {...props}>Send</OutputEndpoint>
             </div>
         </>;
     };

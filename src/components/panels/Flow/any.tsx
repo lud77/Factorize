@@ -13,7 +13,7 @@ const create = (panelId: number): Panel => {
             panelId,
             `In`,
             `In${panel.inEpsCounter}`,
-            0,
+            undefined,
             'Pulse',
             0,
             'inEps'
@@ -28,16 +28,16 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="In1" panelId={panelId} signal="Pulse" {...props}>In</InputEndpoint>
-                <OutputEndpoint name="Out" panelId={panelId} signal="Pulse" {...props}>Out</OutputEndpoint>
+                <InputEndpoint name="In1" panelId={panelId} signal="Pulse" description="Input pulse" {...props}>In</InputEndpoint>
+                <OutputEndpoint name="Out" panelId={panelId} signal="Pulse" description="Any of the input pins receives a pulse" {...props}>Out</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="In2" panelId={panelId} signal="Pulse" {...props}>In</InputEndpoint>
+                <InputEndpoint name="In2" panelId={panelId} signal="Pulse" description="Input pulse" {...props}>In</InputEndpoint>
             </div>
             {
                 props.panel.inEps.map(([ep, epRef, label, name], key) => (
                     <div className="Row" key={key}>
-                        <InputEndpoint name={name} panelId={panelId} signal="Pulse" removable={true} registry="inEps" {...props}>{label}</InputEndpoint>
+                        <InputEndpoint name={name} panelId={panelId} signal="Pulse" description="Input pulse" removable={true} registry="inEps" {...props}>{label}</InputEndpoint>
                     </div>
                 ))
             }
@@ -73,7 +73,7 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         width: 134,
-        height: 94,
+        height: 104,
         inEps: [],
         inEpsCounter: 3,
         Component,

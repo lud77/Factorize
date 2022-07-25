@@ -11,12 +11,12 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Enable" panelId={panelId} signal="Pulse" {...props}>Enable</InputEndpoint>
-                <OutputEndpoint name="Then" panelId={panelId} signal="Pulse" {...props}>Then</OutputEndpoint>
+                <InputEndpoint name="Enable" panelId={panelId} signal="Pulse" description="Check the condition" {...props}>Enable</InputEndpoint>
+                <OutputEndpoint name="Then" panelId={panelId} signal="Pulse" description="The condition is true" {...props}>Then</OutputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Condition" panelId={panelId} {...props}>Condition</InputEndpoint>
-                <OutputEndpoint name="Else" panelId={panelId} signal="Pulse" {...props}>Else</OutputEndpoint>
+                <OutputEndpoint name="Else" panelId={panelId} signal="Pulse" description="The condition is false" {...props}>Else</OutputEndpoint>
             </div>
         </>;
     };

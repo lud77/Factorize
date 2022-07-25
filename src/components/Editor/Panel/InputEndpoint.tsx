@@ -18,16 +18,19 @@ export default (props) => {
 
     const signal = props.signal || 'Value';
 
-    return <div className="Input Item">
+    const ep = `input${props.name}`;
+    const epValue = props.panel.inputSignalByEp[ep] === 'Value' ? `${props.panel.inputEpValues[ep]}` : (props.description || '');
+
+    return <div className="Input Item" title={ epValue }>
         <div
             className={`
                 InputEndpoint Endpoint
-                ${isInputConnected(props.panel.inputRefs[`input${props.name}`]) ? 'Connected' : ''}
+                ${isInputConnected(props.panel.inputRefs[ep]) ? 'Connected' : ''}
                 ${props.removable ? 'Removable' : ''}
                 Signal-${signal}
             `}
-            data-ref={props.panel.inputRefs[`input${props.name}`]}
-            data-name={`input${props.name}`}
+            data-ref={props.panel.inputRefs[ep]}
+            data-name={ep}
             data-registry={props.registry || null}
             data-type="Input"
             data-signal={signal}

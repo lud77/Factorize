@@ -21,11 +21,11 @@ const create = (panelId: number): Panel => {
 
         return <>
             <div className="Row">
-                <InputEndpoint name="Event" panelId={panelId} signal="Pulse" {...props}>Event</InputEndpoint>
+                <InputEndpoint name="Event" panelId={panelId} signal="Pulse" description="Increase counter" {...props}>Event</InputEndpoint>
                 <OutputEndpoint name="Count" panelId={panelId} {...props}>Count</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" {...props}>Reset</InputEndpoint>
+                <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Set the counter to zero" {...props}>Reset</InputEndpoint>
             </div>
             <div className="Row">
                 <span style={displayStyle}>{`${props.panel.outputEpValues.outputCount}`}</span>
