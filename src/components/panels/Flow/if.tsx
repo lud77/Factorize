@@ -15,7 +15,7 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Then" panelId={panelId} signal="Pulse" {...props}>Then</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Expression" panelId={panelId} {...props}>Expression</InputEndpoint>
+                <InputEndpoint name="Condition" panelId={panelId} {...props}>Condition</InputEndpoint>
                 <OutputEndpoint name="Else" panelId={panelId} signal="Pulse" {...props}>Else</OutputEndpoint>
             </div>
         </>;
@@ -25,7 +25,7 @@ const create = (panelId: number): Panel => {
         name: 'Enable',
         signal: 'Pulse'
     }, {
-        name: 'Expression',
+        name: 'Condition',
         defaultValue: undefined,
         signal: 'Value'
     }];
@@ -41,7 +41,7 @@ const create = (panelId: number): Panel => {
     const onPulse = (ep, panel, sendPulseTo) => {
         switch (ep) {
             case 'inputEnable':
-                if (panel.inputEpValues.inputExpression) {
+                if (panel.inputEpValues.inputCondition) {
                     sendPulseTo(panel.panelId, 'outputThen');
                 } else {
                     sendPulseTo(panel.panelId, 'outputElse');
