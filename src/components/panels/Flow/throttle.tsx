@@ -21,6 +21,9 @@ const create = (panelId: number): Panel => {
             <div className="Row">
                 <InputEndpoint name="Max" panelId={panelId} {...props}>Max</InputEndpoint>
             </div>
+            <div className="Row">
+                <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" {...props}>Reset</InputEndpoint>
+            </div>
         </>;
     };
 
@@ -35,6 +38,9 @@ const create = (panelId: number): Panel => {
         name: 'Max',
         defaultValue: 1, // events
         signal: 'Value'
+    }, {
+        name: 'Reset',
+        signal: 'Pulse'
     }];
 
     const outputEndpoints = [{
@@ -61,7 +67,9 @@ const create = (panelId: number): Panel => {
 
                 sendPulseTo(panel.panelId, 'outputDiscarded');
                 return { outputEvents };
-        }
+            case 'inputReset':
+                return { outputEvents: [] };
+            }
     };
 
     const execute = (panel, values) => values;
@@ -74,7 +82,7 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse,
-        height: 94
+        height: 114
     } as Panel;
 };
 
