@@ -26,7 +26,7 @@ const create = (panelId: number): Panel => {
         signal: 'Value'
     }, {
         name: 'Seconds',
-        defaultValue: 5,
+        defaultValue: 1,
         signal: 'Value'
     }];
 
@@ -35,21 +35,39 @@ const create = (panelId: number): Panel => {
         signal: 'Pulse'
     }];
 
-    const run = (panel, sendPulseTo) => {
+    const run = (panel, methods) => {
         if (!panel.inputEpValues.inputActive) return;
 
-        timerRef.current = setTimeout(() => {
-            sendPulseTo(panel.panelId, 'outputTick');
-            run(panel, sendPulseTo);
-        }, panel.inputEpValues.inputSeconds * 1000);
+        methods.setPanels((panels) => {
+            const currentPanel = panels[panel.panelId];
+
+            const timeoutHandler = setTimeout(() => {
+                methods.sendPulseTo(panel.panelId, 'outputTick');
+                run(currentPanel, methods);
+            }, currentPanel.inputEpValues.inputSeconds * 1000);
+
+            return {
+                ...panels,
+                [panel.panelId]: {
+                    ...currentPanel,
+                    outputEpValues: {
+                        ...currentPanel.outputEpValues,
+                        timeoutHandler
+                    }
+                }
+            };
+        });
     };
 
-    const execute = (panel, values, { sendPulseTo }) => {
-        if (timerRef.current != null) {
-            clearTimeout(timerRef.current);
+    const execute = (panel, values, methods) => {
+        if (panel.outputEpValues.timeoutHandler != null) {
+            if (panel.inputEpValues.inputActive) return values;
+
+            clearTimeout(panel.outputEpValues.timeoutHandler);
+            return { timeoutHandler: undefined };
         }
 
-        const timeoutHandler = run(panel, sendPulseTo);
+        run(panel, methods);
 
         return values;
     };

@@ -3,5 +3,5 @@ import Clock from './clock';
 
 export default {
     Button,
-    // Clock
+    Clock
 };
