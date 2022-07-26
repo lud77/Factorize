@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { flushSync } from 'react-dom';
 
 import { Panel } from '../../../types/Panel';
 
@@ -38,24 +39,26 @@ const create = (panelId: number): Panel => {
     const run = (panel, methods) => {
         if (!panel.inputEpValues.inputActive) return;
 
-        methods.setPanels((panels) => {
-            const currentPanel = panels[panel.panelId];
+        flushSync(() => {
+            methods.setPanels((panels) => {
+                const currentPanel = panels[panel.panelId];
 
-            const timeoutHandler = setTimeout(() => {
-                methods.sendPulseTo(panel.panelId, 'outputTick');
-                run(currentPanel, methods);
-            }, currentPanel.inputEpValues.inputSeconds * 1000);
+                const timeoutHandler = setTimeout(() => {
+                    methods.sendPulseTo(panel.panelId, 'outputTick');
+                    run(currentPanel, methods);
+                }, currentPanel.inputEpValues.inputSeconds * 1000);
 
-            return {
-                ...panels,
-                [panel.panelId]: {
-                    ...currentPanel,
-                    outputEpValues: {
-                        ...currentPanel.outputEpValues,
-                        timeoutHandler
+                return {
+                    ...panels,
+                    [panel.panelId]: {
+                        ...currentPanel,
+                        outputEpValues: {
+                            ...currentPanel.outputEpValues,
+                            timeoutHandler
+                        }
                     }
-                }
-            };
+                };
+            });
         });
     };
 
@@ -79,7 +82,7 @@ const create = (panelId: number): Panel => {
         outputEndpoints,
         Component,
         execute,
-        height: 84
+        height: 74
     } as Panel;
 };
 

@@ -26,7 +26,7 @@ const create = (panelId: number): Panel => {
         signal: 'Value'
     }, {
         name: 'Modulus',
-        defaultValue: 0,
+        defaultValue: 2,
         signal: 'Value'
     }];
 
