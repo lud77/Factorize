@@ -73,30 +73,32 @@ const Machine = ({
     const propagateOutputValuesFrom = (panelId, updatedOutputs) => {
         const outgoingConns = findOutgoingConnectionsByPanel(panelId);
         console.log('propagateOutputValuesFrom - outgoingConns', outgoingConns);
-        setPanels((panels) => {
-            const updates = {};
+        flushSync(() => {
+            setPanels((panels) => {
+                const updates = {};
 
-            outgoingConns.forEach((conn) => {
-                const [ connectedPanel, connectedEp ] = reifyTarget(conn.targetPanelId, conn.target);
-                const [ , outputEp ] = reifySource(panelId, conn.source);
-                console.log('forEach', connectedPanel, { [connectedEp]: updatedOutputs[outputEp] });
+                outgoingConns.forEach((conn) => {
+                    const [ connectedPanel, connectedEp ] = reifyTarget(conn.targetPanelId, conn.target);
+                    const [ , outputEp ] = reifySource(panelId, conn.source);
+                    console.log('forEach', connectedPanel, { [connectedEp]: updatedOutputs[outputEp] });
 
-                if (!updates[conn.targetPanelId]) {
-                    updates[conn.targetPanelId] = panels[conn.targetPanelId];
-                }
+                    if (!updates[conn.targetPanelId]) {
+                        updates[conn.targetPanelId] = panels[conn.targetPanelId];
+                    }
 
-                updates[conn.targetPanelId].inputEpValues[connectedEp] = updatedOutputs[outputEp];
+                    updates[conn.targetPanelId].inputEpValues[connectedEp] = updatedOutputs[outputEp];
+                });
+
+                const updatedPanels = {
+                    ...panels,
+                    ...updates
+                };
+
+                const updatedPanelsIds = outgoingConns.map((conn) => conn.targetPanelId);
+                updatedPanelsIds.forEach((panelId) => executePanelLogic(panelId));
+
+                return updatedPanels;
             });
-
-            const updatedPanels = {
-                ...panels,
-                ...updates
-            };
-
-            const updatedPanelsIds = outgoingConns.map((conn) => conn.targetPanelId);
-            updatedPanelsIds.forEach((panelId) => executePanelLogic(panelId));
-
-            return updatedPanels;
         });
     };
 
