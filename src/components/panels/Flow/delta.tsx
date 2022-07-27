@@ -12,7 +12,7 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
-                <OutputEndpoint name="Changed" panelId={panelId} signal="Pulse" description="Input value change" {...props}>Changed</OutputEndpoint>
+                <OutputEndpoint name="Changed" panelId={panelId} signal="Pulse" description="Input value changes" {...props}>Changed</OutputEndpoint>
             </div>
         </>;
     };

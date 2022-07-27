@@ -51,7 +51,7 @@ const create = (panelId: number): Panel => {
         signal: 'Pulse'
     }];
 
-    const onPulse = (ep, panel, sendPulseTo) => {
+    const onPulse = (ep, panel, { sendPulseTo }) => {
         switch (ep) {
             case 'inputIn':
                 const outputEvents = (panel.outputEpValues.outputEvents || [])

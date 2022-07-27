@@ -37,7 +37,7 @@ const Walker = ({ setPanels, connections, setConnections, play, setPlay, pause, 
     const mainLoop = () => {
         step().then(() => {
             console.log('looping');
-            if (play) setTimeout(mainLoop, 1);
+            if (play) setTimer(mainLoop, 1);
         });
     };
 

@@ -23,6 +23,7 @@ import {
 
 import './WorkArea.css';
 import '../Panel/Panel.css';
+import { flushSync } from 'react-dom';
 
 let resizeEvents: number[] = [];
 
@@ -38,7 +39,8 @@ const WorkArea = (props) => {
 		connectorAnchor, setConnectorAnchor,
 		makeConnection,
 		workAreaOffset, setWorkAreaOffset,
-		inclusiveSelection
+		inclusiveSelection,
+		setTimer
 	} = props;
 
 	const { selectInclusive, selectExclusive } = getSelectorsFor(workAreaOffset);
@@ -250,6 +252,7 @@ const WorkArea = (props) => {
 				toRef: null,
 				from: null
 			});
+
 			return;
 		}
 
@@ -396,10 +399,12 @@ const WorkArea = (props) => {
 			const newConnection = makeConnection(connectorAnchor.fromRef, toRef, connectorAnchor.fromPanelId, toPanelId);
 
 			if (newConnection) {
-				setConnections([
-					...connections,
-					newConnection
-				]);
+				flushSync(() => {
+					setConnections((connections) => [
+						...connections,
+						newConnection
+					]);
+				});
 			}
 		}
 
@@ -415,10 +420,12 @@ const WorkArea = (props) => {
 			const newConnection = makeConnection(fromRef, connectorAnchor.toRef, fromPanelId, connectorAnchor.toPanelId);
 
 			if (newConnection) {
-				setConnections([
-					...connections,
-					newConnection
-				]);
+				flushSync(() => {
+					setConnections((connections) => [
+						...connections,
+						newConnection
+					]);
+				});
 			}
 		}
 
@@ -557,7 +564,7 @@ const WorkArea = (props) => {
 			resizeEvents.push(Date.now());
 
 			if (resizeEvents.length == 4) {
-				setTimeout(() => {
+				setTimer(() => {
 					console.log('resized on timeout', resizeEvents.length, Date.now());
 					setScreenSize(buildScreenSize());
 				}, 500);

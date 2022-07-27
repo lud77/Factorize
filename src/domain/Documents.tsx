@@ -8,7 +8,8 @@ const Documents = ({
     setConnections,
     filePath, setFilePath,
     panelIdSequence,
-    endpointIdSequence
+    endpointIdSequence,
+    clearAllTimers
 }) => {
     const packDocument = ({ panels, connections }) => {
         return JSON.stringify({
@@ -45,6 +46,7 @@ const Documents = ({
     };
 
     const unpackDocument = (filePath, packedDocument) => {
+        clearAllTimers();
         setFilePath(filePath);
 
         const documentInfo = parseJson(packedDocument);
@@ -59,19 +61,25 @@ const Documents = ({
             setConnections(documentInfo.connections);
         });
 
-        flushSync(() => {
         panelIdSequence.force(documentInfo.lastPanelId);
-        });
-
-        flushSync(() => {
-            endpointIdSequence.force(documentInfo.lastEndpointId);
-        });
+        endpointIdSequence.force(documentInfo.lastEndpointId);
     };
 
     const create = () => {
-        setFilePath('');
-        setPanels({});
-        setConnections([]);
+        clearAllTimers();
+
+        flushSync(() => {
+            setFilePath('');
+        });
+
+        flushSync(() => {
+            setPanels({});
+        });
+
+        flushSync(() => {
+            setConnections([]);
+        });
+
         panelIdSequence.force(-1);
         endpointIdSequence.force(-1);
     };
@@ -85,6 +93,7 @@ const Documents = ({
     const saveAs = (documentInfo) => {
         System.saveFileDialog({ fileTypes: ['Factorize'] })
             .then((filePath) => {
+                setFilePath(filePath);
                 System.writeFile(filePath, packDocument(documentInfo));
             });
     };

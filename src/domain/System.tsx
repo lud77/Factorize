@@ -4,9 +4,9 @@ const quit = () => {
     ipcRenderer.send('api:terminate-app');
 };
 
-const openFileDialog = (fileType = []) => {
+const openFileDialog = (options = {}) => {
     return new Promise((resolve) => {
-        ipcRenderer.send('api:select-file-open', fileType);
+        ipcRenderer.send('api:select-file-open', options);
         ipcRenderer.once('api:file-path', (e, msg) => {
             console.log(msg);
             if (msg.cancelled) return resolve(null);
@@ -16,9 +16,9 @@ const openFileDialog = (fileType = []) => {
     });
 };
 
-const saveFileDialog = (fileType = []) => {
+const saveFileDialog = (options = {}) => {
     return new Promise((resolve) => {
-        ipcRenderer.send('api:select-file-save', fileType);
+        ipcRenderer.send('api:select-file-save', options);
         ipcRenderer.once('api:file-path', (e, msg) => {
             console.log(msg);
             if (msg.cancelled) return resolve(null);

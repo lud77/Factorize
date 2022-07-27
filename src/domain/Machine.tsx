@@ -10,7 +10,8 @@ const Machine = ({
     connections, setConnections,
     workAreaOffset,
     getNextPanelId,
-    getNextEndpointId
+    getNextEndpointId,
+    timers
 }) => {
     const reifySource = (sourcePanelId, sourceEpRef) => {
         const panel = panels[sourcePanelId];
@@ -80,7 +81,7 @@ const Machine = ({
                 outgoingConns.forEach((conn) => {
                     const [ connectedPanel, connectedEp ] = reifyTarget(conn.targetPanelId, conn.target);
                     const [ , outputEp ] = reifySource(panelId, conn.source);
-                    console.log('forEach', connectedPanel, { [connectedEp]: updatedOutputs[outputEp] });
+                    console.log('forEach', connectedPanel, outputEp, updatedOutputs, { [connectedEp]: updatedOutputs[outputEp] });
 
                     if (!updates[conn.targetPanelId]) {
                         updates[conn.targetPanelId] = panels[conn.targetPanelId];
@@ -122,7 +123,8 @@ const Machine = ({
                     changes,
                     {
                         setPanels,
-                        sendPulseTo
+                        sendPulseTo,
+                        timers
                     }
                 )]);
             })
@@ -143,10 +145,19 @@ const Machine = ({
     };
 
     const sendPulseTo = (panelId, ep) => {
-        setTimeout(() => {
+        console.log('sendPulseTo - connections', connections);
+        timers.setTimer(() => {
             const epRef = getPanelOutputRef(panelId, ep);
-            const pulseConnections = getConnectionsBySourceRef(epRef, 'Pulse');
+            let pulseConnections
+            flushSync(() => {
+                pulseConnections = getConnectionsBySourceRef(epRef, 'Pulse');
+                setConnections((connections) => {
+                    console.log('sendPulseTo - flush - connections', connections);
+                    return connections;
+                });
+            });
             console.log('Sending pulse through', ep, epRef);
+            console.log('pulseConnections', pulseConnections);
 
             console.log('before', panels);
 
@@ -158,8 +169,10 @@ const Machine = ({
                         pulseConnections
                             .map((connection) => {
                                 const targetPanel = panels[connection.targetPanelId];
+                                if (!targetPanel) return null;
+
                                 const ep = targetPanel.inputEpByRef[connection.target];
-                                const updates = targetPanel.onPulse(ep, targetPanel, sendPulseTo);
+                                const updates = targetPanel.onPulse(ep, targetPanel, { sendPulseTo });
 
                                 return {
                                     [targetPanel.panelId]: {
@@ -171,6 +184,7 @@ const Machine = ({
                                     }
                                 };
                             })
+                            .filter(Boolean)
                             .reduce((a, v) => ({ ...a, ...v }), {});
 
                     console.log('sendPulseTo updates', panelUpdates);
@@ -181,9 +195,10 @@ const Machine = ({
                     }
                 });
             });
+
             console.log('after', panels);
 
-            const updatedPanelsIds = pulseConnections.map((connection) => connection.targetPanelId);
+            const updatedPanelsIds = getConnectionsBySourceRef(epRef, 'Pulse').map((connection) => connection.targetPanelId);
 
             console.log('updatedPanelsIds outside', updatedPanelsIds);
             if (panelUpdates == null) return;
@@ -443,20 +458,28 @@ const Machine = ({
             stopPropagatingValue(connection);
         });
 
-        setConnections((connections) =>
-            connections.filter((connection) => (connection.sourcePanelId !== panelId) && (connection.targetPanelId !== panelId))
-        );
+        flushSync(() => {
+            setConnections((connections) =>
+                connections.filter((connection) => (connection.sourcePanelId !== panelId) && (connection.targetPanelId !== panelId))
+            );
+        });
     };
 
     const removePanelById = (panelId) => {
-		removeConnectionsByPanelId(panelId);
+        removeConnectionsByPanelId(panelId);
 
-		setPanels((panels) => {
-			delete panels[panelId];
-			const newPanels = { ...panels };
+        flushSync(() => {
+            setPanels((panels) => {
+                if (panels[panelId]?.dispose) {
+                    panels[panelId].dispose(panels[panelId], { clearTimer: timers.clearTimer });
+                }
 
-			return newPanels;
-		});
+                delete panels[panelId];
+                const newPanels = { ...panels };
+
+                return newPanels;
+            });
+        });
 	};
 
     const duplicatePanelById = (panelId) => {
@@ -500,8 +523,29 @@ const Machine = ({
     const findConnectionByTargetRef = (ref, signal: string | null = null) => connections.find((connection) => (connection.target == ref) && (!signal || connection.signal == signal));
 	const findConnectionBySourceRef = (ref, signal: string | null = null) => connections.find((connection) => (connection.source == ref) && (!signal || connection.signal == signal));
 
-	const getConnectionsByTargetRef = (ref, signal: string | null = null) => connections.filter((connection) => (connection.target == ref) && (!signal || connection.signal == signal));
-	const getConnectionsBySourceRef = (ref, signal: string | null = null) => connections.filter((connection) => (connection.source == ref) && (!signal || connection.signal == signal));
+	const getConnectionsByTargetRef = (ref, signal: string | null = null) => {
+        let result = null;
+        flushSync(() => {
+            setConnections((connections) => {
+                result = connections.filter((connection) => (connection.target == ref) && (!signal || connection.signal == signal));
+            });
+        });
+
+        return result;
+    };
+
+	const getConnectionsBySourceRef = (ref, signal: string | null = null) => {
+        let result = null;
+
+        flushSync(() => {
+            setConnections((connections) => {
+                result = connections.filter((connection) => (connection.source == ref) && (!signal || connection.signal == signal));
+                return connections;
+            });
+        });
+
+        return result;
+    };
 
     const stopPropagatingValue = (connection) => {
         const { targetPanelId, target } = connection;
@@ -517,7 +561,9 @@ const Machine = ({
 
         if (connection) {
             stopPropagatingValue(connection);
-			setConnections((connections) => connections.filter((connection) => connection.source != ref));
+            flushSync(() => {
+			    setConnections((connections) => connections.filter((connection) => connection.source != ref));
+            });
 			return connection;
 		}
 
@@ -529,7 +575,24 @@ const Machine = ({
 
 		if (connection) {
             stopPropagatingValue(connection);
-            setConnections((connections) => connections.filter((connection) => connection.target != ref));
+            console.log('removeConnection before', connections);
+            flushSync(() => {
+                setConnections((connections) => {
+                    console.log('removeConnection inside before A', connections);
+                    const filtered = connections.filter((connection) => connection.target != ref);
+                    console.log('removeConnection inside after A', filtered);
+                    return filtered;
+                });
+            });
+
+            setConnections((connections) => {
+                console.log('removeConnection inside before B', connections);
+                const filtered = connections.filter((connection) => connection.target != ref);
+                console.log('removeConnection inside after B', filtered);
+                return filtered;
+            });
+
+            console.log('removeConnection after', connections);
 			return connection;
 		}
 

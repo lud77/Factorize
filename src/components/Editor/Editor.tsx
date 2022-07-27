@@ -13,6 +13,7 @@ import Documents from '../../domain/Documents';
 import Palette from '../../domain/Palette';
 import { toolbarMenusSetup } from '../../domain/Menus';
 import getSequence from '../../utils/sequence';
+import { Timers } from '../../utils/timers';
 import panelPalettes from '../../components/panels';
 import dictionary from '../../components/panels/dictionary';
 
@@ -23,6 +24,8 @@ const getNextPanelId = panelIdSequence.next;
 
 const endpointIdSequence = getSequence();
 const getNextEndpointId = endpointIdSequence.next;
+
+const timers = Timers();
 
 const Editor = (props) => {
     const [ snap, setSnap ] = React.useState<boolean>(false);
@@ -43,7 +46,8 @@ const Editor = (props) => {
         setConnections,
         filePath: props.filePath, setFilePath: props.setFilePath,
         panelIdSequence,
-        endpointIdSequence
+        endpointIdSequence,
+        clearAllTimers: timers.clearAllTimers
     });
 
     const machine = Machine({
@@ -52,7 +56,8 @@ const Editor = (props) => {
         connections, setConnections,
         workAreaOffset,
         getNextPanelId,
-        getNextEndpointId
+        getNextEndpointId,
+        timers
     });
 
     const {
@@ -103,6 +108,7 @@ const Editor = (props) => {
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
                 makeConnection={makeConnection}
                 workAreaOffset={workAreaOffset} setWorkAreaOffset={setWorkAreaOffset}
+                setTimer={timers.setTimer}
                 />;
             <Statusbar status="Ready" />
         </div>
