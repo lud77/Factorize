@@ -5,15 +5,17 @@ import dictionary from '../components/panels/dictionary';
 
 const Documents = ({
     setPanels,
+    setPanelCoords,
     setConnections,
     filePath, setFilePath,
     panelIdSequence,
     endpointIdSequence,
     clearAllTimers
 }) => {
-    const packDocument = ({ panels, connections }) => {
+    const packDocument = ({ panels, panelCoords, connections }) => {
         return JSON.stringify({
             panels,
+            panelCoords,
             connections,
             lastPanelId: panelIdSequence.current(),
             lastEndpointId: endpointIdSequence.current(),
@@ -58,6 +60,10 @@ const Documents = ({
         });
 
         flushSync(() => {
+            setPanelCoords(documentInfo.panelCoords);
+        });
+
+        flushSync(() => {
             setConnections(documentInfo.connections);
         });
 
@@ -74,6 +80,10 @@ const Documents = ({
 
         flushSync(() => {
             setPanels({});
+        });
+
+        flushSync(() => {
+            setPanelCoords({});
         });
 
         flushSync(() => {
@@ -98,7 +108,7 @@ const Documents = ({
             });
     };
 
-    const open = (documentInfo) => {
+    const open = (documentControls) => {
         System.openFileDialog({ fileTypes: ['Factorize'] })
             .then((filePath) => {
                 if (!filePath) return [null, null];

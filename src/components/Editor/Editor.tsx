@@ -13,7 +13,7 @@ import Documents from '../../domain/Documents';
 import Palette from '../../domain/Palette';
 import { toolbarMenusSetup } from '../../domain/Menus';
 import getSequence from '../../utils/sequence';
-import { Timers } from '../../utils/timers';
+import Timers from '../../utils/timers';
 import panelPalettes from '../../components/panels';
 import dictionary from '../../components/panels/dictionary';
 
@@ -37,12 +37,20 @@ const Editor = (props) => {
 
     const [ focused, setFocus ] = React.useState<number | null>(null);
     const [ panels, setPanels ] = React.useState<object>({});
+    const [ panelCoords, setPanelCoords ] = React.useState<object>({});
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
     const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
 
+    const graphState = {
+        panels, setPanels,
+        panelCoords, setPanelCoords,
+        connections, setConnections
+    };
+
     const documents = Documents({
         setPanels,
+        setPanelCoords,
         setConnections,
         filePath: props.filePath, setFilePath: props.setFilePath,
         panelIdSequence,
@@ -52,8 +60,7 @@ const Editor = (props) => {
 
     const machine = Machine({
         dictionary,
-        panels, setPanels,
-        connections, setConnections,
+        graphState,
         workAreaOffset,
         getNextPanelId,
         getNextEndpointId,
@@ -84,8 +91,7 @@ const Editor = (props) => {
     });
 
     const menus = toolbarMenusSetup({
-        panels, setPanels,
-        connections, setConnections,
+        graphState,
         play, pause,
         focused,
         walker,
@@ -103,8 +109,7 @@ const Editor = (props) => {
                 snap={snap}
                 focused={focused} setFocus={setFocus}
                 inclusiveSelection={inclusiveSelection}
-                panels={panels} setPanels={setPanels}
-                connections={connections} setConnections={setConnections}
+                graphState={graphState}
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
                 makeConnection={makeConnection}
                 workAreaOffset={workAreaOffset} setWorkAreaOffset={setWorkAreaOffset}

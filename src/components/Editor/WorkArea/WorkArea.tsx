@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { flushSync } from 'react-dom';
 import { Set } from 'immutable';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +13,8 @@ import ContextMenu from '../ContextMenu/ContextMenu';
 
 import { contextMenusSetup } from '../../../domain/Menus';
 
+import rateLimiter from '../../../utils/rateLimiter';
+
 import { DragCoords } from '../../../types/DragCoords';
 
 import {
@@ -23,18 +26,15 @@ import {
 
 import './WorkArea.css';
 import '../Panel/Panel.css';
-import { flushSync } from 'react-dom';
 
 let resizeEvents: number[] = [];
-
-const limitEvents = (events) => events.filter((ts) => Date.now() - ts < 500);
+let mouseMoveEvents: number[] = [];
 
 const WorkArea = (props) => {
 	const {
 		machine,
 		play, pause,
-		panels, setPanels,
-		connections, setConnections,
+		graphState,
 		focused, setFocus,
 		connectorAnchor, setConnectorAnchor,
 		makeConnection,
@@ -42,6 +42,12 @@ const WorkArea = (props) => {
 		inclusiveSelection,
 		setTimer
 	} = props;
+
+    const {
+        panels, setPanels,
+        panelCoords, setPanelCoords,
+        connections, setConnections
+    } = graphState;
 
 	const { selectInclusive, selectExclusive } = getSelectorsFor(workAreaOffset);
 
@@ -77,8 +83,8 @@ const WorkArea = (props) => {
 			const [totX, totY] = Object.values(panels).reduce(([ x, y ], v) => [ x + v.left, y + v.top ], [0, 0]);
 			const [avgX, avgY] = [totX / numPanels, totY / numPanels];
 			// setWorkAreaOffset([avgX, avgY]);
-			console.log(panels[0], workAreaOffset);
-			setWorkAreaOffset([panels[0].left, panels[0].top]);
+			console.log(panelCoords[0], workAreaOffset);
+			setWorkAreaOffset([panelCoords[0].left, panelCoords[0].top]);
 		}
 	});
 
@@ -120,12 +126,12 @@ const WorkArea = (props) => {
 			if ((selectedPanels.size > 0) && selectedPanels.contains(panelId)) {
 				const selectedPanelsAnchors =
 					selectedPanels
-						.map((panelId) => panels[panelId])
-						.map((panel) => ({
-							panelId: panel.panelId,
+						.map((panelId) => panelCoords[panelId])
+						.map((panelCoord) => ({
+							panelId: panelCoord.panelId,
 							o: {
-								x: panel.left,
-								y: panel.top
+								x: panelCoord.left,
+								y: panelCoord.top
 							}
 						}))
 						.toArray();
@@ -140,8 +146,8 @@ const WorkArea = (props) => {
 					},
 					os: selectedPanelsAnchors,
 					c: {
-						x: panels[panelId].left,
-						y: panels[panelId].top
+						x: panelCoords[panelId].left,
+						y: panelCoords[panelId].top
 					}
 				});
 
@@ -157,8 +163,8 @@ const WorkArea = (props) => {
 					y: Number(e.pageY)
 				},
 				c: {
-					x: panels[panelId].left,
-					y: panels[panelId].top
+					x: panelCoords[panelId].left,
+					y: panelCoords[panelId].top
 				}
 			});
 
@@ -274,12 +280,14 @@ const WorkArea = (props) => {
 		// }
 	};
 
-	const mouseMove = (e) => {
+	const processMouseMove = (e) => {
 		if (e.button != 0) return;
 
 		e.preventDefault();
 
 		if (!dragCoords.isDragging && (connectorAnchor == null)) return;
+
+		console.log('mouse move', dragCoords.what);
 
 		if (dragCoords.isDragging && dragCoords.what == 'panels') {
 			const func = (props.snap ? snapping : linear);
@@ -294,15 +302,15 @@ const WorkArea = (props) => {
 					return {
 						...a,
 						[v.panelId]: {
-							...panels[v.panelId],
+							...panelCoords[v.panelId],
 							left: func(v.o.x + distance.dx),
 							top: func(v.o.y + distance.dy)
 						}
 					};
 				}, {});
 
-			setPanels((panels) => ({
-				...panels,
+			setPanelCoords((panelCoords) => ({
+				...panelCoords,
 				...updates
 			}));
 
@@ -313,10 +321,10 @@ const WorkArea = (props) => {
 			const panelId = parseInt(dragCoords.el.dataset.key);
 			const func = (props.snap ? snapping : linear);
 
-			setPanels((panels) => ({
-				...panels,
+			setPanelCoords((panelCoords) => ({
+				...panelCoords,
 				[panelId]: {
-					...panels[panelId],
+					...panelCoords[panelId],
 					left: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
 					top: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
 				}
@@ -356,7 +364,7 @@ const WorkArea = (props) => {
 			};
 
 			const included =
-				(inclusiveSelection ? selectInclusive : selectExclusive)(panels, selection)
+				(inclusiveSelection ? selectInclusive : selectExclusive)(panels, panelCoords, selection)
 					.map(({ panelId }) => panelId);
 
 			setSelectedPanels(Set(included).concat(backupSelectedPanels));
@@ -379,10 +387,10 @@ const WorkArea = (props) => {
 		}
 	};
 
+	const mouseMove = rateLimiter('mouse moved', processMouseMove, mouseMoveEvents, 50);
+
 	const mouseUp = (e) => {
 		if (e.button != 0) return;
-
-		// e.preventDefault();
 
 		setDragCoords({ isDragging: false });
 
@@ -508,13 +516,21 @@ const WorkArea = (props) => {
 		}
 	};
 
-	const renderPanel = (panel) => {
+	const processResize = () => {
+		setScreenSize(buildScreenSize());
+	};
+
+	if (!window.onresize) {
+		window.onresize = rateLimiter('resize', processResize, resizeEvents, 500);
+	}
+
+	const renderPanel = (panel, panelCoord) => {
 		const isSelected = selectedPanels.has(panel.panelId);
 
 		return (
 			<PanelWrapper
 				key={panel.panelId}
-				panel={panel}
+				panel={panel} panelCoord={panelCoord}
 				machine={machine}
 				workAreaOffset={workAreaOffset}
 				connections={connections}
@@ -558,28 +574,11 @@ const WorkArea = (props) => {
 		/>);
 	};
 
-	if (!window.onresize) {
-		window.onresize = () => {
-			resizeEvents = limitEvents(resizeEvents);
-			resizeEvents.push(Date.now());
-
-			if (resizeEvents.length == 4) {
-				setTimer(() => {
-					console.log('resized on timeout', resizeEvents.length, Date.now());
-					setScreenSize(buildScreenSize());
-				}, 500);
-				return;
-			}
-
-			if (resizeEvents.length > 5) return;
-			console.log('resized', resizeEvents.length, Date.now());
-			setScreenSize(buildScreenSize());
-		};
-	}
-
 	const renderView = (draw) => {
+		if (Object.values(panels).length === 0 || Object.values(panelCoords).length === 0) return <></>;
+
 		return <>
-			{Object.values(panels).map(renderPanel)}
+			{Object.keys(panels).map((panelId) => renderPanel(panels[panelId], panelCoords[panelId]))}
 			{connections.map(renderConnection)}
 		</>;
 	};

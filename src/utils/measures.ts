@@ -25,9 +25,9 @@ const buildScreenSize = () => ({
 });
 
 const getSelectorsFor = (workAreaOffset) => {
-	const getPanelWorkAreaCoords = (panel) => {
-		const left = panel.left + workAreaOffset[0];
-		const top = panel.top + workAreaOffset[1];
+	const getPanelWorkAreaCoords = (panel, panelCoords) => {
+		const left = panelCoords.left + workAreaOffset[0];
+		const top = panelCoords.top + workAreaOffset[1];
 
 		return {
 			left,
@@ -37,28 +37,28 @@ const getSelectorsFor = (workAreaOffset) => {
 		};
 	};
 
-	const selectInclusive = (panels, selection) =>
+	const selectInclusive = (panels, panelCoords, selection) =>
 		Object.values(panels)
 			.map((panel) => {
-				const panelCoords = getPanelWorkAreaCoords(panel);
+				const coords = getPanelWorkAreaCoords(panel, panelCoords[panel.panelId]);
 
-				if (panelCoords.right < selection.left) return null;
-				if (panelCoords.bottom < selection.top) return null;
-				if (panelCoords.left > selection.right) return null;
-				if (panelCoords.top > selection.bottom) return null;
+				if (coords.right < selection.left) return null;
+				if (coords.bottom < selection.top) return null;
+				if (coords.left > selection.right) return null;
+				if (coords.top > selection.bottom) return null;
 				return panel;
 			})
 			.filter(Boolean);
 
-	const selectExclusive = (panels, selection) =>
+	const selectExclusive = (panels, panelCoords, selection) =>
 		Object.values(panels)
 			.map((panel) => {
-				const panelCoords = getPanelWorkAreaCoords(panel);
+				const coords = getPanelWorkAreaCoords(panel, panelCoords[panel.panelId]);
 
-				if (panelCoords.left < selection.Left) return null;
-				if (panelCoords.top < selection.top) return null;
-				if (panelCoords.right > selection.right) return null;
-				if (panelCoords.bottom > selection.bottom) return null;
+				if (coords.left < selection.Left) return null;
+				if (coords.top < selection.top) return null;
+				if (coords.right > selection.right) return null;
+				if (coords.bottom > selection.bottom) return null;
 				return panel;
 			})
 			.filter(Boolean);

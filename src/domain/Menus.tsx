@@ -7,13 +7,18 @@ import ValuesEditor from '../components/Editor/ValuesEditor/ValuesEditor';
 import System from '../domain/System';
 
 const toolbarMenusSetup = ({
-    panels, setPanels,
-    connections, setConnections,
+    graphState,
     play, pause,
     focused,
     walker, documents,
     flagsMenu, panelsMenu
 }) => {
+    const {
+        panels, setPanels,
+        panelCoords, setPanelCoords,
+        connections, setConnections
+    } = graphState;
+
     return {
         'Home': {
             label: 'Home',
@@ -23,15 +28,15 @@ const toolbarMenusSetup = ({
                     label: 'New File'
                 },
                 'Open File...': {
-                    execute: () => documents.open({ setPanels, setConnections }),
+                    execute: () => documents.open({ setPanels, setPanelCoords, setConnections }),
                     label: 'Open File...'
                 },
                 'Save': {
-                    execute: () => documents.save({ panels, connections }),
+                    execute: () => documents.save({ panels, panelCoords, connections }),
                     label: 'Save'
                 },
                 'Save as...': {
-                    execute: () => documents.saveAs({ panels, connections }),
+                    execute: () => documents.saveAs({ panels, panelCoords, connections }),
                     label: 'Save As...'
                 },
                 'Quit': {

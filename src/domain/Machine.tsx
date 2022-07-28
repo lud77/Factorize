@@ -1,18 +1,25 @@
 import { flushSync } from 'react-dom';
 
+import mostRecent from '../utils/mostRecent';
+
 import { Connection } from '../types/Connection';
 
 let position = 10;
 
 const Machine = ({
     dictionary,
-    panels, setPanels,
-    connections, setConnections,
+    graphState,
     workAreaOffset,
     getNextPanelId,
     getNextEndpointId,
     timers
 }) => {
+    const {
+        panels, setPanels,
+        panelCoords, setPanelCoords,
+        connections, setConnections
+    } = graphState;
+
     const reifySource = (sourcePanelId, sourceEpRef) => {
         const panel = panels[sourcePanelId];
         const ep = panel.outputEpByRef[sourceEpRef];
@@ -293,21 +300,32 @@ const Machine = ({
             outputEpDefaults,
             outputEpValues: { ...outputEpDefaults },
             outputSignalByEp,
-            title: `${type} ${panelId}`,
+            title: `${type} ${panelId}`
+        };
+
+        const newPanelCoords = {
+            panelId,
             left: position - workAreaOffset[0],
             top: position + 100 - workAreaOffset[1]
         };
 
-        return newPanel;
+        return [newPanel, newPanelCoords];
     };
 
     const addPanel = (type) => {
-        const newPanel = makePanel(type);
+        const [newPanel, newPanelCoords] = makePanel(type);
 
         setPanels((panels) => {
             return {
                 ...panels,
                 [newPanel.panelId]: newPanel
+            };
+        });
+
+        setPanelCoords((panelCoords) => {
+            return {
+                ...panelCoords,
+                [newPanelCoords.panelId]: newPanelCoords
             };
         });
     };
@@ -483,6 +501,9 @@ const Machine = ({
 	};
 
     const duplicatePanelById = (panelId) => {
+        const source = panels[panelId];
+        const [copy, copyCoords] = makePanel(source.type);
+
         flushSync(() => {
             setPanels((panels) => {
                 const source = panels[panelId];
@@ -490,18 +511,17 @@ const Machine = ({
                 const {
                     width,
                     height,
-                    inputEpValues,
-                    outputEpValues
+                    inputEpValues
                 } = source;
-
-                const copy = makePanel(source.type);
 
                 const newPanel = {
                     ...copy,
                     width,
                     height,
-                    inputEpValues,
-                    outputEpValues
+                    inputEpValues: {
+                        ...inputEpValues,
+                        ...copy.inputDefaultValues
+                    }
                 };
 
                 console.log('copy', copy);
@@ -518,33 +538,30 @@ const Machine = ({
                 return newPanels;
             });
         });
+
+        setPanelCoords((panelCoords) => {
+            const newPanelCoords = {
+                ...copyCoords,
+                [copyCoords.panelId]: {
+                    ...copyCoords
+                }
+            };
+
+            return newPanelCoords;
+        });
 	};
 
     const findConnectionByTargetRef = (ref, signal: string | null = null) => connections.find((connection) => (connection.target == ref) && (!signal || connection.signal == signal));
 	const findConnectionBySourceRef = (ref, signal: string | null = null) => connections.find((connection) => (connection.source == ref) && (!signal || connection.signal == signal));
 
 	const getConnectionsByTargetRef = (ref, signal: string | null = null) => {
-        let result = null;
-        flushSync(() => {
-            setConnections((connections) => {
-                result = connections.filter((connection) => (connection.target == ref) && (!signal || connection.signal == signal));
-            });
-        });
-
-        return result;
+        const connections = mostRecent(setConnections);
+        return connections.filter((connection) => (connection.target == ref) && (!signal || connection.signal == signal));
     };
 
 	const getConnectionsBySourceRef = (ref, signal: string | null = null) => {
-        let result = null;
-
-        flushSync(() => {
-            setConnections((connections) => {
-                result = connections.filter((connection) => (connection.source == ref) && (!signal || connection.signal == signal));
-                return connections;
-            });
-        });
-
-        return result;
+        const connections = mostRecent(setConnections);
+        return connections.filter((connection) => (connection.source == ref) && (!signal || connection.signal == signal));
     };
 
     const stopPropagatingValue = (connection) => {

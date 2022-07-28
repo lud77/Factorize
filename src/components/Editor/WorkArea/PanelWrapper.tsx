@@ -2,16 +2,16 @@ import * as React from 'react';
 
 const PanelWrapper = (props) => {
     const {
-        panel,
-        workAreaOffset,
+        panel, panelCoord,
         connections,
+        workAreaOffset,
         connectorAnchor,
         machine
     } = props;
 
     const style = {
-        left: (panel.left + workAreaOffset[0]) + 'px',
-        top: (panel.top + workAreaOffset[1]) + 'px',
+        left: (panelCoord.left + workAreaOffset[0]) + 'px',
+        top: (panelCoord.top + workAreaOffset[1]) + 'px',
         width: panel.width + 'px',
         height: panel.height + 'px'
     };
