@@ -35,15 +35,4 @@ const Timers = () => {
     };
 };
 
-const clearAllTimeouts = () => {
-    const lastTimer = setTimeout(() => {}, 1);
-    console.log('lastTimer', lastTimer);
-    for (let i = lastTimer; i > 0; i--) {
-        clearTimeout(i);
-    }
-};
-
-export {
-    clearAllTimeouts,
-    Timers
-};
+export default Timers;
