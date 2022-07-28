@@ -15,7 +15,8 @@ const createWindow = () => {
             contextIsolation: false
         },
         frame: true, // title bar
-        autoHideMenuBar: true
+        autoHideMenuBar: true,
+        fullscreen: true
     });
 
     // and load the index.html of the app.
@@ -28,7 +29,7 @@ const createWindow = () => {
 
     // Open the DevTools.
     if (isDev) {
-        win.webContents.openDevTools({ mode: 'detach' });
+        win.webContents.openDevTools({ /*mode: 'detach'*/ });
     }
 
     return win;
