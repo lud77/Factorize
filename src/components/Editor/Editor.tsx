@@ -48,16 +48,6 @@ const Editor = (props) => {
         connections, setConnections
     };
 
-    const documents = Documents({
-        setPanels,
-        setPanelCoords,
-        setConnections,
-        filePath: props.filePath, setFilePath: props.setFilePath,
-        panelIdSequence,
-        endpointIdSequence,
-        clearAllTimers: timers.clearAllTimers
-    });
-
     const machine = Machine({
         dictionary,
         graphState,
@@ -69,8 +59,22 @@ const Editor = (props) => {
 
     const {
         makeConnection,
-        addPanel
+        addPanel,
+        executePanelLogic,
+        sendPulseTo
     } = machine;
+
+    const documents = Documents({
+        setPanels,
+        setPanelCoords,
+        setConnections,
+        filePath: props.filePath, setFilePath: props.setFilePath,
+        panelIdSequence,
+        endpointIdSequence,
+        clearAllTimers: timers.clearAllTimers,
+        executePanelLogic, sendPulseTo,
+        timers
+    });
 
     const walker = Walker({
         setPanels,

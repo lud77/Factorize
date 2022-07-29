@@ -2,6 +2,7 @@ import { flushSync } from 'react-dom';
 
 import System from './System';
 import dictionary from '../components/panels/dictionary';
+import mostRecent from '../utils/mostRecent';
 
 const Documents = ({
     setPanels,
@@ -10,11 +11,35 @@ const Documents = ({
     filePath, setFilePath,
     panelIdSequence,
     endpointIdSequence,
-    clearAllTimers
+    clearAllTimers,
+    executePanelLogic, sendPulseTo,
+    timers
 }) => {
     const packDocument = ({ panels, panelCoords, connections }) => {
+        const purgedPanels =
+            Object.values(panels)
+                .map((panel) => {
+                    if (!panel.expunge) return panel;
+                    console.log('expunging', panel.expunge, panel.outputEpValues);
+                    const filteredOutputEpValues =
+                        Object.keys(panel.outputEpValues)
+                            .map((ep) => {
+                                if (panel.expunge.includes(ep)) return null;
+
+                                return [ep, panel.outputEpValues[ep]];
+                            })
+                            .filter(Boolean)
+                            .reduce((a, [ k, v ]) => ({ ...a, [k]: v }), {});
+
+                    console.log('expunged', filteredOutputEpValues);
+                    return {
+                        ...panel,
+                        outputEpValues: filteredOutputEpValues
+                    };
+                })
+
         return JSON.stringify({
-            panels,
+            panels: purgedPanels,
             panelCoords,
             connections,
             lastPanelId: panelIdSequence.current(),
@@ -55,9 +80,8 @@ const Documents = ({
 
         const reconstitutedPanels = reconstitutePanels(documentInfo.panels);
 
-        flushSync(() => {
-            setPanels(reconstitutedPanels);
-        });
+        panelIdSequence.force(documentInfo.lastPanelId);
+        endpointIdSequence.force(documentInfo.lastEndpointId);
 
         flushSync(() => {
             setPanelCoords(documentInfo.panelCoords);
@@ -67,8 +91,24 @@ const Documents = ({
             setConnections(documentInfo.connections);
         });
 
-        panelIdSequence.force(documentInfo.lastPanelId);
-        endpointIdSequence.force(documentInfo.lastEndpointId);
+        flushSync(() => {
+            setPanels(reconstitutedPanels);
+        });
+
+        const panels = mostRecent(setPanels);
+
+        Object.values(panels).reduce((chain, panel) => {
+            console.log('executing', panel);
+            return chain.then(() => {
+                console.log('adding to chain', panel);
+                return panel.execute(panel, { ...panel.inputEpValues || {} }, {
+                    setPanels,
+                    sendPulseTo,
+                    timers
+                })
+            });
+            // return chain.then(() => executePanelLogic(panel.panelId));
+        }, Promise.resolve());
     };
 
     const create = () => {

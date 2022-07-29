@@ -36,6 +36,8 @@ const create = (panelId: number): Panel => {
         signal: 'Pulse'
     }];
 
+    const expunge = ['timeoutHandler'];
+
     const run = (panel, values, methods) => {
         console.log('execute clock - runner - activation', values.inputActive, panel.inputEpValues.inputActive);
         if (values.inputActive == false && !panel.inputEpValues.inputActive) return;
@@ -113,7 +115,8 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         dispose,
-        height: 74
+        height: 74,
+        expunge
     } as Panel;
 };
 

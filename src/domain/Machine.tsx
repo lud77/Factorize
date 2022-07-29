@@ -21,26 +21,40 @@ const Machine = ({
     } = graphState;
 
     const reifySource = (sourcePanelId, sourceEpRef) => {
+        const panels = mostRecent(setPanels);
         const panel = panels[sourcePanelId];
         const ep = panel.outputEpByRef[sourceEpRef];
         return [ panel, ep ];
     };
 
     const reifyTarget = (targetPanelId, targetEpRef) => {
+        console.log('reifyTarget - panels before', panels);
+        const panels = mostRecent(setPanels);
+        console.log('reifyTarget - panels recent - targetPanelId', panels, targetPanelId);
         const panel = panels[targetPanelId];
         const ep = panel.inputEpByRef[targetEpRef];
         return [ panel, ep ];
     };
 
-    const getPanelInputRef = (panelId, ep) => panels[panelId].inputRefs[ep];
-    const getPanelOutputRef = (panelId, ep) => panels[panelId].outputRefs[ep];
+    const getPanelInputRef = (panelId, ep) => {
+        const panels = mostRecent(setPanels);
+        return panels[panelId].inputRefs[ep];
+    };
+
+    const getPanelOutputRef = (panelId, ep) => {
+        const panels = mostRecent(setPanels);
+        return panels[panelId].outputRefs[ep];
+    };
 
     const getOutputValue = (panelId, epRef) => {
         const [ panel, ep ] = reifySource(panelId, epRef);
         return panel.outputEpValues[ep];
     };
 
-    const findOutgoingConnectionsByPanel = (panelId) => connections.filter((connection) => connection.sourcePanelId == panelId);
+    const findOutgoingConnectionsByPanel = (panelId) => {
+        const connections = mostRecent(setConnections);
+        return connections.filter((connection) => connection.sourcePanelId == panelId);
+    }
 
     const updateInputValues = (panelId, updates) => {
         console.log('update input values ', panelId, updates);
@@ -81,38 +95,35 @@ const Machine = ({
     const propagateOutputValuesFrom = (panelId, updatedOutputs) => {
         const outgoingConns = findOutgoingConnectionsByPanel(panelId);
         console.log('propagateOutputValuesFrom - outgoingConns', outgoingConns);
-        flushSync(() => {
-            setPanels((panels) => {
-                const updates = {};
 
-                outgoingConns.forEach((conn) => {
-                    const [ connectedPanel, connectedEp ] = reifyTarget(conn.targetPanelId, conn.target);
-                    const [ , outputEp ] = reifySource(panelId, conn.source);
-                    console.log('forEach', connectedPanel, outputEp, updatedOutputs, { [connectedEp]: updatedOutputs[outputEp] });
+        const panels = mostRecent(setPanels);
+        const updates = {};
 
-                    if (!updates[conn.targetPanelId]) {
-                        updates[conn.targetPanelId] = panels[conn.targetPanelId];
-                    }
+        outgoingConns.forEach((conn) => {
+            const [ connectedPanel, connectedEp ] = reifyTarget(conn.targetPanelId, conn.target);
+            const [ , outputEp ] = reifySource(panelId, conn.source);
+            console.log('forEach', connectedPanel, outputEp, updatedOutputs, { [connectedEp]: updatedOutputs[outputEp] });
 
-                    updates[conn.targetPanelId].inputEpValues[connectedEp] = updatedOutputs[outputEp];
-                });
+            if (!updates[conn.targetPanelId]) {
+                updates[conn.targetPanelId] = panels[conn.targetPanelId];
+            }
 
-                const updatedPanels = {
-                    ...panels,
-                    ...updates
-                };
-
-                const updatedPanelsIds = outgoingConns.map((conn) => conn.targetPanelId);
-                updatedPanelsIds.forEach((panelId) => executePanelLogic(panelId));
-
-                return updatedPanels;
-            });
+            updates[conn.targetPanelId].inputEpValues[connectedEp] = updatedOutputs[outputEp];
         });
+
+        const updatedPanels = {
+            ...panels,
+            ...updates
+        };
+
+        const updatedPanelsIds = outgoingConns.map((conn) => conn.targetPanelId);
+        updatedPanelsIds.forEach((panelId) => executePanelLogic(panelId));
+
+        setPanels(updatedPanels);
     };
 
     const executePanelLogic = (panelId, valueUpdates: object | null = null) => {
-        const panel = panels[panelId];
-        console.log('executePanelLogic valueUpdates', panelId, valueUpdates);
+        console.log('executePanelLogic - valueUpdates', panelId, valueUpdates);
 
         if (valueUpdates != null) {
             updateInputValues(panelId, valueUpdates);
@@ -120,12 +131,15 @@ const Machine = ({
 
         return Promise.resolve()
             .then(() => {
+                const panels = mostRecent(setPanels);
+                const panel = panels[panelId];
+                console.log('executePanelLogic - panels', panels);
                 const changes = {
                     ...panel.inputEpValues || {},
                     ...valueUpdates
                 };
 
-                return Promise.all([changes, panel.execute(
+                return Promise.all([changes, panel, panel.execute(
                     panel,
                     changes,
                     {
@@ -135,7 +149,7 @@ const Machine = ({
                     }
                 )]);
             })
-            .then(([changes, outputs]) => {
+            .then(([changes, panel, outputs]) => {
                 if (outputs === changes) return;
 
                 const updatedOutputs = {
@@ -152,16 +166,15 @@ const Machine = ({
     };
 
     const sendPulseTo = (panelId, ep) => {
+        const connections = mostRecent(setConnections);
+
         console.log('sendPulseTo - connections', connections);
         timers.setTimer(() => {
+            console.log('timer in sendPulseTo');
             const epRef = getPanelOutputRef(panelId, ep);
-            let pulseConnections
+            let pulseConnections;
             flushSync(() => {
                 pulseConnections = getConnectionsBySourceRef(epRef, 'Pulse');
-                setConnections((connections) => {
-                    console.log('sendPulseTo - flush - connections', connections);
-                    return connections;
-                });
             });
             console.log('Sending pulse through', ep, epRef);
             console.log('pulseConnections', pulseConnections);
