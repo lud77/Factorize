@@ -511,7 +511,14 @@ const Machine = ({
                 return newPanels;
             });
         });
-	};
+
+        setPanelCoords((panelCoords) => {
+            delete panelCoords[panelId];
+            const newPanelCoords = { ...panelCoords };
+
+            return newPanelCoords;
+        });
+    };
 
     const duplicatePanelById = (panelId) => {
         const source = panels[panelId];

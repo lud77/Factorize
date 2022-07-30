@@ -57,7 +57,8 @@ as ```npm install``` produces an error when trying to resolve webpack
 - [ ] Only render panels in view
 - [ ] Disallow Value-type signals from creating feedback loops
 - [x] Stopping clock connected to dice makes dice output go undefined
-- [ ] Deletion of panels must affect also panelCoords
+- [x] Deletion of panels must affect also panelCoords
+- [ ] Save-files should include position of viewport
 
 --- QA
 

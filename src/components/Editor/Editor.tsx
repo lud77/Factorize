@@ -72,7 +72,7 @@ const Editor = (props) => {
         panelIdSequence,
         endpointIdSequence,
         clearAllTimers: timers.clearAllTimers,
-        executePanelLogic, sendPulseTo,
+        sendPulseTo,
         timers
     });
 

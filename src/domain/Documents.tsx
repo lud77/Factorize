@@ -12,7 +12,7 @@ const Documents = ({
     panelIdSequence,
     endpointIdSequence,
     clearAllTimers,
-    executePanelLogic, sendPulseTo,
+    sendPulseTo,
     timers
 }) => {
     const packDocument = ({ panels, panelCoords, connections }) => {
