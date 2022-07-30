@@ -37,6 +37,7 @@ const Documents = ({
                         outputEpValues: filteredOutputEpValues
                     };
                 })
+                .reduce((a, panel) => ({ ...a, [panel.panelId]: panel }), {});
 
         return JSON.stringify({
             panels: purgedPanels,

@@ -47,13 +47,25 @@ as ```npm install``` produces an error when trying to resolve webpack
 - [ ] Groupings
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 
+- [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
+
 --- Bugs / Performance
 
 - [x] Window resize causes slowdown and stalling --- PROBABLY FIXED
 - [x] Connectors losing contact with panels
+
 - [ ] Only render panels in view
 - [ ] Disallow Value-type signals from creating feedback loops
+- [x] Stopping clock connected to dice makes dice output go undefined
+- [ ] Deletion of panels must affect also panelCoords
 
 --- QA
 
 - [ ] Add tests
+
+
+--- NOTES
+
+- If possible decouple UI panels from Pulse-activated panels
+
+- When having a UI panel that also has Pulse-type inputs pins, the two avenues of activation may end up overwriting each other's outputs causing bugs

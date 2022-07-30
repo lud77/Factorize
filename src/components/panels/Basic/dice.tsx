@@ -14,22 +14,11 @@ const create = (panelId: number): Panel => {
             .reduce((a, v) => a + v, 0)
     };
 
-    const handleClick = ({ panel, machine }) => (e) => {
-        machine.executePanelLogic(panelId, {
-            tuningRoll: rollDice(panel.inputEpValues.inputDice, panel.inputEpValues.inputFaces)
-        });
-    };
-
     const Component = (props) => {
         const { inputDice, inputFaces } = props.panel.inputEpValues;
         const ready = parseInt(inputDice) > 0 && parseInt(inputFaces) > 0;
 
         return <>
-            <div className="Row">
-                <div className="InteractiveItem">
-                    <button disabled={!ready} onClick={handleClick(props)}>Roll!</button>
-                </div>
-            </div>
             <div className="Row">
                 <InputEndpoint name="Roll" panelId={panelId} signal="Pulse" description="Roll the dice" {...props}>Roll</InputEndpoint>
                 <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
@@ -69,7 +58,7 @@ const create = (panelId: number): Panel => {
         }
     };
 
-    const execute = (panel, values) => ({ outputValue: values.tuningRoll });
+    const execute = (panel, values) => values;
 
     return {
         type: panelType,
@@ -77,7 +66,7 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         width: 134,
-        height: 114,
+        height: 94,
         Component,
         execute,
         onPulse
