@@ -6,6 +6,8 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
+import PushButton from '../../PushButton/PushButton';
+
 const panelType = 'Button';
 
 const create = (panelId: number): Panel => {
@@ -19,7 +21,7 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <div className="InteractiveItem">
-                    <button onClick={handleClick(props)}>Emit</button>
+                    <PushButton onClick={handleClick(props)}>Emit</PushButton>
                 </div>
             </div>
             <div className="Row">
@@ -43,7 +45,7 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         width: 100,
-        height: 74,
+        height: 94,
         Component,
         execute
     } as Panel;
