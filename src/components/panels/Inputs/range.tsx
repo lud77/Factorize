@@ -5,6 +5,8 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
+import './range.css';
+
 const panelType = 'Range';
 
 const create = (panelId: number): Panel => {
@@ -18,14 +20,15 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <div className="InteractiveItem">
-                    <input
-                        type="range"
-                        min={0}
-                        max={100}
-                        onChange={handleChange(props)}
-                        value={ props.panel.outputEpValues.outputValue * 100 }
-                        style={{ backgroundColor: 'yellow' }}
-                        />
+                    <div className="Range">
+                        <input
+                            type="range"
+                            min={0}
+                            max={100}
+                            onChange={handleChange(props)}
+                            value={ props.panel.outputEpValues.outputValue * 100 }
+                            />
+                    </div>
                 </div>
             </div>
             <div className="Row">
