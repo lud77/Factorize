@@ -8,6 +8,7 @@ const Documents = ({
     setPanels,
     setPanelCoords,
     setConnections,
+    setWorkAreaOffset,
     filePath, setFilePath,
     panelIdSequence,
     endpointIdSequence,
@@ -15,7 +16,7 @@ const Documents = ({
     sendPulseTo,
     timers
 }) => {
-    const packDocument = ({ panels, panelCoords, connections }) => {
+    const packDocument = ({ panels, panelCoords, connections, workAreaOffset }) => {
         const purgedPanels =
             Object.values(panels)
                 .map((panel) => {
@@ -43,6 +44,7 @@ const Documents = ({
             panels: purgedPanels,
             panelCoords,
             connections,
+            workAreaOffset,
             lastPanelId: panelIdSequence.current(),
             lastEndpointId: endpointIdSequence.current(),
         });
@@ -83,6 +85,12 @@ const Documents = ({
 
         panelIdSequence.force(documentInfo.lastPanelId);
         endpointIdSequence.force(documentInfo.lastEndpointId);
+
+        if (documentInfo.workAreaOffset) {
+            flushSync(() => {
+                setWorkAreaOffset(documentInfo.workAreaOffset);
+            });
+        }
 
         flushSync(() => {
             setPanelCoords(documentInfo.panelCoords);
@@ -129,6 +137,10 @@ const Documents = ({
 
         flushSync(() => {
             setConnections([]);
+        });
+
+        flushSync(() => {
+            setWorkAreaOffset([0, 0]);
         });
 
         panelIdSequence.force(-1);

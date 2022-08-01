@@ -68,6 +68,7 @@ const Editor = (props) => {
         setPanels,
         setPanelCoords,
         setConnections,
+        setWorkAreaOffset,
         filePath: props.filePath, setFilePath: props.setFilePath,
         panelIdSequence,
         endpointIdSequence,
@@ -96,6 +97,7 @@ const Editor = (props) => {
 
     const menus = toolbarMenusSetup({
         graphState,
+        setWorkAreaOffset, workAreaOffset,
         play, pause,
         focused,
         walker,

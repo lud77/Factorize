@@ -8,6 +8,7 @@ import System from '../domain/System';
 
 const toolbarMenusSetup = ({
     graphState,
+    setWorkAreaOffset, workAreaOffset,
     play, pause,
     focused,
     walker, documents,
@@ -28,15 +29,18 @@ const toolbarMenusSetup = ({
                     label: 'New File'
                 },
                 'Open File...': {
-                    execute: () => documents.open({ setPanels, setPanelCoords, setConnections }),
+                    execute: () => documents.open({ setPanels, setPanelCoords, setConnections, setWorkAreaOffset }),
                     label: 'Open File...'
                 },
                 'Save': {
-                    execute: () => documents.save({ panels, panelCoords, connections }),
+                    execute: () => {
+                        console.log(workAreaOffset);
+                        return documents.save({ panels, panelCoords, connections, workAreaOffset })
+                    },
                     label: 'Save'
                 },
                 'Save as...': {
-                    execute: () => documents.saveAs({ panels, panelCoords, connections }),
+                    execute: () => documents.saveAs({ panels, panelCoords, connections, workAreaOffset }),
                     label: 'Save As...'
                 },
                 'Quit': {
