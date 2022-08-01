@@ -45,7 +45,7 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
     - [x] INPUT: Color Picker
-    - [ ] INPUT: Knob with inputs for min, max, and step
+    - [x] INPUT: Knob with inputs for min, max, and step
     - [x] INPUT: Range with inputs for min, max, and step
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [ ] OUTPUT: DisplayLog (a more complex mix of Display and LogFile that keeps N lines of text and adds a new line upon receiving a Pulse)
