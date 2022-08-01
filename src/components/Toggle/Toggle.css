@@ -29,7 +29,7 @@
     width: 26px;
     left: 4px;
     bottom: 4px;
-    background-color: var(--main-highlight);
+    background-color: var(--medium-highlight);
     transition: .4s;
 }
 
