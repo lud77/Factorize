@@ -76,19 +76,21 @@ const Machine = ({
 
     const updateOutputValues = (panelId, updates) => {
         console.log('update output values ', panelId, updates);
-        setPanels((panels) => {
-            const panel = panels[panelId];
+        flushSync(() => {
+            setPanels((panels) => {
+                const panel = panels[panelId];
 
-            return {
-                ...panels,
-                [panelId]: {
-                    ...panel,
-                    outputEpValues: {
-                        ...panel.outputEpValues,
-                        ...updates
+                return {
+                    ...panels,
+                    [panelId]: {
+                        ...panel,
+                        outputEpValues: {
+                            ...panel.outputEpValues,
+                            ...updates
+                        }
                     }
-                }
-            };
+                };
+            });
         });
     };
 

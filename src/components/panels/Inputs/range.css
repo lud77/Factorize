@@ -1,6 +1,6 @@
 .Range input[type=range] {
     background-color: transparent !important;
-    -webkit-appearance: none;
+    appearance: none;
 }
 
 .Range input[type=range]:focus {

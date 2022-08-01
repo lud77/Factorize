@@ -44,21 +44,6 @@ const create = (panelId: number): Panel => {
     }];
 
     const execute = (panel, inputs, { setPanels }) => {
-        flushSync(() => {
-            setPanels((panels) => {
-                return {
-                    ...panels,
-                    [panel.panelId]: {
-                        ...panels[panel.panelId],
-                        outputEpValues: {
-                            ...panels[panel.panelId].outputEpValues,
-                            outputValue: inputs.tuningValue
-                        }
-                    }
-                };
-            });
-        });
-
         return {
             outputValue: inputs.tuningValue
         };

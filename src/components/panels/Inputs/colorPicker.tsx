@@ -5,6 +5,8 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
+import './colorPicker.css';
+
 const panelType = 'ColorPicker';
 
 const create = (panelId: number): Panel => {
@@ -19,12 +21,13 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <div className="InteractiveItem">
-                    <input
-                        type="color"
-                        onChange={handleChange(props)}
-                        color={ props.panel.outputEpValues.outputColor }
-                        style={{ borderRadius: '4px' }}
-                        />
+                    <div className="ColorPicker">
+                        <input
+                            type="color"
+                            onChange={handleChange(props)}
+                            value={ props.panel.outputEpValues.outputColor }
+                            />
+                    </div>
                 </div>
             </div>
             <div className="Row">
@@ -37,7 +40,7 @@ const create = (panelId: number): Panel => {
 
     const outputEndpoints = [{
         name: 'Color',
-        defaultValue: '#000000',
+        defaultValue: '#ffffff',
         signal: 'Value'
     }];
 
