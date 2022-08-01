@@ -86,15 +86,15 @@ const Documents = ({
         panelIdSequence.force(documentInfo.lastPanelId);
         endpointIdSequence.force(documentInfo.lastEndpointId);
 
+        flushSync(() => {
+            setPanelCoords(documentInfo.panelCoords);
+        });
+
         if (documentInfo.workAreaOffset) {
             flushSync(() => {
                 setWorkAreaOffset(documentInfo.workAreaOffset);
             });
         }
-
-        flushSync(() => {
-            setPanelCoords(documentInfo.panelCoords);
-        });
 
         flushSync(() => {
             setConnections(documentInfo.connections);
