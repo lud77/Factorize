@@ -30,7 +30,7 @@
     left: 50%;
     width: 100vw;
     height: 100vw;
-    background: rgb(33, 133, 208) none repeat scroll 0% 0%;
+    background: var(--blue) none repeat scroll 0% 0%;
     transform-origin: 0px 0px 0px;
 }
 

@@ -16,8 +16,9 @@ const create = (panelId: number): Panel => {
     const clamp = (v) => Math.max(0, Math.min(1, v));
 
     const handleMouseWheel = ({ panel, machine }) => (e) => {
+        const currentValue = panel.outputEpValues.outputValue != null ? panel.outputEpValues.outputValue : panel.outputEpDefaults.outputValue;
         machine.executePanelLogic(panelId, {
-            tuningValue: clamp((panel.outputEpValues.outputValue || panel.outputEpDefaults.outputValue) - e.deltaY / 1000)
+            tuningValue: clamp(currentValue - e.deltaY / 1000)
         });
     };
 
