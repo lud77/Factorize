@@ -139,15 +139,19 @@ const Machine = ({
                     ...valueUpdates
                 };
 
-                return Promise.all([changes, panel, panel.execute(
-                    panel,
+                return Promise.all([
                     changes,
-                    {
-                        setPanels,
-                        sendPulseTo,
-                        timers
-                    }
-                )]);
+                    panel,
+                    panel.execute(
+                        panel,
+                        changes,
+                        {
+                            setPanels,
+                            sendPulseTo,
+                            timers
+                        }
+                    )
+                ]);
             })
             .then(([changes, panel, outputs]) => {
                 if (outputs === changes) return;

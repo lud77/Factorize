@@ -1,0 +1,94 @@
+:root {
+    --knob-size: 50px;
+    --knob-margin: 10px;
+}
+
+.Knob {
+    width: 100%;
+    text-align: center;
+}
+
+.Knob .Container {
+    position: relative;
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+}
+
+.Knob .Circle {
+    position: relative;
+    width: var(--knob-size);
+    height: var(--knob-size);
+    background: var(--background) none repeat scroll 0% 0%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.Knob .Segment {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vw;
+    background: rgb(33, 133, 208) none repeat scroll 0% 0%;
+    transform-origin: 0px 0px 0px;
+}
+
+.Knob .Seg1 {
+    transform: rotate(-90deg) skew(-5deg);
+}
+
+.Knob .Seg2 {
+    transform: rotate(0deg) skew(0deg);
+}
+
+.Knob .Seg3 {
+    transform: rotate(90deg) skew(90deg);
+}
+
+.Knob .Seg4 {
+    transform: rotate(180deg) skew(90deg);
+}
+
+.Knob .Inner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(var(--knob-size) - var(--knob-margin));
+    height: calc(var(--knob-size) - var(--knob-margin));
+    transform: translateX(-50%) translateY(-50%);
+    background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+    border-radius: 50%;
+    background: var(--background);
+}
+
+.Knob .Value {
+    position: absolute;
+    color: black;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    color: var(--main-highlight);
+}
+
+.Knob .Start {
+    position: absolute;
+    left: 50px;
+    top: 4px;
+    width: 8px;
+    height: 8px;
+    transform: translateX(-50%) translateY(-50%);
+    background: rgb(33, 133, 208) none repeat scroll 0% 0%;
+    border-radius: 50%;
+}
+
+.Knob .End {
+    position: absolute;
+    left: 50px;
+    top: 4px;
+    width: 8px;
+    height: 8px;
+    transform: translateX(-50%) translateY(-50%);
+    background: rgb(33, 133, 208) none repeat scroll 0% 0%;
+    border-radius: 50%;
+}
