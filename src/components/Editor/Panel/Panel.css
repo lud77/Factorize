@@ -66,7 +66,10 @@
 }
 
 .Panel .InteractiveItem input {
-    width: 95%;
+    width: 100%;
+    padding: 0px;
+    box-sizing: border-box;
+    height: 24px;
 }
 
 .Panel button {
