@@ -18,7 +18,7 @@ const create = (panelId: number): Panel => {
     const handleMouseWheel = ({ panel, machine }) => (e) => {
         const currentValue = panel.outputEpValues.outputValue != null ? panel.outputEpValues.outputValue : panel.outputEpDefaults.outputValue;
         machine.executePanelLogic(panelId, {
-            tuningValue: clamp(currentValue - e.deltaY / 1000)
+            tuningValue: clamp(currentValue - e.deltaY / 6000)
         });
     };
 
