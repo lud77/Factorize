@@ -12,6 +12,8 @@ const panelType = 'Button';
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
+        e.stopPropagation();
+        e.preventDefault();
         machine.sendPulseTo(panel.panelId, 'outputSend');
     };
 

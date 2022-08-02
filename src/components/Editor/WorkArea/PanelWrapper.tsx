@@ -19,7 +19,7 @@ const PanelWrapper = (props) => {
     return (
         <div
             data-key={panel.panelId}
-            className={`Panel ${props.isSelected ? 'Selected' : ''}`}
+            className={`Panel ${props.isSelected ? 'Selected' : ''} ${props.isFocused ? 'Focused' : ''}`}
             style={style}
             onClick={props.onSelect}
             >

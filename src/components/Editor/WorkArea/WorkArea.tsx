@@ -525,6 +525,7 @@ const WorkArea = (props) => {
 	}
 
 	const renderPanel = (panel, panelCoord) => {
+		const isFocused = focused === panel.panelId;
 		const isSelected = selectedPanels.has(panel.panelId);
 
 		return (
@@ -535,6 +536,7 @@ const WorkArea = (props) => {
 				workAreaOffset={workAreaOffset}
 				connections={connections}
 				connectorAnchor={connectorAnchor}
+				isFocused={isFocused}
 				isSelected={isSelected}
 				onSelect={(e) => {
 					e.stopPropagation();

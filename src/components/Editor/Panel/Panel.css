@@ -167,3 +167,7 @@
 .Panel.Selected button {
     background-color: var(--selection-highlight);
 }
+
+.Panel.Focused {
+    box-shadow: 0px 0px 20px 2px rgba(127, 127, 127, .5);
+}

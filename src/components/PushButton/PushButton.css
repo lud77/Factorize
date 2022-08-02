@@ -4,19 +4,19 @@ button.PushButton {
     cursor: pointer;
     outline: none;
     color: var(--main-highlight);
-    background-color: var(--lowlight);
+    background-color: var(--blue-hl);
     border: none;
     border-radius: 4px;
-    box-shadow: 0 5px var(--panel-highlight);
+    box-shadow: 0 5px var(--blue-ll);
     margin-bottom: 5px;
 }
 
 button.PushButton:hover {
-    background-color: var(--medium-lowlight);
+    background-color: var(--blue);
 }
 
 button.PushButton:active {
-    background-color: var(--medium-highlight);
-    box-shadow: 0 3px #666;
+    background-color: var(--blue);
+    box-shadow: 0 3px var(--blue-ll);
     transform: translateY(2px);
 }

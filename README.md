@@ -56,7 +56,8 @@ as ```npm install``` produces an error when trying to resolve webpack
 
 -- UI
 
-- [ ] Introduce white halo around focused panel
+- [x] Introduce white halo around focused panel
+- [ ] Make endpoint section in the panels collapsible
 
 --- Bugs / Performance
 

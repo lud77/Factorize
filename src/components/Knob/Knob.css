@@ -1,6 +1,6 @@
 :root {
     --knob-size: 50px;
-    --knob-margin: 10px;
+    --knob-margin: 12px;
 }
 
 .Knob {
@@ -22,6 +22,7 @@
     background: var(--background) none repeat scroll 0% 0%;
     border-radius: 50%;
     overflow: hidden;
+    border: 1px solid var(--background)
 }
 
 .Knob .Segment {
@@ -30,7 +31,7 @@
     left: 50%;
     width: 100vw;
     height: 100vw;
-    background: var(--blue) none repeat scroll 0% 0%;
+    background: var(--blue-hl) none repeat scroll 0% 0%;
     transform-origin: 0px 0px 0px;
 }
 
