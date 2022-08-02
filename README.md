@@ -56,6 +56,7 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [x] SOURCES: (Pulse -> Value) Fetch Random number between 0 and 1
     - [x] SOURCES: (Pulse -> Value) Fetch Current timestamp
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
+    - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
 - [ ] Groupings
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 

@@ -11,7 +11,7 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Store" panelId={panelId} signal="Pulse" description="Store the input [Value]" {...props}>Store</InputEndpoint>
+                <InputEndpoint name="Replace" panelId={panelId} signal="Pulse" description="Replace the value in memory with the input [Value]" {...props}>Replace</InputEndpoint>
                 <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
             </div>
             <div className="Row">
@@ -21,7 +21,7 @@ const create = (panelId: number): Panel => {
     };
 
     const inputEndpoints = [{
-        name: 'Store',
+        name: 'Replace',
         signal: 'Pulse'
     }, {
         name: 'Value',
@@ -37,7 +37,7 @@ const create = (panelId: number): Panel => {
 
     const onPulse = (ep, panel) => {
         switch (ep) {
-            case 'inputStore':
+            case 'inputReplace':
                 return { outputValue: panel.inputEpValues.inputValue };
         }
     };
