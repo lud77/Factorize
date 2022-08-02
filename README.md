@@ -28,6 +28,7 @@ as ```npm install``` produces an error when trying to resolve webpack
 --- Engine
 
 - [x] Introduce Pulse-type signals
+- [ ] Introduce Sources panel palette
 - [~] Actual panels
     - [x] FUNCTIONS: Threshold: (Value -> Value) sets outputs (High, Equal, Low) to true depending on whether first input is <=> than second
     - [x] INPUT: Toggle: (UI -> Value) set output to true or false depending on toggle
@@ -49,6 +50,12 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [x] INPUT: Range with inputs for min, max, and step
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [ ] OUTPUT: DisplayLog (a more complex mix of Display and LogFile that keeps N lines of text and adds a new line upon receiving a Pulse)
+    - [ ] OUTPUT: Similar to led strip but with color input
+    - [x] SOURCES: (Pulse -> Value) Fetch Current Date
+    - [x] SOURCES: (Pulse -> Value) Fetch Current Time
+    - [x] SOURCES: (Pulse -> Value) Fetch Random number between 0 and 1
+    - [x] SOURCES: (Pulse -> Value) Fetch Current timestamp
+    - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
 - [ ] Groupings
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 
@@ -58,6 +65,8 @@ as ```npm install``` produces an error when trying to resolve webpack
 
 - [x] Introduce white halo around focused panel
 - [ ] Make endpoint section in the panels collapsible
+- [ ] Lock children (and/or Lock parents?) of a panel OR lock selected panels so they always move together
+- [ ] Unlock a panel that had been locked with others
 
 --- Bugs / Performance
 
