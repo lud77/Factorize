@@ -61,8 +61,8 @@ as ```npm install``` produces an error when trying to resolve webpack
         - [x] Basic Array panel
             - [x] Add Pop, Shift, Unshift pins
         - [x] Merge
-        - [ ] Intersection
-        - [ ] Unique
+        - [x] Intersection
+        - [x] Unique (Distinct)
 - [ ] Groupings
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way

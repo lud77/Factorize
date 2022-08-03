@@ -5,7 +5,7 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const panelType = 'Merge';
+const panelType = 'Intersection';
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
@@ -60,15 +60,29 @@ const create = (panelId: number): Panel => {
         signal: 'Value'
     }];
 
+    const intersect = (a, b) => {
+        const setB = new Set(b);
+        return Array.from(new Set(a)).filter((item) => setB.has(item));
+    };
+
+    const intersectMany = (arrays) => {
+        if (arrays.length < 1) return [];
+        if (arrays.length === 1) return arrays[0];
+
+        const sorted = arrays.sort((a, b) => a.length > b.length);
+        const first = arrays.shift();
+        return arrays.reduce((a, v) => intersect(a, v), first);
+    };
+
     const execute = (panel, values) => {
         const eps = ['inputCollection1', 'inputCollection2'].concat(panel.collectionEps.map(([ep]) => ep));
 
         const allArrays = eps.reduce((a, ep) => a && Array.isArray(values[ep]), true);
 
-        console.log('execute concat', panel.collectionEps, eps.reduce((a, ep) => a.concat(values[ep]), []));
+        console.log('execute intesect', panel.collectionEps, intersectMany(eps.map((ep) => values[ep])));
 
         if (!allArrays) return { outputResult: [] };
-        return { outputResult: eps.reduce((a, ep) => a.concat(values[ep]), []) };
+        return { outputResult: intersectMany(eps.map((ep) => values[ep])) };
     };
 
     return {
