@@ -14,21 +14,21 @@ const create = (panelId: number): Panel => {
 
         return <>
             <div className="Row">
-                <InputEndpoint name="Color" panelId={panelId} {...props}>Color</InputEndpoint>
+                <InputEndpoint name="Hue" panelId={panelId} {...props}>Hue</InputEndpoint>
             </div>
             <div className="Row">
                 {
-                    (props.panel.inputEpValues.inputColor == null)
+                    (props.panel.inputEpValues.inputHue == null)
                         ? <Led status="Inactive" />
-                        : <Led color={props.panel.inputEpValues.inputColor} />
+                        : <Led hue={props.panel.inputEpValues.inputHue} />
                 }
             </div>
         </>;
     };
 
     const inputEndpoints = [{
-        name: 'Color',
-        defaultValue: undefined,
+        name: 'Hue',
+        defaultValue: null,
         signal: 'Value'
     }];
 
