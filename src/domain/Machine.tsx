@@ -530,50 +530,48 @@ const Machine = ({
         const source = panels[panelId];
         const [copy, copyCoords] = makePanel(source.type);
 
-        flushSync(() => {
-            setPanels((panels) => {
-                const source = panels[panelId];
-
-                const {
-                    width,
-                    height,
-                    inputEpValues
-                } = source;
-
-                const newPanel = {
-                    ...copy,
-                    width,
-                    height,
-                    inputEpValues: {
-                        ...inputEpValues,
-                        ...copy.inputDefaultValues
-                    }
-                };
-
-                console.log('copy', copy);
-
-                const newPanels = {
-                    ...panels,
-                    [newPanel.panelId]: {
-                        ...newPanel
-                    }
-                };
-
-                console.log('newPanels', newPanels);
-
-                return newPanels;
-            });
-        });
-
         setPanelCoords((panelCoords) => {
             const newPanelCoords = {
-                ...copyCoords,
+                ...panelCoords,
                 [copyCoords.panelId]: {
                     ...copyCoords
                 }
             };
 
             return newPanelCoords;
+        });
+
+        setPanels((panels) => {
+            const source = panels[panelId];
+
+            const {
+                width,
+                height,
+                inputEpValues
+            } = source;
+
+            const newPanel = {
+                ...copy,
+                width,
+                height,
+                inputEpValues: {
+                    ...inputEpValues,
+                    ...copy.inputDefaultValues
+                }
+            };
+
+            console.log('copy', copy);
+
+            const newPanels = {
+                ...panels,
+                [newPanel.panelId]: {
+                    ...newPanel
+                }
+            };
+
+            console.log('newPanels', newPanels);
+
+            return newPanels;
         });
 	};
 
