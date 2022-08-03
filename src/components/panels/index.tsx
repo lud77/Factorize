@@ -6,6 +6,8 @@ import Inputs from './Inputs';
 import Outputs from './Outputs';
 import Sets from './Sets';
 import Sources from './Sources';
+import Transforms from './Transforms';
+
 // import Sound from './Sound';
 // import Materials from './Materials';
 
@@ -17,7 +19,8 @@ export default {
     Inputs,
     Outputs,
     Sets,
-    Sources
+    Sources,
+    Transforms
     // Sound,
     // Materials
 };

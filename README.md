@@ -60,7 +60,7 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
         - [x] Basic Array panel
             - [x] Add Pop, Shift, Unshift pins
-        - [ ] Merge
+        - [x] Merge
         - [ ] Intersection
         - [ ] Unique
 - [ ] Groupings
