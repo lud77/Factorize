@@ -23,7 +23,7 @@ const PanelWrapper = (props) => {
             style={style}
             onClick={props.onSelect}
             >
-            <div className="Title">{panel.title || '\u00A0'}</div>
+            <div className="Title" title={ panel.title }>{panel.title || '\u00A0'}</div>
             <panel.Component
                 panel={panel}
                 machine={machine}
