@@ -7,7 +7,7 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 import Led from '../../Led/Led';
 
-const panelType = 'LedStrip';
+const panelType = 'Semaphore';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {

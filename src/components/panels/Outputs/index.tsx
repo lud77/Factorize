@@ -2,7 +2,7 @@ import Console from './console';
 import FileAppend from './fileAppend';
 import Display from './display';
 import Picture from './picture';
-import LedStrip from './ledStrip';
+import Semaphore from './semaphore';
 import Led from './led';
 
 export default {
@@ -10,6 +10,6 @@ export default {
     FileAppend,
     Display,
     Picture,
-    LedStrip,
+    Semaphore,
     Led
 };
