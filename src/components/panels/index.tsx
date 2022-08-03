@@ -4,6 +4,7 @@ import Events from './Events';
 import Flow from './Flow';
 import Inputs from './Inputs';
 import Outputs from './Outputs';
+import Sets from './Sets';
 import Sources from './Sources';
 // import Sound from './Sound';
 // import Materials from './Materials';
@@ -15,6 +16,7 @@ export default {
     Flow,
     Inputs,
     Outputs,
+    Sets,
     Sources
     // Sound,
     // Materials

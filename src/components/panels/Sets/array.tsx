@@ -29,6 +29,9 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="PickFirst" panelId={panelId} signal="Pulse" description="Remove the first element of [Array] and expose it as the output [Value]" {...props}>Pick First</InputEndpoint>
             </div>
             <div className="Row">
+                <InputEndpoint name="Store" panelId={panelId} signal="Pulse" description="Replace the [Array] with the one in the input [Value]" {...props}>Store</InputEndpoint>
+            </div>
+            <div className="Row">
                 <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Empty the [Array]" {...props}>Reset</InputEndpoint>
             </div>
         </>;
@@ -49,6 +52,9 @@ const create = (panelId: number): Panel => {
         signal: 'Pulse'
     }, {
         name: 'PickFirst',
+        signal: 'Pulse'
+    }, {
+        name: 'Store',
         signal: 'Pulse'
     }, {
         name: 'Reset',
@@ -74,11 +80,13 @@ const create = (panelId: number): Panel => {
             case 'inputAddLast':
                 return {
                     outputArray: [ ...panel.outputEpValues.outputArray, panel.inputEpValues.inputValue ],
+                    outputValue: null,
                     outputSize: panel.outputEpValues.outputArray.length + 1
                 };
             case 'inputAddFirst':
                 return {
                     outputArray: [ panel.inputEpValues.inputValue, ...panel.outputEpValues.outputArray ],
+                    outputValue: null,
                     outputSize: panel.outputEpValues.outputArray.length + 1
                 };
             case 'inputPickLast':
@@ -95,9 +103,17 @@ const create = (panelId: number): Panel => {
                     outputValue: firstValue,
                     outputSize: panel.outputEpValues.outputArray.length
                 };
+            case 'inputStore':
+                if (!Array.isArray(panel.inputEpValues.inputValue)) return {};
+                return {
+                    outputArray: panel.inputEpValues.inputValue,
+                    outputValue: null,
+                    outputSize: panel.inputEpValues.inputValue.length
+                };
             case 'inputReset':
                 return {
                     outputArray: [],
+                    outputValue: null,
                     outputSize: 0
                 };
         }
@@ -113,7 +129,7 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse,
-        height: 159
+        height: 179
     } as Panel;
 };
 
