@@ -16,6 +16,14 @@
     box-shadow: 0 0 4px #fee, 0 0 8px #fee, 0 0 13px #fee, 0 0 16px red, 0 0 25px red, 0 0 30px red;
 }
 
+.Led.Custom {
+    background-color: #fff;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    margin: 4px auto;
+}
+
 .Led.Inactive {
     position: relative;
     background-image: linear-gradient(#000, #222);

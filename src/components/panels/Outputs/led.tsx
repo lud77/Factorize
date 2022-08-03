@@ -7,35 +7,27 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 import Led from '../../Led/Led';
 
-const panelType = 'LedStrip';
+const panelType = 'Led';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
 
         return <>
             <div className="Row">
-                <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} {...props}>Color</InputEndpoint>
             </div>
             <div className="Row">
                 {
-                    (props.panel.inputEpValues.inputValue == null)
-                        ? <>
-                            <Led status="Inactive" />
-                            <Led status="Inactive" />
-                            <Led status="Inactive" />
-                        </>
-                        : <>
-                            <Led status={props.panel.inputEpValues.inputValue ? 'Green' : 'Red'} />
-                            <Led status={props.panel.inputEpValues.inputValue ? 'Green' : 'Red'} />
-                            <Led status={props.panel.inputEpValues.inputValue ? 'Green' : 'Red'} />
-                        </>
+                    (props.panel.inputEpValues.inputColor == null)
+                        ? <Led status="Inactive" />
+                        : <Led color={props.panel.inputEpValues.inputColor} />
                 }
             </div>
         </>;
     };
 
     const inputEndpoints = [{
-        name: 'Value',
+        name: 'Color',
         defaultValue: undefined,
         signal: 'Value'
     }];
@@ -51,6 +43,7 @@ const create = (panelId: number): Panel => {
         outputEndpoints,
         Component,
         execute,
+        width: 60,
         height: 89
     } as Panel;
 };
