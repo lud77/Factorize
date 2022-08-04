@@ -1,5 +1,4 @@
 import Algebra from './Algebra';
-import Basic from './Basic';
 import Events from './Events';
 import Flow from './Flow';
 import Inputs from './Inputs';
@@ -13,7 +12,6 @@ import Transforms from './Transforms';
 
 export default {
     Algebra,
-    Basic,
     Events,
     Flow,
     Inputs,

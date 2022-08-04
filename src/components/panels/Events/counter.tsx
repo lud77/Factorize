@@ -9,16 +9,6 @@ const panelType = 'Counter';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
-        const displayStyle = {
-            fontFamily: 'courier',
-            fontSize: '35px',
-            lineHeight: '35px',
-            height: '35px',
-            textAlign: 'center',
-            width: '100%',
-            overflow: 'hidden'
-        };
-
         return <>
             <div className="Row">
                 <InputEndpoint name="Event" panelId={panelId} signal="Pulse" description="Increase counter" {...props}>Event</InputEndpoint>
@@ -26,9 +16,6 @@ const create = (panelId: number): Panel => {
             </div>
             <div className="Row">
                 <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Set the counter to zero" {...props}>Reset</InputEndpoint>
-            </div>
-            <div className="Row">
-                <span style={displayStyle}>{`${props.panel.outputEpValues.outputCount}`}</span>
             </div>
         </>;
     };
@@ -70,7 +57,7 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse,
-        height: 104
+        height: 74
     } as Panel;
 };
 
