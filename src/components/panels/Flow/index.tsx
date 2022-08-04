@@ -1,5 +1,5 @@
 import Fan from './fan';
-import Gate from './gate';
+import Valve from './valve';
 import Memory from './memory';
 import If from './if';
 import Any from './any';
@@ -7,7 +7,7 @@ import Throttle from './throttle';
 
 export default {
     Fan,
-    Gate,
+    Valve,
     Memory,
     If,
     Any,
