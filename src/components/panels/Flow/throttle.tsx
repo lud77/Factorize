@@ -33,10 +33,12 @@ const create = (panelId: number): Panel => {
     }, {
         name: 'Window',
         defaultValue: Infinity, // seconds
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Max',
         defaultValue: 1, // events
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Reset',

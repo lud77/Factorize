@@ -43,21 +43,24 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [{
         name: 'File',
         defaultValue: '',
+        type: 'string',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'PictureData',
         defaultValue: '',
+        type: 'string',
         signal: 'Value'
     }, {
         name: 'PictureWidth',
         defaultValue: '',
-
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'PictureHeight',
         defaultValue: '',
+        type: 'number',
         signal: 'Value'
     }];
 

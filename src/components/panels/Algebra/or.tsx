@@ -14,6 +14,7 @@ const create = (panelId: number): Panel => {
             panelId,
             `Operand`,
             `Operand${panel.operandEpsCounter}`,
+            'boolean',
             0,
             'Value',
             0,
@@ -47,17 +48,20 @@ const create = (panelId: number): Panel => {
 
     const inputEndpoints = [{
         name: 'Operand1',
-        defaultValue: 0,
+        defaultValue: false,
+        type: 'boolean',
         signal: 'Value'
     }, {
         name: 'Operand2',
-        defaultValue: 0,
+        defaultValue: false,
+        type: 'boolean',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Result',
         default: 0,
+        type: 'boolean',
         signal: 'Value'
     }];
 

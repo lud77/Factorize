@@ -13,6 +13,7 @@ const create = (panelId: number): Panel => {
             panelId,
             `Collection`,
             `Collection${panel.collectionEpsCounter}`,
+            'array',
             [],
             'Value',
             [],
@@ -47,16 +48,19 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [{
         name: 'Collection1',
         defaultValue: [],
+        type: 'array',
         signal: 'Value'
     }, {
         name: 'Collection2',
         defaultValue: [],
+        type: 'array',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Result',
-        default: 0,
+        default: [],
+        type: 'array',
         signal: 'Value'
     }];
 

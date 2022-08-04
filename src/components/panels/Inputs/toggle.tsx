@@ -35,6 +35,7 @@ const create = (panelId: number): Panel => {
     const outputEndpoints = [{
         name: 'Active',
         defaultValue: false,
+        type: 'boolean',
         signal: 'Value'
     }];
 

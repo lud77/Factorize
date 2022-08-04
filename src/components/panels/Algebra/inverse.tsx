@@ -5,14 +5,14 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const panelType = 'Invert';
+const panelType = 'Inverse';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
-                <OutputEndpoint name="InvertedValue" panelId={panelId} {...props}>1/Value</OutputEndpoint>
+                <OutputEndpoint name="Inverse" panelId={panelId} {...props}>1/Value</OutputEndpoint>
             </div>
         </>;
     };
@@ -20,19 +20,21 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [{
         name: 'Value',
         defaultValue: 0,
+        type: 'number',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'InvertedValue',
         default: 0,
+        type: 'number',
         signal: 'Value'
     }];
 
     const execute = (panel, values) => {
-        if (isNaN(values.inputValue)) return { outputInvertedValue: '' };
-        console.log('execute invert', { outputInvertedValue: 1/parseFloat(values.inputValue) });
-        return { outputInvertedValue: 1/parseFloat(values.inputValue) };
+        if (isNaN(values.inputValue)) return { outputInverse: '' };
+        console.log('execute invert', { outputInverse: 1/parseFloat(values.inputValue) });
+        return { outputInverse: 1/parseFloat(values.inputValue) };
     };
 
     return {

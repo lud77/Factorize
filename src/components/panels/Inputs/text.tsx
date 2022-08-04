@@ -36,6 +36,7 @@ const create = (panelId: number): Panel => {
     const outputEndpoints = [{
         name: 'Text',
         defaultValue: '',
+        type: 'string',
         signal: 'Value'
     }];
 

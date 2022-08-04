@@ -260,9 +260,9 @@ const Machine = ({
         };
     };
 
-    const makePanel = (type) => {
+    const makePanel = (panelType) => {
         const panelId = getNextPanelId();
-        const panel = dictionary[type].create(panelId);
+        const panel = dictionary[panelType].create(panelId);
 
         const inputRefs =
             panel.inputEndpoints
@@ -280,6 +280,10 @@ const Machine = ({
                 panel.inputEndpoints
                     .reduce((a, { name, signal }) => ({ ...a, [`input${name}`]: signal }), {});
 
+        const inputTypeByEp =
+            panel.inputEndpoints
+                .reduce((a, { name, type }) => ({ ...a, [`input${name}`]: type }), {});
+
         const outputRefs =
             panel.outputEndpoints
                 .reduce((a, { name }) => ({ ...a, [`output${name}`]: getNextEndpointId() }), {});
@@ -293,8 +297,12 @@ const Machine = ({
                 .reduce((a, { name, defaultValue }) => ({ ...a, [`output${name}`]: defaultValue }), {});
 
         const outputSignalByEp =
-                panel.outputEndpoints
-                    .reduce((a, { name, signal }) => ({ ...a, [`output${name}`]: signal }), {});
+            panel.outputEndpoints
+                .reduce((a, { name, signal }) => ({ ...a, [`output${name}`]: signal }), {});
+
+        const outputTypeByEp =
+            panel.outputEndpoints
+                .reduce((a, { name, type }) => ({ ...a, [`output${name}`]: type }), {});
 
         console.log('outputEpDefaults', outputEpDefaults);
 
@@ -314,12 +322,14 @@ const Machine = ({
             inputEpDefaults,
             inputEpValues: { ...inputEpDefaults },
             inputSignalByEp,
+            inputTypeByEp,
             outputRefs,
             outputEpByRef,
             outputEpDefaults,
             outputEpValues: { ...outputEpDefaults },
             outputSignalByEp,
-            title: `${type} ${panelId}`
+            outputTypeByEp,
+            title: `${panelType} ${panelId}`
         };
 
         const newPanelCoords = {
@@ -349,7 +359,7 @@ const Machine = ({
         });
     };
 
-    const addOutputEndpoint = (panelId, label, name, defaultValue, signal, value, registry) => {
+    const addOutputEndpoint = (panelId, label, type, name, defaultValue, signal, value, registry) => {
         setPanels((panels) => {
             const panel = panels[panelId];
             const ep = `output${name}`;
@@ -384,13 +394,17 @@ const Machine = ({
                     outputSignalByEp: {
                         ...panel.outputSignalByEp,
                         [ep]: signal
+                    },
+                    outputTypeByEp: {
+                        ...panel.outputTypeByEp,
+                        [ep]: type
                     }
                 }
             };
         });
     };
 
-    const addInputEndpoint = (panelId, label, name, defaultValue, signal, value, registry) => {
+    const addInputEndpoint = (panelId, label, type, name, defaultValue, signal, value, registry) => {
         setPanels((panels) => {
             const panel = panels[panelId];
             const ep = `input${name}`;
@@ -425,6 +439,10 @@ const Machine = ({
                     inputSignalByEp: {
                         ...panel.inputSignalByEp,
                         [ep]: signal
+                    },
+                    inputTypeByEp: {
+                        ...panel.inputTypeByEp,
+                        [ep]: type
                     }
                 }
             };
@@ -443,6 +461,7 @@ const Machine = ({
             delete panel.inputEpDefaults[ep];
             delete panel.inputEpValues[ep];
             delete panel.inputSignalByEp[ep];
+            delete panel.inputTypeByEp[ep];
 
             return {
                 ...panels,
@@ -454,7 +473,8 @@ const Machine = ({
                     inputEpByRef: { ...panel.inputEpByRef },
                     inputEpDefaults: { ...panel.inputEpDefaults },
                     inputEpValues: { ...panel.inputEpValues },
-                    inputSignalByEp: { ...panel.inputSignalByEp }
+                    inputSignalByEp: { ...panel.inputSignalByEp },
+                    inputTypeByEp: { ...panel.inputTypeByEp }
                 }
             };
         });
@@ -472,6 +492,7 @@ const Machine = ({
             delete panel.outputEpDefaults[ep];
             delete panel.outputEpValues[ep];
             delete panel.outputSignalByEp[ep];
+            delete panel.outputTypeByEp[ep];
 
             return {
                 ...panels,
@@ -483,7 +504,8 @@ const Machine = ({
                     outputEpByRef: { ...panel.outputEpByRef },
                     outputEpDefaults: { ...panel.outputEpDefaults },
                     outputEpValues: { ...panel.outputEpValues },
-                    outputSignalByEp: { ...panel.outputSignalByEp }
+                    outputSignalByEp: { ...panel.outputSignalByEp },
+                    outputTypeByEp: { ...panel.outputTypeByEp }
                 }
             };
         });

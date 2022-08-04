@@ -13,6 +13,7 @@ const create = (panelId: number): Panel => {
             panelId,
             `Multiplicand`,
             `Multiplicand${panel.multiplicandEpsCounter}`,
+            'number',
             0,
             'Value',
             0,
@@ -47,16 +48,19 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [{
         name: 'Multiplicand1',
         defaultValue: 0,
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Multiplicand2',
         defaultValue: 0,
+        type: 'number',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Result',
         default: 0,
+        type: 'number',
         signal: 'Value'
     }];
 

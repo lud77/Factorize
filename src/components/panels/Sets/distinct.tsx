@@ -20,12 +20,14 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [{
         name: 'Array',
         defaultValue: [],
+        type: 'array',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Distinct',
         default: [],
+        type: 'array',
         signal: 'Value'
     }];
 

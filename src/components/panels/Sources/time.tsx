@@ -35,14 +35,17 @@ const create = (panelId: number): Panel => {
     const outputEndpoints = [{
         name: 'Hour',
         defaultValue: getHour(),
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Minute',
         defaultValue: getMinute(),
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Second',
         defaultValue: getSecond(),
+        type: 'number',
         signal: 'Value'
     }];
 

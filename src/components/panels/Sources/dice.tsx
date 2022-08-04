@@ -38,16 +38,19 @@ const create = (panelId: number): Panel => {
     }, {
         name: 'Dice',
         defaultValue: 1,
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Faces',
         defaultValue: 6,
+        type: 'number',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Value',
         defaultValue: 1,
+        type: 'number',
         signal: 'Value'
     }];
 

@@ -27,6 +27,7 @@ const create = (panelId: number): Panel => {
     }, {
         name: 'Condition',
         defaultValue: undefined,
+        type: 'boolean',
         signal: 'Value'
     }];
 

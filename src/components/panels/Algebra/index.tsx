@@ -3,10 +3,10 @@ import Subtract from './subtract';
 import Multiply from './multiply';
 import Divide from './divide';
 import Modulus from './modulus';
-import Negate from './negate';
-import Invert from './invert';
+import Opposite from './opposite';
+import Inverse from './inverse';
 
-import Threshold from './threshold';
+import Compare from './compare';
 
 import And from './and';
 import Or from './or';
@@ -19,9 +19,9 @@ export default {
     Multiply,
     Divide,
     Modulus,
-    Negate,
-    Invert,
-    Threshold,
+    Opposite,
+    Inverse,
+    Compare,
     And,
     Or,
     Not

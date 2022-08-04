@@ -26,12 +26,14 @@ const create = (panelId: number): Panel => {
     }, {
         name: 'Value',
         defaultValue: '',
+        type: 'any',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Value',
         defaultValue: '',
+        type: 'any',
         signal: 'Value'
     }];
 

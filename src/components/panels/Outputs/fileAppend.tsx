@@ -31,10 +31,12 @@ const create = (panelId: number): Panel => {
     }, {
         name: 'Message',
         defaultValue: '',
+        type: 'any',
         signal: 'Value'
     }, {
         name: 'File',
         defaultValue: '',
+        type: 'string',
         signal: 'Value'
     }];
 

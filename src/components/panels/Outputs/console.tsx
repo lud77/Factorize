@@ -25,6 +25,7 @@ const create = (panelId: number): Panel => {
     }, {
         name: 'Message',
         defaultValue: '',
+        type: 'any',
         signal: 'Value'
     }];
 

@@ -39,18 +39,22 @@ const create = (panelId: number): Panel => {
     const outputEndpoints = [{
         name: 'Day',
         defaultValue: getDay(),
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Month',
         defaultValue: getMonth(),
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Year',
         defaultValue: getYear(),
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'WeekDay',
         defaultValue: getWeekDay(),
+        type: 'number',
         signal: 'Value'
     }];
 

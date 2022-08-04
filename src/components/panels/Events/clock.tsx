@@ -24,10 +24,12 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [{
         name: 'Active',
         defaultValue: false,
+        type: 'boolean',
         signal: 'Value'
     }, {
         name: 'Seconds',
         defaultValue: 1,
+        type: 'number',
         signal: 'Value'
     }];
 

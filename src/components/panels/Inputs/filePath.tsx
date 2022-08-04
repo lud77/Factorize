@@ -51,6 +51,7 @@ const create = (panelId: number): Panel => {
     const outputEndpoints = [{
         name: 'Path',
         defaultValue: '',
+        type: 'string',
         signal: 'Value'
     }];
 

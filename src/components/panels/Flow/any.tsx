@@ -14,6 +14,7 @@ const create = (panelId: number): Panel => {
             `In`,
             `In${panel.inEpsCounter}`,
             undefined,
+            undefined,
             'Pulse',
             0,
             'inEps'

@@ -46,6 +46,7 @@ const create = (panelId: number): Panel => {
     }, {
         name: 'Value',
         defaultValue: '',
+        type: 'any',
         signal: 'Value'
     }, {
         name: 'PickLast',
@@ -64,14 +65,17 @@ const create = (panelId: number): Panel => {
     const outputEndpoints = [{
         name: 'Array',
         defaultValue: [],
+        type: 'array',
         signal: 'Value'
     }, {
         name: 'Value',
         defaultValue: '',
+        type: 'any',
         signal: 'Value'
     }, {
         name: 'Size',
         defaultValue: 0,
+        type: 'number',
         signal: 'Value'
     }];
 

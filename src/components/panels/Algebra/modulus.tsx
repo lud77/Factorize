@@ -23,16 +23,19 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [{
         name: 'Number',
         defaultValue: 0,
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Modulus',
         defaultValue: 2,
+        type: 'number',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Remainder',
         default: 0,
+        type: 'number',
         signal: 'Value'
     }];
 

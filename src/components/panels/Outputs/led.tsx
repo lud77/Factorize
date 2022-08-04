@@ -28,7 +28,8 @@ const create = (panelId: number): Panel => {
 
     const inputEndpoints = [{
         name: 'Hue',
-        defaultValue: null,
+        defaultValue: undefined,
+        type: 'number',
         signal: 'Value'
     }];
 

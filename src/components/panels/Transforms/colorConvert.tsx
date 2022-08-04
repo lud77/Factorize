@@ -70,36 +70,44 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [{
         name: 'Hex',
         defaultValue: '#ffffff',
+        type: 'string',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Hex',
         defaultValue: '#ffffff',
+        type: 'string',
         signal: 'Value'
     }, {
         name: 'Red',
         defaultValue: 255,
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Green',
         defaultValue: 255,
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Blue',
         defaultValue: 255,
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Hue',
         defaultValue: 0,
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Saturation',
         defaultValue: 0,
+        type: 'number',
         signal: 'Value'
     }, {
         name: 'Luminosity',
         defaultValue: 100,
+        type: 'number',
         signal: 'Value'
     }];
 

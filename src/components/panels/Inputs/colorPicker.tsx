@@ -41,6 +41,7 @@ const create = (panelId: number): Panel => {
     const outputEndpoints = [{
         name: 'Hex',
         defaultValue: '#ffffff',
+        type: 'string',
         signal: 'Value'
     }];
 
