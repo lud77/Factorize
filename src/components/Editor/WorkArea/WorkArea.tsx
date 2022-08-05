@@ -80,11 +80,7 @@ const WorkArea = (props) => {
 		},
 		findOrigin: (ctx) => (e) => {
 			const numPanels = Object.values(panels).length;
-			const [totX, totY] = Object.values(panels).reduce(([ x, y ], v) => [ x + v.left, y + v.top ], [0, 0]);
-			const [avgX, avgY] = [totX / numPanels, totY / numPanels];
-			// setWorkAreaOffset([avgX, avgY]);
-			console.log(panelCoords[0], workAreaOffset);
-			setWorkAreaOffset([panelCoords[0].left, panelCoords[0].top]);
+			setWorkAreaOffset([0, 0]);
 		}
 	});
 
