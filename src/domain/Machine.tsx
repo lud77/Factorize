@@ -524,27 +524,42 @@ const Machine = ({
         });
     };
 
-    const removePanelById = (panelId) => {
-        removeConnectionsByPanelId(panelId);
+    const removeConnectionsByPanelIds = (panelIds) => {
+        const outGoing = connections.filter((connection) => panelIds.includes(connection.sourcePanelId))
+        outGoing.forEach((connection) => {
+            stopPropagatingValue(connection);
+        });
+
+        flushSync(() => {
+            setConnections((connections) =>
+                connections.filter((connection) => !panelIds.includes(connection.sourcePanelId) && !panelIds.includes(connection.targetPanelId))
+            );
+        });
+    };
+
+    const removePanelsByIds = (selectedPanels) => {
+        removeConnectionsByPanelIds(selectedPanels);
 
         flushSync(() => {
             setPanels((panels) => {
-                if (panels[panelId]?.dispose) {
-                    panels[panelId].dispose(panels[panelId], { clearTimer: timers.clearTimer });
-                }
+                selectedPanels.forEach((panelId) => {
+                    if (panels[panelId]?.dispose) {
+                        panels[panelId].dispose(panels[panelId], { clearTimer: timers.clearTimer });
+                    }
 
-                delete panels[panelId];
-                const newPanels = { ...panels };
+                    delete panels[panelId];
+                });
 
-                return newPanels;
+                return { ...panels };
             });
         });
 
         setPanelCoords((panelCoords) => {
-            delete panelCoords[panelId];
-            const newPanelCoords = { ...panelCoords };
+            selectedPanels.forEach((panelId) => {
+                delete panelCoords[panelId];
+            });
 
-            return newPanelCoords;
+            return { ...panelCoords };
         });
     };
 
@@ -672,7 +687,8 @@ const Machine = ({
         // removeConnectionBySourceRef,
         removeConnectionByTargetRef,
         removeConnectionsByPanelId,
-        removePanelById,
+        removeConnectionsByPanelIds,
+        removePanelsByIds,
         executePanelLogic,
         addInputEndpoint,
         addOutputEndpoint,

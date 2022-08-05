@@ -65,20 +65,23 @@ const WorkArea = (props) => {
 	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
 
 	const contextMenuItems = contextMenusSetup({
-		deletePanel: (ctx) => (e) => {
-			machine.removePanelById(ctx.panelId);
+		deletePanel: (target) => (e) => {
+			machine.removePanelsByIds([target.panelId]);
 		},
-		removeEp: (ctx) => (e) => {
-			if (ctx.endpoint.type === 'Input') return machine.removeInputEndpoint(ctx.panelId, ctx.endpoint.name, ctx.endpoint.ref, ctx.endpoint.registry);
-			if (ctx.endpoint.type === 'Output') return machine.removeOutputEndpoint(ctx.panelId, ctx.endpoint.name, ctx.endpoint.ref, ctx.endpoint.registry);
+		deletePanels: (target) => (e) => {
+			machine.removePanelsByIds(target.selectedPanels);
 		},
-		duplicatePanel: (ctx) => (e) => {
-			machine.duplicatePanelById(ctx.panelId);
+		removeEp: (target) => (e) => {
+			if (target.endpoint.type === 'Input') return machine.removeInputEndpoint(target.panelId, target.endpoint.name, target.endpoint.ref, target.endpoint.registry);
+			if (target.endpoint.type === 'Output') return machine.removeOutputEndpoint(target.panelId, target.endpoint.name, target.endpoint.ref, target.endpoint.registry);
 		},
-		disconnectPanel: (ctx) => (e) => {
-			machine.removeConnectionsByPanelId(ctx.panelId);
+		duplicatePanel: (target) => (e) => {
+			machine.duplicatePanelById(target.panelId);
 		},
-		findOrigin: (ctx) => (e) => {
+		disconnectPanel: (target) => (e) => {
+			machine.removeConnectionsByPanelId(target.panelId);
+		},
+		findOrigin: () => (e) => {
 			const numPanels = Object.values(panels).length;
 			setWorkAreaOffset([0, 0]);
 		}
@@ -458,6 +461,7 @@ const WorkArea = (props) => {
 		if (e.target.closest('.Panel')) {
 			const panelEl = e.target.closest('.Panel');
 			const panelId = parseInt(panelEl.dataset.key);
+			const isSelection = selectedPanels.includes(panelId);
 
 			const row = e.target.closest('.Row');
 
@@ -469,8 +473,8 @@ const WorkArea = (props) => {
 
 			const removableEndpoint = (ep != null) && ep.classList.contains('Removable');
 
-			const tags = ['panel'];
-			const target = { panelId };
+			const tags = [isSelection ? 'panels' : 'panel'];
+			const target = { panelId, selectedPanels };
 
 			if (removableEndpoint) {
 				tags.push('removable endpoint');

@@ -103,6 +103,11 @@ const contextMenusSetup = (handlers) => {
         handler: handlers.deletePanel,
         tags: ['panel']
     }, {
+        icon: <FontAwesomeIcon icon={solid('trash-can')} />,
+        label: 'Delete Panels',
+        handler: handlers.deletePanels,
+        tags: ['panels']
+    }, {
         icon: <FontAwesomeIcon icon={solid('circle-minus')} />,
         label: 'Remove Endpoint',
         handler: handlers.removeEp,
