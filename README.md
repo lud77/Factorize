@@ -13,6 +13,8 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [x] save as
     - [x] open
     - etc
+- [ ] Ask for confirmation before replacing current document in "new" and "open" actions
+- [ ] Ask for confirmation before overriding an existing file in "save as" action
 - [x] Main-thread service framework to avoid squashing everything into electron.js
 - [ ] Settings page
 - [ ] Plugin system
@@ -23,7 +25,7 @@ as ```npm install``` produces an error when trying to resolve webpack
 - [x] Disconnect panel -> removes all connections
 - [x] Duplicate panel -> creates an clone of the panel
 - [x] Find origin -> moves view to --middle of the graph-- NO: it moves you back to [0, 0]
-- [ ] "Delete panel" becomes "Delete panels" when used on selected panel
+- [x] "Delete panel" becomes "Delete panels" when used on selected panel
 
 --- Engine
 
