@@ -1,0 +1,31 @@
+.Lightbox.Backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0, 0, 0, .3);
+}
+
+.Lightbox .Content {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.Lightbox .Content .Caption {
+    flex-grow: 0;
+}
+
+.Lightbox .Content .Image {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.Lightbox .Content .Image img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}

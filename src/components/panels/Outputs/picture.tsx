@@ -1,17 +1,22 @@
-import { update } from 'immutable';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import Lightbox from '../../Lightbox/Lightbox';
 
 import System from '../../../domain/System';
-
+import { flushSync } from 'react-dom';
 const panelType = 'Picture';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
+        const [showLightbox, setShowLightbox] = React.useState(false);
+
+        const openLightbox = () => setShowLightbox(true);
+        const closeLightbox = () => setShowLightbox(false);
+
         return <>
             <div className="Row">
                 <InputEndpoint name="File" panelId={panelId} {...props}>File</InputEndpoint>
@@ -23,6 +28,7 @@ const create = (panelId: number): Panel => {
             <div className="Row">
                 <OutputEndpoint name="PictureHeight" panelId={panelId} {...props}>Height</OutputEndpoint>
             </div>
+            {showLightbox ? <Lightbox url={props.panel.outputEpValues.outputPictureData} close={closeLightbox} /> : null}
             <div className="Row">
                 {
                     props.panel.outputEpValues.outputPictureData
@@ -33,6 +39,7 @@ const create = (panelId: number): Panel => {
                                 marginTop: '6px',
                                 backgroundColor: 'black'
                             }}
+                            onClick={openLightbox}
                             />
                         : null
                 }
@@ -94,16 +101,18 @@ const create = (panelId: number): Panel => {
                     outputPictureHeight: info.meta.height
                 };
 
-                setPanels((panels) => {
-                    const updatePanel = panels[panel.panelId];
+                flushSync(() => {
+                    setPanels((panels) => {
+                        const updatePanel = panels[panel.panelId];
 
-                    return {
-                        ...panels,
-                        [panel.panelId]: {
-                            ...updatePanel,
-                            height: 109 + (111 * ((res.outputPictureHeight || 0) / (res.outputPictureWidth || 1)))
-                        }
-                    };
+                        return {
+                            ...panels,
+                            [panel.panelId]: {
+                                ...updatePanel,
+                                height: 109 + (111 * ((res.outputPictureHeight || 0) / (res.outputPictureWidth || 1)))
+                            }
+                        };
+                    });
                 });
 
                 return res;

@@ -22,7 +22,7 @@ as ```npm install``` produces an error when trying to resolve webpack
 
 - [x] Disconnect panel -> removes all connections
 - [x] Duplicate panel -> creates an clone of the panel
-- [?] Find origin -> moves view to middle of the graph
+- [x] Find origin -> moves view to --middle of the graph-- NO: it moves you back to [0, 0]
 - [ ] "Delete panel" becomes "Delete panels" when used on selected panel
 
 --- Engine
