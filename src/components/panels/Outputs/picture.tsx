@@ -37,7 +37,8 @@ const create = (panelId: number): Panel => {
                             style={{
                                 width: '100%',
                                 marginTop: '6px',
-                                backgroundColor: 'black'
+                                backgroundColor: 'black',
+                                borderRadius: '4px'
                             }}
                             onClick={openLightbox}
                             />
