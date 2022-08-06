@@ -713,20 +713,12 @@ const Machine = ({
                 Object.values(panelCoords)
                     .map((panelCoord) => {
                         if (panelCoord.group == null) return [panelCoord.panelId, panelCoord];
-                        console.log(`typeof`, typeof panelId);
-                        console.log(`deleting ${panelId} from`);
-                        console.log(panelCoord);
 
                         panelCoord.group.delete(panelId);
-
-                        console.log(panelCoord);
-
                         return [panelCoord.panelId, { ...panelCoord }];
                     });
 
             const updates = Object.fromEntries(updatePairs);
-
-            console.log('ungroupPanelById', updates);
 
             return {
                 ...panelCoords,
@@ -757,8 +749,6 @@ const Machine = ({
                     });
 
             const updates = Object.fromEntries(updatePairs);
-
-            console.log('ungroupPanelsByIds', updates);
 
             return {
                 ...panelCoords,
