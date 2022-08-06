@@ -42,10 +42,10 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [x] FLOW: Delta: (Value -> Pulse) send a pulse when input changes
     - [x] OUTPUT: Led: (Value -> UI) turn on a led if the value is non-zero
     - [x] OUTPUT: Logfile: (Value + Pulse -> OS) append message to file
-    - [ ] INPUT: Deviator: (UI + Value -> Value) set 1 of 2 outputs to the input value depending on status of UI switch
+    - [x] INPUT: Deviator: (Value + Value -> Value) The output to 1 of N inputs based on the value of another input
     - [ ] FLOW: Delay: (Pulse -> X secs -> Pulse)
-    - [ ] EVENTS: Clock: (every X secs -> Pulse)
-    - [ ] FLOW: Wait: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then gives sends a pulse through the output
+    - [x] EVENTS: Clock: (every X secs -> Pulse)
+    - [ ] FLOW: All: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then gives sends a pulse through the output
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
     - [x] INPUT: Color Picker
