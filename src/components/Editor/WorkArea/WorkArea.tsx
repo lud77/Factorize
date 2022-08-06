@@ -71,6 +71,15 @@ const WorkArea = (props) => {
 		deletePanels: (target) => (e) => {
 			machine.removePanelsByIds(target.selectedPanels);
 		},
+		groupPanels: (target) => (e) => {
+			machine.groupPanelsByIds(target.selectedPanels);
+		},
+		ungroupPanel: (target) => (e) => {
+			machine.ungroupPanelById(target.panelId);
+		},
+		ungroupPanels: (target) => (e) => {
+			machine.ungroupPanelsByIds(target.selectedPanels);
+		},
 		removeEp: (target) => (e) => {
 			if (target.endpoint.type === 'Input') return machine.removeInputEndpoint(target.panelId, target.endpoint.name, target.endpoint.ref, target.endpoint.registry);
 			if (target.endpoint.type === 'Output') return machine.removeOutputEndpoint(target.panelId, target.endpoint.name, target.endpoint.ref, target.endpoint.registry);
@@ -86,6 +95,33 @@ const WorkArea = (props) => {
 			setWorkAreaOffset([0, 0]);
 		}
 	});
+
+	const getPanelIdsToMove = (contactPanelId) => {
+		console.log('contactPanelId', contactPanelId);
+
+		let panelIds = ((selectedPanels.size > 0) && selectedPanels.contains(contactPanelId)) ? Array.from(selectedPanels) : [contactPanelId];
+
+		console.log('panelIds', panelIds);
+
+		return panelIds
+			.map((panelId) => panelCoords[panelId])
+			.map((x) => console.log('panelCoords[panelId]', x) || x)
+			.map((panelCoord) => panelCoord.group ? Array.from(panelCoord.group) : [])
+			.flat()
+			.concat(panelIds);
+	};
+
+	const getAnchorsPointsFor = (panelIds) => {
+		return panelIds
+			.map((panelId) => panelCoords[panelId])
+			.map((panelCoord) => ({
+				panelId: panelCoord.panelId,
+				o: {
+					x: panelCoord.left,
+					y: panelCoord.top
+				}
+			}));
+	};
 
 	const mouseDown = (e) => {
 		if (e.button != 0) return;
@@ -122,45 +158,18 @@ const WorkArea = (props) => {
 			const panel = e.target.closest('.Panel');
 			const panelId = parseInt(panel.dataset.key);
 
-			if ((selectedPanels.size > 0) && selectedPanels.contains(panelId)) {
-				const selectedPanelsAnchors =
-					selectedPanels
-						.map((panelId) => panelCoords[panelId])
-						.map((panelCoord) => ({
-							panelId: panelCoord.panelId,
-							o: {
-								x: panelCoord.left,
-								y: panelCoord.top
-							}
-						}))
-						.toArray();
-
-				setDragCoords({
-					isDragging: true,
-					what: 'panels',
-					el: panel,
-					o: {
-						x: Number(e.pageX),
-						y: Number(e.pageY)
-					},
-					os: selectedPanelsAnchors,
-					c: {
-						x: panelCoords[panelId].left,
-						y: panelCoords[panelId].top
-					}
-				});
-
-				return;
-			}
+			const panelIdsToMove = getPanelIdsToMove(panelId);
+			const selectedPanelsAnchors = getAnchorsPointsFor(panelIdsToMove);
 
 			setDragCoords({
 				isDragging: true,
-				what: 'panel',
+				what: 'panels',
 				el: panel,
 				o: {
 					x: Number(e.pageX),
 					y: Number(e.pageY)
 				},
+				os: selectedPanelsAnchors,
 				c: {
 					x: panelCoords[panelId].left,
 					y: panelCoords[panelId].top
@@ -316,21 +325,21 @@ const WorkArea = (props) => {
 			return false;
 		}
 
-		if (dragCoords.isDragging && dragCoords.what == 'panel') {
-			const panelId = parseInt(dragCoords.el.dataset.key);
-			const func = (props.snap ? snapping : linear);
+		// if (dragCoords.isDragging && dragCoords.what == 'panel') {
+		// 	const panelId = parseInt(dragCoords.el.dataset.key);
+		// 	const func = (props.snap ? snapping : linear);
 
-			setPanelCoords((panelCoords) => ({
-				...panelCoords,
-				[panelId]: {
-					...panelCoords[panelId],
-					left: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
-					top: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
-				}
-			}));
+		// 	setPanelCoords((panelCoords) => ({
+		// 		...panelCoords,
+		// 		[panelId]: {
+		// 			...panelCoords[panelId],
+		// 			left: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
+		// 			top: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
+		// 		}
+		// 	}));
 
-			return false;
-		}
+		// 	return false;
+		// }
 
 		if (dragCoords.isDragging && dragCoords.what == 'workarea') {
 			setWorkAreaOffset([

@@ -677,6 +677,96 @@ const Machine = ({
 		return null;
 	};
 
+    const groupPanelsByIds = (panelIds) => {
+        setPanelCoords((panelCoords) => {
+            const updatePairs =
+                panelIds
+                    .map((panelId) => [panelId, panelCoords[panelId]])
+                    .map(([ panelId, panelCoord ]) => {
+                        if (panelCoord.group == null) {
+                            panelCoord.group = new Set();
+                        }
+
+                        panelIds.forEach((panelIdToGroup) => {
+                            if (panelIdToGroup === panelId) return;
+
+                            panelCoord.group.add(panelIdToGroup);
+                        });
+
+                        return [panelId, { ...panelCoord }];
+                    });
+
+            const updates = Object.fromEntries(updatePairs);
+
+            console.log('groupPanelsByIds', updates);
+
+            return {
+                ...panelCoords,
+                ...updates
+            };
+        });
+    };
+
+    const ungroupPanelById = (panelId) => {
+        setPanelCoords((panelcoords) => {
+            const updatePairs =
+                Object.values(panelCoords)
+                    .map((panelCoord) => {
+                        if (panelCoord.group == null) return [panelCoord.panelId, panelCoord];
+                        console.log(`typeof`, typeof panelId);
+                        console.log(`deleting ${panelId} from`);
+                        console.log(panelCoord);
+
+                        panelCoord.group.delete(panelId);
+
+                        console.log(panelCoord);
+
+                        return [panelCoord.panelId, { ...panelCoord }];
+                    });
+
+            const updates = Object.fromEntries(updatePairs);
+
+            console.log('ungroupPanelById', updates);
+
+            return {
+                ...panelCoords,
+                ...updates,
+                [panelId]: {
+                    ...panelCoords[panelId],
+                    group: new Set()
+                }
+            };
+        });
+    };
+
+    const ungroupPanelsByIds = (panelIds) => {
+        setPanelCoords((panelcoords) => {
+            const updatePairs =
+                panelIds
+                    .map((panelId) => [panelId, panelCoords[panelId]])
+                    .map(([ panelId, panelCoord ]) => {
+                        if (panelCoord.group == null) return [panelId, panelCoord];
+
+                        panelIds.forEach((panelIdToUngroup) => {
+                            if (panelIdToUngroup === panelId) return;
+
+                            panelCoord.group.delete(panelIdToUngroup);
+                        });
+
+                        return [panelId, { ...panelCoord }];
+                    });
+
+            const updates = Object.fromEntries(updatePairs);
+
+            console.log('ungroupPanelsByIds', updates);
+
+            return {
+                ...panelCoords,
+                ...updates
+            };
+        });
+    };
+
     return {
         makeConnection,
         addPanel,
@@ -697,7 +787,10 @@ const Machine = ({
         getPanelInputRef,
         getPanelOutputRef,
         sendPulseTo,
-        duplicatePanelById
+        duplicatePanelById,
+        groupPanelsByIds,
+        ungroupPanelById,
+        ungroupPanelsByIds
     };
 };
 

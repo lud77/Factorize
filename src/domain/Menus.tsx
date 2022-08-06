@@ -108,6 +108,21 @@ const contextMenusSetup = (handlers) => {
         handler: handlers.deletePanels,
         tags: ['panels']
     }, {
+        icon: <FontAwesomeIcon icon={solid('object-group')} />,
+        label: 'Group Panels',
+        handler: handlers.groupPanels,
+        tags: ['panels']
+    }, {
+        icon: <FontAwesomeIcon icon={solid('object-ungroup')} />,
+        label: 'Ungroup Panel',
+        handler: handlers.ungroupPanel,
+        tags: ['panel']
+    }, {
+        icon: <FontAwesomeIcon icon={solid('object-ungroup')} />,
+        label: 'Ungroup Panels',
+        handler: handlers.ungroupPanels,
+        tags: ['panels']
+    }, {
         icon: <FontAwesomeIcon icon={solid('circle-minus')} />,
         label: 'Remove Endpoint',
         handler: handlers.removeEp,
