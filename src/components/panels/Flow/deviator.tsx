@@ -75,8 +75,6 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => {
         const eps = ['inputIn1', 'inputIn2'].concat(panel.inEps.map(([ep]) => ep));
 
-        console.log('execute deviator', eps, values, eps[values.inputSelect], values[eps[values.inputSelect]]);
-
         return { outputOut: eps[values.inputSelect] != null ? values[eps[values.inputSelect]] : '' };
     };
 
