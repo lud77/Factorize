@@ -36,7 +36,7 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Out2" panelId={panelId} {...props}>Out</OutputEndpoint>
             </div>
             {
-                props.panel.outEps.map(([ep, epRef, label, name], key) => (
+                props.panel.outEps.map(([ep, epRef, label, name, type], key) => (
                     <div className="Row" key={key}>
                         <OutputEndpoint name={name} panelId={panelId} removable={true} registry="outEps" {...props}>{label}</OutputEndpoint>
                     </div>
@@ -71,7 +71,7 @@ const create = (panelId: number): Panel => {
         };
 
         const results = panel.outEps
-            .map(([ep, epRef, label, name]) => ({ [ep]: values.inputIn }))
+            .map(([ep, epRef, label, name, type]) => ({ [ep]: values.inputIn }))
             .reduce((a, v) => ({ ...a, ...v }), update);
 
         console.log('execute fan', panel.outEps, results);

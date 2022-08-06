@@ -36,7 +36,7 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Multiplicand2" panelId={panelId} {...props}>Multiplicand</InputEndpoint>
             </div>
             {
-                props.panel.multiplicandEps.map(([ep, epRef, label, name], key) => (
+                props.panel.multiplicandEps.map(([ep, epRef, label, name, type], key) => (
                     <div className="Row" key={key}>
                         <InputEndpoint name={name} panelId={panelId} removable={true} registry="multiplicandEps" {...props}>{label}</InputEndpoint>
                     </div>

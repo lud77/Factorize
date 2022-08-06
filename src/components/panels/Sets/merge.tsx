@@ -36,7 +36,7 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Collection2" panelId={panelId} {...props}>Collection</InputEndpoint>
             </div>
             {
-                props.panel.collectionEps.map(([ep, epRef, label, name], key) => (
+                props.panel.collectionEps.map(([ep, epRef, label, name, type], key) => (
                     <div className="Row" key={key}>
                         <InputEndpoint name={name} panelId={panelId} removable={true} registry="collectionEps" {...props}>{label}</InputEndpoint>
                     </div>

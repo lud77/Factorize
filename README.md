@@ -26,11 +26,12 @@ as ```npm install``` produces an error when trying to resolve webpack
 - [x] Duplicate panel -> creates an clone of the panel
 - [x] Find origin -> moves view to --middle of the graph-- NO: it moves you back to [0, 0]
 - [x] "Delete panel" becomes "Delete panels" when used on selected panel
+- [x] Group/Ungroup panels: grouped panels move together
 
 --- Engine
 
 - [x] Introduce Pulse-type signals
-- [ ] Introduce Sources panel palette
+- [x] Introduce Sources panel palette
 - [~] Actual panels
     - [x] FUNCTIONS: Threshold: (Value -> Value) sets outputs (High, Equal, Low) to true depending on whether first input is <=> than second
     - [x] INPUT: Toggle: (UI -> Value) set output to true or false depending on toggle
@@ -65,7 +66,6 @@ as ```npm install``` produces an error when trying to resolve webpack
         - [x] Merge
         - [x] Intersection
         - [x] Unique (Distinct)
-- [ ] Groupings
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 

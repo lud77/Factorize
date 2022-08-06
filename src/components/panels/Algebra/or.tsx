@@ -37,7 +37,7 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Operand2" panelId={panelId} {...props}>Operand</InputEndpoint>
             </div>
             {
-                props.panel.operandEps.map(([ep, epRef, label, name], key) => (
+                props.panel.operandEps.map(([ep, epRef, label, name, type], key) => (
                     <div className="Row" key={key}>
                         <InputEndpoint name={name} panelId={panelId} removable={true} registry="operandEps" {...props}>{label}</InputEndpoint>
                     </div>

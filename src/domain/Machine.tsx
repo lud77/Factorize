@@ -359,7 +359,7 @@ const Machine = ({
         });
     };
 
-    const addOutputEndpoint = (panelId, label, type, name, defaultValue, signal, value, registry) => {
+    const addOutputEndpoint = (panelId, label, name, type, defaultValue, signal, value, registry) => {
         setPanels((panels) => {
             const panel = panels[panelId];
             const ep = `output${name}`;
@@ -372,7 +372,7 @@ const Machine = ({
                     height: panel.height + 21,
                     [registry]: [
                         ...panel[registry],
-                        [ep, epRef, label, name]
+                        [ep, epRef, label, name, type]
                     ],
                     [`${registry}Counter`]: panel[`${registry}Counter`] + 1,
                     outputRefs: {
@@ -404,7 +404,7 @@ const Machine = ({
         });
     };
 
-    const addInputEndpoint = (panelId, label, type, name, defaultValue, signal, value, registry) => {
+    const addInputEndpoint = (panelId, label, name, type, defaultValue, signal, value, registry) => {
         setPanels((panels) => {
             const panel = panels[panelId];
             const ep = `input${name}`;
@@ -417,7 +417,7 @@ const Machine = ({
                     height: panel.height + 21,
                     [registry]: [
                         ...panel[registry],
-                        [ep, epRef, label, name]
+                        [ep, epRef, label, name, type]
                     ],
                     [`${registry}Counter`]: panel[`${registry}Counter`] + 1,
                     inputRefs: {

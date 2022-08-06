@@ -5,7 +5,7 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const panelType = 'Any';
+const panelType = 'Deviator';
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
@@ -13,10 +13,10 @@ const create = (panelId: number): Panel => {
             panelId,
             `In`,
             `In${panel.inEpsCounter}`,
+            'any',
             undefined,
+            'Value',
             undefined,
-            'Pulse',
-            0,
             'inEps'
         );
     };
@@ -29,16 +29,19 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="In1" panelId={panelId} signal="Pulse" description="Input pulse" {...props}>In</InputEndpoint>
-                <OutputEndpoint name="Out" panelId={panelId} signal="Pulse" description="Any of the input pins receives a pulse" {...props}>Out</OutputEndpoint>
+                <InputEndpoint name="Select" panelId={panelId} {...props}>Select</InputEndpoint>
+                <OutputEndpoint name="Out" panelId={panelId} {...props}>Out</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="In2" panelId={panelId} signal="Pulse" description="Input pulse" {...props}>In</InputEndpoint>
+                <InputEndpoint name="In1" panelId={panelId} {...props}>In (0)</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="In2" panelId={panelId} {...props}>In (1)</InputEndpoint>
             </div>
             {
                 props.panel.inEps.map(([ep, epRef, label, name, type], key) => (
                     <div className="Row" key={key}>
-                        <InputEndpoint name={name} panelId={panelId} signal="Pulse" description="Input pulse" removable={true} registry="inEps" {...props}>{label}</InputEndpoint>
+                        <InputEndpoint name={name} panelId={panelId} removable={true} registry="inEps" {...props}>{label} ({key + 2})</InputEndpoint>
                     </div>
                 ))
             }
@@ -46,27 +49,36 @@ const create = (panelId: number): Panel => {
     };
 
     const inputEndpoints = [{
+        name: 'Select',
+        defaultValue: 0,
+        type: 'number',
+        signal: 'Value'
+    }, {
         name: 'In1',
-        signal: 'Pulse'
+        defaultValue: undefined,
+        type: 'any',
+        signal: 'Value'
     }, {
         name: 'In2',
-        signal: 'Pulse'
+        defaultValue: undefined,
+        type: 'any',
+        signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'Out',
-        signal: 'Pulse'
+        default: 0,
+        type: 'any',
+        signal: 'Value'
     }];
 
-    const onPulse = (ep, panel, { sendPulseTo }) => {
-        switch (ep) {
-            default:
-                sendPulseTo(panel.panelId, 'outputOut');
-                return {};
-        }
-    };
+    const execute = (panel, values) => {
+        const eps = ['inputIn1', 'inputIn2'].concat(panel.inEps.map(([ep]) => ep));
 
-    const execute = (panel, values) => values;
+        console.log('execute deviator', eps, values, eps[values.inputSelect], values[eps[values.inputSelect]]);
+
+        return { outputOut: eps[values.inputSelect] != null ? values[eps[values.inputSelect]] : '' };
+    };
 
     return {
         type: panelType,
@@ -74,12 +86,11 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         width: 134,
-        height: 104,
+        height: 114,
         inEps: [],
         inEpsCounter: 3,
         Component,
-        execute,
-        onPulse
+        execute
     } as Panel;
 };
 
