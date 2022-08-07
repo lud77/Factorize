@@ -72,7 +72,7 @@ const create = (panelId: number): Panel => {
         return {
             outputFontSize: inputs.tuningFontSize
         };
-    }
+    };
 
     return {
         type: panelType,

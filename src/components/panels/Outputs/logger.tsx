@@ -10,10 +10,26 @@ const panelType = 'Logger';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
+        const handleClickPlus = ({ panel, machine }) => () => {
+            const fontSize = panel.outputEpValues.outputFontSize || 15;
+            machine.executePanelLogic(panelId, {
+                tuningFontSize: Math.min(fontSize + 1, 50)
+            });
+        };
+
+        const handleClickMinus = ({ panel, machine }) => () => {
+            const fontSize = panel.outputEpValues.outputFontSize || 15;
+            machine.executePanelLogic(panelId, {
+                tuningFontSize: Math.max(fontSize - 1, 5)
+            });
+        };
+
+        const fontSize = props.panel.outputEpValues.outputFontSize || 15;
+
         const displayStyle = {
             fontFamily: 'courier',
-            fontSize: '20px',
-            lineHeight: '20px',
+            fontSize: `${fontSize}px`,
+            lineHeight: `${fontSize}px`,
             overflowY: 'scroll',
             width: '100%',
             backgroundColor: 'var(--background)',
@@ -23,19 +39,28 @@ const create = (panelId: number): Panel => {
             borderRadius: '5px'
         };
 
+        const paragraphStyle = {
+            margin: '1px',
+            height: `${fontSize}px`
+        };
+
         return <>
             <div className="Row">
                 <InputEndpoint name="Log" panelId={panelId} signal="Pulse" description="Append the [Message] to the [Contents]" {...props}>Log</InputEndpoint>
-                <OutputEndpoint name="Contents" panelId={panelId} {...props}>Contents</OutputEndpoint>
+                <div className="InteractiveItem" style={{ textAlign: 'right' }}>
+                    <button title="Increase font size" onClick={handleClickPlus(props)} style={{ width: '2em', marginRight: '1px' }}>+</button>
+                    <button title="Decrease font size" onClick={handleClickMinus(props)} style={{ width: '2em' }}>-</button>
+                </div>
             </div>
             <div className="Row">
                 <InputEndpoint name="Message" panelId={panelId} {...props}>Message</InputEndpoint>
+                <OutputEndpoint name="Contents" panelId={panelId} {...props}>Contents</OutputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Clear" panelId={panelId} signal="Pulse" description="Clear the [Contents]" {...props}>Clear</InputEndpoint>
             </div>
             <div className="Row" style={displayStyle}>
-                {String(props.panel.outputEpValues.outputContents || '').split('\n').map((str, i) => <p key={i} style={{ margin: '0px' }}>{str}</p>)}
+                {String(props.panel.outputEpValues.outputContents || '').split('\n').map((str, i) => <p key={i} style={paragraphStyle}>{str}</p>)}
             </div>
         </>;
     };
@@ -69,7 +94,11 @@ const create = (panelId: number): Panel => {
         }
     };
 
-    const execute = (panel, values) => values;
+    const execute = (panel, inputs) => {
+        return {
+            outputFontSize: inputs.tuningFontSize
+        };
+    };
 
     return {
         type: panelType,
