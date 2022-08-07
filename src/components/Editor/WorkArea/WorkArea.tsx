@@ -2,11 +2,8 @@ import * as React from 'react';
 import { flushSync } from 'react-dom';
 import { Set } from 'immutable';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
-
 import Connector from './Connector/Connector';
-import PanelWrapper from './PanelWrapper';
+import PanelWrapper from '../Panel/PanelWrapper';
 import Marquee from './Marquee';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
@@ -136,7 +133,8 @@ const WorkArea = (props) => {
 		const connected = e.target.classList.contains('Connected');
 		const onWorkArea = e.target.classList.contains('WorkArea');
 
-		const draggingPanel = e.target.classList.contains('Panel') || e.target.classList.contains('Title');
+		const draggingPanel = e.target.classList.contains('Title');
+		const resizingPanel = e.target.closest('.Resizer');
 		const draggingWorkArea = onWorkArea && !e.shiftKey;
 		const selectingArea = onWorkArea && e.shiftKey;
 		const creatingInputConnection = e.target.classList.contains('InputEndpoint') && !connected;
@@ -146,6 +144,7 @@ const WorkArea = (props) => {
 
 		if (
 			!draggingPanel &&
+			!resizingPanel &&
 			!draggingWorkArea &&
 			!selectingArea &&
 			!creatingInputConnection &&
@@ -154,10 +153,30 @@ const WorkArea = (props) => {
 			// !detachingOutputConnection
 		) return;
 
-		if (draggingPanel) {
+		if (resizingPanel) {
 			const panel = e.target.closest('.Panel');
 			const panelId = parseInt(panel.dataset.key);
 
+			setDragCoords({
+				isDragging: true,
+				what: 'panel-resizer',
+				el: panel,
+				o: {
+					x: Number(e.pageX),
+					y: Number(e.pageY)
+				},
+				c: {
+					x: panels[panelId].width,
+					y: panels[panelId].height
+				}
+			});
+
+			return;
+		}
+
+		if (draggingPanel) {
+			const panel = e.target.closest('.Panel');
+			const panelId = parseInt(panel.dataset.key);
 			const panelIdsToMove = getPanelIdsToMove(panelId);
 			const selectedPanelsAnchors = getAnchorsPointsFor(panelIdsToMove);
 
@@ -296,6 +315,32 @@ const WorkArea = (props) => {
 		if (!dragCoords.isDragging && (connectorAnchor == null)) return;
 
 		console.log('mouse move', dragCoords.what);
+
+		if (dragCoords.isDragging && dragCoords.what == 'panel-resizer') {
+			const distance = {
+				dx: e.clientX - dragCoords.o.x,
+				dy: e.clientY - dragCoords.o.y
+			};
+
+			const panelId = Number(dragCoords.el.dataset.key);
+
+			const updates = {
+				[panelId]: {
+					...panels[panelId],
+					width: dragCoords.c.x + distance.dx,
+					height: dragCoords.c.y + distance.dy
+				}
+			};
+
+			console.log('panel-resizer', );
+
+			setPanels((panels) => ({
+				...panels,
+				...updates
+			}));
+
+			return false;
+		}
 
 		if (dragCoords.isDragging && dragCoords.what == 'panels') {
 			const func = (props.snap ? snapping : linear);

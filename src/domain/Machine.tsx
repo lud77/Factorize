@@ -308,14 +308,13 @@ const Machine = ({
 
         position = (position + 20) % 100;
 
-        const defaults = {
-            width: 134,
-            height: 84
-        };
-
         const newPanel = {
-            ...defaults,
+            width: 134,
+            height: 84,
+            resizer: 'none',
             ...panel,
+            minWidth: panel.width || 134,
+            minHeight: panel.height || 84,
             panelId,
             inputRefs,
             inputEpByRef,
@@ -331,6 +330,12 @@ const Machine = ({
             outputTypeByEp,
             title: `${panelType} ${panelId}`
         };
+
+        if (newPanel.resizer != 'none') {
+            const resizerHeight = 9;
+            newPanel.height += resizerHeight;
+            newPanel.minHeight += resizerHeight;
+        }
 
         const newPanelCoords = {
             panelId,
@@ -370,6 +375,7 @@ const Machine = ({
                 [panelId]: {
                     ...panel,
                     height: panel.height + 21,
+                    minHeight: panel.minHeight + 21,
                     [registry]: [
                         ...panel[registry],
                         [ep, epRef, label, name, type]
@@ -415,6 +421,7 @@ const Machine = ({
                 [panelId]: {
                     ...panel,
                     height: panel.height + 21,
+                    minHeight: panel.minHeight + 21,
                     [registry]: [
                         ...panel[registry],
                         [ep, epRef, label, name, type]
@@ -468,6 +475,7 @@ const Machine = ({
                 [panelId]: {
                     ...panel,
                     height: panel.height - 21,
+                    minHeight: panel.minHeight - 21,
                     [registry]: panel[registry].filter(([candidateEp]) => candidateEp != ep),
                     inputRefs: { ...panel.inputRefs },
                     inputEpByRef: { ...panel.inputEpByRef },
@@ -499,6 +507,7 @@ const Machine = ({
                 [panelId]: {
                     ...panel,
                     height: panel.height - 21,
+                    minHeight: panel.minHeight - 21,
                     [registry]: panel[registry].filter(([candidateEp]) => candidateEp != ep),
                     outputRefs: { ...panel.outputRefs },
                     outputEpByRef: { ...panel.outputEpByRef },

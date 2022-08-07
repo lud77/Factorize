@@ -5,6 +5,9 @@
 
 .Panel {
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     font-size: var(--panel-font-size);
     padding: 5px;
     border-radius: 10px;
@@ -42,6 +45,23 @@
 .Panel .Row {
     display: flex;
     flex-wrap: wrap;
+    flex-grow: 10;
+}
+
+.Panel .Resizer {
+    opacity: .3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    flex-grow: 1;
+    cursor: nwse-resize;
+}
+
+.Panel .Resizer .Handle {
+    width: auto;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
 }
 
 .Panel .Item {
