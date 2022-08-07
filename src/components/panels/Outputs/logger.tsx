@@ -19,7 +19,8 @@ const create = (panelId: number): Panel => {
             backgroundColor: 'var(--background)',
             flexGrow: 1,
             display: 'block',
-            marginTop: '2px'
+            marginTop: '2px',
+            borderRadius: '5px'
         };
 
         return <>
@@ -34,7 +35,7 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Clear" panelId={panelId} signal="Pulse" description="Clear the [Contents]" {...props}>Clear</InputEndpoint>
             </div>
             <div className="Row" style={displayStyle}>
-                {props.panel.outputEpValues.outputContents.split('\n').map((str) => <p style={{ margin: '0px' }}>{str}</p>)}
+                {String(props.panel.outputEpValues.outputContents || '').split('\n').map((str, i) => <p key={i} style={{ margin: '0px' }}>{str}</p>)}
             </div>
         </>;
     };
@@ -80,6 +81,8 @@ const create = (panelId: number): Panel => {
         onPulse,
         width: 200,
         height: 200,
+        minWidth: 120,
+        minHeight: 150,
         resizer: 'both'
     } as Panel;
 };

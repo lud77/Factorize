@@ -24,7 +24,7 @@ const create = (panelId: number): Panel => {
             display: 'block',
             resize: 'none',
             marginBottom: '2px',
-            borderRadius: '4px'
+            borderRadius: '5px'
         };
 
         const textAreaStyle = {
@@ -33,7 +33,7 @@ const create = (panelId: number): Panel => {
 
         return <>
             <div className="Row" style={textAreaStyle}>
-                <textarea style={rowStyle} onChange={handleChange(props)}>{props.panel.outputEpValues.outputText}</textarea>
+                <textarea style={rowStyle} onChange={handleChange(props)} value={props.panel.outputEpValues.outputText} />
             </div>
             <div className="Row">
                 <OutputEndpoint name="Text" panelId={panelId} {...props}>Text</OutputEndpoint>
@@ -65,6 +65,8 @@ const create = (panelId: number): Panel => {
         execute,
         width: 200,
         height: 200,
+        minWidth: 120,
+        minHeight: 120,
         resizer: 'both'
     } as Panel;
 };
