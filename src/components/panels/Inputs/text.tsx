@@ -15,15 +15,25 @@ const create = (panelId: number): Panel => {
     };
 
     const Component = (props) => {
+        const rowStyle = {
+            fontFamily: 'courier',
+            fontSize: '15px',
+            lineHeight: '15px',
+            width: '100%',
+            flexGrow: 1,
+            display: 'block',
+            resize: 'none',
+            marginBottom: '2px',
+            borderRadius: '4px'
+        };
+
+        const textAreaStyle = {
+            flexGrow: 1
+        };
+
         return <>
-            <div className="Row">
-                <div className="InteractiveItem">
-                    <input
-                        type="text"
-                        onChange={handleChange(props)}
-                        value={ props.panel.outputEpValues.outputNumber }
-                        />
-                </div>
+            <div className="Row" style={textAreaStyle}>
+                <textarea style={rowStyle} onChange={handleChange(props)}>{props.panel.outputEpValues.outputText}</textarea>
             </div>
             <div className="Row">
                 <OutputEndpoint name="Text" panelId={panelId} {...props}>Text</OutputEndpoint>
@@ -52,7 +62,10 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         Component,
-        execute
+        execute,
+        width: 200,
+        height: 200,
+        resizer: 'both'
     } as Panel;
 };
 

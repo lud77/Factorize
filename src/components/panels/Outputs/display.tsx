@@ -27,7 +27,7 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
             </div>
             <div className="Row" style={displayStyle}>
-                {props.panel.inputEpValues.inputValue.split('\n').map((str) => <p style={{ margin: '0px' }}>{str}</p>)}
+                {props.panel.inputEpValues.inputValue.split('\n').map((str) => <p style={{ margin: '0px', height: '20px' }}>{str}</p>)}
             </div>
         </>;
     };
