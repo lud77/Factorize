@@ -12,12 +12,12 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         const displayStyle = {
             fontFamily: 'courier',
-            fontSize: '35px',
-            lineHeight: '35px',
-            height: '35px',
-            textAlign: 'center',
+            fontSize: '20px',
+            lineHeight: '20px',
+            overflowY: 'scroll',
             width: '100%',
-            overflow: 'hidden'
+            backgroundColor: 'var(--background)',
+            flexGrow: 1
         };
 
         return <>
@@ -28,8 +28,8 @@ const create = (panelId: number): Panel => {
             <div className="Row">
                 <InputEndpoint name="Message" panelId={panelId} {...props}>Message</InputEndpoint>
             </div>
-            <div className="Row">
-                <span style={displayStyle}>{`${props.panel.outputEpValues.outputContents}`}</span>
+            <div className="Row" style={displayStyle}>
+                {`${props.panel.outputEpValues.outputContents}`}
             </div>
         </>;
     };
@@ -68,6 +68,8 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse,
+        width: 200,
+        height: 200,
         resizer: 'both'
     } as Panel;
 };

@@ -45,7 +45,6 @@
 .Panel .Row {
     display: flex;
     flex-wrap: wrap;
-    flex-grow: 10;
 }
 
 .Panel .Resizer {
@@ -53,7 +52,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    flex-grow: 1;
     cursor: nwse-resize;
 }
 

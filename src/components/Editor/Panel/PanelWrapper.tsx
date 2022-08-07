@@ -34,14 +34,12 @@ const PanelWrapper = (props) => {
             onClick={props.onSelect}
             >
             <div className="Title" title={ panel.title }>{panel.title || '\u00A0'}</div>
-            <div className="Body">
-                <panel.Component
-                    panel={panel}
-                    machine={machine}
-                    connections={connections}
-                    connectorAnchor={connectorAnchor}
-                    />
-            </div>
+            <panel.Component
+                panel={panel}
+                machine={machine}
+                connections={connections}
+                connectorAnchor={connectorAnchor}
+                />
             {
                 hasResizer
                     ? <div className="Resizer">
