@@ -1,3 +1,4 @@
+import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
@@ -11,20 +12,22 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         const displayStyle = {
             fontFamily: 'courier',
-            fontSize: '35px',
-            lineHeight: '35px',
-            height: '35px',
-            textAlign: 'center',
+            fontSize: '20px',
+            lineHeight: '20px',
+            overflowY: 'scroll',
             width: '100%',
-            overflow: 'hidden'
+            backgroundColor: 'var(--background)',
+            flexGrow: 1,
+            display: 'block',
+            marginTop: '2px'
         };
 
         return <>
             <div className="Row">
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
             </div>
-            <div className="Row">
-                <span style={displayStyle}>{`${props.panel.inputEpValues.inputValue}`}</span>
+            <div className="Row" style={displayStyle}>
+                {props.panel.inputEpValues.inputValue.split('\n').map((str) => <p style={{ margin: '0px' }}>{str}</p>)}
             </div>
         </>;
     };
@@ -46,7 +49,10 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         Component,
-        execute
+        execute,
+        width: 200,
+        height: 200,
+        resizer: 'both'
     } as Panel;
 };
 
