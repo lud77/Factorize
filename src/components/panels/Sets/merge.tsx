@@ -25,7 +25,7 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <div className="InteractiveItem">
-                    <button onClick={handleClick(props)}>+</button>
+                    <button className="Button" onClick={handleClick(props)}>+</button>
                 </div>
             </div>
             <div className="Row">

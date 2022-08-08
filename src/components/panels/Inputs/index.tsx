@@ -1,10 +1,10 @@
 import FilePath from './filePath';
-import Text from './text';
+import Text from './text/text';
 import Number from './number';
 import Toggle from './toggle';
-import Range from './range';
+import Range from './range/range';
 import Knob from './knob';
-import ColorPicker from './colorPicker';
+import ColorPicker from './colorPicker/colorPicker';
 
 export default {
     Toggle,

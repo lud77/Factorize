@@ -44,7 +44,7 @@ const create = (panelId: number): Panel => {
         signal: 'Value'
     }];
 
-    const execute = (panel, inputs, { setPanels }) => {
+    const execute = (panel, inputs) => {
         return {
             outputValue: inputs.tuningValue
         };

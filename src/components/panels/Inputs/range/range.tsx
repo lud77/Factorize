@@ -1,18 +1,17 @@
 import * as React from 'react';
 
-import { Panel } from '../../../types/Panel';
+import { Panel } from '../../../../types/Panel';
 
-import InputEndpoint from '../../Editor/Panel/InputEndpoint';
-import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import InputEndpoint from '../../../Editor/Panel/InputEndpoint';
+import OutputEndpoint from '../../../Editor/Panel/OutputEndpoint';
 
-import './colorPicker.css';
+import './range.css';
 
-const panelType = 'ColorPicker';
+const panelType = 'Range';
 
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
-        console.log('new color', e.target.value);
-        machine.executePanelLogic(panelId, { tuningColor: e.target.value });
+        machine.executePanelLogic(panelId, { tuningValue: parseInt(e.target.value) / 100 });
 
         return true;
     };
@@ -21,17 +20,19 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <div className="InteractiveItem">
-                    <div className="ColorPicker">
+                    <div className="Range">
                         <input
-                            type="color"
+                            type="range"
+                            min={0}
+                            max={100}
                             onChange={handleChange(props)}
-                            value={ props.panel.outputEpValues.outputHex }
+                            value={ props.panel.outputEpValues.outputValue * 100 }
                             />
                     </div>
                 </div>
             </div>
             <div className="Row">
-                <OutputEndpoint name="Hex" panelId={panelId} {...props}>Hex</OutputEndpoint>
+                <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
             </div>
         </>;
     };
@@ -39,15 +40,15 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [];
 
     const outputEndpoints = [{
-        name: 'Hex',
-        defaultValue: '#ffffff',
-        type: 'string',
+        name: 'Value',
+        defaultValue: .5,
+        type: 'number',
         signal: 'Value'
     }];
 
     const execute = (panel, inputs) => {
         return {
-            outputHex: inputs.tuningColor
+            outputValue: inputs.tuningValue
         };
     };
 
@@ -57,8 +58,7 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         Component,
-        execute,
-        height: 84
+        execute
     } as Panel;
 };
 

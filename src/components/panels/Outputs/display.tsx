@@ -49,8 +49,8 @@ const create = (panelId: number): Panel => {
             <div className="Row">
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
                 <div className="InteractiveItem" style={{ textAlign: 'right' }}>
-                    <button title="Increase font size" onClick={handleClickPlus(props)} style={{ width: '2em', marginRight: '1px' }}>+</button>
-                    <button title="Decrease font size" onClick={handleClickMinus(props)} style={{ width: '2em' }}>-</button>
+                    <button className="Button" title="Increase font size" onClick={handleClickPlus(props)} style={{ width: '2em', marginRight: '1px' }}>+</button>
+                    <button className="Button" title="Decrease font size" onClick={handleClickMinus(props)} style={{ width: '2em' }}>-</button>
                 </div>
             </div>
             <div className="Row" style={displayStyle}>
