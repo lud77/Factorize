@@ -10,6 +10,8 @@ import Led from '../../Led/Led';
 const panelType = 'Led';
 
 const create = (panelId: number): Panel => {
+    const isFloat = (x) => typeof x === 'number' && !isNaN(x) && !Number.isInteger(x);
+
     const Component = (props) => {
 
         return <>
@@ -18,7 +20,7 @@ const create = (panelId: number): Panel => {
             </div>
             <div className="Row">
                 {
-                    (props.panel.inputEpValues.inputHue == null)
+                    (props.panel.inputEpValues.inputHue == null || !isFloat(props.panel.inputEpValues.inputHue))
                         ? <Led status="Inactive" />
                         : <Led hue={props.panel.inputEpValues.inputHue} />
                 }
