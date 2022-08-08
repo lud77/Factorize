@@ -10,10 +10,19 @@ import './range.css';
 const panelType = 'Range';
 
 const create = (panelId: number): Panel => {
+    const clamp = (v) => Math.max(0, Math.min(1, v));
+
     const handleChange = ({ panel, machine }) => (e) => {
         machine.executePanelLogic(panelId, { tuningValue: parseInt(e.target.value) / 100 });
 
         return true;
+    };
+
+    const handleMouseWheel = ({ panel, machine }) => (e) => {
+        const currentValue = panel.outputEpValues.outputValue != null ? panel.outputEpValues.outputValue : panel.outputEpDefaults.outputValue;
+        machine.executePanelLogic(panelId, {
+            tuningValue: clamp(currentValue - e.deltaY / 3000)
+        });
     };
 
     const Component = (props) => {
@@ -26,6 +35,7 @@ const create = (panelId: number): Panel => {
                             min={0}
                             max={100}
                             onChange={handleChange(props)}
+                            onWheel={handleMouseWheel(props)}
                             value={ props.panel.outputEpValues.outputValue * 100 }
                             />
                     </div>
