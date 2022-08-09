@@ -5,17 +5,17 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const panelType = 'Array';
+const panelType = 'List';
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="AddLast" panelId={panelId} signal="Pulse" description="Add the input [Value] at the end the [Array]" {...props}>Add Last</InputEndpoint>
-                <OutputEndpoint name="Array" panelId={panelId} {...props}>Array</OutputEndpoint>
+                <InputEndpoint name="AddLast" panelId={panelId} signal="Pulse" description="Add the input [Value] at the end the [List]" {...props}>Add Last</InputEndpoint>
+                <OutputEndpoint name="List" panelId={panelId} {...props}>List</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="AddFirst" panelId={panelId} signal="Pulse" description="Add the input [Value] at the beginning the [Array]" {...props}>Add First</InputEndpoint>
+                <InputEndpoint name="AddFirst" panelId={panelId} signal="Pulse" description="Add the input [Value] at the beginning the [List]" {...props}>Add First</InputEndpoint>
                 <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
             </div>
             <div className="Row">
@@ -23,16 +23,16 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Size" panelId={panelId} {...props}>Size</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="PickLast" panelId={panelId} signal="Pulse" description="Remove the last element of [Array] and expose it as the output [Value]" {...props}>Pick Last</InputEndpoint>
+                <InputEndpoint name="PickLast" panelId={panelId} signal="Pulse" description="Remove the last element of [List] and expose it as the output [Value]" {...props}>Pick Last</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="PickFirst" panelId={panelId} signal="Pulse" description="Remove the first element of [Array] and expose it as the output [Value]" {...props}>Pick First</InputEndpoint>
+                <InputEndpoint name="PickFirst" panelId={panelId} signal="Pulse" description="Remove the first element of [List] and expose it as the output [Value]" {...props}>Pick First</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Store" panelId={panelId} signal="Pulse" description="Replace the [Array] with the one in the input [Value]" {...props}>Store</InputEndpoint>
+                <InputEndpoint name="Store" panelId={panelId} signal="Pulse" description="Replace the [List] with the one in the input [Value]" {...props}>Store</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Empty the [Array]" {...props}>Reset</InputEndpoint>
+                <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Empty the [List]" {...props}>Reset</InputEndpoint>
             </div>
         </>;
     };
@@ -63,7 +63,7 @@ const create = (panelId: number): Panel => {
     }];
 
     const outputEndpoints = [{
-        name: 'Array',
+        name: 'List',
         defaultValue: [],
         type: 'array',
         signal: 'Value'
@@ -83,40 +83,40 @@ const create = (panelId: number): Panel => {
         switch (ep) {
             case 'inputAddLast':
                 return {
-                    outputArray: [ ...panel.outputEpValues.outputArray, panel.inputEpValues.inputValue ],
+                    outputList: [ ...panel.outputEpValues.outputList, panel.inputEpValues.inputValue ],
                     outputValue: null,
-                    outputSize: panel.outputEpValues.outputArray.length + 1
+                    outputSize: panel.outputEpValues.outputList.length + 1
                 };
             case 'inputAddFirst':
                 return {
-                    outputArray: [ panel.inputEpValues.inputValue, ...panel.outputEpValues.outputArray ],
+                    outputList: [ panel.inputEpValues.inputValue, ...panel.outputEpValues.outputList ],
                     outputValue: null,
-                    outputSize: panel.outputEpValues.outputArray.length + 1
+                    outputSize: panel.outputEpValues.outputList.length + 1
                 };
             case 'inputPickLast':
-                const lastValue = panel.outputEpValues.outputArray.length > 0 ? panel.outputEpValues.outputArray.pop() : '';
+                const lastValue = panel.outputEpValues.outputList.length > 0 ? panel.outputEpValues.outputList.pop() : '';
                 return {
-                    outputArray: [ ...panel.outputEpValues.outputArray ],
+                    outputList: [ ...panel.outputEpValues.outputList ],
                     outputValue: lastValue,
-                    outputSize: panel.outputEpValues.outputArray.length
+                    outputSize: panel.outputEpValues.outputList.length
                 };
             case 'inputPickFirst':
-                const firstValue = panel.outputEpValues.outputArray.length > 0 ? panel.outputEpValues.outputArray.shift() : '';
+                const firstValue = panel.outputEpValues.outputList.length > 0 ? panel.outputEpValues.outputList.shift() : '';
                 return {
-                    outputArray: [ ...panel.outputEpValues.outputArray ],
+                    outputList: [ ...panel.outputEpValues.outputList ],
                     outputValue: firstValue,
-                    outputSize: panel.outputEpValues.outputArray.length
+                    outputSize: panel.outputEpValues.outputList.length
                 };
             case 'inputStore':
                 if (!Array.isArray(panel.inputEpValues.inputValue)) return {};
                 return {
-                    outputArray: panel.inputEpValues.inputValue,
+                    outputList: panel.inputEpValues.inputValue,
                     outputValue: null,
                     outputSize: panel.inputEpValues.inputValue.length
                 };
             case 'inputReset':
                 return {
-                    outputArray: [],
+                    outputList: [],
                     outputValue: null,
                     outputSize: 0
                 };
