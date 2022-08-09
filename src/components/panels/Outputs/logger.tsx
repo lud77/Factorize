@@ -30,7 +30,7 @@ const create = (panelId: number): Panel => {
             fontFamily: 'courier',
             fontSize: `${fontSize}px`,
             lineHeight: `${fontSize}px`,
-            overflowY: 'scroll',
+            overflow: 'auto',
             width: '100%',
             backgroundColor: 'var(--background)',
             flexGrow: 1,
