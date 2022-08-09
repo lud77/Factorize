@@ -11,7 +11,7 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Array" panelId={panelId} {...props}>Array</InputEndpoint>
+                <InputEndpoint name="List" panelId={panelId} {...props}>List</InputEndpoint>
                 <OutputEndpoint name="Text" panelId={panelId} {...props}>Text</OutputEndpoint>
             </div>
             <div className="Row">
@@ -21,7 +21,7 @@ const create = (panelId: number): Panel => {
     };
 
     const inputEndpoints = [{
-        name: 'Array',
+        name: 'List',
         default: [],
         type: 'array',
         signal: 'Value'
@@ -40,10 +40,10 @@ const create = (panelId: number): Panel => {
     }];
 
     const execute = (panel, values) => {
-        if (!Array.isArray(values.inputArray)) return values;
+        if (!Array.isArray(values.inputList)) return values;
 
         const separator = String(values.inputSeparator);
-        return { outputText: values.inputArray.join(separator) };
+        return { outputText: values.inputList.join(separator) };
     };
 
     return {

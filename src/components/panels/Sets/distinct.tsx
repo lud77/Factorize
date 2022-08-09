@@ -11,14 +11,14 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Array" panelId={panelId} {...props}>Array</InputEndpoint>
+                <InputEndpoint name="List" panelId={panelId} {...props}>List</InputEndpoint>
                 <OutputEndpoint name="Distinct" panelId={panelId} {...props}>Distinct</OutputEndpoint>
             </div>
         </>;
     };
 
     const inputEndpoints = [{
-        name: 'Array',
+        name: 'List',
         defaultValue: [],
         type: 'array',
         signal: 'Value'
@@ -32,8 +32,8 @@ const create = (panelId: number): Panel => {
     }];
 
     const execute = (panel, values) => {
-        if (!Array.isArray(values.inputArray)) return { outputDistinct: [] };
-        return { outputDistinct: Array.from(new Set(values.inputArray)) };
+        if (!Array.isArray(values.inputList)) return { outputDistinct: [] };
+        return { outputDistinct: Array.from(new Set(values.inputList)) };
     };
 
     return {
