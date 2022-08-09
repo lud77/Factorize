@@ -10,7 +10,7 @@ import Led from '../../Led/Led';
 const panelType = 'Led';
 
 const create = (panelId: number): Panel => {
-    const isFloat = (x) => typeof x === 'number' && !isNaN(x) && !Number.isInteger(x);
+    const isFloat = (x) => typeof x === 'number' && !isNaN(x);
 
     const Component = (props) => {
 
