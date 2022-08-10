@@ -18,9 +18,7 @@ const create = (panelId: number): Panel => {
     };
 
     const Component = (props) => {
-        const { inputDice, inputFaces } = props.panel.inputEpValues;
-
-        return <>
+         return <>
             <div className="Row">
                 <div className="InteractiveItem">
                     <PushButton onClick={handleClick(props)}>Emit</PushButton>

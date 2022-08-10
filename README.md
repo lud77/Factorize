@@ -40,7 +40,7 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [x] INPUT: Button: (UI -> Pulse) send a pulse when user presses button
     - [x] FLOW: If: (Value -> Pulse) send pulse along Then or Else branches based on value of expression
     - [x] FLOW: Delta: (Value -> Pulse) send a pulse when input changes
-    - [x] OUTPUT: Led: (Value -> UI) turn on a led if the value is non-zero
+    - [x] OUTPUT: Semaphore: (Value -> UI) turn on a led if the value is non-null, red or green depending on truthy value
     - [x] OUTPUT: Logfile: (Value + Pulse -> OS) append message to file
     - [x] INPUT: Deviator: (Value + Value -> Value) The output to 1 of N inputs based on the value of another input
     - [ ] FLOW: Delay: (Pulse -> X secs -> Pulse)
@@ -52,20 +52,22 @@ as ```npm install``` produces an error when trying to resolve webpack
     - [x] INPUT: Knob with inputs for min, max, and step
     - [x] INPUT: Range with inputs for min, max, and step
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
-    - [ ] OUTPUT: DisplayLog (a more complex mix of Display and LogFile that keeps N lines of text and adds a new line upon receiving a Pulse)
-    - [ ] OUTPUT: Similar to led strip but with color input
+    - [x] OUTPUT: Logger: (a more complex mix of Display and LogFile that keeps N lines of text and adds a new line upon receiving a Pulse)
+    - [x] OUTPUT: Led: Similar to Semaphore but with color input
     - [x] SOURCES: (Pulse -> Value) Fetch Current Date
     - [x] SOURCES: (Pulse -> Value) Fetch Current Time
     - [x] SOURCES: (Pulse -> Value) Fetch Random number between 0 and 1
     - [x] SOURCES: (Pulse -> Value) Fetch Current timestamp
+    - [ ] SOURCES: Text file, line by line
     - [x] FLOW: Gate (pass transistor)
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
     - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
-        - [x] Basic Array panel
+        - [x] Basic Array panel (List)
             - [x] Add Pop, Shift, Unshift pins
         - [x] Merge
         - [x] Intersection
         - [x] Unique (Distinct)
+        - [x] Basic Object panel (Dictionary)
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 
@@ -99,3 +101,30 @@ as ```npm install``` produces an error when trying to resolve webpack
 - If possible decouple UI panels from Pulse-activated panels
 
 - When having a UI panel that also has Pulse-type inputs pins, the two avenues of activation may end up overwriting each other's outputs causing bugs
+
+
+
+--- NAMES
+
+stress on purpose (automation, coding, workflow, dataflow, hacking, event-driven)
+
+    automatic
+    autonomous
+
+    mono-
+    poly-
+    multi-
+
+    blackbox
+
+    hackomatic
+    hackomation
+
+stress on approach (custom wiring of modular elements)
+
+    wiring
+    cable
+    modular
+    hardcoded
+    factorization
+    meta

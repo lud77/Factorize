@@ -198,8 +198,8 @@ const Machine = ({
                                 if (!targetPanel) return null;
 
                                 const ep = targetPanel.inputEpByRef[connection.target];
-                                const updates = targetPanel.onPulse(ep, targetPanel, { sendPulseTo });
-
+                                const updates = targetPanel.onPulse(ep, targetPanel, { sendPulseTo, executePanelLogic });
+                                console.log('sendPulseTo', updates);
                                 return {
                                     [targetPanel.panelId]: {
                                         ...targetPanel,

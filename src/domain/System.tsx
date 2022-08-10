@@ -4,6 +4,39 @@ const quit = () => {
     ipcRenderer.send('api:terminate-app');
 };
 
+const openTextFile = (filePath) => {
+    return new Promise((resolve) => {
+        ipcRenderer.once('api:file-handler', (e, msg) => {
+            console.log('received', msg);
+
+            resolve(msg);
+        });
+        ipcRenderer.send('api:open-file', filePath);
+    });
+};
+
+const closeTextFile = (handler) => {
+    return new Promise((resolve) => {
+        ipcRenderer.once('api:ack', (e, msg) => {
+            console.log('received ack');
+
+            resolve(null);
+        });
+        ipcRenderer.send('api:close-file', handler);
+    });
+};
+
+const readTextLine = (fileHandler) => {
+    return new Promise((resolve) => {
+        ipcRenderer.once('api:file-line', (e, msg) => {
+            console.log('received - api:file-line', msg.data);
+
+            resolve(msg.data);
+        });
+        ipcRenderer.send('api:read-line-from-file', fileHandler);
+    });
+};
+
 const openFileDialog = (options = {}) => {
     return new Promise((resolve) => {
         ipcRenderer.send('api:select-file-open', options);
@@ -65,5 +98,8 @@ export default {
     writeFile,
     appendToFile,
     readFile,
-    readImageFile
+    readImageFile,
+    openTextFile,
+    closeTextFile,
+    readTextLine
 };

@@ -40,8 +40,7 @@ const create = (panelId: number): Panel => {
         };
 
         const paragraphStyle = {
-            margin: '1px',
-            height: `${fontSize}px`
+            margin: '1px'
         };
 
         return <>

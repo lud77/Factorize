@@ -1,12 +1,14 @@
 const fs = require('fs').promises;
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
-
+const nreadlines = require('n-readlines');
 const { getImageDimensions } = require('./utils');
 
 const filters = [
     { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
     { name: 'Factorize', extensions: ['plan'] }
 ];
+
+const fileHandlers = [];
 
 const addServices = (win) => {
     ipcMain.on('api:terminate-app', () => {
@@ -116,6 +118,57 @@ const addServices = (win) => {
             })
             .catch((e) => {
                 console.log('error while reading file', e);
+            });
+    });
+
+    ipcMain.on('api:open-file', (event, filePath) => {
+        console.log('open-file', filePath);
+        Promise.resolve()
+            .then(() => {
+                const lineReader = new nreadlines(filePath);
+                const fileHandler = fileHandlers.push(lineReader) - 1;
+                console.log('generated new fileHandler', fileHandler);
+                return fileHandler;
+            })
+            .then((fileHandler) => {
+                win.webContents.send('api:file-handler', fileHandler);
+            })
+            .catch((e) => {
+                console.log('error while opening file', e);
+            });
+    });
+
+    ipcMain.on('api:close-file', (event, fileHandler) => {
+        console.log('close-file', fileHandler);
+        Promise.resolve()
+            .then(() => {
+                if (!fileHandlers[fileHandler]) throw new Error('Line reader not found');
+
+                delete fileHandlers[fileHandler];
+                win.webContents.send('api:ack', {});
+            })
+            .catch((e) => {
+                console.log('error while closing file', e);
+            });
+    });
+
+    ipcMain.on('api:read-line-from-file', (event, fileHandler) => {
+        Promise.resolve()
+            .then(() => {
+                console.log('fileHandler', fileHandler);
+                if (!fileHandlers[fileHandler]) throw new Error('Line reader not found');
+
+                console.log('fileHandlers', fileHandlers);
+                const line = fileHandlers[fileHandler].next();
+
+                if (!line) return null;
+                return line.toString('utf-8');
+            })
+            .then((textLine) => {
+                win.webContents.send('api:file-line', { data: textLine });
+            })
+            .catch((e) => {
+                console.log('error while reading from file', e);
             });
     });
 

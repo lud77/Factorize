@@ -9,6 +9,7 @@ button.PushButton {
     border-radius: 4px;
     box-shadow: 0 5px var(--blue-ll);
     margin-bottom: 5px;
+    width: 100%;
 }
 
 button.PushButton:hover {
