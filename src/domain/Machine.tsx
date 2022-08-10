@@ -125,7 +125,7 @@ const Machine = ({
     };
 
     const executePanelLogic = (panelId, valueUpdates: object | null = null) => {
-        console.log('executePanelLogic - valueUpdates', panelId, valueUpdates);
+        console.log('executePanelLogic - panelId, valueUpdates', panelId, valueUpdates);
 
         if (valueUpdates != null) {
             updateInputValues(panelId, valueUpdates);

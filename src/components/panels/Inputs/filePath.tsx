@@ -56,7 +56,9 @@ const create = (panelId: number): Panel => {
     }];
 
     const execute = (panel, inputs) => {
-        return { outputPath: inputs.tuningFilePath };
+        if (inputs.tuningFilePath) return { outputPath: inputs.tuningFilePath };
+
+        return inputs;
     };
 
     return {

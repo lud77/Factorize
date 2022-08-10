@@ -74,7 +74,8 @@ const Editor = (props) => {
         endpointIdSequence,
         clearAllTimers: timers.clearAllTimers,
         sendPulseTo,
-        timers
+        timers,
+        executePanelLogic
     });
 
     const walker = Walker({

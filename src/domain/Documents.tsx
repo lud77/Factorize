@@ -14,7 +14,8 @@ const Documents = ({
     endpointIdSequence,
     clearAllTimers,
     sendPulseTo,
-    timers
+    timers,
+    executePanelLogic
 }) => {
     const packDocument = ({ panels, panelCoords, connections, workAreaOffset }) => {
         const purgedPanels =
@@ -107,16 +108,17 @@ const Documents = ({
         const panels = mostRecent(setPanels);
 
         Object.values(panels).reduce((chain, panel) => {
-            console.log('executing', panel);
-            return chain.then(() => {
-                console.log('adding to chain', panel);
-                return panel.execute(panel, { ...panel.inputEpValues || {} }, {
-                    setPanels,
-                    sendPulseTo,
-                    timers
-                })
-            });
-            // return chain.then(() => executePanelLogic(panel.panelId));
+            console.log('adding to chain', panel);
+            return chain
+            //     .then(() => {
+            //         console.log('executing', panel);
+            //         return panel.execute(panel, { ...panel.inputEpValues || {} }, {
+            //             setPanels,
+            //             sendPulseTo,
+            //             timers
+            //         });
+            //     });
+                .then(() => executePanelLogic(panel.panelId))
         }, Promise.resolve());
     };
 

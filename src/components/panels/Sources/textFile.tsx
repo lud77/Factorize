@@ -54,6 +54,8 @@ const create = (panelId: number): Panel => {
         signal: 'Value'
     }];
 
+    const expunge = ['outputFileHandler'];
+
     const onPulse = (ep, panel, { sendPulseTo, executePanelLogic }) => {
         switch (ep) {
             case 'inputRead':
@@ -82,7 +84,7 @@ const create = (panelId: number): Panel => {
                         return System.closeTextFile(panel.outputEpValues.outputFileHandler);
                     })
                     .then(() => {
-                        return System.openTextFile(panel.inputEpValues.inputFile)
+                        return System.openTextFile(panel.inputEpValues.inputFile);
                     })
                     .then((receivedFileHandler) => {
                         return executePanelLogic(panel.panelId, { receivedFileHandler });
@@ -93,8 +95,9 @@ const create = (panelId: number): Panel => {
     };
 
     const execute = (panel, values) => {
-        console.log('execute textFile', panel.outputEpValues.outputFileHandler, values.receivedFileHandler);
+        console.log('execute textFile', panel.outputEpValues, values);
         if (values.receivedFileHandler) {
+            console.log('values.receivedFileHandler', values.receivedFileHandler);
             return { outputFileHandler: values.receivedFileHandler };
         }
 
@@ -124,8 +127,15 @@ const create = (panelId: number): Panel => {
             }
         }
 
+        console.log('values.receivedLine', values.receivedLine);
         if (values.receivedLine) return { outputLine: values.receivedLine };
         return values;
+    };
+
+    const dispose = (panel, { clearTimer }) => {
+        if (panel.outputEpValues.outputFileHandler != null) {
+            return System.closeTextFile(panel.outputEpValues.outputFileHandler)
+        }
     };
 
     return {
@@ -136,7 +146,8 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse,
-        height: 95
+        height: 95,
+        expunge
     } as Panel;
 };
 

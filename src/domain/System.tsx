@@ -7,7 +7,7 @@ const quit = () => {
 const openTextFile = (filePath) => {
     return new Promise((resolve) => {
         ipcRenderer.once('api:file-handler', (e, msg) => {
-            console.log('received', msg);
+            console.log('received - api:file-handler', msg);
 
             resolve(msg);
         });

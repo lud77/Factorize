@@ -128,6 +128,7 @@ const addServices = (win) => {
                 const lineReader = new nreadlines(filePath);
                 const fileHandler = fileHandlers.push(lineReader) - 1;
                 console.log('generated new fileHandler', fileHandler);
+                console.log('fileHandlers', fileHandlers);
                 return fileHandler;
             })
             .then((fileHandler) => {
@@ -155,10 +156,10 @@ const addServices = (win) => {
     ipcMain.on('api:read-line-from-file', (event, fileHandler) => {
         Promise.resolve()
             .then(() => {
+                console.log('fileHandlers', fileHandlers);
                 console.log('fileHandler', fileHandler);
                 if (!fileHandlers[fileHandler]) throw new Error('Line reader not found');
 
-                console.log('fileHandlers', fileHandlers);
                 const line = fileHandlers[fileHandler].next();
 
                 if (!line) return null;
