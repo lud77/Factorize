@@ -1,5 +1,7 @@
-import ColorConvert from './colorConvert';
+import HexToRGB from './hexToRgb';
+import HexToHSL from './hexToHsl';
 
 export default {
-    ColorConvert
+    HexToRGB,
+    HexToHSL
 };
