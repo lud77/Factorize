@@ -16,29 +16,35 @@
   --green: #189172;
   --purple: #A474C1;
   --red: #CB725C;
-  --gold: #ada257;
+  --yellow: #9A9C3D;
+  --gold: #ADA257;
 
   --blue-hl: #3293cf;
   --green-hl: #42a58c;
   --purple-hl: #bf9fd3;
   --red-hl: #dd9685;
-  --gold-hl: rgb(189, 178, 135);
+  --yellow-hl: #B8BA47;
+  --gold-hl: #BDB287;
 
   --blue-ll: #005d97;
   --green-ll: #046e54;
   --purple-ll: #874cac;
-  --red-ll: #9c4732;
-  --gold-ll: #796e2c;
+  --red-ll: #9C4732;
+  --yellow-ll: #898B36;
+  --gold-ll: #796E2C;
 
   --connection: #ada257;
   --connection-highlight: #bdb287;
 
-  --connection-value: #007BC8;
-  --connection-value-hl: #3293cf;
-  --connection-pulse: #CB725C;
-  --connection-pulse-hl: #ca8776;
-  --connection-stream: #189172;
-  --connection-stream-hl: #42a58c;
+  --connection-value: var(--blue);
+  --connection-value-hl: var(--blue-hl);
+  --connection-pulse: var(--red);
+  --connection-pulse-hl: var(--red-hl);
+  --connection-stream: var(--green);
+  --connection-stream-hl: var(--green-hl);
+  /* FUNCTION ARE JUST A VALUE SIGNAL WITH A DIFFERENT TYPE
+  --connection-function: var(--yellow);
+  --connection-function-hl: var(--yellow-hl); */
 }
 
 body {

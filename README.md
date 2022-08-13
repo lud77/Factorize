@@ -68,6 +68,7 @@ as ```npm install``` produces an error when trying to resolve webpack
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [ ] SOURCES: Socket: socket listener, together with CLI tool to connect and send messages
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 
