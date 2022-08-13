@@ -27,6 +27,7 @@
   ],
   "include": [
     "src",
-    "declaration.d.ts"
+    "declaration.d.ts",
+    "src/components/panels/Outputs/.tsx"
   ]
 }

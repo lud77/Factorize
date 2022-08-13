@@ -80,6 +80,8 @@ as ```npm install``` produces an error when trying to resolve webpack
 - [ ] Make endpoint section in the panels collapsible
 - [x] Lock children (and/or Lock parents?) of a panel OR lock selected panels so they always move together
 - [x] Unlock a panel that had been locked with others
+- [ ] Expose signal of endpoint throught color
+- [ ] Expose type of endpoint throught symbols/letters + tooltip
 
 --- Bugs / Performance
 
