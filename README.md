@@ -5,6 +5,13 @@ To install
 as ```npm install``` produces an error when trying to resolve webpack
 
 
+To send a message to a socket-listener panel, use:
+
+    $ npm run send -- --topic XXXX --message YYYY
+
+where XXXX is the name of the panel's channel and YYYY is the actual message
+
+
 --- System integration
 
 - [~] Main menu' commands
