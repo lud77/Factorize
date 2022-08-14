@@ -106,7 +106,7 @@ const create = (panelId: number): Panel => {
             .then((updates) => ({ ...values, ...updates }));
     };
 
-    // const expunge = [];
+    const expunge = ['isCreated', 'isListening'];
 
     return {
         type: panelType,
@@ -116,7 +116,8 @@ const create = (panelId: number): Panel => {
         width: 120,
         height: 74,
         Component,
-        execute
+        execute,
+        expunge
     } as Panel;
 };
 
