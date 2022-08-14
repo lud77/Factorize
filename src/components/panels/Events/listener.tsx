@@ -124,7 +124,13 @@ const create = (panelId: number): Panel => {
             .then((updates) => ({ ...values, ...updates }));
     };
 
-    const expunge = ['isCreated', 'isListening'];
+    const expunge = ['isCreated', 'isListening', 'serverTopic'];
+
+    const dispose = (panel) => {
+        if (panel.outputEpValues.isCreated != null) {
+            return Sockets.stopAndRemoveServer(panel.outputEpValues.serverTopic);
+        }
+    };
 
     return {
         type: panelType,
@@ -135,7 +141,8 @@ const create = (panelId: number): Panel => {
         height: 74,
         Component,
         execute,
-        expunge
+        expunge,
+        dispose
     } as Panel;
 };
 
