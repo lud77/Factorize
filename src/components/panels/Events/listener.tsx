@@ -61,33 +61,48 @@ const create = (panelId: number): Panel => {
         console.log('values.receivedMessage', values.receivedMessage);
         if (values.receivedMessage) return { outputMessage: values.receivedMessage };
 
-        return Promise.resolve()
-            .then(() => {
-                if (panel.outputEpValues.isCreated && values.inputTopic != panel.inputEpValues.inputTopic) {
-                    console.log('removing old server');
-                    return Sockets.removeServer(panel.inputEpValues.inputTopic)
-                        .then(() => ({ isCreated: false }));
+        const { serverTopic, isCreated, isListening } = panel.outputEpValues;
+
+        return Promise.resolve({ serverTopic, isCreated, isListening })
+            .then((updates) => {
+                console.log('old vs new topic', updates.serverTopic, values.inputTopic);
+                if (updates.isCreated && updates.serverTopic != values.inputTopic) {
+                    console.log('removing old server because topic has changed');
+                    return Sockets.stopAndRemoveServer(updates.serverTopic)
+                        .then(() => ({
+                            serverTopic: undefined,
+                            isCreated: false,
+                            isListening: false
+                        }));
                 }
 
-                return { isCreated: panel.outputEpValues.isCreated };
+                return updates;
             })
             .then((updates) => {
-                if (!panel.outputEpValues.isCreated && values.inputTopic) {
-                    console.log('starting server');
+                console.log('should we create a server?', 'isCreated', updates.isCreated, 'inputActive', values.inputActive, 'inputTopic', values.inputTopic);
+                if (!updates.isCreated && values.inputActive && values.inputTopic) {
+                    console.log('starting server because it\'s not on, but input is active and we have a topic');
                     return Sockets.createServer(values.inputTopic, onMessage(panel, methods))
-                        .then(() => ({ isCreated: true }));
+                        .then(() => ({
+                            serverTopic: values.inputTopic,
+                            isCreated: true,
+                            isListening: false
+                        }));
                 };
 
                 return updates;
             })
             .then((updates) => {
-                if (!panel.outputEpValues.isListening) {
+                if (!updates.isListening) {
                     console.log('server is not yet listening');
 
-                    if (values.inputActive) {
+                    if (values.inputActive && values.inputTopic) {
                         console.log('starting server');
                         return Sockets.startServer(values.inputTopic)
-                            .then(() => ({ ...updates, isListening: true }));
+                            .then(() => ({
+                                ...updates,
+                                isListening: true
+                            }));
                     }
 
                     return updates;
@@ -97,7 +112,10 @@ const create = (panelId: number): Panel => {
                     if (!values.inputActive) {
                         console.log('stopping server');
                         return Sockets.stopServer(values.inputTopic)
-                            .then(() => ({ ...updates, isListening: false }));
+                            .then(() => ({
+                                ...updates,
+                                isListening: false
+                            }));
                     }
 
                     return updates;

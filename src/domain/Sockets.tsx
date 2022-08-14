@@ -37,7 +37,7 @@ const startServer = (topic) => {
     });
 };
 
-const removeServer = (topic) => {
+const stopAndRemoveServer = (topic) => {
     console.log('Sockets - removeServer', topic);
     return new Promise((resolve) => {
         ipcRenderer.once('api:ack', (e, msg) => {
@@ -54,5 +54,5 @@ export default {
     createServer,
     stopServer,
     startServer,
-    removeServer
+    stopAndRemoveServer
 };

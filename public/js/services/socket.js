@@ -83,7 +83,7 @@ const addServices = (win) => {
             .then(() => {
                 if (!topics[topic]) throw new Error('Server not found');
 
-                return topics[topic].stop()
+                return topics[topic].stop();
             })
             .then(() => {
                 delete topics[topic];

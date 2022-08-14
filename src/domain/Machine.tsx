@@ -142,8 +142,8 @@ const Machine = ({
                 };
 
                 return Promise.all([
-                    changes,
                     panel,
+                    changes,
                     panel.execute(
                         panel,
                         changes,
@@ -156,7 +156,7 @@ const Machine = ({
                     )
                 ]);
             })
-            .then(([changes, panel, outputs]) => {
+            .then(([panel, changes, outputs]) => {
                 if (outputs === changes) return;
 
                 const updatedOutputs = {
