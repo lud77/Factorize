@@ -3,7 +3,10 @@ const path = require('path');
 const { Menu, app, BrowserWindow, ipcMain, dialog } = require('electron');
 const isDev = require('electron-is-dev');
 
-const addServices = require('./js/services');
+const addBasicIntegrationServices = require('./js/services/basicIntegration');
+const addFileIOServices = require('./js/services/fileIO');
+const addFileSelectServices = require('./js/services/fileSelect');
+const addSocketServices = require('./js/services/socket');
 
 const createWindow = () => {
     // Create the browser window.
@@ -39,7 +42,10 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady()
     .then(createWindow)
-    .then(addServices)
+    .then(addBasicIntegrationServices)
+    .then(addFileIOServices)
+    .then(addFileSelectServices)
+    .then(addSocketServices)
     .then(() => {
 
     });

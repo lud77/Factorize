@@ -7,7 +7,7 @@ as ```npm install``` produces an error when trying to resolve webpack
 
 To send a message to a socket-listener panel, use:
 
-    $ npm run send -- --topic XXXX --message YYYY
+    $ node bin/send --topic XXXX --message YYYY
 
 where XXXX is the name of the panel's channel and YYYY is the actual message
 
@@ -75,7 +75,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
-    - [ ] SOURCES: Socket: socket listener, together with CLI tool to connect and send messages
+    - [x] EVENTS: Socket: socket listener, together with CLI tool to connect and send messages
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 
@@ -100,6 +100,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Stopping clock connected to dice makes dice output go undefined
 - [x] Deletion of panels must affect also panelCoords
 - [x] Save-files should include position of viewport
+- [ ] Sanitize topic input to listener
 
 --- QA
 
