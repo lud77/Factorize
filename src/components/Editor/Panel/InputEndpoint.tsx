@@ -22,11 +22,20 @@ export default (props) => {
 
     const ep = `input${props.name}`;
     const isValue = props.panel.inputSignalByEp[ep] === 'Value';
-    const epValue = isValue ? `${props.panel.inputEpValues[ep]}` : (props.description || '');
 
-    const dataTypeMarker = isValue ? getDataTypeMarkerFor(props.panel.inputTypeByEp[ep]) : '>';
+    const epValue = isValue
+        ? `${props.panel.inputEpValues[ep]}`
+        : (props.description || '');
 
-    return <div className="Input Item" title={ epValue }>
+    const dataTypeMarker = isValue
+        ? getDataTypeMarkerFor(props.panel.inputTypeByEp[ep])
+        : '>';
+
+    const epType = isValue
+        ? `${props.panel.inputTypeByEp[ep]} value`
+        : props.panel.inputSignalByEp[ep];
+
+    return <div className="Input Item" title={ `[${epType}] ${epValue}` }>
         <div
             className={`
                 InputEndpoint Endpoint

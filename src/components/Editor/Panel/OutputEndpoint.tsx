@@ -10,11 +10,20 @@ export default (props) => {
 
     const ep = `output${props.name}`;
     const isValue = props.panel.outputSignalByEp[ep] === 'Value';
-    const epValue = isValue ? `${props.panel.outputEpValues[ep]}` : (props.description || '');
 
-    const dataTypeMarker = isValue ? getDataTypeMarkerFor(props.panel.outputTypeByEp[ep]) : '>';
+    const epValue = isValue
+        ? `${props.panel.outputEpValues[ep]}`
+        : (props.description || '');
 
-    return 	<div className="Output Item" title={ epValue }>
+    const dataTypeMarker = isValue
+        ? getDataTypeMarkerFor(props.panel.outputTypeByEp[ep])
+        : '>';
+
+    const epType = isValue
+        ? `${props.panel.outputTypeByEp[ep]} value`
+        : props.panel.outputSignalByEp[ep];
+
+    return 	<div className="Output Item" title={ `[${epType}] ${epValue}` }>
         {props.children}
         <div
             className={`
