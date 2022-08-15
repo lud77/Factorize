@@ -46,17 +46,17 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <InputEndpoint name="Log" panelId={panelId} signal="Pulse" description="Append the [Message] to the [Contents]" {...props}>Log</InputEndpoint>
+                <OutputEndpoint name="Contents" panelId={panelId} {...props}>Contents</OutputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Message" panelId={panelId} {...props}>Message</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Clear" panelId={panelId} signal="Pulse" description="Clear the [Contents]" {...props}>Clear</InputEndpoint>
                 <div className="InteractiveItem" style={{ textAlign: 'right' }}>
                     <button className="Button" title="Increase font size" onClick={handleClickPlus(props)} style={{ width: '2em', marginRight: '1px' }}>+</button>
                     <button className="Button" title="Decrease font size" onClick={handleClickMinus(props)} style={{ width: '2em' }}>-</button>
                 </div>
-            </div>
-            <div className="Row">
-                <InputEndpoint name="Message" panelId={panelId} {...props}>Message</InputEndpoint>
-                <OutputEndpoint name="Contents" panelId={panelId} {...props}>Contents</OutputEndpoint>
-            </div>
-            <div className="Row">
-                <InputEndpoint name="Clear" panelId={panelId} signal="Pulse" description="Clear the [Contents]" {...props}>Clear</InputEndpoint>
             </div>
             <div className="Row" style={displayStyle}>
                 {String(props.panel.outputEpValues.outputContents || '').split('\n').map((str, i) => <p key={i} style={paragraphStyle}>{str}</p>)}
