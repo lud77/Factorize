@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import getDataTypeMarkerFor from './dataTypes';
+
 export default (props) => {
     const isOutputConnected = (ref) => props.connections.find((connection) => connection.source === ref);
 
@@ -7,7 +9,10 @@ export default (props) => {
     const signal = props.signal || 'Value';
 
     const ep = `output${props.name}`;
-    const epValue = props.panel.outputSignalByEp[ep] === 'Value' ? `${props.panel.outputEpValues[ep]}` : (props.description || '');
+    const isValue = props.panel.outputSignalByEp[ep] === 'Value';
+    const epValue = isValue ? `${props.panel.outputEpValues[ep]}` : (props.description || '');
+
+    const dataTypeMarker = isValue ? getDataTypeMarkerFor(props.panel.outputTypeByEp[ep]) : '>';
 
     return 	<div className="Output Item" title={ epValue }>
         {props.children}
@@ -26,6 +31,6 @@ export default (props) => {
             data-signal={signal}
             onMouseOver={props.onMouseOver}
             onMouseOut={props.onMouseOut}
-            ></div>
+            >{dataTypeMarker}</div>
     </div>;
 };

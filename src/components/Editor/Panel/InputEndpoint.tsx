@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import getDataTypeMarkerFor from './dataTypes';
+
 export default (props) => {
 	const isInputConnected = (ref) => props.connections.find((connection) => connection.target === ref);
 
@@ -19,13 +21,17 @@ export default (props) => {
     const signal = props.signal || 'Value';
 
     const ep = `input${props.name}`;
-    const epValue = props.panel.inputSignalByEp[ep] === 'Value' ? `${props.panel.inputEpValues[ep]}` : (props.description || '');
+    const isValue = props.panel.inputSignalByEp[ep] === 'Value';
+    const epValue = isValue ? `${props.panel.inputEpValues[ep]}` : (props.description || '');
+
+    const dataTypeMarker = isValue ? getDataTypeMarkerFor(props.panel.inputTypeByEp[ep]) : '>';
 
     return <div className="Input Item" title={ epValue }>
         <div
             className={`
                 InputEndpoint Endpoint
                 ${isInputConnected(props.panel.inputRefs[ep]) ? 'Connected' : ''}
+                ${(props.connectorAnchor != null) && (props.connectorAnchor?.toRef == props.panel.inputRefs[ep]) ? 'Connecting' : ''}
                 ${props.removable ? 'Removable' : ''}
                 Signal-${signal}
             `}
@@ -36,7 +42,7 @@ export default (props) => {
             data-signal={signal}
             onMouseOver={onMouseOver}
             onMouseOut={onMouseOut}
-            ></div>
+            >{dataTypeMarker}</div>
         {props.children}
     </div>;
 };

@@ -40,7 +40,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Introduce Pulse-type signals
 - [x] Introduce Sources panel palette
 - [~] Actual panels
-    - [x] FUNCTIONS: Threshold: (Value -> Value) sets outputs (High, Equal, Low) to true depending on whether first input is <=> than second
+    - [x] ALGEBRA: Threshold: (Value -> Value) sets outputs (High, Equal, Low) to true depending on whether first input is <=> than second
     - [x] INPUT: Toggle: (UI -> Value) set output to true or false depending on toggle
     - [x] BASIC: Counter: (Pulse -> Value) count pulses (also has a Reset pin)
     - [x] BASIC: Memory: (Pulse + Value -> Value) store content of value input when it receives a pulse
@@ -76,6 +76,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
     - [x] EVENTS: Socket: socket listener, together with CLI tool to connect and send messages
+    - [ ] FUNCTIONS:
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 
@@ -88,7 +89,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Lock children (and/or Lock parents?) of a panel OR lock selected panels so they always move together
 - [x] Unlock a panel that had been locked with others
 - [ ] Expose signal of endpoint throught color
-- [ ] Expose type of endpoint throught symbols/letters + tooltip
+- [x] Expose type of endpoint throught symbols/letters
+- [ ] Expose type of endpoint in tooltip
 
 --- Bugs / Performance
 

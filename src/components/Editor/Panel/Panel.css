@@ -108,7 +108,9 @@
     border: 1px solid var(--border);
     margin-left: -1.1em;
     margin-right: 0.3em;
+    margin-top: -1px;
     user-select: none;
+    text-align: center;
 }
 
 .Panel .OutputEndpoint {
@@ -120,25 +122,45 @@
     border: 1px solid var(--border);
     margin-right: -1.1em;
     margin-left: 0.3em;
+    margin-top: -1px;
     user-select: none;
+    text-align: center;
+}
+
+.Panel .InputEndpoint.Signal-Value,
+.Panel .OutputEndpoint.Signal-Value {
+    color: var(--main-highlight);
+}
+
+.Panel .InputEndpoint.Signal-Pulse,
+.Panel .OutputEndpoint.Signal-Pulse {
+    color: var(--main-highlight);
+}
+
+.Panel .InputEndpoint.Signal-Stream,
+.Panel .OutputEndpoint.Signal-Stream {
+    color: var(--main-highlight);
 }
 
 .Panel .Connected.Signal-Value,
 .Panel .Multiconnect.Signal-Value {
     background-color: var(--connection-value);
     border: 1px solid var(--connection-value);
+    color: var(--main-highlight);
 }
 
 .Panel .Connected.Signal-Pulse,
 .Panel .Multiconnect.Signal-Pulse {
     background-color: var(--connection-pulse);
     border: 1px solid var(--connection-pulse);
+    color: var(--main-highlight);
 }
 
 .Panel .Connected.Signal-Stream,
 .Panel .Multiconnect.Signal-Stream {
     background-color: var(--connection-stream);
     border: 1px solid var(--connection-stream);
+    color: var(--main-highlight);
 }
 
 .Panel .Connected.Signal-Value:hover,
@@ -169,6 +191,7 @@
 .Panel .OutputEndpoint:not(.Connected):not(.Multiconnect):hover {
     background-color: var(--main-highlight);
     border: 1px solid var(--main-highlight);
+    color: black;
 }
 
 .Panel.Selected {
