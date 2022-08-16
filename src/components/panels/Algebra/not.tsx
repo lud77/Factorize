@@ -21,12 +21,14 @@ const create = (panelId: number): Panel => {
     const inputEndpoints = [{
         name: 'Value',
         defaultValue: 0,
+        type: 'boolean',
         signal: 'Value'
     }];
 
     const outputEndpoints = [{
         name: 'NegatedValue',
         default: 0,
+        type: 'boolean',
         signal: 'Value'
     }];
 
