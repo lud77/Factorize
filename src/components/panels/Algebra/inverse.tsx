@@ -25,7 +25,7 @@ const create = (panelId: number): Panel => {
     }];
 
     const outputEndpoints = [{
-        name: 'InvertedValue',
+        name: 'Inverse',
         default: 0,
         type: 'number',
         signal: 'Value'
