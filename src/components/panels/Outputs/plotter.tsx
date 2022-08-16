@@ -44,15 +44,12 @@ const create = (panelId: number): Panel => {
             };
 
             try {
-                const derivative = math.derivative(props.panel.inputEpValues.inputFunction, 'x').toString();
-                console.log(derivative);
-
                 const data = [
                     props.panel.inputEpValues.inputFunction != ''
                         ? {
                             fn: props.panel.inputEpValues.inputFunction,
                             derivative: {
-                                fn: derivative,
+                                fn: props.panel.outputEpValues.derivative,
                                 updateOnMouseMove: true
                             }
                         }
@@ -118,6 +115,25 @@ const create = (panelId: number): Panel => {
     const outputEndpoints = [];
 
     const execute = (panel, inputs) => {
+        const oldFunction = panel.outputEpValues.inputFunction;
+
+        if (oldFunction != inputs.inputFunction) {
+
+            try {
+                const derivative = math.derivative(inputs.inputFunction, 'x').toString();
+
+                return {
+                    ...inputs,
+                    oldFunction: inputs.inputFunction,
+                    derivative
+                };
+            } catch (e) {
+                delete inputs.inputFunction;
+                return { ...inputs };
+            }
+
+        }
+
         return inputs;
     };
 
