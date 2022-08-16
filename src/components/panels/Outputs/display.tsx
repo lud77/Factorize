@@ -44,6 +44,8 @@ const create = (panelId: number): Panel => {
             margin: '1px'
         };
 
+        const inputValue = props.panel.inputEpValues.inputValue != null ? props.panel.inputEpValues.inputValue : '';
+
         return <>
             <div className="Row">
                 <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
@@ -53,7 +55,7 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row" style={displayStyle}>
-                {String(props.panel.inputEpValues.inputValue || '').split('\n').map((str, i) => <p key={i} style={paragraphStyle}>{str}</p>)}
+                {String(inputValue).split('\n').map((str, i) => <p key={i} style={paragraphStyle}>{str}</p>)}
             </div>
         </>;
     };
