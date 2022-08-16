@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import functionPlot from 'function-plot';
+import * as math from 'mathjs';
 
 import { Panel } from '../../../types/Panel';
 
@@ -31,7 +32,7 @@ const create = (panelId: number): Panel => {
             let width = contentsBounds.width;
             let height = contentsBounds.height;
 
-            functionPlot({
+            const opts = {
                 target: plotterRef.current,
                 disableZoom: true,
                 width,
@@ -39,23 +40,32 @@ const create = (panelId: number): Panel => {
                 xAxis: { domain: [props.panel.inputEpValues.inputMinX, props.panel.inputEpValues.inputMaxX] },
                 yAxis: { domain: [props.panel.inputEpValues.inputMinY, props.panel.inputEpValues.inputMaxY] },
                 grid: true,
-                data: [
-                  {
-                    fn: props.panel.inputEpValues.inputFunction,
-                    derivative: {
-                      fn: "cos(x)",
-                      updateOnMouseMove: true
-                    }
-                  },
-                  {
-                    fn: "cos(x)",
-                    derivative: {
-                      fn: "-sin(x)",
-                      updateOnMouseMove: true
-                    }
-                  }
-                ]
-              });
+                data: []
+            };
+
+            try {
+                const derivative = math.derivative(props.panel.inputEpValues.inputFunction, 'x').toString();
+                console.log(derivative);
+
+                const data = [
+                    props.panel.inputEpValues.inputFunction != ''
+                        ? {
+                            fn: props.panel.inputEpValues.inputFunction,
+                            derivative: {
+                                fn: derivative,
+                                updateOnMouseMove: true
+                            }
+                        }
+                        : null
+                ].filter(Boolean);
+
+                functionPlot({
+                    ...opts,
+                    data
+                });
+            } catch (e) {
+                functionPlot(opts);
+            }
         });
 
         return <>
@@ -80,7 +90,7 @@ const create = (panelId: number): Panel => {
 
     const inputEndpoints = [{
         name: 'Function',
-        defaultValue: 'sin(x)',
+        defaultValue: '',
         type: 'function',
         signal: 'Value'
     }, {

@@ -31,6 +31,8 @@ export default (props) => {
         ? getDataTypeMarkerFor(props.panel.inputTypeByEp[ep])
         : '>';
 
+    // console.log('+++++++++++++++++++', ep, props.panel.inputSignalByEp[ep]);
+
     const epType = isValue
         ? `${props.panel.inputTypeByEp[ep]} value`
         : props.panel.inputSignalByEp[ep].toLowerCase();
