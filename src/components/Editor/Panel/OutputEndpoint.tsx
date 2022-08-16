@@ -21,9 +21,9 @@ export default (props) => {
 
     const epType = isValue
         ? `${props.panel.outputTypeByEp[ep]} value`
-        : props.panel.outputSignalByEp[ep];
+        : props.panel.outputSignalByEp[ep].toLowerCase();
 
-    return 	<div className="Output Item" title={ `[${epType}] ${epValue}` }>
+    return 	<div className="Output Item" title={ `(${epType}) ${epValue}` }>
         {props.children}
         <div
             className={`

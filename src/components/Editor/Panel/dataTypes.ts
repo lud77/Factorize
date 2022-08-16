@@ -1,8 +1,7 @@
 const dataTypeMarkers = {
     any: 'a',
     boolean: 'b',
-    float: 'f',
-    integer: 'i',
+    function: 'f',
     number: 'n',
     string: 's'
 };
