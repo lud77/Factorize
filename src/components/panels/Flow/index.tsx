@@ -5,6 +5,7 @@ import Memory from './memory';
 import If from './if';
 import Any from './any';
 import Throttle from './throttle';
+import Delay from './delay';
 
 export default {
     Fan,
@@ -13,5 +14,6 @@ export default {
     Memory,
     If,
     Any,
-    Throttle
+    Throttle,
+    Delay
 };
