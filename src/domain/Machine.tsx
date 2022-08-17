@@ -172,65 +172,88 @@ const Machine = ({
             });
     };
 
+    const pulses = [];
+
     const sendPulseTo = (panelId, ep) => {
-        const connections = mostRecent(setConnections);
+        pulses.push([panelId, ep]);
 
-        console.log('sendPulseTo - connections', connections);
-        timers.setTimer(() => {
-            console.log('timer in sendPulseTo');
-            const epRef = getPanelOutputRef(panelId, ep);
-            let pulseConnections;
-            flushSync(() => {
-                pulseConnections = getConnectionsBySourceRef(epRef, 'Pulse');
-            });
-            console.log('Sending pulse through', ep, epRef);
-            console.log('pulseConnections', pulseConnections);
+        return spoolPulses();
+    };
 
-            console.log('before', panels);
+    const spoolPulses = () => {
+        if (pulses.length == 0) return Promise.resolve();
 
-            let panelUpdates: object | null = null;
+        return Promise.resolve()
+            .then(() => {
+                const [ panelId, ep ] = pulses.shift();
+                return propagatePulseTo(panelId, ep);
+            })
+            .then(spoolPulses);
+    };
 
-            flushSync(() => {
-                setPanels((panels) => {
-                    panelUpdates =
-                        pulseConnections
-                            .map((connection) => {
-                                const targetPanel = panels[connection.targetPanelId];
-                                if (!targetPanel) return null;
+    const propagatePulseTo = (panelId, ep) => {
+        return new Promise((res) => {
+            const connections = mostRecent(setConnections);
 
-                                const ep = targetPanel.inputEpByRef[connection.target];
-                                const updates = targetPanel.onPulse(ep, targetPanel, { sendPulseTo, executePanelLogic });
-                                console.log('sendPulseTo', updates);
-                                return {
-                                    [targetPanel.panelId]: {
-                                        ...targetPanel,
-                                        outputEpValues: {
-                                            ...targetPanel.outputEpValues,
-                                            ...updates
-                                        }
-                                    }
-                                };
-                            })
-                            .filter(Boolean)
-                            .reduce((a, v) => ({ ...a, ...v }), {});
-
-                    console.log('sendPulseTo updates', panelUpdates);
-
-                    return {
-                        ...panels,
-                        ...panelUpdates
-                    }
+            console.log('propagatePulseTo - connections', connections);
+            timers.setTimer(() => {
+                console.log('timer in propagatePulseTo');
+                const epRef = getPanelOutputRef(panelId, ep);
+                let pulseConnections;
+                flushSync(() => {
+                    pulseConnections = getConnectionsBySourceRef(epRef, 'Pulse');
                 });
-            });
+                console.log('Sending pulse through', ep, epRef);
+                console.log('pulseConnections', pulseConnections);
 
-            console.log('after', panels);
+                console.log('before', panels);
 
-            const updatedPanelsIds = getConnectionsBySourceRef(epRef, 'Pulse').map((connection) => connection.targetPanelId);
+                let panelUpdates: object | null = null;
 
-            console.log('updatedPanelsIds outside', updatedPanelsIds);
-            if (panelUpdates == null) return;
-            updatedPanelsIds.forEach((panelId) => propagateOutputValuesFrom(panelId, panelUpdates[panelId]?.outputEpValues));
-        }, 0);
+                flushSync(() => {
+                    setPanels((panels) => {
+                        panelUpdates =
+                            pulseConnections
+                                .map((connection) => {
+                                    const targetPanel = panels[connection.targetPanelId];
+                                    if (!targetPanel) return null;
+
+                                    const ep = targetPanel.inputEpByRef[connection.target];
+                                    const updates = targetPanel.onPulse(ep, targetPanel, { sendPulseTo, executePanelLogic });
+                                    console.log('propagatePulseTo - updates', updates);
+                                    return {
+                                        [targetPanel.panelId]: {
+                                            ...targetPanel,
+                                            outputEpValues: {
+                                                ...targetPanel.outputEpValues,
+                                                ...updates
+                                            }
+                                        }
+                                    };
+                                })
+                                .filter(Boolean)
+                                .reduce((a, v) => ({ ...a, ...v }), {});
+
+                        console.log('propagatePulseTo updates', panelUpdates);
+
+                        return {
+                            ...panels,
+                            ...panelUpdates
+                        }
+                    });
+                });
+
+                console.log('after', panels);
+
+                const updatedPanelsIds = getConnectionsBySourceRef(epRef, 'Pulse').map((connection) => connection.targetPanelId);
+
+                console.log('updatedPanelsIds outside', updatedPanelsIds);
+                if (panelUpdates == null) res(null);
+                updatedPanelsIds.forEach((panelId) => propagateOutputValuesFrom(panelId, panelUpdates[panelId]?.outputEpValues));
+
+                res(null);
+            }, 0);
+        });
     };
 
     const getSignal = (sourcePanel, sourceOutputEp, targetPanel, targetInputEp) => {
