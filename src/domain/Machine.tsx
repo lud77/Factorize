@@ -136,6 +136,9 @@ const Machine = ({
                 const panels = mostRecent(setPanels);
                 const panel = panels[panelId];
                 console.log('executePanelLogic - panels', panels);
+
+                if (!panel) return null;
+
                 const changes = {
                     ...panel.inputEpValues || {},
                     ...valueUpdates
@@ -156,7 +159,11 @@ const Machine = ({
                     )
                 ]);
             })
-            .then(([panel, changes, outputs]) => {
+            .then((result) => {
+                if (!result) return;
+
+                const [panel, changes, outputs] = result;
+
                 if (outputs === changes) return;
 
                 const updatedOutputs = {
