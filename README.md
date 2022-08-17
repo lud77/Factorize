@@ -104,6 +104,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Deletion of panels must affect also panelCoords
 - [x] Save-files should include position of viewport
 - [ ] Sanitize topic input to listener
+- [ ] Crash when deleting multiple panels
+- [ ] Crash when I pause with the Controls button
 
 --- QA
 
