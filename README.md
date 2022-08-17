@@ -50,7 +50,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] OUTPUT: Semaphore: (Value -> UI) turn on a led if the value is non-null, red or green depending on truthy value
     - [x] OUTPUT: Logfile: (Value + Pulse -> OS) append message to file
     - [x] INPUT: Deviator: (Value + Value -> Value) The output to 1 of N inputs based on the value of another input
-    - [ ] FLOW: Delay: (Pulse -> X secs -> Pulse)
+    - [x] FLOW: Delay: (Pulse -> X secs -> Pulse)
     - [x] EVENTS: Clock: (every X secs -> Pulse)
     - [ ] FLOW: All: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then gives sends a pulse through the output
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
@@ -76,7 +76,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
     - [x] EVENTS: Socket: socket listener, together with CLI tool to connect and send messages
-    - [ ] EVENTS: Accumulator
+    - [x] EVENTS: Accumulator
     - [ ] Stdin/Stdout/Stderr
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
@@ -91,7 +91,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Unlock a panel that had been locked with others
 - [ ] Expose signal of endpoint throught color
 - [x] Expose type of endpoint throught symbols/letters
-- [ ] Expose type of endpoint in tooltip
+- [x] Expose type of endpoint in tooltip
+- [x] Make background of text input panel darker
 
 --- Bugs / Performance
 
@@ -104,8 +105,9 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Deletion of panels must affect also panelCoords
 - [x] Save-files should include position of viewport
 - [ ] Sanitize topic input to listener
-- [ ] Crash when deleting multiple panels
-- [ ] Crash when I pause with the Controls button
+- [x] Crash when deleting multiple panels
+- [x] Crash when I pause with the Controls button
+- [ ] Stalls when trying to rewind file source from EOF signal without a delay
 
 --- QA
 
@@ -139,6 +141,7 @@ stress on purpose (automation, coding, workflow, dataflow, hacking, event-driven
 stress on approach (custom wiring of modular elements)
 
     wiring
+    wire
     cable
     modular
     hardcoded
