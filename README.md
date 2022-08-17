@@ -65,7 +65,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] SOURCES: (Pulse -> Value) Fetch Current Time
     - [x] SOURCES: (Pulse -> Value) Fetch Random number between 0 and 1
     - [x] SOURCES: (Pulse -> Value) Fetch Current timestamp
-    - [ ] SOURCES: Text file, line by line
+    - [x] SOURCES: Text file, line by line
     - [x] FLOW: Gate (pass transistor)
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
     - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
@@ -76,7 +76,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
     - [x] EVENTS: Socket: socket listener, together with CLI tool to connect and send messages
-    - [ ] FUNCTIONS:
+    - [ ] EVENTS: Accumulator
+    - [ ] Stdin/Stdout/Stderr
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 
