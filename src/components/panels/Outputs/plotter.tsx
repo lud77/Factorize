@@ -26,6 +26,7 @@ const create = (panelId: number): Panel => {
         };
 
         const plotterRef = React.useRef();
+        const { inputMinX, inputMaxX, inputMinY, inputMaxY } = props.panel.inputEpValues;
 
         React.useEffect(() => {
             let contentsBounds = plotterRef.current.getBoundingClientRect();
@@ -37,8 +38,8 @@ const create = (panelId: number): Panel => {
                 disableZoom: true,
                 width,
                 height,
-                xAxis: { domain: [props.panel.inputEpValues.inputMinX, props.panel.inputEpValues.inputMaxX] },
-                yAxis: { domain: [props.panel.inputEpValues.inputMinY, props.panel.inputEpValues.inputMaxY] },
+                xAxis: { domain: [inputMinX, inputMaxX] },
+                yAxis: { domain: [inputMinY, inputMaxY] },
                 grid: true,
                 data: []
             };
@@ -128,8 +129,7 @@ const create = (panelId: number): Panel => {
                     derivative
                 };
             } catch (e) {
-                delete inputs.inputFunction;
-                return { ...inputs };
+                return { ...inputs, inputFunction: '' };
             }
 
         }
