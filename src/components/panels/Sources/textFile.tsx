@@ -132,7 +132,7 @@ const create = (panelId: number): Panel => {
         return values;
     };
 
-    const dispose = (panel, { clearTimer }) => {
+    const dispose = (panel) => {
         if (panel.outputEpValues.outputFileHandler != null) {
             return System.closeTextFile(panel.outputEpValues.outputFileHandler)
         }
@@ -147,7 +147,8 @@ const create = (panelId: number): Panel => {
         execute,
         onPulse,
         height: 95,
-        expunge
+        expunge,
+        dispose
     } as Panel;
 };
 
