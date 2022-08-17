@@ -18,7 +18,7 @@ const createWindow = () => {
             contextIsolation: false
         },
         frame: true, // title bar
-        autoHideMenuBar: false
+        autoHideMenuBar: true
     });
 
     // and load the index.html of the app.
