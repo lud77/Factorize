@@ -78,6 +78,11 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] EVENTS: Socket: socket listener, together with CLI tool to connect and send messages
     - [x] EVENTS: Accumulator
     - [ ] Stdin/Stdout/Stderr
+    - [ ] IMAGE: Convolution
+    - [ ] ALGEBRA: Matrix
+    - [ ] Color ramp
+    - [x] Color view
+    - [ ] Perlin noise
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 
@@ -93,6 +98,12 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Expose type of endpoint throught symbols/letters
 - [x] Expose type of endpoint in tooltip
 - [x] Make background of text input panel darker
+- [ ] Pulling a connection from an endpoint to the workarea opens Panel search
+    - [ ] Panel search is constrained by the initial endpoint being an input or output endpoint
+    - [ ] Panel search is constrained by signal and type of the initial endpoint
+- [ ] Double clicking on the workarea opens Panel search
+- [ ] Task menu item to collapse a panel
+- [ ] Setting default values for primitive endpoints
 
 --- Bugs / Performance
 

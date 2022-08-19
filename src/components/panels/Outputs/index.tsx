@@ -5,6 +5,7 @@ import Picture from './picture';
 import Semaphore from './semaphore';
 import Led from './led';
 import Console from './console';
+import ColorView from './colorView';
 import Plotter from './plotter';
 
 export default {
@@ -15,5 +16,6 @@ export default {
     Semaphore,
     Led,
     Console,
+    ColorView,
     Plotter
 };
