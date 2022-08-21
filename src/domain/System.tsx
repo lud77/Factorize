@@ -4,6 +4,31 @@ const quit = () => {
     ipcRenderer.send('api:terminate-app');
 };
 
+const startWatchingFile = (filePath, callback) => {
+    return new Promise((resolve) => {
+        ipcRenderer.once('api:watcher-handler', (e, msg) => {
+            console.log('received - api:watcher-handler', msg);
+
+            ipcRenderer.on(`api:watcher-accessed:${msg}`, callback);
+
+            resolve(msg);
+        });
+        ipcRenderer.send('api:watch-file', filePath);
+    });
+};
+
+const stopWatchingFile = (handler) => {
+    return new Promise((resolve) => {
+        ipcRenderer.once('api:ack', (e, msg) => {
+            console.log('received ack');
+
+            resolve(null);
+        });
+        ipcRenderer.send('api:stop-watcher', handler);
+        ipcRenderer.removeAllListeners(`api:watcher-accessed:${handler}`);
+    });
+};
+
 const openTextFile = (filePath) => {
     return new Promise((resolve) => {
         ipcRenderer.once('api:file-handler', (e, msg) => {
@@ -101,5 +126,7 @@ export default {
     readImageFile,
     openTextFile,
     closeTextFile,
-    readTextLine
+    readTextLine,
+    startWatchingFile,
+    stopWatchingFile
 };

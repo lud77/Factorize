@@ -1,4 +1,4 @@
-const fs = require('fs').promises;
+const fs = require('fs');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const nreadlines = require('n-readlines');
 
@@ -11,9 +11,11 @@ const filters = [
 
 const fileHandlers = [];
 
+const watcherHandlers = [];
+
 const addServices = (win) => {
     ipcMain.on('api:read-image-file', (event, filePath) => {
-        Promise.all([filePath, fs.readFile(filePath, 'base64'), getImageDimensions(filePath)])
+        Promise.all([filePath, fs.promises.readFile(filePath, 'base64'), getImageDimensions(filePath)])
             .then(([filePath, fileContents, meta]) => {
                 console.log('size', meta);
                 if (!filePath) {
@@ -34,7 +36,7 @@ const addServices = (win) => {
     });
 
     ipcMain.on('api:read-file', (event, filePath) => {
-        Promise.all([filePath, fs.readFile(filePath, 'utf-8')])
+        Promise.all([filePath, fs.promises.readFile(filePath, 'utf-8')])
             .then(([filePath, fileContents]) => {
                 if (!filePath) {
                     win.webContents.send('api:file-contents', {
@@ -48,6 +50,48 @@ const addServices = (win) => {
             })
             .catch((e) => {
                 console.log('error while reading file', e);
+            });
+    });
+
+    ipcMain.on('api:watch-file', (event, filePath) => {
+        console.log('watch-file', filePath);
+        let watcherHandler = null;
+        Promise.resolve()
+            .then(() => {
+                console.log('setting up listener');
+                watcherHandler = watcherHandlers.push({}) - 1;
+                console.log('generated new watcherHandler', watcherHandler);
+                return fs.watch(filePath, { persistent: false }, () => {
+                    console.log('api:watcher-accessed');
+                    win.webContents.send(`api:watcher-accessed:${watcherHandler}`);
+                });
+            })
+            .then((watcher) => {
+                watcherHandlers[watcherHandler] = watcher;
+                console.log('watcherHandlers', watcherHandlers);
+                win.webContents.send('api:watcher-handler', watcherHandler);
+                return watcherHandler;
+            })
+            .catch((e) => {
+                console.log('error while starting watching file', e);
+                if (watcherHandler == null) return;
+
+                delete watcherHandlers[watcherHandler];
+            });
+    });
+
+    ipcMain.on('api:stop-watcher', (event, watcherHandler) => {
+        console.log('stop-watcher', watcherHandler);
+        Promise.resolve()
+            .then(() => {
+                if (!watcherHandlers[watcherHandler]) throw new Error('File watcher not found');
+
+                watcherHandlers[watcherHandler].close();
+                delete watcherHandlers[watcherHandler];
+                win.webContents.send('api:ack', {});
+            })
+            .catch((e) => {
+                console.log('error while closing file', e);
             });
     });
 
@@ -104,13 +148,13 @@ const addServices = (win) => {
     });
 
     ipcMain.on('api:write-file', (event, { filePath, contents }) => {
-        fs.writeFile(filePath, contents, (err) => {
+        fs.promises.writeFile(filePath, contents, (err) => {
             console.log('error while writing file', e);
         });
     });
 
     ipcMain.on('api:append-to-file', (event, { filePath, contents }) => {
-        fs.appendFile(filePath, contents, (err) => {
+        fs.promises.appendFile(filePath, contents, (err) => {
             console.log('error while appending to file', e);
         });
     });

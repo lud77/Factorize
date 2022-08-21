@@ -83,8 +83,11 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] Color ramp
     - [x] Color view
     - [ ] Perlin noise
+    - [x] EVENTS: Emit on file change
+    - [ ] INPUTS: File info
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
+
 
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 
@@ -104,6 +107,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Double clicking on the workarea opens Panel search
 - [ ] Task menu item to collapse a panel
 - [ ] Setting default values for primitive endpoints
+- [ ] Make selected panels get closer or father away by rolling the scroller
 
 --- Bugs / Performance
 
@@ -119,6 +123,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Crash when deleting multiple panels
 - [x] Crash when I pause with the Controls button
 - [ ] Stalls when trying to rewind file source from EOF signal without a delay
+- [x] WatchFile panel should remove and replace watcher behind the scenes when file name changes, just like the Listener panel does
 
 --- QA
 
