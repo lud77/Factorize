@@ -9,9 +9,8 @@ import Marquee from './Marquee';
 import ContextMenu from '../ContextMenu/ContextMenu';
 
 import { contextMenusSetup } from '../../../domain/Menus';
-
+import { middleRightEl, middleLeftEl } from '../../../domain/Measures';
 import rateLimiter from '../../../utils/rateLimiter';
-
 import { DragCoords } from '../../../types/DragCoords';
 
 import {
@@ -618,8 +617,8 @@ const WorkArea = (props) => {
 	const renderConnection = (connection, key) => {
 		return (<Connector
 			key={key}
-			el1={getEndpointElByRef(connection.source)}
-			el2={getEndpointElByRef(connection.target)}
+			coordsStart={middleRightEl(getEndpointElByRef(connection.source))}
+			coordsEnd={middleLeftEl(getEndpointElByRef(connection.target))}
 			roundCorner={true}
 			endArrow={true}
 			stroke={'#ADA257'}
@@ -645,12 +644,27 @@ const WorkArea = (props) => {
 			: null;
 	};
 
+	const getConnectionBuilderCoords = () => {
+		if ((connectorAnchor != null && connectorAnchor.fromRef != null)) return {
+			start: middleRightEl(getEndpointElByRef(connectorAnchor.fromRef)),
+			end: connectorAnchor.to
+		};
+
+		if ((connectorAnchor != null && connectorAnchor.toRef != null)) return {
+			start: connectorAnchor.from,
+			end: middleLeftEl(getEndpointElByRef(connectorAnchor.toRef))
+		};
+
+		return null;
+	};
+
 	const renderConnectionBuilder = () => {
+		const coords = getConnectionBuilderCoords();
+		if (!coords) return;
+
 		return <Connector
-			el1={(connectorAnchor != null && connectorAnchor.fromRef != null) ? getEndpointElByRef(connectorAnchor.fromRef) : undefined}
-			el2={(connectorAnchor != null && connectorAnchor.toRef != null) ? getEndpointElByRef(connectorAnchor.toRef) : undefined}
-			coordsStart={(connectorAnchor != null && connectorAnchor.toRef != null) ? connectorAnchor.from : undefined}
-			coordsEnd={(connectorAnchor != null && connectorAnchor.fromRef != null) ? connectorAnchor.to : undefined}
+			coordsStart={coords.start}
+			coordsEnd={coords.end}
 			roundCorner={true}
 			endArrow={true}
 			stroke="white"

@@ -93,7 +93,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
-- [ ] Make connections require coordinates rather than elements, so that the logic can be made more flexible
 - [ ] Right clicking on the workarea opens Panel search
 - [ ] Pulling a connection from an endpoint to the workarea opens Panel search
     - [ ] Panel search is constrained by the initial endpoint being an input or output endpoint
@@ -102,6 +101,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Task menu item to collapse a panel completely
 - [ ] Setting default values for primitive endpoints inline
 - [ ] Make selected panels get closer or father away by rolling the scroller
+- [x] Make connections require coordinates rather than elements, so that the logic can be made more flexible
 - [x] Expose signal of endpoint throught color
 - [x] Introduce white halo around focused panel
 - [x] Lock children (and/or Lock parents?) of a panel OR lock selected panels so they always move together

@@ -82,6 +82,34 @@ const getSelectorsFor = (workAreaOffset) => {
 const linear = (x) => x;
 const snapping = (x) => Math.floor(x / 16) * 16;
 
+const middleRight = (coords) => {
+	const { right, top, height } = coords;
+
+	return {
+		x: right,
+		y: top + height / 2
+	};
+};
+
+const middleLeft = (coords) => {
+  const { left, top, height } = coords;
+
+  return {
+	  x: left,
+	  y: top + height / 2
+  };
+};
+
+const middleRightEl = (el) => {
+	const coords = getBounds(el);
+	return middleRight(coords);
+};
+
+const middleLeftEl = (el) => {
+	const coords = getBounds(el);
+	return middleLeft(coords);
+};
+
 export {
     getBounds,
     buildScreenSize,
@@ -89,5 +117,9 @@ export {
     linear,
     snapping,
 	overlapsArea,
-	isIncludedInArea
+	isIncludedInArea,
+	middleRight,
+	middleLeft,
+	middleRightEl,
+	middleLeftEl
 };
