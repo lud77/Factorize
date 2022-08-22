@@ -129,17 +129,17 @@
 
 .Panel .InputEndpoint.Signal-Value,
 .Panel .OutputEndpoint.Signal-Value {
-    color: var(--medium-highlight);
+    color: var(--connection-value-hl);
 }
 
 .Panel .InputEndpoint.Signal-Pulse,
 .Panel .OutputEndpoint.Signal-Pulse {
-    color: var(--medium-highlight);
+    color: var(--connection-pulse-hl);
 }
 
 .Panel .InputEndpoint.Signal-Stream,
 .Panel .OutputEndpoint.Signal-Stream {
-    color: var(--medium-highlight);
+    color: var(--connection-stream-hl);
 }
 
 .Panel .Connected.Signal-Value,
