@@ -4,7 +4,7 @@ button.PushButton {
     cursor: pointer;
     outline: none;
     color: var(--main-highlight);
-    background-color: var(--blue-hl);
+    background-color: var(--blue);
     border: none;
     border-radius: 4px;
     box-shadow: 0 5px var(--blue-ll);
@@ -13,11 +13,11 @@ button.PushButton {
 }
 
 button.PushButton:hover {
-    background-color: var(--blue);
+    background-color: var(--blue-hl);
 }
 
 button.PushButton:active {
-    background-color: var(--blue);
+    background-color: var(--blue-hl);
     box-shadow: 0 3px var(--blue-ll);
     transform: translateY(2px);
 }
