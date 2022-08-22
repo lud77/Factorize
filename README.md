@@ -93,15 +93,17 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
+- [ ] Move all visual state from panels to panelCoords
+    - [ ] width and height, minWidth and minHeight
 - [ ] Right clicking on the workarea opens Panel search
 - [ ] Pulling a connection from an endpoint to the workarea opens Panel search
     - [ ] Panel search is constrained by the initial endpoint being an input or output endpoint
     - [ ] Panel search is constrained by signal and type of the initial endpoint
 - [ ] Make endpoint section in the panels collapsible
-- [ ] Task menu item to collapse a panel completely
 - [ ] Setting default values for primitive endpoints inline
 - [ ] Make selected panels get closer or father away by rolling the scroller
-- [x] Make connections require coordinates rather than elements, so that the logic can be made more flexible
+- [x] Double clicking on title of panel to collapse a panel completely
+- [x] Make Connector component require coordinates rather than elements, so that the logic can be made more flexible
 - [x] Expose signal of endpoint throught color
 - [x] Introduce white halo around focused panel
 - [x] Lock children (and/or Lock parents?) of a panel OR lock selected panels so they always move together

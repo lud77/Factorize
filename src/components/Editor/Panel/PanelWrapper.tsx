@@ -5,17 +5,18 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 const PanelWrapper = (props) => {
     const {
-        panel, panelCoord,
+        setPanelCoords, panel, panelCoord,
         connections,
         workAreaOffset,
         connectorAnchor,
-        machine
+        machine,
+        redraw
     } = props;
 
     const left = (panelCoord.left + workAreaOffset[0]) + 'px'
     const top = (panelCoord.top + workAreaOffset[1]) + 'px';
     const width = Math.max(panel.minWidth, panel.width) + 'px';
-    const height = Math.max(panel.minHeight, panel.height) + 'px';
+    const height = (panelCoord.isCollpased ? 22 : Math.max(panel.minHeight, panel.height)) + 'px';
 
     const style = {
         left,
@@ -26,27 +27,55 @@ const PanelWrapper = (props) => {
 
     const hasResizer = panel.resizer != 'none';
 
+    const toggleCollapse = () => {
+        console.log('isCollapsed', !panelCoord.isCollapsed);
+
+        setPanelCoords((panelCoords) => {
+            return {
+                ...panelCoords,
+                [panelCoord.panelId]: {
+                    ...panelCoords[panelCoord.panelId],
+                    isCollapsed: !panelCoords[panelCoord.panelId].isCollapsed
+                }
+            };
+        });
+
+        setTimeout(() => { redraw(Math.random()); }, 1);
+
+        return false;
+    };
+
     return (
         <div
             data-key={panel.panelId}
-            className={`Panel ${props.isSelected ? 'Selected' : ''} ${props.isFocused ? 'Focused' : ''}`}
+            className={`Panel ${props.isSelected ? 'Selected' : ''} ${props.isFocused ? 'Focused' : ''} ${panelCoord.isCollapsed ? 'Collapsed' : ''}`}
             style={style}
             onClick={props.onSelect}
             >
-            <div className="Title" title={ panel.title }>{panel.title || '\u00A0'}</div>
-            <panel.Component
-                panel={panel}
-                machine={machine}
-                connections={connections}
-                connectorAnchor={connectorAnchor}
-                />
+            <div
+                className="Title"
+                title={ panel.title }
+                onDoubleClick={toggleCollapse}
+                >{panel.title || '\u00A0'}</div>
             {
-                hasResizer
-                    ? <div className="Resizer">
-                        <div className="Handle">
-                            <FontAwesomeIcon icon={solid('grip')} />
-                        </div>
-                    </div>
+                !panelCoord.isCollapsed
+                    ? <>
+                        <panel.Component
+                            panel={panel}
+                            machine={machine}
+                            connections={connections}
+                            connectorAnchor={connectorAnchor}
+                            />
+                        {
+                            hasResizer
+                                ? <div className="Resizer">
+                                    <div className="Handle">
+                                        <FontAwesomeIcon icon={solid('grip')} />
+                                    </div>
+                                </div>
+                                : null
+                        }
+                    </>
                     : null
             }
         </div>

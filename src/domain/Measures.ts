@@ -49,7 +49,7 @@ const getSelectorsFor = (workAreaOffset) => {
 			left,
 			top,
 			right: left + panel.width - 1,
-			bottom: top + panel.height - 1
+			bottom: top + (panelCoords.isCollapsed ? 22 : panel.height) - 1
 		};
 	};
 
@@ -101,11 +101,13 @@ const middleLeft = (coords) => {
 };
 
 const middleRightEl = (el) => {
+	if (!el) return null;
 	const coords = getBounds(el);
 	return middleRight(coords);
 };
 
 const middleLeftEl = (el) => {
+	if (!el) return null;
 	const coords = getBounds(el);
 	return middleLeft(coords);
 };

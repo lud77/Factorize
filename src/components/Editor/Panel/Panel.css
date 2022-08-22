@@ -33,6 +33,18 @@
     margin-bottom: 4px;
 }
 
+.Panel.Collapsed {
+    padding: 3px;
+    height: 22px !important;
+    min-height: 22px !important;
+}
+
+.Panel.Collapsed .Title {
+    line-height: calc(var(--panel-font-size));
+    height: calc(var(--panel-font-size));
+    margin-bottom: 0px;
+}
+
 .Panel .Input {
     text-align: left;
 }

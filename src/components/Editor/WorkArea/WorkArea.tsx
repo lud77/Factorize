@@ -9,7 +9,12 @@ import Marquee from './Marquee';
 import ContextMenu from '../ContextMenu/ContextMenu';
 
 import { contextMenusSetup } from '../../../domain/Menus';
-import { middleRightEl, middleLeftEl } from '../../../domain/Measures';
+import {
+	middleRight,
+	middleLeft,
+	middleRightEl,
+	middleLeftEl
+} from '../../../domain/Measures';
 import rateLimiter from '../../../utils/rateLimiter';
 import { DragCoords } from '../../../types/DragCoords';
 
@@ -584,7 +589,7 @@ const WorkArea = (props) => {
 		return (
 			<PanelWrapper
 				key={panel.panelId}
-				panel={panel} panelCoord={panelCoord}
+				setPanelCoords={setPanelCoords} panel={panel} panelCoord={panelCoord}
 				machine={machine}
 				workAreaOffset={workAreaOffset}
 				connections={connections}
@@ -610,15 +615,42 @@ const WorkArea = (props) => {
 
 					return true;
 				}}
+				redraw={redraw}
 				/>
 		);
+	};
+
+	const getStartConnectionCoords = (connection) => {
+		const panel = panels[connection.sourcePanelId];
+		const panelCoord = panelCoords[connection.sourcePanelId];
+
+		if (panelCoord.isCollapsed) return middleRight({
+			right: (panelCoord.left + workAreaOffset[0]) + Math.max(panel.minWidth, panel.width) - 1,
+			top: (panelCoord.top + workAreaOffset[1]),
+			height: 22
+		});
+
+		return middleRightEl(getEndpointElByRef(connection.source));
+	};
+
+	const getEndConnectionCoords = (connection) => {
+		const panel = panels[connection.targetPanelId];
+		const panelCoord = panelCoords[connection.targetPanelId];
+
+		if (panelCoord.isCollapsed) return middleLeft({
+			left: (panelCoord.left + workAreaOffset[0]),
+			top: (panelCoord.top + workAreaOffset[1]),
+			height: 22
+		});
+
+		return middleLeftEl(getEndpointElByRef(connection.target));
 	};
 
 	const renderConnection = (connection, key) => {
 		return (<Connector
 			key={key}
-			coordsStart={middleRightEl(getEndpointElByRef(connection.source))}
-			coordsEnd={middleLeftEl(getEndpointElByRef(connection.target))}
+			coordsStart={getStartConnectionCoords(connection)}
+			coordsEnd={getEndConnectionCoords(connection)}
 			roundCorner={true}
 			endArrow={true}
 			stroke={'#ADA257'}
@@ -626,6 +658,7 @@ const WorkArea = (props) => {
 			strokeWidth={2}
 			workArea={workArea}
 			play={play} pause={pause}
+			draw={draw}
 		/>);
 	};
 
