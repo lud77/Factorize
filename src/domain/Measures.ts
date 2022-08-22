@@ -24,6 +24,22 @@ const buildScreenSize = () => ({
     height: window.innerHeight
 });
 
+const overlapsArea = (areaCoords) => (testCoords) => {
+	if (testCoords.right < areaCoords.left) return false;
+	if (testCoords.bottom < areaCoords.top) return false;
+	if (testCoords.left > areaCoords.right) return false;
+	if (testCoords.top > areaCoords.bottom) return false;
+	return true;
+};
+
+const isIncludedInArea = (areaCoords) => (testCoords) => {
+	if (testCoords.left < areaCoords.Left) return false;
+	if (testCoords.top < areaCoords.top) return false;
+	if (testCoords.right > areaCoords.right) return false;
+	if (testCoords.bottom > areaCoords.bottom) return false;
+	return true;
+};
+
 const getSelectorsFor = (workAreaOffset) => {
 	const getPanelWorkAreaCoords = (panel, panelCoords) => {
 		const left = panelCoords.left + workAreaOffset[0];
@@ -42,11 +58,8 @@ const getSelectorsFor = (workAreaOffset) => {
 			.map((panel) => {
 				const coords = getPanelWorkAreaCoords(panel, panelCoords[panel.panelId]);
 
-				if (coords.right < selection.left) return null;
-				if (coords.bottom < selection.top) return null;
-				if (coords.left > selection.right) return null;
-				if (coords.top > selection.bottom) return null;
-				return panel;
+				const isOverlapping = overlapsArea(selection)(coords);
+				return isOverlapping ? panel : null;
 			})
 			.filter(Boolean);
 
@@ -55,11 +68,8 @@ const getSelectorsFor = (workAreaOffset) => {
 			.map((panel) => {
 				const coords = getPanelWorkAreaCoords(panel, panelCoords[panel.panelId]);
 
-				if (coords.left < selection.Left) return null;
-				if (coords.top < selection.top) return null;
-				if (coords.right > selection.right) return null;
-				if (coords.bottom > selection.bottom) return null;
-				return panel;
+				const isOverlapping = isIncludedInArea(selection)(coords);
+				return isOverlapping ? panel : null;
 			})
 			.filter(Boolean);
 
@@ -77,5 +87,7 @@ export {
     buildScreenSize,
     getSelectorsFor,
     linear,
-    snapping
+    snapping,
+	overlapsArea,
+	isIncludedInArea
 };

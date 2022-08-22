@@ -19,7 +19,7 @@ import {
 	getSelectorsFor,
 	linear,
 	snapping
-} from '../../../utils/measures';
+} from '../../../domain/Measures';
 
 import './WorkArea.css';
 import '../Panel/Panel.css';

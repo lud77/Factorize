@@ -93,28 +93,32 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
-- [x] Introduce white halo around focused panel
-- [ ] Make endpoint section in the panels collapsible
-- [x] Lock children (and/or Lock parents?) of a panel OR lock selected panels so they always move together
-- [x] Unlock a panel that had been locked with others
+- [ ] Make connections require coordinates rather than elements, so that the logic can be made more flexible
+- [ ] Right clicking on the workarea opens Panel search
 - [ ] Expose signal of endpoint throught color
-- [x] Expose type of endpoint throught symbols/letters
-- [x] Expose type of endpoint in tooltip
-- [x] Make background of text input panel darker
 - [ ] Pulling a connection from an endpoint to the workarea opens Panel search
     - [ ] Panel search is constrained by the initial endpoint being an input or output endpoint
     - [ ] Panel search is constrained by signal and type of the initial endpoint
-- [ ] Double clicking on the workarea opens Panel search
-- [ ] Task menu item to collapse a panel
+- [ ] Make endpoint section in the panels collapsible
+- [ ] Task menu item to collapse a panel completely
+- [x] Introduce white halo around focused panel
+- [x] Lock children (and/or Lock parents?) of a panel OR lock selected panels so they always move together
+- [x] Unlock a panel that had been locked with others
+- [x] Expose type of endpoint throught symbols/letters
+- [x] Expose type of endpoint in tooltip
+- [x] Make background of text input panel darker
 - [ ] Setting default values for primitive endpoints
 - [ ] Make selected panels get closer or father away by rolling the scroller
 
 --- Bugs / Performance
 
+- [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary
+- [ ] Only render panels in view
+- [ ] Consider ways of reducing number of connections shown (bounding box overlapping view?)
+
 - [x] Window resize causes slowdown and stalling --- PROBABLY FIXED
 - [x] Connectors losing contact with panels
 
-- [ ] Only render panels in view
 - [ ] Disallow Value-type signals from creating feedback loops
 - [x] Stopping clock connected to dice makes dice output go undefined
 - [x] Deletion of panels must affect also panelCoords

@@ -3,7 +3,7 @@ import BareConnector from './BareConnector';
 
 import { Props } from '../../../../types/Props';
 import { Point } from '../../../../types/Point';
-import { getBounds } from '../../../../utils/measures';
+import { getBounds } from '../../../../domain/Measures';
 
 /**
  * Connect elements with svg paths
