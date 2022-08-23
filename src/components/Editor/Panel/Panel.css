@@ -35,6 +35,7 @@
 
 .Panel.Collapsed {
     padding: 3px;
+    width: 120px !important;
     height: 22px !important;
     min-height: 22px !important;
 }

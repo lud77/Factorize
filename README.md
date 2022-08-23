@@ -19,13 +19,14 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] save
     - [x] save as
     - [x] open
+    - [ ] import (loads file without wiping workarea)
     - etc
 - [ ] Ask for confirmation before replacing current document in "new" and "open" actions
 - [ ] Ask for confirmation before overriding an existing file in "save as" action
-- [x] Main-thread service framework to avoid squashing everything into electron.js
 - [ ] Settings page
 - [ ] Plugin system
 - [ ] Add lateral scrolling to toolbar to be able to reach out-of-screen items
+- [x] Main-thread service framework to avoid squashing everything into electron.js
 
 --- Context menu
 
@@ -51,8 +52,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] Color ramp
     - [ ] Perlin noise
     - [ ] INPUTS: File info
-    - [ ] TRANSFORMS: Date/time to Timestamp
-    - [ ] TRANSFORMS: Timestamp to Date/time
     - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
         - [x] Basic Array panel (List)
             - [x] Add Pop, Shift, Unshift pins
@@ -60,6 +59,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] TRANSFORMS: Date/time to Timestamp
+    - [x] TRANSFORMS: Timestamp to Date/time
     - [x] ALGEBRA: Threshold: (Value -> Value) sets outputs (High, Equal, Low) to true depending on whether first input is <=> than second
     - [x] INPUT: Toggle: (UI -> Value) set output to true or false depending on toggle
     - [x] BASIC: Counter: (Pulse -> Value) count pulses (also has a Reset pin)
@@ -95,15 +96,16 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
-- [ ] Move all visual state from panels to panelCoords
-    - [ ] width and height, minWidth and minHeight
+- [ ] Make selected panels get closer or father away by rolling the scroller
 - [ ] Right clicking on the workarea opens Panel search
 - [ ] Pulling a connection from an endpoint to the workarea opens Panel search
     - [ ] Panel search is constrained by the initial endpoint being an input or output endpoint
     - [ ] Panel search is constrained by signal and type of the initial endpoint
-- [ ] Make endpoint section in the panels collapsible
 - [ ] Setting default values for primitive endpoints inline
-- [ ] Make selected panels get closer or father away by rolling the scroller
+- [ ] Make endpoint section in the panels collapsible
+- [~] Move all visual state from panels to panelCoords
+    - [x] width and height, minWidth and minHeight
+    - [x] resizer
 - [x] Double clicking on title of panel to collapse a panel completely
 - [x] Make Connector component require coordinates rather than elements, so that the logic can be made more flexible
 - [x] Expose signal of endpoint throught color
@@ -113,12 +115,11 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Expose type of endpoint throught symbols/letters
 - [x] Expose type of endpoint in tooltip
 - [x] Make background of text input panel darker
-- [ ] Add derivative terminal to plotter
 
 --- Bugs / Performance
 
-- [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary
 - [ ] Only render panels in view
+- [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary
 - [ ] Consider ways of reducing number of connections shown (bounding box overlapping view?)
 
 - [x] Window resize causes slowdown and stalling --- PROBABLY FIXED

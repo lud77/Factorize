@@ -41,22 +41,22 @@ const isIncludedInArea = (areaCoords) => (testCoords) => {
 };
 
 const getSelectorsFor = (workAreaOffset) => {
-	const getPanelWorkAreaCoords = (panel, panelCoords) => {
-		const left = panelCoords.left + workAreaOffset[0];
-		const top = panelCoords.top + workAreaOffset[1];
+	const getPanelWorkAreaCoords = (panelCoord) => {
+		const left = panelCoord.left + workAreaOffset[0];
+		const top = panelCoord.top + workAreaOffset[1];
 
 		return {
 			left,
 			top,
-			right: left + panel.width - 1,
-			bottom: top + (panelCoords.isCollapsed ? 22 : panel.height) - 1
+			right: left + panelCoord.width - 1,
+			bottom: top + (panelCoord.isCollapsed ? 22 : panelCoord.height) - 1
 		};
 	};
 
 	const selectInclusive = (panels, panelCoords, selection) =>
 		Object.values(panels)
 			.map((panel) => {
-				const coords = getPanelWorkAreaCoords(panel, panelCoords[panel.panelId]);
+				const coords = getPanelWorkAreaCoords(panelCoords[panel.panelId]);
 
 				const isOverlapping = overlapsArea(selection)(coords);
 				return isOverlapping ? panel : null;
@@ -66,7 +66,7 @@ const getSelectorsFor = (workAreaOffset) => {
 	const selectExclusive = (panels, panelCoords, selection) =>
 		Object.values(panels)
 			.map((panel) => {
-				const coords = getPanelWorkAreaCoords(panel, panelCoords[panel.panelId]);
+				const coords = getPanelWorkAreaCoords(panelCoords[panel.panelId]);
 
 				const isOverlapping = isIncludedInArea(selection)(coords);
 				return isOverlapping ? panel : null;

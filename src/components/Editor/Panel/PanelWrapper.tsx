@@ -15,8 +15,8 @@ const PanelWrapper = (props) => {
 
     const left = (panelCoord.left + workAreaOffset[0]) + 'px'
     const top = (panelCoord.top + workAreaOffset[1]) + 'px';
-    const width = Math.max(panel.minWidth, panel.width) + 'px';
-    const height = (panelCoord.isCollpased ? 22 : Math.max(panel.minHeight, panel.height)) + 'px';
+    const width = Math.max(panelCoord.minWidth, panelCoord.width) + 'px';
+    const height = (panelCoord.isCollpased ? 22 : Math.max(panelCoord.minHeight, panelCoord.height)) + 'px';
 
     const style = {
         left,
@@ -25,7 +25,7 @@ const PanelWrapper = (props) => {
         height
     };
 
-    const hasResizer = panel.resizer != 'none';
+    const hasResizer = panelCoord.resizer != 'none';
 
     const toggleCollapse = () => {
         console.log('isCollapsed', !panelCoord.isCollapsed);
@@ -47,7 +47,7 @@ const PanelWrapper = (props) => {
 
     return (
         <div
-            data-key={panel.panelId}
+            data-key={panelCoord.panelId}
             className={`Panel ${props.isSelected ? 'Selected' : ''} ${props.isFocused ? 'Focused' : ''} ${panelCoord.isCollapsed ? 'Collapsed' : ''}`}
             style={style}
             onClick={props.onSelect}

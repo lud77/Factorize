@@ -293,7 +293,14 @@ const Machine = ({
 
     const makePanel = (panelType) => {
         const panelId = getNextPanelId();
-        const panel = dictionary[panelType].create(panelId);
+        const {
+            resizer,
+            width,
+            height,
+            minWidth,
+            minHeight,
+            ...panel
+        } = dictionary[panelType].create(panelId);
 
         const inputRefs =
             panel.inputEndpoints
@@ -308,8 +315,8 @@ const Machine = ({
                 .reduce((a, { name, defaultValue }) => ({ ...a, [`input${name}`]: defaultValue }), {});
 
         const inputSignalByEp =
-                panel.inputEndpoints
-                    .reduce((a, { name, signal }) => ({ ...a, [`input${name}`]: signal }), {});
+            panel.inputEndpoints
+                .reduce((a, { name, signal }) => ({ ...a, [`input${name}`]: signal }), {});
 
         const inputTypeByEp =
             panel.inputEndpoints
@@ -340,12 +347,10 @@ const Machine = ({
         position = (position + 20) % 100;
 
         const newPanel = {
-            width: 134,
-            height: 84,
-            resizer: 'none',
+            // resizer: 'none',
             ...panel,
-            minWidth: panel.minWidth || panel.width || 134,
-            minHeight: panel.minHeight || panel.height || 84,
+            // minWidth: panel.minWidth || panel.width || 134,
+            // minHeight: panel.minHeight || panel.height || 84,
             panelId,
             inputRefs,
             inputEpByRef,
@@ -362,16 +367,23 @@ const Machine = ({
             title: `${panelType} ${panelId}`
         };
 
-        if (newPanel.resizer != 'none') {
-            const resizerHeight = 9;
-            newPanel.height += resizerHeight;
-            newPanel.minHeight += resizerHeight;
-        }
+        // if (newPanel.resizer != 'none') {
+        //     const resizerHeight = 9;
+        //     newPanel.height += resizerHeight;
+        //     newPanel.minHeight += resizerHeight;
+        // }
+
+        const resizerHeight = resizer != 'none' ? 9 : 0;
 
         const newPanelCoords = {
             panelId,
+            width: (width || 134) + resizerHeight,
+            height: (height || 84) + resizerHeight,
+            minWidth: (minWidth || width || 134) + resizerHeight,
+            minHeight: (minHeight || height || 84) + resizerHeight,
             left: position - workAreaOffset[0],
-            top: position + 100 - workAreaOffset[1]
+            top: position + 100 - workAreaOffset[1],
+            resizer: resizer || 'none'
         };
 
         return [newPanel, newPanelCoords];
@@ -608,10 +620,19 @@ const Machine = ({
         const [copy, copyCoords] = makePanel(source.type);
 
         setPanelCoords((panelCoords) => {
+            const source = panelCoords[panelId];
+
+            const {
+                width,
+                height
+            } = source;
+
             const newPanelCoords = {
                 ...panelCoords,
                 [copyCoords.panelId]: {
-                    ...copyCoords
+                    ...copyCoords,
+                    width,
+                    height
                 }
             };
 
@@ -622,15 +643,11 @@ const Machine = ({
             const source = panels[panelId];
 
             const {
-                width,
-                height,
                 inputEpValues
             } = source;
 
             const newPanel = {
                 ...copy,
-                width,
-                height,
                 inputEpValues: {
                     ...inputEpValues,
                     ...copy.inputDefaultValues

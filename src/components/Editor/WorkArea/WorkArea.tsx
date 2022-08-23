@@ -170,8 +170,8 @@ const WorkArea = (props) => {
 					y: Number(e.pageY)
 				},
 				c: {
-					x: panels[panelId].width,
-					y: panels[panelId].height
+					x: panelCoords[panelId].width,
+					y: panelCoords[panelId].height
 				}
 			});
 
@@ -330,7 +330,7 @@ const WorkArea = (props) => {
 
 			const updates = {
 				[panelId]: {
-					...panels[panelId],
+					...panelCoords[panelId],
 					width: dragCoords.c.x + distance.dx,
 					height: dragCoords.c.y + distance.dy
 				}
@@ -338,8 +338,8 @@ const WorkArea = (props) => {
 
 			console.log('panel-resizer', );
 
-			setPanels((panels) => ({
-				...panels,
+			setPanelCoords((panelCoords) => ({
+				...panelCoords,
 				...updates
 			}));
 
@@ -621,11 +621,10 @@ const WorkArea = (props) => {
 	};
 
 	const getStartConnectionCoords = (connection) => {
-		const panel = panels[connection.sourcePanelId];
 		const panelCoord = panelCoords[connection.sourcePanelId];
 
 		if (panelCoord.isCollapsed) return middleRight({
-			right: (panelCoord.left + workAreaOffset[0]) + Math.max(panel.minWidth, panel.width) - 1,
+			right: (panelCoord.left + workAreaOffset[0]) + Math.min(120, panelCoord.width) - 1,
 			top: (panelCoord.top + workAreaOffset[1]),
 			height: 22
 		});
@@ -634,7 +633,6 @@ const WorkArea = (props) => {
 	};
 
 	const getEndConnectionCoords = (connection) => {
-		const panel = panels[connection.targetPanelId];
 		const panelCoord = panelCoords[connection.targetPanelId];
 
 		if (panelCoord.isCollapsed) return middleLeft({
