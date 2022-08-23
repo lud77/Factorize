@@ -21,7 +21,7 @@ const create = (panelId: number): Panel => {
                     <input
                         type="number"
                         onChange={handleChange(props)}
-                        value={ props.panel.outputEpValues.outputNumber }
+                        defaultValue={ props.panel.outputEpValues.outputNumber }
                         style={{ borderRadius: '5px', border: 'none' }}
                         />
                 </div>

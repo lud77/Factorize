@@ -40,6 +40,26 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Introduce Pulse-type signals
 - [x] Introduce Sources panel palette
 - [~] Actual panels
+    - [ ] FLOW: All: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then gives sends a pulse through the output
+    - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
+    - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
+    - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
+    - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
+    - [ ] Stdin/Stdout/Stderr
+    - [ ] IMAGE: Convolution
+    - [ ] ALGEBRA: Matrix
+    - [ ] Color ramp
+    - [ ] Perlin noise
+    - [ ] INPUTS: File info
+    - [ ] TRANSFORMS: Date/time to Timestamp
+    - [ ] TRANSFORMS: Timestamp to Date/time
+    - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
+        - [x] Basic Array panel (List)
+            - [x] Add Pop, Shift, Unshift pins
+        - [x] Merge
+        - [x] Intersection
+        - [x] Unique (Distinct)
+        - [x] Basic Object panel (Dictionary)
     - [x] ALGEBRA: Threshold: (Value -> Value) sets outputs (High, Equal, Low) to true depending on whether first input is <=> than second
     - [x] INPUT: Toggle: (UI -> Value) set output to true or false depending on toggle
     - [x] BASIC: Counter: (Pulse -> Value) count pulses (also has a Reset pin)
@@ -52,13 +72,9 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] INPUT: Deviator: (Value + Value -> Value) The output to 1 of N inputs based on the value of another input
     - [x] FLOW: Delay: (Pulse -> X secs -> Pulse)
     - [x] EVENTS: Clock: (every X secs -> Pulse)
-    - [ ] FLOW: All: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then gives sends a pulse through the output
-    - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
-    - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
     - [x] INPUT: Color Picker
     - [x] INPUT: Knob with inputs for min, max, and step
     - [x] INPUT: Range with inputs for min, max, and step
-    - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [x] OUTPUT: Logger: (a more complex mix of Display and LogFile that keeps N lines of text and adds a new line upon receiving a Pulse)
     - [x] OUTPUT: Led: Similar to Semaphore but with color input
     - [x] SOURCES: (Pulse -> Value) Fetch Current Date
@@ -67,24 +83,10 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] SOURCES: (Pulse -> Value) Fetch Current timestamp
     - [x] SOURCES: Text file, line by line
     - [x] FLOW: Gate (pass transistor)
-    - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
-    - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
-        - [x] Basic Array panel (List)
-            - [x] Add Pop, Shift, Unshift pins
-        - [x] Merge
-        - [x] Intersection
-        - [x] Unique (Distinct)
-        - [x] Basic Object panel (Dictionary)
+    - [x] OUTPUTS: Color view
+    - [x] EVENTS: Emit on file change
     - [x] EVENTS: Socket: socket listener, together with CLI tool to connect and send messages
     - [x] EVENTS: Accumulator
-    - [ ] Stdin/Stdout/Stderr
-    - [ ] IMAGE: Convolution
-    - [ ] ALGEBRA: Matrix
-    - [ ] Color ramp
-    - [x] Color view
-    - [ ] Perlin noise
-    - [x] EVENTS: Emit on file change
-    - [ ] INPUTS: File info
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 
@@ -111,6 +113,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Expose type of endpoint throught symbols/letters
 - [x] Expose type of endpoint in tooltip
 - [x] Make background of text input panel darker
+- [ ] Add derivative terminal to plotter
 
 --- Bugs / Performance
 

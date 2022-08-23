@@ -14,7 +14,7 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <InputEndpoint name="Fetch" panelId={panelId} signal="Pulse" description="Produce current timestamp" {...props}>Fetch</InputEndpoint>
-                <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
+                <OutputEndpoint name="Timestamp" panelId={panelId} {...props}>Timestamp</OutputEndpoint>
             </div>
         </>;
     };
@@ -25,7 +25,7 @@ const create = (panelId: number): Panel => {
     }];
 
     const outputEndpoints = [{
-        name: 'Value',
+        name: 'Timestamp',
         defaultValue: getValue(),
         type: 'number',
         signal: 'Value'
@@ -34,7 +34,7 @@ const create = (panelId: number): Panel => {
     const onPulse = (ep, panel) => {
         switch (ep) {
             case 'inputFetch':
-                return { outputValue: getValue() };
+                return { outputTimestamp: getValue() };
         }
     };
 
