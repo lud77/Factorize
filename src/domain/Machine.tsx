@@ -347,10 +347,7 @@ const Machine = ({
         position = (position + 20) % 100;
 
         const newPanel = {
-            // resizer: 'none',
             ...panel,
-            // minWidth: panel.minWidth || panel.width || 134,
-            // minHeight: panel.minHeight || panel.height || 84,
             panelId,
             inputRefs,
             inputEpByRef,
@@ -366,12 +363,6 @@ const Machine = ({
             outputTypeByEp,
             title: `${panelType} ${panelId}`
         };
-
-        // if (newPanel.resizer != 'none') {
-        //     const resizerHeight = 9;
-        //     newPanel.height += resizerHeight;
-        //     newPanel.minHeight += resizerHeight;
-        // }
 
         const resizerHeight = resizer != 'none' ? 9 : 0;
 
