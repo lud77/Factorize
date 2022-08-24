@@ -94,6 +94,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 
+
 -- UI
 
 - [ ] Make selected panels get closer or father away by rolling the scroller
@@ -116,10 +117,16 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Expose type of endpoint in tooltip
 - [x] Make background of text input panel darker
 
+
+--- State management
+
+- [ ] Maintain and use endpoint offsets relative to panel position (only rely on screen state when updating the offsets)
+- [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary
+
+
 --- Bugs / Performance
 
 - [ ] Only render panels in view
-- [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary
 - [ ] Consider ways of reducing number of connections shown (bounding box overlapping view?)
 
 - [x] Window resize causes slowdown and stalling --- PROBABLY FIXED
@@ -134,6 +141,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Crash when I pause with the Controls button
 - [ ] Stalls when trying to rewind file source from EOF signal without a delay
 - [x] WatchFile panel should remove and replace watcher behind the scenes when file name changes, just like the Listener panel does
+
 
 --- QA
 

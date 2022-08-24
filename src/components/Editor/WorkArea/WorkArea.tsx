@@ -331,8 +331,8 @@ const WorkArea = (props) => {
 			const updates = {
 				[panelId]: {
 					...panelCoords[panelId],
-					width: dragCoords.c.x + distance.dx,
-					height: dragCoords.c.y + distance.dy
+					width: Math.max(panelCoords[panelId].minWidth, dragCoords.c.x + distance.dx),
+                    height: Math.max(panelCoords[panelId].minHeight, dragCoords.c.y + distance.dy)
 				}
 			};
 
