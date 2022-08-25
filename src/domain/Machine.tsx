@@ -399,6 +399,19 @@ const Machine = ({
     };
 
     const addOutputEndpoint = (panelId, label, name, type, defaultValue, signal, value, registry) => {
+        setPanelCoords((panelCoords) => {
+            const panelCoord = panelCoords[panelId];
+
+            return {
+                ...panelCoords,
+                [panelId]: {
+                    ...panelCoord,
+                    height: panelCoord.height + 21,
+                    minHeight: panelCoord.minHeight + 21,
+                }
+            };
+        });
+
         setPanels((panels) => {
             const panel = panels[panelId];
             const ep = `output${name}`;
@@ -408,8 +421,6 @@ const Machine = ({
                 ...panels,
                 [panelId]: {
                     ...panel,
-                    height: panel.height + 21,
-                    minHeight: panel.minHeight + 21,
                     [registry]: [
                         ...panel[registry],
                         [ep, epRef, label, name, type]
@@ -445,6 +456,19 @@ const Machine = ({
     };
 
     const addInputEndpoint = (panelId, label, name, type, defaultValue, signal, value, registry) => {
+        setPanelCoords((panelCoords) => {
+            const panelCoord = panelCoords[panelId];
+
+            return {
+                ...panelCoords,
+                [panelId]: {
+                    ...panelCoord,
+                    height: panelCoord.height + 21,
+                    minHeight: panelCoord.minHeight + 21,
+                }
+            };
+        });
+
         setPanels((panels) => {
             const panel = panels[panelId];
             const ep = `input${name}`;
@@ -454,8 +478,6 @@ const Machine = ({
                 ...panels,
                 [panelId]: {
                     ...panel,
-                    height: panel.height + 21,
-                    minHeight: panel.minHeight + 21,
                     [registry]: [
                         ...panel[registry],
                         [ep, epRef, label, name, type]
