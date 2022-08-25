@@ -214,6 +214,33 @@ const Measures = (params) => {
 		};
 	};
 
+
+	const getVisibleObjects = (panels, connections, screenSize) => {
+		const isInView = overlapsArea(screenSize);
+
+		const panelsToRender =
+			Object.keys(panels)
+				.map((panelId) => {
+					const boundingBox = getPanelBoundingBox(panelId);
+
+					if (isInView(boundingBox)) return panelId;
+					return null;
+				})
+				.filter(Boolean);
+
+		const connectionsToRender =
+			connections
+				.map((connection) => {
+					const boundingBox = getConnectionBoundingBox(connection);
+
+					if (isInView(boundingBox)) return connection;
+					return null;
+				})
+				.filter(Boolean);
+
+		return [panelsToRender, connectionsToRender];
+	};
+
 	return {
 		getBounds,
 		buildScreenSize,
@@ -233,7 +260,8 @@ const Measures = (params) => {
 		getStartConnectionCoords,
 		getEndConnectionCoords,
 		selectInclusive,
-		selectExclusive
+		selectExclusive,
+		getVisibleObjects
 	};
 };
 

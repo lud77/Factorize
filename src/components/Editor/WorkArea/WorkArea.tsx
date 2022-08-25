@@ -43,15 +43,13 @@ const WorkArea = (props) => {
 		buildScreenSize,
 		linear,
 		snapping,
-		overlapsArea,
-		getPanelBoundingBox,
-		getConnectionBuilderCoords,
+		selectInclusive,
+		selectExclusive,
 		computeEpCoords,
-		getConnectionBoundingBox,
+		getConnectionBuilderCoords,
 		getStartConnectionCoords,
 		getEndConnectionCoords,
-		selectInclusive,
-		selectExclusive
+		getVisibleObjects
 	} = Measures({
 		workAreaOffset,
 		panelCoords
@@ -606,27 +604,7 @@ const WorkArea = (props) => {
 	const renderView = (draw) => {
 		if (Object.values(panels).length === 0 || Object.values(panelCoords).length === 0) return <></>;
 
-		const isInView = overlapsArea(screenSize);
-
-		const panelsToRender =
-			Object.keys(panels)
-				.map((panelId) => {
-					const boundingBox = getPanelBoundingBox(panelId);
-
-					if (isInView(boundingBox)) return panelId;
-					return null;
-				})
-				.filter(Boolean);
-
-		const connectionsToRender =
-			connections
-				.map((connection) => {
-					const boundingBox = getConnectionBoundingBox(connection);
-
-					if (isInView(boundingBox)) return connection;
-					return null;
-				})
-				.filter(Boolean);
+		const [panelsToRender, connectionsToRender] = getVisibleObjects(panels, connections, screenSize);
 
 		return <>
 			{panelsToRender.map((panelId) => renderPanel(panels[panelId], panelCoords[panelId]))}
