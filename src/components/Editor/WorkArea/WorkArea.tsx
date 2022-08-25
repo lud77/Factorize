@@ -8,18 +8,7 @@ import Marquee from './Marquee';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
 
-import {
-	buildScreenSize,
-	getSelectorsFor,
-	linear,
-	snapping,
-	middleRight,
-	middleLeft,
-	middleRightEl,
-	middleLeftEl,
-	getEndpointElByRef,
-	overlapsArea
-} from '../../../domain/Measures';
+import Measures from '../../../domain/Measures';
 
 import { contextMenusSetup } from '../../../domain/Menus';
 import rateLimiter from '../../../utils/rateLimiter';
@@ -50,7 +39,23 @@ const WorkArea = (props) => {
         connections, setConnections
     } = graphState;
 
-	const { selectInclusive, selectExclusive } = getSelectorsFor(workAreaOffset);
+	const {
+		buildScreenSize,
+		linear,
+		snapping,
+		overlapsArea,
+		getPanelBoundingBox,
+		getConnectionBuilderCoords,
+		computeEpCoords,
+		getConnectionBoundingBox,
+		getStartConnectionCoords,
+		getEndConnectionCoords,
+		selectInclusive,
+		selectExclusive
+	} = Measures({
+		workAreaOffset,
+		panelCoords
+	});
 
 	const workArea = React.useRef<any>();
 
@@ -543,29 +548,6 @@ const WorkArea = (props) => {
 		window.onresize = rateLimiter('resize', processResize, resizeEvents, 500);
 	}
 
-	const getPanelBoundingBox = (panelId) => {
-		const panelCoord = panelCoords[panelId];
-
-		return {
-			left: workAreaOffset[0] + panelCoord.left,
-			top: workAreaOffset[1] + panelCoord.top,
-			right: workAreaOffset[0] + panelCoord.left + (panelCoord.isCollapsed ? 120 : panelCoord.width) - 1,
-			bottom: workAreaOffset[1] + panelCoord.top + (panelCoord.isCollapsed ? 22 : panelCoord.height) - 1,
-		};
-	};
-
-	const getConnectionBoundingBox = (connection) => {
-		const s = getStartConnectionCoords(connection);
-		const t = getEndConnectionCoords(connection);
-
-		return {
-			left: Math.min(s.x, t.x) - 30,
-			top: Math.min(s.y, t.y),
-			right: Math.max(s.x, t.x) + 30,
-			bottom: Math.max(s.y, t.y)
-		};
-	};
-
 	const renderPanel = (panel, panelCoord) => {
 		const isFocused = focused === panel.panelId;
 		const isSelected = selectedPanels.has(panel.panelId);
@@ -580,6 +562,7 @@ const WorkArea = (props) => {
 				connectorAnchor={connectorAnchor}
 				isFocused={isFocused}
 				isSelected={isSelected}
+				computeEpCoords={computeEpCoords}
 				onSelect={(e) => {
 					e.stopPropagation();
 					setContextMenuData(null);
@@ -602,38 +585,6 @@ const WorkArea = (props) => {
 				redraw={redraw}
 				/>
 		);
-	};
-
-	const getStartConnectionCoords = (connection) => {
-		const panelCoord = panelCoords[connection.sourcePanelId];
-
-		if (panelCoord.isCollapsed) return middleRight({
-			right: panelCoord.left + workAreaOffset[0] + 120 - 1,
-			top: panelCoord.top + workAreaOffset[1],
-			height: 22
-		});
-
-		const epCoords = panelCoord.epCoords[connection.source];
-		return {
-			x: epCoords.x + panelCoord.left + workAreaOffset[0],
-			y: epCoords.y + panelCoord.top + workAreaOffset[1]
-		};
-	};
-
-	const getEndConnectionCoords = (connection) => {
-		const panelCoord = panelCoords[connection.targetPanelId];
-
-		if (panelCoord.isCollapsed) return middleLeft({
-			left: panelCoord.left + workAreaOffset[0],
-			top: panelCoord.top + workAreaOffset[1],
-			height: 22
-		});
-
-		const epCoords = panelCoord.epCoords[connection.target];
-		return {
-			x: epCoords.x + panelCoord.left + workAreaOffset[0],
-			y: epCoords.y + panelCoord.top + workAreaOffset[1]
-		};
 	};
 
 	const renderConnection = (connection, key) => {
@@ -689,22 +640,8 @@ const WorkArea = (props) => {
 			: null;
 	};
 
-	const getConnectionBuilderCoords = () => {
-		if ((connectorAnchor != null && connectorAnchor.fromRef != null)) return {
-			start: middleRightEl(getEndpointElByRef(connectorAnchor.fromRef)),
-			end: connectorAnchor.to
-		};
-
-		if ((connectorAnchor != null && connectorAnchor.toRef != null)) return {
-			start: connectorAnchor.from,
-			end: middleLeftEl(getEndpointElByRef(connectorAnchor.toRef))
-		};
-
-		return null;
-	};
-
 	const renderConnectionBuilder = () => {
-		const coords = getConnectionBuilderCoords();
+		const coords = getConnectionBuilderCoords(connectorAnchor);
 		if (!coords) return;
 
 		return <Connector

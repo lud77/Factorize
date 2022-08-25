@@ -3,11 +3,10 @@ import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
-import { computeEpCoords } from '../../../domain/Measures';
-
 const PanelWrapper = (props) => {
     const {
         setPanelCoords, panel, panelCoord,
+        computeEpCoords,
         connections,
         workAreaOffset,
         connectorAnchor,
