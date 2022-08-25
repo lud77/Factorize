@@ -251,11 +251,25 @@ const WorkArea = (props) => {
 
 		e.preventDefault();
 
-		if (!dragCoords.isDragging && (connectorAnchor == null)) return;
+		if (!dragCoords.isDragging && connectorAnchor != null) {
+			if (connectorAnchor.fromRef != null) {
+				setConnectorAnchor({
+					...connectorAnchor,
+					to: { x: e.clientX, y: e.clientY }
+				});
+			}
 
-		console.log('mouse move', dragCoords.what);
+			if (connectorAnchor.toRef != null) {
+				setConnectorAnchor({
+					...connectorAnchor,
+					from: { x: e.clientX, y: e.clientY }
+				});
+			}
+		}
 
-		if (dragCoords.isDragging && dragCoords.what == 'panel-resizer') {
+		if (!dragCoords.isDragging) return;
+
+		if (dragCoords.what == 'panel-resizer') {
 			const distance = {
 				dx: e.clientX - dragCoords.o.x,
 				dy: e.clientY - dragCoords.o.y
@@ -271,8 +285,6 @@ const WorkArea = (props) => {
 				}
 			};
 
-			console.log('panel-resizer', );
-
 			setPanelCoords((panelCoords) => ({
 				...panelCoords,
 				...updates
@@ -281,7 +293,7 @@ const WorkArea = (props) => {
 			return false;
 		}
 
-		if (dragCoords.isDragging && dragCoords.what == 'panels') {
+		if (dragCoords.what == 'panels') {
 			const func = (props.snap ? snapping : linear);
 
 			const distance = {
@@ -309,7 +321,7 @@ const WorkArea = (props) => {
 			return false;
 		}
 
-		if (dragCoords.isDragging && dragCoords.what == 'workarea') {
+		if (dragCoords.what == 'workarea') {
 			setWorkAreaOffset([
 				e.clientX - dragCoords.o.x + dragCoords.c.x,
 				e.clientY - dragCoords.o.y + dragCoords.c.y
@@ -318,7 +330,7 @@ const WorkArea = (props) => {
 			return false;
 		}
 
-		if (dragCoords.isDragging && dragCoords.what == 'marquee') {
+		if (dragCoords.what == 'marquee') {
 			const { top, left } = workArea.current.getBoundingClientRect();
 
 			const marqueeRight = e.pageX - left;
@@ -346,20 +358,6 @@ const WorkArea = (props) => {
 			setSelectedPanels(Set(included).concat(backupSelectedPanels));
 
 			return false;
-		}
-
-		if (connectorAnchor != null && connectorAnchor.fromRef != null) {
-			setConnectorAnchor({
-				...connectorAnchor,
-				to: { x: e.clientX, y: e.clientY }
-			});
-		}
-
-		if (connectorAnchor != null && connectorAnchor.toRef != null) {
-			setConnectorAnchor({
-				...connectorAnchor,
-				from: { x: e.clientX, y: e.clientY }
-			});
 		}
 	};
 
