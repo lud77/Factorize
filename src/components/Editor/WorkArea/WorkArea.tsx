@@ -49,7 +49,8 @@ const WorkArea = (props) => {
 		getConnectionBuilderCoords,
 		getStartConnectionCoords,
 		getEndConnectionCoords,
-		getVisibleObjects
+		getVisibleObjects,
+		getAnchorsPointsFor
 	} = Measures({
 		workAreaOffset,
 		panelCoords
@@ -68,29 +69,13 @@ const WorkArea = (props) => {
 	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
 
 	const getPanelIdsToMove = (contactPanelId) => {
-		console.log('contactPanelId', contactPanelId);
-
 		let panelIds = ((selectedPanels.size > 0) && selectedPanels.contains(contactPanelId)) ? Array.from(selectedPanels) : [contactPanelId];
-
-		console.log('panelIds', panelIds);
 
 		return panelIds
 			.map((panelId) => panelCoords[panelId])
 			.map((panelCoord) => panelCoord.group ? Array.from(panelCoord.group) : [])
 			.flat()
 			.concat(panelIds);
-	};
-
-	const getAnchorsPointsFor = (panelIds) => {
-		return panelIds
-			.map((panelId) => panelCoords[panelId])
-			.map((panelCoord) => ({
-				panelId: panelCoord.panelId,
-				o: {
-					x: panelCoord.left,
-					y: panelCoord.top
-				}
-			}));
 	};
 
 	const mouseDown = (e) => {
@@ -522,25 +507,15 @@ const WorkArea = (props) => {
 		/>);
 	};
 
-	const renderView = (draw) => {
-		if (Object.values(panels).length === 0 || Object.values(panelCoords).length === 0) return <></>;
-
-		const [panelsToRender, connectionsToRender] = getVisibleObjects(panels, connections, screenSize);
-
-		return <>
-			{panelsToRender.map((panelId) => renderPanel(panels[panelId], panelCoords[panelId]))}
-			{connectionsToRender.map(renderConnection)}
-		</>;
-	};
-
-	const renderMarquee = () => {
-		return (dragCoords.isDragging && dragCoords.what == 'marquee')
-			? <Marquee dragCoords={dragCoords} />
+	const renderContextMenu = () => {
+		return contextMenuData != null
+			? <ContextMenu {...contextMenuData} setContextMenuData={setContextMenuData} />
 			: null;
 	};
 
 	const renderConnectionBuilder = () => {
 		const coords = getConnectionBuilderCoords(connectorAnchor);
+
 		if (!coords) return;
 
 		return <Connector
@@ -554,6 +529,23 @@ const WorkArea = (props) => {
 			/>;
 	};
 
+	const renderMarquee = () => {
+		return (dragCoords.isDragging && dragCoords.what == 'marquee')
+			? <Marquee dragCoords={dragCoords} />
+			: null;
+	};
+
+	const renderView = () => {
+		if (Object.values(panels).length === 0 || Object.values(panelCoords).length === 0) return <></>;
+
+		const [panelsToRender, connectionsToRender] = getVisibleObjects(panels, connections, screenSize);
+
+		return <>
+			{panelsToRender.map((panelId) => renderPanel(panels[panelId], panelCoords[panelId]))}
+			{connectionsToRender.map(renderConnection)}
+		</>;
+	};
+
 	return (
 		<div
 			className="WorkArea"
@@ -565,10 +557,10 @@ const WorkArea = (props) => {
 			onClick={mouseClick}
 			onContextMenu={contextMenuOpen}
 			>
-			{contextMenuData != null ? <ContextMenu {...contextMenuData} setContextMenuData={setContextMenuData} /> : null}
+			{renderContextMenu()}
 			{renderConnectionBuilder()}
 			{renderMarquee()}
-			{renderView(draw)}
+			{renderView()}
 		</div>
 	);
 };

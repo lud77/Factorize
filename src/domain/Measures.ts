@@ -241,6 +241,18 @@ const Measures = (params) => {
 		return [panelsToRender, connectionsToRender];
 	};
 
+	const getAnchorsPointsFor = (panelIds) => {
+		return panelIds
+			.map((panelId) => panelCoords[panelId])
+			.map((panelCoord) => ({
+				panelId: panelCoord.panelId,
+				o: {
+					x: panelCoord.left,
+					y: panelCoord.top
+				}
+			}));
+	};
+
 	return {
 		getBounds,
 		buildScreenSize,
@@ -261,7 +273,8 @@ const Measures = (params) => {
 		getEndConnectionCoords,
 		selectInclusive,
 		selectExclusive,
-		getVisibleObjects
+		getVisibleObjects,
+		getAnchorsPointsFor
 	};
 };
 
