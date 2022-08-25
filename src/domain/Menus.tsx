@@ -135,7 +135,90 @@ const contextMenusSetup = (handlers) => {
     }];
 };
 
+const getContextMenuItems = (machine, setWorkAreaOffset) => contextMenusSetup({
+    deletePanel: (target) => (e) => {
+        machine.removePanelsByIds([target.panelId]);
+    },
+    deletePanels: (target) => (e) => {
+        machine.removePanelsByIds(target.selectedPanels);
+    },
+    groupPanels: (target) => (e) => {
+        machine.groupPanelsByIds(target.selectedPanels);
+    },
+    ungroupPanel: (target) => (e) => {
+        machine.ungroupPanelById(target.panelId);
+    },
+    ungroupPanels: (target) => (e) => {
+        machine.ungroupPanelsByIds(target.selectedPanels);
+    },
+    removeEp: (target) => (e) => {
+        if (target.endpoint.type === 'Input') return machine.removeInputEndpoint(target.panelId, target.endpoint.name, target.endpoint.ref, target.endpoint.registry);
+        if (target.endpoint.type === 'Output') return machine.removeOutputEndpoint(target.panelId, target.endpoint.name, target.endpoint.ref, target.endpoint.registry);
+    },
+    duplicatePanel: (target) => (e) => {
+        machine.duplicatePanelById(target.panelId);
+    },
+    disconnectPanel: (target) => (e) => {
+        machine.removeConnectionsByPanelId(target.panelId);
+    },
+    findOrigin: () => (e) => {
+        setWorkAreaOffset([0, 0]);
+    }
+});
+
+const getContextMenuOpen = (contextMenuItems, selectedPanels, setContextMenuData) => (e) => {
+    if (e.target.closest('.Panel')) {
+        const panelEl = e.target.closest('.Panel');
+        const panelId = parseInt(panelEl.dataset.key);
+        const isSelection = selectedPanels.includes(panelId);
+
+        const row = e.target.closest('.Row');
+
+        let ep = null;
+        if (row) {
+            const res = row.getElementsByClassName('Endpoint');
+            ep = (res != null) ? res[0] : null;
+        }
+
+        const removableEndpoint = (ep != null) && ep.classList.contains('Removable');
+
+        const tags = [isSelection ? 'panels' : 'panel'];
+        const target = { panelId, selectedPanels };
+
+        if (removableEndpoint) {
+            tags.push('removable endpoint');
+            target.endpoint = ep.dataset;
+        }
+
+        setContextMenuData({
+            left: e.clientX,
+            top: e.clientY,
+            items: contextMenuItems,
+            target,
+            tags
+        });
+
+        return;
+    }
+
+    if (e.target.closest('.ContextMenu')) {
+        setContextMenuData(null);
+        return;
+    }
+
+    setContextMenuData({
+        left: e.clientX,
+        top: e.clientY,
+        items: contextMenuItems,
+        target: e.target,
+        tags: ['workarea']
+    });
+
+    return;
+};
+
 export {
     toolbarMenusSetup,
-    contextMenusSetup
+    getContextMenuItems,
+    getContextMenuOpen
 };

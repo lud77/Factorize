@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { flushSync } from 'react-dom';
-import { set, Set } from 'immutable';
+import { Set } from 'immutable';
 
 import Connector from './Connector/Connector';
 import PanelWrapper from '../Panel/PanelWrapper';
@@ -8,15 +8,14 @@ import Marquee from './Marquee';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
 
+import { getContextMenuItems, getContextMenuOpen } from '../../../domain/Menus';
 import Measures from '../../../domain/Measures';
 
-import { contextMenusSetup } from '../../../domain/Menus';
 import rateLimiter from '../../../utils/rateLimiter';
 import { DragCoords } from '../../../types/DragCoords';
 
 import './WorkArea.css';
 import '../Panel/Panel.css';
-import getContextMenuItems from './contextMenuItems';
 
 let resizeEvents: number[] = [];
 let mouseMoveEvents: number[] = [];
@@ -59,6 +58,7 @@ const WorkArea = (props) => {
 	const workArea = React.useRef<any>();
 
 	const [ contextMenuData, setContextMenuData ] = React.useState<object | null>(null);
+	const contextMenuItems = getContextMenuItems(machine, setWorkAreaOffset);
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
@@ -66,8 +66,6 @@ const WorkArea = (props) => {
 	const [ selectedPanels, setSelectedPanels ] = React.useState<Set<number>>(Set());
 
 	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
-
-	const contextMenuItems = getContextMenuItems(machine, setWorkAreaOffset);
 
 	const getPanelIdsToMove = (contactPanelId) => {
 		console.log('contactPanelId', contactPanelId);
@@ -451,56 +449,7 @@ const WorkArea = (props) => {
 		return true;
 	};
 
-	const contextMenuOpen = (e) => {
-		if (e.target.closest('.Panel')) {
-			const panelEl = e.target.closest('.Panel');
-			const panelId = parseInt(panelEl.dataset.key);
-			const isSelection = selectedPanels.includes(panelId);
-
-			const row = e.target.closest('.Row');
-
-			let ep = null;
-			if (row) {
-				const res = row.getElementsByClassName('Endpoint');
-				ep = (res != null) ? res[0] : null;
-			}
-
-			const removableEndpoint = (ep != null) && ep.classList.contains('Removable');
-
-			const tags = [isSelection ? 'panels' : 'panel'];
-			const target = { panelId, selectedPanels };
-
-			if (removableEndpoint) {
-				tags.push('removable endpoint');
-				target.endpoint = ep.dataset;
-			}
-
-			setContextMenuData({
-				left: e.clientX,
-				top: e.clientY,
-				items: contextMenuItems,
-				target,
-				tags
-			});
-
-			return;
-		}
-
-		if (e.target.closest('.ContextMenu')) {
-			setContextMenuData(null);
-			return;
-		}
-
-		setContextMenuData({
-			left: e.clientX,
-			top: e.clientY,
-			items: contextMenuItems,
-			target: e.target,
-			tags: ['workarea']
-		});
-
-		return;
-	};
+	const contextMenuOpen = getContextMenuOpen(contextMenuItems, selectedPanels, setContextMenuData);
 
 	const toggleSelection = (panelId) => {
 		if (selectedPanels.has(panelId)) {
