@@ -8,22 +8,22 @@ import Marquee from './Marquee';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
 
-import { contextMenusSetup } from '../../../domain/Menus';
-import {
-	middleRight,
-	middleLeft,
-	middleRightEl,
-	middleLeftEl
-} from '../../../domain/Measures';
-import rateLimiter from '../../../utils/rateLimiter';
-import { DragCoords } from '../../../types/DragCoords';
-
 import {
 	buildScreenSize,
 	getSelectorsFor,
 	linear,
-	snapping
+	snapping,
+	middleRight,
+	middleLeft,
+	middleRightEl,
+	middleLeftEl,
+	getEndpointElByRef,
+	overlapsArea
 } from '../../../domain/Measures';
+
+import { contextMenusSetup } from '../../../domain/Menus';
+import rateLimiter from '../../../utils/rateLimiter';
+import { DragCoords } from '../../../types/DragCoords';
 
 import './WorkArea.css';
 import '../Panel/Panel.css';
@@ -51,8 +51,6 @@ const WorkArea = (props) => {
     } = graphState;
 
 	const { selectInclusive, selectExclusive } = getSelectorsFor(workAreaOffset);
-
-	const getEndpointElByRef = (ref: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-ref="${ref}"]`);
 
 	const workArea = React.useRef<any>();
 
@@ -92,7 +90,6 @@ const WorkArea = (props) => {
 			machine.removeConnectionsByPanelId(target.panelId);
 		},
 		findOrigin: () => (e) => {
-			const numPanels = Object.values(panels).length;
 			setWorkAreaOffset([0, 0]);
 		}
 	});
@@ -106,7 +103,6 @@ const WorkArea = (props) => {
 
 		return panelIds
 			.map((panelId) => panelCoords[panelId])
-			.map((x) => console.log('panelCoords[panelId]', x) || x)
 			.map((panelCoord) => panelCoord.group ? Array.from(panelCoord.group) : [])
 			.flat()
 			.concat(panelIds);
@@ -144,7 +140,6 @@ const WorkArea = (props) => {
 		const creatingInputConnection = e.target.classList.contains('InputEndpoint') && !connected;
 		const creatingOutputConnection = e.target.classList.contains('OutputEndpoint') && !connected;
 		const detachingInputConnection = (connectorAnchor == null) && e.target.classList.contains('InputEndpoint') && connected;
-		// const detachingOutputConnection = (connectorAnchor == null) && e.target.classList.contains('OutputEndpoint') && connected;
 
 		if (
 			!draggingPanel &&
@@ -153,8 +148,7 @@ const WorkArea = (props) => {
 			!selectingArea &&
 			!creatingInputConnection &&
 			!creatingOutputConnection &&
-			!detachingInputConnection //&&
-			// !detachingOutputConnection
+			!detachingInputConnection
 		) return;
 
 		if (resizingPanel) {
@@ -292,23 +286,6 @@ const WorkArea = (props) => {
 
 			return;
 		}
-
-		// if (detachingOutputConnection) {
-		// 	const fromPanel = e.target.closest('.Panel');
-		// 	const fromPanelId = parseInt(fromPanel.dataset.key);
-
-		// 	const connection = machine.removeConnectionBySourceRef(machine.getPanelOutputRef(fromPanelId, e.target.dataset.name));
-		// 	if (connection == null) return;
-
-		// 	setConnectorAnchor({
-		// 		fromRef: null,
-		// 		to: null,
-		// 		toRef: connection.target,
-		// 		toPanelId: connection.targetPanelId,
-		// 		from: { x: e.pageX, y: e.pageY }
-		// 	});
-		// 	return;
-		// }
 	};
 
 	const processMouseMove = (e) => {
@@ -373,22 +350,6 @@ const WorkArea = (props) => {
 
 			return false;
 		}
-
-		// if (dragCoords.isDragging && dragCoords.what == 'panel') {
-		// 	const panelId = parseInt(dragCoords.el.dataset.key);
-		// 	const func = (props.snap ? snapping : linear);
-
-		// 	setPanelCoords((panelCoords) => ({
-		// 		...panelCoords,
-		// 		[panelId]: {
-		// 			...panelCoords[panelId],
-		// 			left: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
-		// 			top: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
-		// 		}
-		// 	}));
-
-		// 	return false;
-		// }
 
 		if (dragCoords.isDragging && dragCoords.what == 'workarea') {
 			setWorkAreaOffset([
@@ -505,7 +466,7 @@ const WorkArea = (props) => {
 		setFocus(null);
 
 		if (e.shiftKey || e.ctrlKey) {
-			console.log(panels);
+			console.log(panels, panelCoords);
 			console.log(connections);
 			return;
 		}
@@ -582,6 +543,36 @@ const WorkArea = (props) => {
 		window.onresize = rateLimiter('resize', processResize, resizeEvents, 500);
 	}
 
+	const getPanelBoundingBox = (panelId) => {
+		const panelCoord = panelCoords[panelId];
+
+		return {
+			left: workAreaOffset[0] + panelCoord.left,
+			top: workAreaOffset[1] + panelCoord.top,
+			right: workAreaOffset[0] + panelCoord.left + (panelCoord.isCollapsed ? 120 : panelCoord.width) - 1,
+			bottom: workAreaOffset[1] + panelCoord.top + panelCoord.height - 1,
+		};
+	};
+
+	const getConnectionBoundingBox = (connection) => {
+		const sourceCoords = panelCoords[connection.sourcePanelId];
+		const sourceEpCoord = sourceCoords.epCoords[connection.source];
+		const targetCoords = panelCoords[connection.targetPanelId];
+		const targetEpCoord = targetCoords.epCoords[connection.target];
+
+		const sx = sourceEpCoord.x + sourceCoords.left + workAreaOffset[0];
+		const sy = sourceEpCoord.y + sourceCoords.top + workAreaOffset[1];
+		const tx = targetEpCoord.x + targetCoords.left + workAreaOffset[0];
+		const ty = targetEpCoord.y + targetCoords.top + workAreaOffset[1];
+
+		return {
+			left: Math.min(sx, tx) - 30,
+			top: Math.min(sy, ty),
+			right: Math.max(sx, tx) + 30,
+			bottom: Math.max(sy, ty)
+		};
+	};
+
 	const renderPanel = (panel, panelCoord) => {
 		const isFocused = focused === panel.panelId;
 		const isSelected = selectedPanels.has(panel.panelId);
@@ -624,24 +615,32 @@ const WorkArea = (props) => {
 		const panelCoord = panelCoords[connection.sourcePanelId];
 
 		if (panelCoord.isCollapsed) return middleRight({
-			right: (panelCoord.left + workAreaOffset[0]) + Math.min(120, panelCoord.width) - 1,
-			top: (panelCoord.top + workAreaOffset[1]),
+			right: panelCoord.left + workAreaOffset[0] + 120 - 1,
+			top: panelCoord.top + workAreaOffset[1],
 			height: 22
 		});
 
-		return middleRightEl(getEndpointElByRef(connection.source));
+		const epCoords = panelCoord.epCoords[connection.source];
+		return {
+			x: epCoords.x + panelCoord.left + workAreaOffset[0],
+			y: epCoords.y + panelCoord.top + workAreaOffset[1]
+		};
 	};
 
 	const getEndConnectionCoords = (connection) => {
 		const panelCoord = panelCoords[connection.targetPanelId];
 
 		if (panelCoord.isCollapsed) return middleLeft({
-			left: (panelCoord.left + workAreaOffset[0]),
-			top: (panelCoord.top + workAreaOffset[1]),
+			left: panelCoord.left + workAreaOffset[0],
+			top: panelCoord.top + workAreaOffset[1],
 			height: 22
 		});
 
-		return middleLeftEl(getEndpointElByRef(connection.target));
+		const epCoords = panelCoord.epCoords[connection.target];
+		return {
+			x: epCoords.x + panelCoord.left + workAreaOffset[0],
+			y: epCoords.y + panelCoord.top + workAreaOffset[1]
+		};
 	};
 
 	const renderConnection = (connection, key) => {
@@ -663,9 +662,31 @@ const WorkArea = (props) => {
 	const renderView = (draw) => {
 		if (Object.values(panels).length === 0 || Object.values(panelCoords).length === 0) return <></>;
 
+		const isInView = overlapsArea(screenSize);
+
+		const panelsToRender =
+			Object.keys(panels)
+				.map((panelId) => {
+					const boundingBox = getPanelBoundingBox(panelId);
+
+					if (isInView(boundingBox)) return panelId;
+					return null;
+				})
+				.filter(Boolean);
+
+		const connectionsToRender =
+			connections
+				.map((connection) => {
+					const boundingBox = getConnectionBoundingBox(connection);
+
+					if (isInView(boundingBox)) return connection;
+					return null;
+				})
+				.filter(Boolean);
+
 		return <>
-			{Object.keys(panels).map((panelId) => renderPanel(panels[panelId], panelCoords[panelId]))}
-			{connections.map(renderConnection)}
+			{panelsToRender.map((panelId) => renderPanel(panels[panelId], panelCoords[panelId]))}
+			{connectionsToRender.map(renderConnection)}
 		</>;
 	};
 

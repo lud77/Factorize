@@ -3,6 +3,8 @@ import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
+import { computeEpCoords } from '../../../domain/Measures';
+
 const PanelWrapper = (props) => {
     const {
         setPanelCoords, panel, panelCoord,
@@ -15,7 +17,7 @@ const PanelWrapper = (props) => {
 
     const left = (panelCoord.left + workAreaOffset[0]) + 'px'
     const top = (panelCoord.top + workAreaOffset[1]) + 'px';
-    const width = Math.max(panelCoord.minWidth, panelCoord.width) + 'px';
+    const width = (panelCoord.isCollpased ? 120 : Math.max(panelCoord.minWidth, panelCoord.width)) + 'px';
     const height = (panelCoord.isCollpased ? 22 : Math.max(panelCoord.minHeight, panelCoord.height)) + 'px';
 
     const style = {
@@ -44,6 +46,15 @@ const PanelWrapper = (props) => {
 
         return false;
     };
+
+    // to avoid this we would need to make all the sizes of the panel predefined
+    // which would mean rebuilding the Flexbox features without Flexbox
+    // -- not impossible, but yet another useless complication
+    React.useEffect(() => {
+        console.log('useeffect');
+
+        computeEpCoords(panel, panelCoord, setPanelCoords, workAreaOffset);
+    }, [panel]);
 
     return (
         <div
