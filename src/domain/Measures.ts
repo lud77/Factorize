@@ -112,6 +112,8 @@ const middleLeftEl = (el) => {
 	return middleLeft(coords);
 };
 
+const getEndpointElByRef = (ref: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-ref="${ref}"]`);
+
 export {
     getBounds,
     buildScreenSize,
@@ -123,5 +125,6 @@ export {
 	middleRight,
 	middleLeft,
 	middleRightEl,
-	middleLeftEl
+	middleLeftEl,
+	getEndpointElByRef
 };
