@@ -516,6 +516,19 @@ const Machine = ({
         console.log('removeInputEndpoint', panelId, ep, ref, registry);
         removeConnectionByTargetRef(ref);
 
+        setPanelCoords((panelCoords) => {
+            const panelCoord = panelCoords[panelId];
+
+            return {
+                ...panelCoords,
+                [panelId]: {
+                    ...panelCoord,
+                    height: panelCoord.height - 21,
+                    minHeight: panelCoord.minHeight - 21,
+                }
+            };
+        });
+
         setPanels((panels) => {
             const panel = panels[panelId];
 
@@ -530,8 +543,6 @@ const Machine = ({
                 ...panels,
                 [panelId]: {
                     ...panel,
-                    height: panel.height - 21,
-                    minHeight: panel.minHeight - 21,
                     [registry]: panel[registry].filter(([candidateEp]) => candidateEp != ep),
                     inputRefs: { ...panel.inputRefs },
                     inputEpByRef: { ...panel.inputEpByRef },
@@ -547,6 +558,19 @@ const Machine = ({
     const removeOutputEndpoint = (panelId, ep, ref, registry) => {
         console.log('removeOutputEndpoint', panelId, ep, ref, registry);
         removeConnectionBySourceRef(ref);
+
+        setPanelCoords((panelCoords) => {
+            const panelCoord = panelCoords[panelId];
+
+            return {
+                ...panelCoords,
+                [panelId]: {
+                    ...panelCoord,
+                    height: panelCoord.height - 21,
+                    minHeight: panelCoord.minHeight - 21,
+                }
+            };
+        });
 
         setPanels((panels) => {
             const panel = panels[panelId];
