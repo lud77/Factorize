@@ -103,9 +103,9 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] Panel search is constrained by the initial endpoint being an input or output endpoint
     - [ ] Panel search is constrained by signal and type of the initial endpoint
 - [ ] Setting default values for primitive endpoints inline
-- [ ] Make endpoint section in the panels collapsible
 - [ ] Make width of collapsed panel a constant (currently the magic number 120)
 - [ ] Make magic numbers become constants
+- [ ] Make endpoint section in the panels collapsible
 - [~] Move all visual state from panels to panelCoords
     - [x] width and height, minWidth and minHeight
     - [x] resizer
@@ -122,26 +122,25 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 --- State management
 
-- [ ] Maintain and use endpoint offsets relative to panel position (only rely on screen state when updating the offsets)
 - [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary
+- [x] Maintain and use endpoint offsets relative to panel position (only rely on screen state when updating the offsets)
 
 
 --- Bugs / Performance
 
-- [ ] Only render panels in view
-- [ ] Consider ways of reducing number of connections shown (bounding box overlapping view?)
+- [ ] Disallow Value-type signals from creating feedback loops
+- [ ] Sanitize topic input to listener
+- [ ] Stalls when trying to rewind file source from EOF signal without a delay
 
 - [x] Window resize causes slowdown and stalling --- PROBABLY FIXED
+- [x] Only render panels in view
+- [x] Consider ways of reducing number of connections shown (bounding box overlapping view?)
 - [x] Connectors losing contact with panels
-
-- [ ] Disallow Value-type signals from creating feedback loops
 - [x] Stopping clock connected to dice makes dice output go undefined
 - [x] Deletion of panels must affect also panelCoords
 - [x] Save-files should include position of viewport
-- [ ] Sanitize topic input to listener
 - [x] Crash when deleting multiple panels
 - [x] Crash when I pause with the Controls button
-- [ ] Stalls when trying to rewind file source from EOF signal without a delay
 - [x] WatchFile panel should remove and replace watcher behind the scenes when file name changes, just like the Listener panel does
 
 

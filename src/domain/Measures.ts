@@ -20,6 +20,8 @@ const getBounds = (el: HTMLElement) => {
 const buildScreenSize = () => ({
     top: 0,
     left: 0,
+	bottom: window.innerHeight - 1,
+	right: window.innerWidth - 1,
     width: window.innerWidth,
     height: window.innerHeight
 });

@@ -17,7 +17,8 @@ import {
 	middleLeft,
 	middleRightEl,
 	middleLeftEl,
-	getEndpointElByRef
+	getEndpointElByRef,
+	overlapsArea
 } from '../../../domain/Measures';
 
 import { contextMenusSetup } from '../../../domain/Menus';
@@ -542,6 +543,36 @@ const WorkArea = (props) => {
 		window.onresize = rateLimiter('resize', processResize, resizeEvents, 500);
 	}
 
+	const getPanelBoundingBox = (panelId) => {
+		const panelCoord = panelCoords[panelId];
+
+		return {
+			left: workAreaOffset[0] + panelCoord.left,
+			top: workAreaOffset[1] + panelCoord.top,
+			right: workAreaOffset[0] + panelCoord.left + (panelCoord.isCollapsed ? 120 : panelCoord.width) - 1,
+			bottom: workAreaOffset[1] + panelCoord.top + panelCoord.height - 1,
+		};
+	};
+
+	const getConnectionBoundingBox = (connection) => {
+		const sourceCoords = panelCoords[connection.sourcePanelId];
+		const sourceEpCoord = sourceCoords.epCoords[connection.source];
+		const targetCoords = panelCoords[connection.targetPanelId];
+		const targetEpCoord = targetCoords.epCoords[connection.target];
+
+		const sx = sourceEpCoord.x + sourceCoords.left + workAreaOffset[0];
+		const sy = sourceEpCoord.y + sourceCoords.top + workAreaOffset[1];
+		const tx = targetEpCoord.x + targetCoords.left + workAreaOffset[0];
+		const ty = targetEpCoord.y + targetCoords.top + workAreaOffset[1];
+
+		return {
+			left: Math.min(sx, tx) - 30,
+			top: Math.min(sy, ty),
+			right: Math.max(sx, tx) + 30,
+			bottom: Math.max(sy, ty)
+		};
+	};
+
 	const renderPanel = (panel, panelCoord) => {
 		const isFocused = focused === panel.panelId;
 		const isSelected = selectedPanels.has(panel.panelId);
@@ -631,9 +662,31 @@ const WorkArea = (props) => {
 	const renderView = (draw) => {
 		if (Object.values(panels).length === 0 || Object.values(panelCoords).length === 0) return <></>;
 
+		const isInView = overlapsArea(screenSize);
+
+		const panelsToRender =
+			Object.keys(panels)
+				.map((panelId) => {
+					const boundingBox = getPanelBoundingBox(panelId);
+
+					if (isInView(boundingBox)) return panelId;
+					return null;
+				})
+				.filter(Boolean);
+
+		const connectionsToRender =
+			connections
+				.map((connection) => {
+					const boundingBox = getConnectionBoundingBox(connection);
+
+					if (isInView(boundingBox)) return connection;
+					return null;
+				})
+				.filter(Boolean);
+
 		return <>
-			{Object.keys(panels).map((panelId) => renderPanel(panels[panelId], panelCoords[panelId]))}
-			{connections.map(renderConnection)}
+			{panelsToRender.map((panelId) => renderPanel(panels[panelId], panelCoords[panelId]))}
+			{connectionsToRender.map(renderConnection)}
 		</>;
 	};
 
