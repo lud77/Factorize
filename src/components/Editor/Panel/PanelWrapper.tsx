@@ -3,7 +3,7 @@ import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
-import { middleRightEl, middleLeftEl, getEndpointElByRef } from '../../../domain/Measures';
+import { computeEpCoords } from '../../../domain/Measures';
 
 const PanelWrapper = (props) => {
     const {
@@ -53,27 +53,8 @@ const PanelWrapper = (props) => {
     React.useEffect(() => {
         console.log('useeffect');
 
-        const epCoords =
-            Object.values<number>(panel.inputRefs).concat(Object.values<number>(panel.outputRefs))
-                .map((epRef) => [epRef, getEndpointElByRef(epRef)])
-                .map(([epRef, epEl]) => [epRef, middleLeftEl(epEl)])
-                .map(([epRef, pos]) => [
-                    epRef, {
-                        x: pos.x - panelCoord.left - workAreaOffset[0],
-                        y: pos.y - panelCoord.top - workAreaOffset[1]
-                    }
-                ]);
-
-        setPanelCoords((panelCoords) => {
-            return {
-                ...panelCoords,
-                [panelCoord.panelId]: {
-                    ...panelCoords[panelCoord.panelId],
-                    epCoords: Object.fromEntries(epCoords),
-                }
-            };
-        });
-    }, []);
+        computeEpCoords(panel, panelCoord, setPanelCoords, workAreaOffset);
+    }, [panel]);
 
     return (
         <div

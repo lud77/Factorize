@@ -114,6 +114,29 @@ const middleLeftEl = (el) => {
 
 const getEndpointElByRef = (ref: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-ref="${ref}"]`);
 
+const computeEpCoords = (panel, panelCoord, setPanelCoords, workAreaOffset) => {
+	const epCoords =
+		Object.values<number>(panel.inputRefs).concat(Object.values<number>(panel.outputRefs))
+			.map((epRef) => [epRef, getEndpointElByRef(epRef)])
+			.map(([epRef, epEl]) => [epRef, middleLeftEl(epEl)])
+			.map(([epRef, pos]) => [
+				epRef, {
+					x: pos.x - panelCoord.left - workAreaOffset[0],
+					y: pos.y - panelCoord.top - workAreaOffset[1]
+				}
+			]);
+
+	setPanelCoords((panelCoords) => {
+		return {
+			...panelCoords,
+			[panelCoord.panelId]: {
+				...panelCoords[panelCoord.panelId],
+				epCoords: Object.fromEntries(epCoords),
+			}
+		};
+	});
+};
+
 export {
     getBounds,
     buildScreenSize,
@@ -126,5 +149,6 @@ export {
 	middleLeft,
 	middleRightEl,
 	middleLeftEl,
-	getEndpointElByRef
+	getEndpointElByRef,
+	computeEpCoords
 };
