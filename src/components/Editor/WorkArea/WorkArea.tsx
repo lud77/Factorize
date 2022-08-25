@@ -350,22 +350,6 @@ const WorkArea = (props) => {
 			return false;
 		}
 
-		// if (dragCoords.isDragging && dragCoords.what == 'panel') {
-		// 	const panelId = parseInt(dragCoords.el.dataset.key);
-		// 	const func = (props.snap ? snapping : linear);
-
-		// 	setPanelCoords((panelCoords) => ({
-		// 		...panelCoords,
-		// 		[panelId]: {
-		// 			...panelCoords[panelId],
-		// 			left: func(e.clientX - dragCoords.o.x + dragCoords.c.x),
-		// 			top: func(e.clientY - dragCoords.o.y + dragCoords.c.y)
-		// 		}
-		// 	}));
-
-		// 	return false;
-		// }
-
 		if (dragCoords.isDragging && dragCoords.what == 'workarea') {
 			setWorkAreaOffset([
 				e.clientX - dragCoords.o.x + dragCoords.c.x,
@@ -607,8 +591,8 @@ const WorkArea = (props) => {
 
 		const epCoords = panelCoord.epCoords[connection.source];
 		return {
-			x: epCoords.x + panelCoord.left,
-			y: epCoords.y + panelCoord.top
+			x: epCoords.x + panelCoord.left + workAreaOffset[0],
+			y: epCoords.y + panelCoord.top + workAreaOffset[1]
 		};
 	};
 
@@ -623,8 +607,8 @@ const WorkArea = (props) => {
 
 		const epCoords = panelCoord.epCoords[connection.target];
 		return {
-			x: epCoords.x + panelCoord.left,
-			y: epCoords.y + panelCoord.top
+			x: epCoords.x + panelCoord.left + workAreaOffset[0],
+			y: epCoords.y + panelCoord.top + workAreaOffset[1]
 		};
 	};
 

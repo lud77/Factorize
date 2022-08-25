@@ -104,6 +104,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] Panel search is constrained by signal and type of the initial endpoint
 - [ ] Setting default values for primitive endpoints inline
 - [ ] Make endpoint section in the panels collapsible
+- [ ] Make width of collapsed panel a constant (currently the magic number 120)
+- [ ] Make magic numbers become constants
 - [~] Move all visual state from panels to panelCoords
     - [x] width and height, minWidth and minHeight
     - [x] resizer
