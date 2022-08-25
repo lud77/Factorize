@@ -119,7 +119,12 @@ const getEndpointElByRef = (ref: number): HTMLDivElement | null => document.quer
 const computeEpCoords = (panel, panelCoord, setPanelCoords, workAreaOffset) => {
 	const epCoords =
 		Object.values<number>(panel.inputRefs).concat(Object.values<number>(panel.outputRefs))
-			.map((epRef) => [epRef, getEndpointElByRef(epRef)])
+			.map((epRef) => {
+				const epEl = getEndpointElByRef(epRef);
+				if (!epEl) return null;
+				return [epRef, epEl];
+			})
+			.filter(Boolean)
 			.map(([epRef, epEl]) => [epRef, middleLeftEl(epEl)])
 			.map(([epRef, pos]) => [
 				epRef, {
@@ -127,6 +132,9 @@ const computeEpCoords = (panel, panelCoord, setPanelCoords, workAreaOffset) => {
 					y: pos.y - panelCoord.top - workAreaOffset[1]
 				}
 			]);
+
+
+	if (!epCoords.length) return;
 
 	setPanelCoords((panelCoords) => {
 		return {

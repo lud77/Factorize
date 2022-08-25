@@ -550,26 +550,19 @@ const WorkArea = (props) => {
 			left: workAreaOffset[0] + panelCoord.left,
 			top: workAreaOffset[1] + panelCoord.top,
 			right: workAreaOffset[0] + panelCoord.left + (panelCoord.isCollapsed ? 120 : panelCoord.width) - 1,
-			bottom: workAreaOffset[1] + panelCoord.top + panelCoord.height - 1,
+			bottom: workAreaOffset[1] + panelCoord.top + (panelCoord.isCollapsed ? 22 : panelCoord.height) - 1,
 		};
 	};
 
 	const getConnectionBoundingBox = (connection) => {
-		const sourceCoords = panelCoords[connection.sourcePanelId];
-		const sourceEpCoord = sourceCoords.epCoords[connection.source];
-		const targetCoords = panelCoords[connection.targetPanelId];
-		const targetEpCoord = targetCoords.epCoords[connection.target];
-
-		const sx = sourceEpCoord.x + sourceCoords.left + workAreaOffset[0];
-		const sy = sourceEpCoord.y + sourceCoords.top + workAreaOffset[1];
-		const tx = targetEpCoord.x + targetCoords.left + workAreaOffset[0];
-		const ty = targetEpCoord.y + targetCoords.top + workAreaOffset[1];
+		const s = getStartConnectionCoords(connection);
+		const t = getEndConnectionCoords(connection);
 
 		return {
-			left: Math.min(sx, tx) - 30,
-			top: Math.min(sy, ty),
-			right: Math.max(sx, tx) + 30,
-			bottom: Math.max(sy, ty)
+			left: Math.min(s.x, t.x) - 30,
+			top: Math.min(s.y, t.y),
+			right: Math.max(s.x, t.x) + 30,
+			bottom: Math.max(s.y, t.y)
 		};
 	};
 
