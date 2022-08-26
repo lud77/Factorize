@@ -67,7 +67,10 @@ const create = (panelId: number): Panel => {
     const onPulse = (ep, panel, { sendPulseTo }) => {
         switch (ep) {
             case 'inputReset':
-                return { receivedList: {} };
+                return {
+                    receivedList: {},
+                    sent: false
+                };
 
             default:
                 const receivedList = {
@@ -75,9 +78,11 @@ const create = (panelId: number): Panel => {
                     [ep]: true
                 };
 
+                if (panel.outputEpValues.sent) return {};
+
                 const count = Object.values(receivedList).filter(Boolean).length;
                 if (count === panel.inEpsCounter - 1) sendPulseTo(panel.panelId, 'outputOut');
-                return { receivedList };
+                return { receivedList, sent: true };
         }
     };
 
