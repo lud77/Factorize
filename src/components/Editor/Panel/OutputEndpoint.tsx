@@ -20,7 +20,7 @@ export default (props) => {
         : '>';
 
     const epType = isValue
-        ? `${props.panel.outputTypeByEp[ep]} value`
+        ? `${props.panel.outputTypeByEp[ep]} type value`
         : props.panel.outputSignalByEp[ep].toLowerCase();
 
     return 	<div className="Output Item" title={ `(${epType}) ${epValue}` }>

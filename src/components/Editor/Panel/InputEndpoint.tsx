@@ -34,7 +34,7 @@ export default (props) => {
     // console.log('+++++++++++++++++++', ep, props.panel.inputSignalByEp[ep]);
 
     const epType = isValue
-        ? `${props.panel.inputTypeByEp[ep]} value`
+        ? `${props.panel.inputTypeByEp[ep]} type value`
         : props.panel.inputSignalByEp[ep].toLowerCase();
 
     return <div className="Input Item" title={ `(${epType}) ${epValue}` }>
