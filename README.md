@@ -99,7 +99,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 -- UI
 
 - [ ] Choose which eps to make editable
-- [ ] Review css of ep inline editor
 - [ ] Make selected panels get closer or farther away by rolling the scroller
 - [ ] Right clicking on the workarea opens Panel search
 - [ ] Pulling a connection from an endpoint to the workarea opens Panel search
@@ -111,6 +110,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [~] Move all visual state from panels to panelCoords
     - [x] width and height, minWidth and minHeight
     - [x] resizer
+- [x] Review css of ep inline editor
 - [x] Setting default values for primitive endpoints inline
 - [x] Double clicking on title of panel to collapse a panel completely
 - [x] Make Connector component require coordinates rather than elements, so that the logic can be made more flexible
