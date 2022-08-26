@@ -30,7 +30,7 @@ const create = (panelId: number): Panel => {
             </div>
             <div className="Row">
                 <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Wait for all inputs again" {...props}>Reset</InputEndpoint>
-                <OutputEndpoint name="Out" panelId={panelId} signal="Pulse" description="Any of the input pins receives a pulse" {...props}>Out</OutputEndpoint>
+                <OutputEndpoint name="Out" panelId={panelId} signal="Pulse" description="All of the input pins have now received a pulse" {...props}>Out</OutputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="In1" panelId={panelId} signal="Pulse" description="Input pulse" {...props}>In</InputEndpoint>
