@@ -457,7 +457,8 @@ const WorkArea = (props) => {
 		return (
 			<PanelWrapper
 				key={panel.panelId}
-				setPanelCoords={setPanelCoords} panel={panel} panelCoord={panelCoord}
+				panel={panel} setPanels={setPanels}
+				panelCoord={panelCoord} setPanelCoords={setPanelCoords}
 				machine={machine}
 				workAreaOffset={workAreaOffset}
 				connections={connections}

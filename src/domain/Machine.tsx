@@ -66,7 +66,7 @@ const Machine = ({
                 [panelId]: {
                     ...panel,
                     inputEpValues: {
-                        ...panel.inputEpValues,
+                        ...panel.inputEpDefaults,
                         ...updates
                     }
                 }

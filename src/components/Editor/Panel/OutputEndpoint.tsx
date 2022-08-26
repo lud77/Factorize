@@ -23,7 +23,7 @@ export default (props) => {
         ? `${props.panel.outputTypeByEp[ep]} type value`
         : props.panel.outputSignalByEp[ep].toLowerCase();
 
-    return 	<div className="Output Item" title={ `(${epType}) ${epValue}` }>
+    return <div className="Output Item" title={ `(${epType}) ${epValue}` }>
         {props.children}
         <div
             className={`

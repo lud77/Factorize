@@ -15,7 +15,7 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Count" panelId={panelId} {...props}>Count</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Value" panelId={panelId} signal="Value" {...props}>Value</InputEndpoint>
+                <InputEndpoint name="Value" panelId={panelId} signal="Value" editable={true} {...props}>Value</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Set the counter to zero" {...props}>Reset</InputEndpoint>
@@ -49,7 +49,7 @@ const create = (panelId: number): Panel => {
                 if (isNaN(panel.inputEpValues.inputValue)) return {};
 
                 return {
-                    outputCount: panel.outputEpValues.outputCount + panel.inputEpValues.inputValue
+                    outputCount: panel.outputEpValues.outputCount + parseFloat(panel.inputEpValues.inputValue)
                 };
             case 'inputReset':
                 return {

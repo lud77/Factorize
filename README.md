@@ -38,8 +38,9 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 --- Engine
 
-- [x] Introduce Pulse-type signals
-- [x] Introduce Sources panel palette
+- [ ] Stepper-type panels or endpoints or connections, still not sure which
+- [ ] Explicitly handle the "null/undefined" value in a more organic way
+- [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
@@ -91,17 +92,15 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] EVENTS: Emit on file change
     - [x] EVENTS: Socket: socket listener, together with CLI tool to connect and send messages
     - [x] EVENTS: Accumulator
-- [ ] Stepper-type panels or endpoints or connections, still not sure which
-- [ ] Explicitly handle the "null/undefined" value in a more organic way
-
-
-- [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
+- [x] Introduce Pulse-type signals
+- [x] Introduce Sources panel palette
 
 
 -- UI
 
+- [ ] Choose which eps to make editable
+- [ ] Review css of ep inline editor
 - [ ] Make selected panels get closer or farther away by rolling the scroller
-- [ ] Setting default values for primitive endpoints inline
 - [ ] Right clicking on the workarea opens Panel search
 - [ ] Pulling a connection from an endpoint to the workarea opens Panel search
     - [ ] Panel search is constrained by the initial endpoint being an input or output endpoint
@@ -112,6 +111,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [~] Move all visual state from panels to panelCoords
     - [x] width and height, minWidth and minHeight
     - [x] resizer
+- [x] Setting default values for primitive endpoints inline
 - [x] Double clicking on title of panel to collapse a panel completely
 - [x] Make Connector component require coordinates rather than elements, so that the logic can be made more flexible
 - [x] Expose signal of endpoint throught color

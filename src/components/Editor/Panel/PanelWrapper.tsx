@@ -5,7 +5,8 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 const PanelWrapper = (props) => {
     const {
-        setPanelCoords, panel, panelCoord,
+        panelCoord, setPanelCoords,
+        panel, setPanels,
         computeEpCoords,
         connections,
         workAreaOffset,
@@ -71,7 +72,7 @@ const PanelWrapper = (props) => {
                 !panelCoord.isCollapsed
                     ? <>
                         <panel.Component
-                            panel={panel}
+                            panel={panel} setPanels={setPanels}
                             machine={machine}
                             connections={connections}
                             connectorAnchor={connectorAnchor}

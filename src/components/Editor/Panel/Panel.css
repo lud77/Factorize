@@ -225,3 +225,20 @@
 .Panel.Focused {
     box-shadow: 0px 0px 20px 2px rgba(127, 127, 127, .5);
 }
+
+.Panel .Item {
+    flex-grow: 1;
+    flex: 1 2 0px;
+    min-width: 0px;
+}
+
+.Panel .Item input {
+    font-size: 10px;
+    line-height: 10px;
+    width: 70%;
+    border-radius: 5px;
+    border: none;
+    padding: 2px 5px;
+    color: var(--main-highlight);
+    background-color: var(--background);
+}
