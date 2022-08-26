@@ -52,7 +52,7 @@ const PanelWrapper = (props) => {
     React.useEffect(() => {
         console.log('useeffect');
 
-        computeEpCoords(panel, panelCoord, setPanelCoords, workAreaOffset);
+        computeEpCoords(panel, panelCoord, setPanelCoords);
     }, [panel]);
 
     return (

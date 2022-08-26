@@ -5,7 +5,7 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const panelType = 'Any';
+const panelType = 'All';
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
@@ -29,8 +29,11 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="In1" panelId={panelId} signal="Pulse" description="Input pulse" {...props}>In</InputEndpoint>
+                <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Wait for all inputs again" {...props}>Reset</InputEndpoint>
                 <OutputEndpoint name="Out" panelId={panelId} signal="Pulse" description="Any of the input pins receives a pulse" {...props}>Out</OutputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="In1" panelId={panelId} signal="Pulse" description="Input pulse" {...props}>In</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="In2" panelId={panelId} signal="Pulse" description="Input pulse" {...props}>In</InputEndpoint>
@@ -46,6 +49,9 @@ const create = (panelId: number): Panel => {
     };
 
     const inputEndpoints = [{
+        name: 'Reset',
+        signal: 'Pulse'
+    }, {
         name: 'In1',
         signal: 'Pulse'
     }, {
@@ -59,7 +65,20 @@ const create = (panelId: number): Panel => {
     }];
 
     const onPulse = (ep, panel, { sendPulseTo }) => {
-        sendPulseTo(panel.panelId, 'outputOut');
+        switch (ep) {
+            case 'inputReset':
+                return { receivedList: {} };
+
+            default:
+                const receivedList = {
+                    ...(panel.outputEpValues.receivedList || {}),
+                    [ep]: true
+                };
+
+                const count = Object.values(receivedList).filter(Boolean).length;
+                if (count === panel.inEpsCounter - 1) sendPulseTo(panel.panelId, 'outputOut');
+                return { receivedList };
+        }
     };
 
     const execute = (panel, values) => values;

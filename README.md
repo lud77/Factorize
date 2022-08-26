@@ -41,17 +41,19 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Introduce Pulse-type signals
 - [x] Introduce Sources panel palette
 - [~] Actual panels
-    - [ ] FLOW: All: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then gives sends a pulse through the output
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
-    - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
     - [ ] Stdin/Stdout/Stderr
+        - [ ] Stdin
+        - [ ] Stdout
+        - [ ] Stderr?
     - [ ] IMAGE: Convolution
     - [ ] ALGEBRA: Matrix
     - [ ] Color ramp
-    - [ ] Perlin noise
+    - [ ] SOURCE: Perlin noise
     - [ ] INPUTS: File info
+    - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
         - [x] Basic Array panel (List)
             - [x] Add Pop, Shift, Unshift pins
@@ -59,6 +61,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] FLOW: All: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then sends a pulse through the output
     - [x] TRANSFORMS: Date/time to Timestamp
     - [x] TRANSFORMS: Timestamp to Date/time
     - [x] ALGEBRA: Threshold: (Value -> Value) sets outputs (High, Equal, Low) to true depending on whether first input is <=> than second
@@ -97,12 +100,12 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
-- [ ] Make selected panels get closer or father away by rolling the scroller
+- [ ] Make selected panels get closer or farther away by rolling the scroller
+- [ ] Setting default values for primitive endpoints inline
 - [ ] Right clicking on the workarea opens Panel search
 - [ ] Pulling a connection from an endpoint to the workarea opens Panel search
     - [ ] Panel search is constrained by the initial endpoint being an input or output endpoint
     - [ ] Panel search is constrained by signal and type of the initial endpoint
-- [ ] Setting default values for primitive endpoints inline
 - [ ] Make width of collapsed panel a constant (currently the magic number 120)
 - [ ] Make magic numbers become constants
 - [ ] Make endpoint section in the panels collapsible

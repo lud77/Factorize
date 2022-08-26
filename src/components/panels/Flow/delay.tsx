@@ -36,16 +36,13 @@ const create = (panelId: number): Panel => {
     }];
 
     const onPulse = (ep, panel, { sendPulseTo }) => {
-        switch (ep) {
-            default:
-                if (isNaN(panel.inputEpValues.inputSeconds) || panel.inputEpValues.inputSeconds < 0) return {};
+        if (isNaN(panel.inputEpValues.inputSeconds) || panel.inputEpValues.inputSeconds < 0) return {};
 
-                setTimeout(() => {
-                    sendPulseTo(panel.panelId, 'outputOut');
-                }, panel.inputEpValues.inputSeconds * 1000);
+        setTimeout(() => {
+            sendPulseTo(panel.panelId, 'outputOut');
+        }, panel.inputEpValues.inputSeconds * 1000);
 
-                return {};
-        }
+        return {};
     };
 
     const execute = (panel, values) => values;
