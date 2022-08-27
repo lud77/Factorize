@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { flushSync } from 'react-dom';
 
 import getDataTypeMarkerFor from './dataTypes';
 
@@ -57,7 +58,7 @@ export default (props) => {
             }
         }));
 
-        props.machine.executePanelLogic(props.panel.panelId, {});
+        props.machine.executePanelLogic(props.panel.panelId, { [`input${props.name}`]: e.target.value });
 
         console.log('test input', false);
     };

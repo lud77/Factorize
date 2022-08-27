@@ -57,16 +57,16 @@ const Machine = ({
     }
 
     const updateInputValues = (panelId, updates) => {
-        console.log('update input values ', panelId, updates);
         setPanels((panels) => {
             const panel = panels[panelId];
+            console.log('update input values ', panelId, updates, panel.inputEpValues);
 
             return {
                 ...panels,
                 [panelId]: {
                     ...panel,
                     inputEpValues: {
-                        ...panel.inputEpDefaults,
+                        ...panel.inputEpValues,
                         ...updates
                     }
                 }

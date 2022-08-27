@@ -62,6 +62,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] SET: item by item array
     - [x] FLOW: All: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then sends a pulse through the output
     - [x] TRANSFORMS: Date/time to Timestamp
     - [x] TRANSFORMS: Timestamp to Date/time
