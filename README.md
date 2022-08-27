@@ -47,7 +47,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
     - [ ] Stdin/Stdout/Stderr
         - [ ] Stdin
-        - [ ] Stdout
+        - [x] Stdout
         - [ ] Stderr?
     - [ ] IMAGE: Convolution
     - [ ] ALGEBRA: Matrix

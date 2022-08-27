@@ -116,6 +116,12 @@ const readImageFile = (filePath) => {
     });
 };
 
+const consoleLog = (message) => {
+    return new Promise((resolve) => {
+        ipcRenderer.send('api:console-log', message);
+    });
+};
+
 export default {
     quit,
     openFileDialog,
@@ -128,5 +134,6 @@ export default {
     closeTextFile,
     readTextLine,
     startWatchingFile,
-    stopWatchingFile
+    stopWatchingFile,
+    consoleLog
 };

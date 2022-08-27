@@ -5,6 +5,10 @@ const addServices = (win) => {
         app.quit();
     });
 
+    ipcMain.on('api:console-log', (event, message) => {
+        console.log(message);
+    });
+
     return win;
 };
 
