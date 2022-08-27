@@ -63,7 +63,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
     - [x] SET: item by item array
-    - [x] FLOW: All: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then sends a pulse through the output
+    - [x] FLOW: All: (multiple Pulses -> si                 ngle Pulse) waits for a pulse on each of the inputs and then sends a pulse through the output
     - [x] TRANSFORMS: Date/time to Timestamp
     - [x] TRANSFORMS: Timestamp to Date/time
     - [x] ALGEBRA: Threshold: (Value -> Value) sets outputs (High, Equal, Low) to true depending on whether first input is <=> than second
@@ -108,6 +108,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Make width of collapsed panel a constant (currently the magic number 120)
 - [ ] Make magic numbers become constants
 - [ ] Make endpoint section in the panels collapsible
+- [ ] Change editable property to become "editor" and change it from boolean to text where you specify the type of editor
 - [~] Move all visual state from panels to panelCoords
     - [x] width and height, minWidth and minHeight
     - [x] resizer

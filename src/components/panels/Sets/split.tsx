@@ -15,7 +15,7 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="List" panelId={panelId} {...props}>List</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Separator" panelId={panelId} {...props}>Separator</InputEndpoint>
+                <InputEndpoint name="Separator" panelId={panelId} editable={true} {...props}>Separator</InputEndpoint>
             </div>
         </>;
     };
