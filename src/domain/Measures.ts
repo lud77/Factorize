@@ -244,6 +244,7 @@ const Measures = (params) => {
 	const getAnchorsPointsFor = (panelIds) => {
 		return panelIds
 			.map((panelId) => panelCoords[panelId])
+			.filter(Boolean)
 			.map((panelCoord) => ({
 				panelId: panelCoord.panelId,
 				o: {
