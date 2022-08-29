@@ -80,7 +80,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 134,
+        width: 154,
         height: 94,
         multiplicandEps: [],
         multiplicandEpsCounter: 3,
