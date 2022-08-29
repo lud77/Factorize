@@ -7,7 +7,7 @@ import PanelWrapper from '../Panel/PanelWrapper';
 import Marquee from './Marquee';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
-
+import ComboBox from '../ComboBox/ComboBox';
 import { getContextMenuItems, getContextMenuOpen } from '../../../domain/Menus';
 import Measures from '../../../domain/Measures';
 
@@ -58,8 +58,11 @@ const WorkArea = (props) => {
 
 	const workArea = React.useRef<any>();
 
+	const [ searchBoxData, setSearchBoxData ] = React.useState<object | null>(null);
+	const searchableItems = ['Add', 'Multiply', 'Compare'];
+
 	const [ contextMenuData, setContextMenuData ] = React.useState<object | null>(null);
-	const contextMenuItems = getContextMenuItems(machine, setWorkAreaOffset);
+	const contextMenuItems = getContextMenuItems(machine, setWorkAreaOffset, setSearchBoxData);
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
@@ -87,6 +90,8 @@ const WorkArea = (props) => {
 			setContextMenuData(null);
 			return;
 		}
+
+		setSearchBoxData(null);
 
 		const connected = e.target.classList.contains('Connected');
 		const onWorkArea = e.target.classList.contains('WorkArea');
@@ -432,7 +437,7 @@ const WorkArea = (props) => {
 		return true;
 	};
 
-	const contextMenuOpen = getContextMenuOpen(contextMenuItems, selectedPanels, setContextMenuData);
+	const contextMenuOpen = getContextMenuOpen(selectedPanels, setContextMenuData, setSearchBoxData);
 
 	const toggleSelection = (panelId) => {
 		if (selectedPanels.has(panelId)) {
@@ -468,6 +473,7 @@ const WorkArea = (props) => {
 				computeEpCoords={computeEpCoords}
 				onSelect={(e) => {
 					e.stopPropagation();
+					setSearchBoxData(null);
 					setContextMenuData(null);
 
 					const panel = e.target.closest('.Panel');
@@ -506,9 +512,15 @@ const WorkArea = (props) => {
 		/>);
 	};
 
+	const renderSearchBox = () => {
+		return searchBoxData != null
+			? <ComboBox {...searchBoxData} searchableItems={searchableItems} setSearchBoxData={setSearchBoxData} />
+			: null;
+	};
+
 	const renderContextMenu = () => {
 		return contextMenuData != null
-			? <ContextMenu {...contextMenuData} setContextMenuData={setContextMenuData} />
+			? <ContextMenu {...contextMenuData} items={contextMenuItems} setContextMenuData={setContextMenuData} />
 			: null;
 	};
 
@@ -556,6 +568,7 @@ const WorkArea = (props) => {
 			onClick={mouseClick}
 			onContextMenu={contextMenuOpen}
 			>
+			{renderSearchBox()}
 			{renderContextMenu()}
 			{renderConnectionBuilder()}
 			{renderMarquee()}

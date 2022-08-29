@@ -128,6 +128,11 @@ const contextMenusSetup = (handlers) => {
         handler: handlers.removeEp,
         tags: ['removable endpoint']
     }, {
+        icon: <FontAwesomeIcon icon={solid('square-plus')} />,
+        label: 'Create Panel',
+        handler: handlers.createPanel,
+        tags: ['workarea']
+    }, {
         icon: <FontAwesomeIcon icon={solid('arrows-to-dot')} />,
         label: 'Find Origin',
         handler: handlers.findOrigin,
@@ -135,7 +140,7 @@ const contextMenusSetup = (handlers) => {
     }];
 };
 
-const getContextMenuItems = (machine, setWorkAreaOffset) => contextMenusSetup({
+const getContextMenuItems = (machine, setWorkAreaOffset, setSearchBoxData) => contextMenusSetup({
     deletePanel: (target) => (e) => {
         machine.removePanelsByIds([target.panelId]);
     },
@@ -161,12 +166,20 @@ const getContextMenuItems = (machine, setWorkAreaOffset) => contextMenusSetup({
     disconnectPanel: (target) => (e) => {
         machine.removeConnectionsByPanelId(target.panelId);
     },
+    createPanel: () => (e) => {
+        console.log('opening panel selector');
+
+        setSearchBoxData({
+            left: e.clientX,
+            top: e.clientY
+        });
+    },
     findOrigin: () => (e) => {
         setWorkAreaOffset([0, 0]);
     }
 });
 
-const getContextMenuOpen = (contextMenuItems, selectedPanels, setContextMenuData) => (e) => {
+const getContextMenuOpen = (selectedPanels, setContextMenuData, setSearchBoxData) => (e) => {
     if (e.target.closest('.Panel')) {
         const panelEl = e.target.closest('.Panel');
         const panelId = parseInt(panelEl.dataset.key);
@@ -190,10 +203,11 @@ const getContextMenuOpen = (contextMenuItems, selectedPanels, setContextMenuData
             target.endpoint = ep.dataset;
         }
 
+        setSearchBoxData(null);
+
         setContextMenuData({
             left: e.clientX,
             top: e.clientY,
-            items: contextMenuItems,
             target,
             tags
         });
@@ -206,10 +220,11 @@ const getContextMenuOpen = (contextMenuItems, selectedPanels, setContextMenuData
         return;
     }
 
+    setSearchBoxData(null);
+
     setContextMenuData({
         left: e.clientX,
         top: e.clientY,
-        items: contextMenuItems,
         target: e.target,
         tags: ['workarea']
     });

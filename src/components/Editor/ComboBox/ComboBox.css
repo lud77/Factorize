@@ -1,0 +1,21 @@
+:root {
+    --combo-box-font-size: 12px;
+}
+
+.ComboBox {
+    font-size: var(--combo-box-font-size);
+    position: absolute;
+    padding: 0.2em 0;
+    margin: 0;
+    z-index: 2;
+    list-style-type: none;
+    min-width: 150px;
+
+    background-color: var(--medium-highlight);
+    color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+
+    cursor: default;
+    user-select: none;
+}
