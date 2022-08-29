@@ -116,15 +116,26 @@ const Measures = (params) => {
 	const getEndpointElByRef = (ref: number): HTMLDivElement | null => document.querySelector(`div.Endpoint[data-ref="${ref}"]`);
 
 	const computeEpCoords = (panel, panelCoord, setPanelCoords) => {
-		const epCoords =
-			Object.values<number>(panel.inputRefs).concat(Object.values<number>(panel.outputRefs))
+		const inputEpCoords =
+			Object.values<number>(panel.inputRefs)
 				.map((epRef) => {
 					const epEl = getEndpointElByRef(epRef);
 					if (!epEl) return null;
-					return [epRef, epEl];
-				})
+					return [epRef, epEl, true];
+				});
+
+		const outputEpCoords =
+			Object.values<number>(panel.outputRefs)
+				.map((epRef) => {
+					const epEl = getEndpointElByRef(epRef);
+					if (!epEl) return null;
+					return [epRef, epEl, false];
+				});
+
+		const epCoords =
+			inputEpCoords.concat(outputEpCoords)
 				.filter(Boolean)
-				.map(([epRef, epEl]) => [epRef, middleLeftEl(epEl)])
+				.map(([epRef, epEl, isInput]) => [epRef, (isInput ? middleLeftEl : middleRightEl)(epEl)])
 				.map(([epRef, pos]) => [
 					epRef, {
 						x: pos.x - panelCoord.left - workAreaOffset[0],
