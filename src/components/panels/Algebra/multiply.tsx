@@ -29,7 +29,7 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="Multiplicand1" panelId={panelId} {...props}>Multiplicand</InputEndpoint>
+                <InputEndpoint name="Multiplicand1" panelId={panelId} span={2} {...props}>Multiplicand</InputEndpoint>
                 <OutputEndpoint name="Result" panelId={panelId} {...props}>Result</OutputEndpoint>
             </div>
             <div className="Row">
@@ -80,7 +80,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 154,
+        width: 134,
         height: 94,
         multiplicandEps: [],
         multiplicandEpsCounter: 3,

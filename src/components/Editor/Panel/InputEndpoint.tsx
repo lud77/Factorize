@@ -65,11 +65,15 @@ export default (props) => {
 
     // console.log('+++++++++++++++++++', ep, props.panel.inputSignalByEp[ep]);
 
+    const style = {};
+    if (props.span) style.flexGrow = props.span;
+
     return <>
         <div
             className="Input Item"
             title={ `(${epType}) ${epValue}` }
             onDoubleClick={props.editable && !isConnected ? startEditing(props) : null}
+            style={style}
             >
             <div
                 className={`

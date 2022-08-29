@@ -23,7 +23,10 @@ export default (props) => {
         ? `${props.panel.outputTypeByEp[ep]} type value`
         : props.panel.outputSignalByEp[ep].toLowerCase();
 
-    return <div className="Output Item" title={ `(${epType}) ${epValue}` }>
+    const style = {};
+    if (props.span) style.flexGrow = props.span;
+
+    return <div className="Output Item" title={ `(${epType}) ${epValue}` } style={style}>
         {props.children}
         <div
             className={`
