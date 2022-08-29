@@ -27,6 +27,7 @@
     "mathjs": "^11.0.1",
     "n-readlines": "^1.0.1",
     "prettier": "^2.6.2",
+    "random-seed": "^0.3.0",
     "randomcolor": "^0.6.2",
     "react": "^18.1.0",
     "react-app-rewired": "^2.2.1",
