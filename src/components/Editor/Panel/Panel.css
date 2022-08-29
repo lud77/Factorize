@@ -15,7 +15,7 @@
     position: absolute;
     z-index: 1;
     background-color: var(--panel-background);
-    background: linear-gradient(180deg, var(--panel-highlight) 0%, var(--panel-background) 20%);
+    background: linear-gradient(180deg, var(--panel-highlight) 0px, var(--panel-background) 20px);
     user-select: none;
 }
 
@@ -27,7 +27,8 @@
     line-height: calc(var(--panel-font-size));
     height: calc(var(--panel-font-size));
     width: 100%;
-    text-align: center;
+    text-align: left;
+    padding-left: 5px;
     user-select: none;
     cursor: move;
     margin-bottom: 4px;
@@ -88,6 +89,7 @@
     line-height: var(--item-text-size);
     font-size: var(--item-text-size);
     flex-grow: 1;
+    flex: 1 2;
     vertical-align: baseline;
     margin-bottom: 5px;
 }
@@ -241,4 +243,15 @@
     padding: 2px 5px;
     color: var(--main-highlight);
     background-color: var(--background);
+}
+
+.Panel .Title .Chevron {
+    display: inline-block;
+    margin-right: 5px;
+    transition: transform 1s;
+    transform: rotate(90deg);
+}
+
+.Panel.Collapsed .Title .Chevron {
+    transform: rotate(0deg);
 }
