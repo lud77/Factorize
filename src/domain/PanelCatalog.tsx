@@ -8,7 +8,7 @@ const getIndexFor = (items) => {
             index.add(item.type, item.type);
 
             (item.tags || []).forEach((tag) => {
-                index.add(item.type, tag);
+                index.append(item.type, tag);
             });
         });
 
