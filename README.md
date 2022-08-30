@@ -111,6 +111,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Make magic numbers become constants
 - [ ] Make endpoint section in the panels collapsible
 - [ ] Change editable property to become "editor" and change it from boolean to text where you specify the type of editor
+- [x] Autofocus search box
 - [x] Implement Panel Search box
 - [~] Move all visual state from panels to panelCoords
     - [x] width and height, minWidth and minHeight

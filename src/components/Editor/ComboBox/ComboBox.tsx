@@ -5,6 +5,11 @@ import './ComboBox.css';
 const ComboBox = (props) => {
     const [ search, setSearch ] = React.useState('');
     const [ list, setList ] = React.useState([]);
+    const inputRef = React.useRef();
+
+    React.useEffect(() => {
+        inputRef.current.focus();
+    });
 
     const handleChange = (e) => {
         setSearch(e.target.value);
@@ -28,7 +33,7 @@ const ComboBox = (props) => {
             style={{ left: props.left, top: props.top }}
             >
             <div className="Search">
-                <input type="text" placeholder="Search..." defaultValue={search} onChange={handleChange} />
+                <input ref={inputRef} type="text" placeholder="Search..." defaultValue={search} onChange={handleChange} />
             </div>
             {
                 list.length > 0

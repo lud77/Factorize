@@ -447,6 +447,17 @@ const WorkArea = (props) => {
 		return true;
 	};
 
+	const mouseDoubleClick = (e) => {
+		if (e.button != 0) return;
+
+		setSearchBoxData({
+            left: e.clientX,
+            top: e.clientY
+        });
+
+		return true;
+	};
+
 	const contextMenuOpen = getContextMenuOpen(selectedPanels, setContextMenuData, setSearchBoxData);
 
 	const toggleSelection = (panelId) => {
@@ -530,7 +541,7 @@ const WorkArea = (props) => {
 					items={searchableItems}
 					index={searchableItemsIndex}
 					addPanel={machine.addPanel}
-					emptySearchMessage="Search panels by name or tags"
+					emptySearchMessage="Search panels by name or tag"
 					setSearchBoxData={setSearchBoxData}
 					/>
 			</>
@@ -585,6 +596,7 @@ const WorkArea = (props) => {
 			onMouseMove={mouseMove}
 			onMouseUp={mouseUp}
 			onClick={mouseClick}
+			onDoubleClick={mouseDoubleClick}
 			onContextMenu={contextMenuOpen}
 			>
 			{renderSearchBox()}
