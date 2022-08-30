@@ -8,6 +8,8 @@ import Marquee from './Marquee';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
 import ComboBox from '../ComboBox/ComboBox';
+
+import dictionary from '../../../components/panels/dictionary';
 import { getContextMenuItems, getContextMenuOpen } from '../../../domain/Menus';
 import Measures from '../../../domain/Measures';
 import getIndexFor from '../../../domain/PanelCatalog';
@@ -21,7 +23,7 @@ import '../Panel/Panel.css';
 let resizeEvents: number[] = [];
 let mouseMoveEvents: number[] = [];
 
-const searchableItems = ['Add', 'Multiply', 'Compare'];
+const searchableItems = dictionary;
 const searchableItemsIndex = getIndexFor(searchableItems);
 
 const WorkArea = (props) => {
@@ -527,6 +529,7 @@ const WorkArea = (props) => {
 					{...searchBoxData}
 					items={searchableItems}
 					index={searchableItemsIndex}
+					addPanel={machine.addPanel}
 					emptySearchMessage="Search panels by name or tags"
 					setSearchBoxData={setSearchBoxData}
 					/>

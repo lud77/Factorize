@@ -6,8 +6,6 @@ const ComboBox = (props) => {
     const [ search, setSearch ] = React.useState('');
     const [ list, setList ] = React.useState([]);
 
-    console.log(props.searchableItems);
-
     const handleChange = (e) => {
         setSearch(e.target.value);
 
@@ -16,7 +14,12 @@ const ComboBox = (props) => {
             return;
         }
 
-        setList(props.index.search(e.target.value));
+        setList(props.index.search(e.target.value, 10));
+    };
+
+    const handleItemClick = (e) => {
+        props.addPanel(e.target.innerText, { x: props.left, y: props.top });
+        props.setSearchBoxData(null);
     };
 
     return <>
@@ -34,7 +37,7 @@ const ComboBox = (props) => {
                         {
                             list
                                 .map((item, key) => (
-                                    <li key={key} className="Item" onClick={null}>{item}</li>
+                                    <li key={key} className="Item" onClick={handleItemClick}>{item}</li>
                                 ))
                         }
                         </ul>
