@@ -137,6 +137,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 --- Bugs / Performance
 
+- [ ] Add lookup table for using numeric ids in indexing
 - [ ] Disallow Value-type signals from creating feedback loops
 - [ ] Sanitize topic input to listener
 - [ ] Stalls when trying to rewind file source from EOF signal without a delay

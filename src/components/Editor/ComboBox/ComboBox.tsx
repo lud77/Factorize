@@ -14,7 +14,7 @@ const ComboBox = (props) => {
     const handleChange = (e) => {
         setSearch(e.target.value);
 
-        if (search == '') {
+        if (e.target.value == '') {
             setList([]);
             return;
         }
