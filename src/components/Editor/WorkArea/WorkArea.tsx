@@ -7,9 +7,12 @@ import PanelWrapper from '../Panel/PanelWrapper';
 import Marquee from './Marquee';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
+import ComboBox from '../ComboBox/ComboBox';
 
+import dictionary from '../../../components/panels/dictionary';
 import { getContextMenuItems, getContextMenuOpen } from '../../../domain/Menus';
 import Measures from '../../../domain/Measures';
+import getIndexFor from '../../../domain/PanelCatalog';
 
 import rateLimiter from '../../../utils/rateLimiter';
 import { DragCoords } from '../../../types/DragCoords';
@@ -19,6 +22,9 @@ import '../Panel/Panel.css';
 
 let resizeEvents: number[] = [];
 let mouseMoveEvents: number[] = [];
+
+const searchableItems = dictionary;
+const searchableItemsIndex = getIndexFor(searchableItems);
 
 const WorkArea = (props) => {
 	const {
@@ -58,8 +64,10 @@ const WorkArea = (props) => {
 
 	const workArea = React.useRef<any>();
 
+	const [ searchBoxData, setSearchBoxData ] = React.useState<object | null>(null);
+
 	const [ contextMenuData, setContextMenuData ] = React.useState<object | null>(null);
-	const contextMenuItems = getContextMenuItems(machine, setWorkAreaOffset);
+	const contextMenuItems = getContextMenuItems(machine, setWorkAreaOffset, setSearchBoxData);
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
@@ -85,6 +93,13 @@ const WorkArea = (props) => {
 			if (e.target.closest('.ContextMenu')) return;
 
 			setContextMenuData(null);
+			return;
+		}
+
+		if (searchBoxData != null) {
+			if (e.target.closest('.ComboBox')) return;
+
+			setSearchBoxData(null);
 			return;
 		}
 
@@ -432,7 +447,18 @@ const WorkArea = (props) => {
 		return true;
 	};
 
-	const contextMenuOpen = getContextMenuOpen(contextMenuItems, selectedPanels, setContextMenuData);
+	const mouseDoubleClick = (e) => {
+		if (e.button != 0) return;
+
+		setSearchBoxData({
+            left: e.clientX,
+            top: e.clientY
+        });
+
+		return true;
+	};
+
+	const contextMenuOpen = getContextMenuOpen(selectedPanels, setContextMenuData, setSearchBoxData);
 
 	const toggleSelection = (panelId) => {
 		if (selectedPanels.has(panelId)) {
@@ -468,6 +494,7 @@ const WorkArea = (props) => {
 				computeEpCoords={computeEpCoords}
 				onSelect={(e) => {
 					e.stopPropagation();
+					setSearchBoxData(null);
 					setContextMenuData(null);
 
 					const panel = e.target.closest('.Panel');
@@ -506,9 +533,24 @@ const WorkArea = (props) => {
 		/>);
 	};
 
+	const renderSearchBox = () => {
+		return searchBoxData != null
+			? <>
+				<ComboBox
+					{...searchBoxData}
+					items={searchableItems}
+					index={searchableItemsIndex}
+					addPanel={machine.addPanel}
+					emptySearchMessage="Search panels by name or tag"
+					setSearchBoxData={setSearchBoxData}
+					/>
+			</>
+			: null;
+	};
+
 	const renderContextMenu = () => {
 		return contextMenuData != null
-			? <ContextMenu {...contextMenuData} setContextMenuData={setContextMenuData} />
+			? <ContextMenu {...contextMenuData} items={contextMenuItems} setContextMenuData={setContextMenuData} />
 			: null;
 	};
 
@@ -554,8 +596,10 @@ const WorkArea = (props) => {
 			onMouseMove={mouseMove}
 			onMouseUp={mouseUp}
 			onClick={mouseClick}
+			onDoubleClick={mouseDoubleClick}
 			onContextMenu={contextMenuOpen}
 			>
+			{renderSearchBox()}
 			{renderContextMenu()}
 			{renderConnectionBuilder()}
 			{renderMarquee()}

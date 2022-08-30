@@ -291,7 +291,7 @@ const Machine = ({
         };
     };
 
-    const makePanel = (panelType) => {
+    const makePanel = (panelType, coords) => {
         const panelId = getNextPanelId();
         const {
             resizer,
@@ -372,16 +372,16 @@ const Machine = ({
             height: (height || 84) + resizerHeight,
             minWidth: (minWidth || width || 134) + resizerHeight,
             minHeight: (minHeight || height || 84) + resizerHeight,
-            left: position - workAreaOffset[0],
-            top: position + 100 - workAreaOffset[1],
+            left: coords == null ? position - workAreaOffset[0] : coords.x - workAreaOffset[0],
+            top: coords == null ? position + 100 - workAreaOffset[1] : coords.y - workAreaOffset[1],
             resizer: resizer || 'none'
         };
 
         return [newPanel, newPanelCoords];
     };
 
-    const addPanel = (type) => {
-        const [newPanel, newPanelCoords] = makePanel(type);
+    const addPanel = (type, coords = null) => {
+        const [newPanel, newPanelCoords] = makePanel(type, coords);
 
         setPanels((panels) => {
             return {
