@@ -62,6 +62,7 @@ const PanelWrapper = (props) => {
             className={`Panel ${props.isSelected ? 'Selected' : ''} ${props.isFocused ? 'Focused' : ''} ${panelCoord.isCollapsed ? 'Collapsed' : ''}`}
             style={style}
             onClick={props.onSelect}
+            onDoubleClick={(e) => e.stopPropagation()}
             >
             <div
                 className="Title"
