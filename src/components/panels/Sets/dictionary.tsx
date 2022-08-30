@@ -111,5 +111,6 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    tags: ['associative', 'hashmap']
 };
