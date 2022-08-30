@@ -21,6 +21,7 @@
     "commander": "^9.4.0",
     "customize-cra": "^1.0.0",
     "electron-is-dev": "^2.0.0",
+    "flexsearch": "^0.7.21",
     "function-plot": "^1.22.9-0",
     "image-size": "^1.0.2",
     "immutable": "^4.1.0",

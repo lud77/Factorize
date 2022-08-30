@@ -10,6 +10,7 @@ import ContextMenu from '../ContextMenu/ContextMenu';
 import ComboBox from '../ComboBox/ComboBox';
 import { getContextMenuItems, getContextMenuOpen } from '../../../domain/Menus';
 import Measures from '../../../domain/Measures';
+import getIndexFor from '../../../domain/PanelCatalog';
 
 import rateLimiter from '../../../utils/rateLimiter';
 import { DragCoords } from '../../../types/DragCoords';
@@ -19,6 +20,9 @@ import '../Panel/Panel.css';
 
 let resizeEvents: number[] = [];
 let mouseMoveEvents: number[] = [];
+
+const searchableItems = ['Add', 'Multiply', 'Compare'];
+const searchableItemsIndex = getIndexFor(searchableItems);
 
 const WorkArea = (props) => {
 	const {
@@ -59,7 +63,6 @@ const WorkArea = (props) => {
 	const workArea = React.useRef<any>();
 
 	const [ searchBoxData, setSearchBoxData ] = React.useState<object | null>(null);
-	const searchableItems = ['Add', 'Multiply', 'Compare'];
 
 	const [ contextMenuData, setContextMenuData ] = React.useState<object | null>(null);
 	const contextMenuItems = getContextMenuItems(machine, setWorkAreaOffset, setSearchBoxData);
@@ -91,7 +94,12 @@ const WorkArea = (props) => {
 			return;
 		}
 
-		setSearchBoxData(null);
+		if (searchBoxData != null) {
+			if (e.target.closest('.ComboBox')) return;
+
+			setSearchBoxData(null);
+			return;
+		}
 
 		const connected = e.target.classList.contains('Connected');
 		const onWorkArea = e.target.classList.contains('WorkArea');
@@ -514,7 +522,15 @@ const WorkArea = (props) => {
 
 	const renderSearchBox = () => {
 		return searchBoxData != null
-			? <ComboBox {...searchBoxData} searchableItems={searchableItems} setSearchBoxData={setSearchBoxData} />
+			? <>
+				<ComboBox
+					{...searchBoxData}
+					items={searchableItems}
+					index={searchableItemsIndex}
+					emptySearchMessage="Search panels by name or tags"
+					setSearchBoxData={setSearchBoxData}
+					/>
+			</>
 			: null;
 	};
 

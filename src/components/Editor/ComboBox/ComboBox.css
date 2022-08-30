@@ -8,7 +8,6 @@
     padding: 0.2em 0;
     margin: 0;
     z-index: 2;
-    list-style-type: none;
     min-width: 150px;
 
     background-color: var(--medium-highlight);
@@ -16,6 +15,43 @@
     border: 1px solid var(--border);
     border-radius: 3px;
 
+    box-sizing: border-box;
     cursor: default;
     user-select: none;
+}
+
+.ComboBox .EmptySearch {
+    margin: 4px 8px;
+    padding: 0px;
+    color: var(--background);
+}
+
+.ComboBox .Search {
+    margin: 2px 4px 8px;
+}
+
+.ComboBox ul.Results {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.ComboBox ul.Results li.Item {
+    margin: 0.2em 0;
+    padding: 0.4em;
+}
+
+.ComboBox ul.Results li.Item:hover {
+    background-color: var(--medium-lowlight);
+    color: var(--background);
+}
+
+.ComboBox ul.Results li.Item .Icon {
+    display: inline-block;
+    margin: 0;
+    width: 1em;
+}
+
+.ComboBox ul.Results li.Item .Label {
+    margin: 0 0 0 0.75em ;
 }
