@@ -156,6 +156,22 @@ const Measures = (params) => {
 		});
 	};
 
+	const computeCenter = (panelIds, selection = null) => {
+		const panels = (panelIds == null)
+			? selection
+			: panelIds.toArray().map((panelId) => panelCoords[panelId]);
+
+		if (panels.length == 0) return null;
+
+		const totalX = panels.reduce((a, v) => a + v.left + v.width / 2, 0);
+		const totalY = panels.reduce((a, v) => a + v.top + v.height / 2, 0);
+
+		return {
+			x: totalX / panels.length,
+			y: totalY / panels.length
+		};
+	};
+
 	const getPanelBoundingBox = (panelId) => {
 		const panelCoord = panelCoords[panelId];
 
@@ -286,7 +302,8 @@ const Measures = (params) => {
 		selectInclusive,
 		selectExclusive,
 		getVisibleObjects,
-		getAnchorsPointsFor
+		getAnchorsPointsFor,
+		computeCenter
 	};
 };
 

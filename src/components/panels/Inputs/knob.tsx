@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { flushSync } from 'react-dom';
 
 import { Panel } from '../../../types/Panel';
 
@@ -7,8 +6,6 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 import Knob from '../../Knob/Knob';
-
-import mostRecent from '../../../utils/mostRecent';
 
 const panelType = 'Knob';
 

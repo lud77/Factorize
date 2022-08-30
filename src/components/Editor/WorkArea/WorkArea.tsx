@@ -370,7 +370,7 @@ const WorkArea = (props) => {
 				(inclusiveSelection ? selectInclusive : selectExclusive)(panels, panelCoords, selection)
 					.map(({ panelId }) => panelId);
 
-			setSelectedPanels(Set(included).concat(backupSelectedPanels));
+				setSelectedPanels(Set(included).concat(backupSelectedPanels));
 
 			return false;
 		}
@@ -456,6 +456,38 @@ const WorkArea = (props) => {
         });
 
 		return true;
+	};
+
+	const mouseWheel = (e) => {
+		if (selectedPanels.size == 0) return;
+
+		const inc = e.shiftKey ? 1 : 16;
+
+		const updates =
+			selectedPanels.toArray()
+				.map((panelId) => panelCoords[panelId])
+				.map((panelCoord) => {
+					const inward = Math.sign(e.deltaY);
+
+					const incX = e.clientX - workAreaOffset[0] < panelCoord.left ? -inc : 0;
+					const decX = e.clientX - workAreaOffset[0] > panelCoord.left + panelCoord.width - 1 ? inc : 0;
+
+					const incY = e.clientY - workAreaOffset[1] < panelCoord.top ? -inc : 0;
+					const decY = e.clientY - workAreaOffset[1] > panelCoord.top + panelCoord.height - 1 ? inc : 0;
+
+					return [
+						panelCoord.panelId, {
+							...panelCoord,
+							left: panelCoord.left + inward * (incX + decX),
+							top: panelCoord.top + inward * (incY + decY)
+						}
+					];
+				});
+
+		setPanelCoords({
+			...panelCoords,
+			...Object.fromEntries(updates)
+		});
 	};
 
 	const contextMenuOpen = getContextMenuOpen(selectedPanels, setContextMenuData, setSearchBoxData);
@@ -597,6 +629,7 @@ const WorkArea = (props) => {
 			onMouseUp={mouseUp}
 			onClick={mouseClick}
 			onDoubleClick={mouseDoubleClick}
+			onWheel={mouseWheel}
 			onContextMenu={contextMenuOpen}
 			>
 			{renderSearchBox()}
