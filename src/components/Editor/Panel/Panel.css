@@ -28,11 +28,25 @@
     height: calc(var(--panel-font-size) + 5);
     width: 100%;
     text-align: left;
-    padding-left: 5px;
     padding-bottom: 3px;
     user-select: none;
-    cursor: move;
     margin-bottom: 4px;
+}
+
+.Panel .Title .TitleText {
+    cursor: move;
+}
+
+.Panel .Title .Chevron {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+    transition: transform 1s;
+    transform: rotate(90deg);
+}
+
+.Panel.Collapsed .Title .Chevron {
+    transform: rotate(0deg);
 }
 
 .Panel.Collapsed {
@@ -244,15 +258,4 @@
     padding: 2px 5px;
     color: var(--main-highlight);
     background-color: var(--background);
-}
-
-.Panel .Title .Chevron {
-    display: inline-block;
-    margin-right: 5px;
-    transition: transform 1s;
-    transform: rotate(90deg);
-}
-
-.Panel.Collapsed .Title .Chevron {
-    transform: rotate(0deg);
 }

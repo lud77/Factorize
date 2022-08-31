@@ -67,8 +67,10 @@ const PanelWrapper = (props) => {
             <div
                 className="Title"
                 title={ panel.title }
-                onDoubleClick={toggleCollapse}
-                ><span className="Chevron"><FontAwesomeIcon icon={solid('angle-right')} /></span>{panel.title || '\u00A0'}</div>
+                >
+                <span className="Chevron" onClick={toggleCollapse}><FontAwesomeIcon icon={solid('angle-right')} /></span>
+                <span className="TitleText">{panel.title || '\u00A0'}</span>
+            </div>
             {
                 !panelCoord.isCollapsed
                     ? <>

@@ -106,7 +106,7 @@ const WorkArea = (props) => {
 		const connected = e.target.classList.contains('Connected');
 		const onWorkArea = e.target.classList.contains('WorkArea');
 
-		const draggingPanel = e.target.classList.contains('Title');
+		const draggingPanel = e.target.classList.contains('TitleText');
 		const resizingPanel = e.target.closest('.Resizer');
 		const draggingWorkArea = onWorkArea && !e.shiftKey;
 		const selectingArea = onWorkArea && e.shiftKey;
