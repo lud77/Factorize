@@ -99,6 +99,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
+- [ ] Add scale input ep (editable) to knob and range panels
 - [ ] Choose which eps to make editable
 - [ ] Make the context menu and combo box coordinates window-sensitive
 - [ ] Pulling a connection from an endpoint to the workarea opens Panel search
