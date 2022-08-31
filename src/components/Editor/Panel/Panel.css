@@ -31,11 +31,10 @@
     padding-bottom: 3px;
     user-select: none;
     margin-bottom: 4px;
-}
-
-.Panel .Title .TitleText {
     cursor: move;
 }
+
+.Panel .Title .TitleText {}
 
 .Panel .Title .Chevron {
     display: inline-block;
@@ -43,6 +42,7 @@
     padding-left: 5px;
     transition: transform 1s;
     transform: rotate(90deg);
+    cursor: pointer;
 }
 
 .Panel.Collapsed .Title .Chevron {
