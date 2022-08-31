@@ -152,6 +152,7 @@ const Machine = ({
                         changes,
                         {
                             setPanels,
+                            setPanelCoords,
                             executePanelLogic,
                             sendPulseTo,
                             timers
