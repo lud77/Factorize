@@ -9,6 +9,13 @@ import { hex2rgb, hex2hsl } from '../../../utils/colors';
 
 const panelType = 'HexToRGB';
 
+const inputEndpoints = [{
+    name: 'Hex',
+    defaultValue: '#ffffff',
+    type: 'string',
+    signal: 'Value'
+}];
+
 const outputEndpoints = [{
     name: 'Red',
     defaultValue: 255,
@@ -41,13 +48,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Hex',
-        defaultValue: '#ffffff',
-        type: 'string',
-        signal: 'Value'
-    }];
 
     const execute = (panel, inputs) => {
         const [ outputRed, outputGreen, outputBlue ] = hex2rgb(inputs.inputHex);

@@ -14,7 +14,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Timestamp',
-    defaultValue: getValue(),
+    defaultValue: 0,
     type: 'number',
     signal: 'Value'
 }];
