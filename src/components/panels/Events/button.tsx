@@ -54,7 +54,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['trigger', 'fire'],
+    tags: ['trigger', 'fire', 'event'],
     inputEndpoints,
     outputEndpoints
 };

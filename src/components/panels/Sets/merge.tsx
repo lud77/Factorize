@@ -92,7 +92,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['array', 'list'],
+    tags: ['array', 'list', 'set', 'collection'],
     inputEndpoints,
     outputEndpoints
 };

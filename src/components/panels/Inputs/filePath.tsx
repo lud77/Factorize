@@ -9,6 +9,15 @@ import System from '../../../domain/System';
 
 const panelType = 'FilePath';
 
+const inputEndpoints = [];
+
+const outputEndpoints = [{
+    name: 'Path',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         System.saveFileDialog()
@@ -46,15 +55,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [];
-
-    const outputEndpoints = [{
-        name: 'Path',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }];
-
     const execute = (panel, inputs) => {
         if (inputs.tuningFilePath) return { outputPath: inputs.tuningFilePath };
 
@@ -73,5 +73,8 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    tags: ['input'],
+    inputEndpoints,
+    outputEndpoints
 };

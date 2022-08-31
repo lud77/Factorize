@@ -62,7 +62,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['number', 'potentiometer'],
+    tags: ['number', 'potentiometer', 'input'],
     inputEndpoints,
     outputEndpoints
 };

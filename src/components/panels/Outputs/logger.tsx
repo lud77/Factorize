@@ -118,7 +118,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['log', 'screen', 'monitor'],
+    tags: ['log', 'screen', 'monitor', 'output'],
     inputEndpoints,
     outputEndpoints
 };

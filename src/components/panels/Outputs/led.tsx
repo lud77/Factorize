@@ -54,6 +54,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
+    tags: ['output'],
     inputEndpoints,
     outputEndpoints
 };

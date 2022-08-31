@@ -125,7 +125,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['cron', 'repeat', 'schedule'],
+    tags: ['cron', 'repeat', 'schedule', 'event'],
     inputEndpoints,
     outputEndpoints
 };
