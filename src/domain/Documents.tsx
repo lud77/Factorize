@@ -110,14 +110,6 @@ const Documents = ({
         Object.values(panels).reduce((chain, panel) => {
             console.log('adding to chain', panel);
             return chain
-            //     .then(() => {
-            //         console.log('executing', panel);
-            //         return panel.execute(panel, { ...panel.inputEpValues || {} }, {
-            //             setPanels,
-            //             sendPulseTo,
-            //             timers
-            //         });
-            //     });
                 .then(() => executePanelLogic(panel.panelId))
         }, Promise.resolve());
     };
