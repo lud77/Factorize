@@ -8,7 +8,32 @@ import Lightbox from '../../Lightbox/Lightbox';
 
 import System from '../../../domain/System';
 import { flushSync } from 'react-dom';
+
 const panelType = 'Picture';
+
+const inputEndpoints = [{
+    name: 'File',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'PictureData',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}, {
+    name: 'PictureWidth',
+    defaultValue: '',
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'PictureHeight',
+    defaultValue: '',
+    type: 'number',
+    signal: 'Value'
+}];
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -47,30 +72,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'File',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'PictureData',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }, {
-        name: 'PictureWidth',
-        defaultValue: '',
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'PictureHeight',
-        defaultValue: '',
-        type: 'number',
-        signal: 'Value'
-    }];
 
     const execute = (panel, inputs, { setPanels }) => {
         console.log('execute picture', inputs);

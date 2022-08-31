@@ -9,6 +9,15 @@ import Led from '../../Led/Led';
 
 const panelType = 'Semaphore';
 
+const inputEndpoints = [{
+    name: 'Value',
+    defaultValue: undefined,
+    type: 'boolean',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
 
@@ -34,15 +43,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Value',
-        defaultValue: undefined,
-        type: 'boolean',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [];
-
     const execute = (panel, values) => values;
 
     return {
@@ -58,5 +58,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

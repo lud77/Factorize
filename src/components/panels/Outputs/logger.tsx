@@ -8,6 +8,26 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Logger';
 
+const inputEndpoints = [{
+    name: 'Log',
+    signal: 'Pulse'
+}, {
+    name: 'Message',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}, {
+    name: 'Clear',
+    signal: 'Pulse'
+}];
+
+const outputEndpoints = [{
+    name: 'Contents',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         const handleClickPlus = ({ panel, machine }) => () => {
@@ -64,26 +84,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Log',
-        signal: 'Pulse'
-    }, {
-        name: 'Message',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }, {
-        name: 'Clear',
-        signal: 'Pulse'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Contents',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }];
-
     const onPulse = (ep, panel) => {
         switch (ep) {
             case 'inputLog':
@@ -118,5 +118,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['log', 'screen', 'monitor']
+    tags: ['log', 'screen', 'monitor'],
+    inputEndpoints,
+    outputEndpoints
 };

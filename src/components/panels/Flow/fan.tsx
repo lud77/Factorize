@@ -7,6 +7,25 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Fan';
 
+const inputEndpoints = [{
+    name: 'In',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Out1',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}, {
+    name: 'Out2',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addOutputEndpoint(
@@ -45,25 +64,6 @@ const create = (panelId: number): Panel => {
          </>;
     };
 
-    const inputEndpoints = [{
-        name: 'In',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Out1',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }, {
-        name: 'Out2',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }];
-
     const execute = (panel, values) => {
         const update = {
             outputOut1: values.inputIn,
@@ -96,5 +96,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['split']
+    tags: ['split'],
+    inputEndpoints,
+    outputEndpoints
 };

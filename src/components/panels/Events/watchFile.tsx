@@ -9,6 +9,18 @@ import System from '../../../domain/System';
 
 const panelType = 'WatchFile';
 
+const inputEndpoints = [{
+    name: 'File',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Changed',
+    signal: 'Pulse'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -18,18 +30,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'File',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Changed',
-        signal: 'Pulse'
-    }];
 
     const expunge = ['watchedFile', 'watcherHandler', 'isWatching'];
 
@@ -97,5 +97,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['change']
+    tags: ['change'],
+    inputEndpoints,
+    outputEndpoints
 };

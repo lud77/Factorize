@@ -9,6 +9,18 @@ import System from '../../../domain/System';
 
 const panelType = 'StdOut';
 
+const inputEndpoints = [{
+    name: 'Log',
+    signal: 'Pulse'
+}, {
+    name: 'Message',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -20,18 +32,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Log',
-        signal: 'Pulse'
-    }, {
-        name: 'Message',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [];
 
     const onPulse = (ep, panel) => {
         switch (ep) {
@@ -57,5 +57,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

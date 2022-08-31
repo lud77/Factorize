@@ -9,6 +9,15 @@ import Knob from '../../Knob/Knob';
 
 const panelType = 'Knob';
 
+const inputEndpoints = [];
+
+const outputEndpoints = [{
+    name: 'Value',
+    defaultValue: 0.5,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const clamp = (v) => Math.max(0, Math.min(1, v));
 
@@ -32,15 +41,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [];
-
-    const outputEndpoints = [{
-        name: 'Value',
-        defaultValue: 0.5,
-        type: 'number',
-        signal: 'Value'
-    }];
-
     const execute = (panel, inputs) => {
         return {
             outputValue: inputs.tuningValue
@@ -62,5 +62,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['number', 'potentiometer']
+    tags: ['number', 'potentiometer'],
+    inputEndpoints,
+    outputEndpoints
 };

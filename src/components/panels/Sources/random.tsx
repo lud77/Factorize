@@ -8,6 +8,26 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Random';
 
+const inputEndpoints = [{
+    name: 'Fetch',
+    signal: 'Pulse'
+}, {
+    name: 'Seed',
+    defaultValue: defaultSeed,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Reset',
+    signal: 'Pulse'
+}];
+
+const outputEndpoints = [{
+    name: 'Value',
+    defaultValue: '',
+    type: 'number',
+    signal: 'Value'
+}];
+
 const defaultSeed = Math.random();
 let rand = Random(defaultSeed);
 
@@ -28,26 +48,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Fetch',
-        signal: 'Pulse'
-    }, {
-        name: 'Seed',
-        defaultValue: defaultSeed,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Reset',
-        signal: 'Pulse'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Value',
-        defaultValue: '',
-        type: 'number',
-        signal: 'Value'
-    }];
 
     const onPulse = (ep, panel) => {
         switch (ep) {
@@ -91,5 +91,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

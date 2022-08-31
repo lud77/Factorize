@@ -7,6 +7,23 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Memory';
 
+const inputEndpoints = [{
+    name: 'Store',
+    signal: 'Pulse'
+}, {
+    name: 'Value',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Value',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -19,23 +36,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Store',
-        signal: 'Pulse'
-    }, {
-        name: 'Value',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Value',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }];
 
     const onPulse = (ep, panel) => {
         switch (ep) {
@@ -61,5 +61,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['variable', 'store']
+    tags: ['variable', 'store'],
+    inputEndpoints,
+    outputEndpoints
 };

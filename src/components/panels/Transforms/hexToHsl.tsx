@@ -9,6 +9,30 @@ import { hex2hsl } from '../../../utils/colors';
 
 const panelType = 'HexToHSL';
 
+const inputEndpoints = [{
+    name: 'Hex',
+    defaultValue: '#ffffff',
+    type: 'string',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Hue',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Saturation',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Luminosity',
+    defaultValue: 100,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -24,30 +48,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Hex',
-        defaultValue: '#ffffff',
-        type: 'string',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Hue',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Saturation',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Luminosity',
-        defaultValue: 100,
-        type: 'number',
-        signal: 'Value'
-    }];
 
     const execute = (panel, inputs) => {
         const [ outputHue, outputSaturation, outputLuminosity ] = hex2hsl(inputs.inputHex);
@@ -72,5 +72,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['color']
+    tags: ['color'],
+    inputEndpoints,
+    outputEndpoints
 };

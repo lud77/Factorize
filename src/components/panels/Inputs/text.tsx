@@ -7,6 +7,15 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Text';
 
+const inputEndpoints = [];
+
+const outputEndpoints = [{
+    name: 'Text',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleChangeText = ({ panel, machine }) => (e) => {
         machine.executePanelLogic(panelId, { tuningText: e.target.value });
@@ -38,15 +47,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [];
-
-    const outputEndpoints = [{
-        name: 'Text',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }];
-
     const execute = (panel, inputs) => {
         return {
             outputText: inputs.tuningText
@@ -70,5 +70,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

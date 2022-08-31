@@ -10,6 +10,15 @@ import Toggle from '../../Toggle/Toggle';
 
 const panelType = 'Toggle';
 
+const inputEndpoints = [];
+
+const outputEndpoints = [{
+    name: 'Active',
+    defaultValue: false,
+    type: 'boolean',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
         machine.executePanelLogic(panelId, {
@@ -30,15 +39,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [];
-
-    const outputEndpoints = [{
-        name: 'Active',
-        defaultValue: false,
-        type: 'boolean',
-        signal: 'Value'
-    }];
-
     const execute = (panel, values) => ({ outputActive: values.tuningActive });
 
     return {
@@ -56,5 +56,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['switch']
+    tags: ['switch'],
+    inputEndpoints,
+    outputEndpoints
 };

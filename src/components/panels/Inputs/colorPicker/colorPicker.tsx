@@ -9,6 +9,15 @@ import './colorPicker.css';
 
 const panelType = 'ColorPicker';
 
+const inputEndpoints = [];
+
+const outputEndpoints = [{
+    name: 'Hex',
+    defaultValue: '#ffffff',
+    type: 'string',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
         console.log('new color', e.target.value);
@@ -36,15 +45,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [];
-
-    const outputEndpoints = [{
-        name: 'Hex',
-        defaultValue: '#ffffff',
-        type: 'string',
-        signal: 'Value'
-    }];
-
     const execute = (panel, inputs) => {
         return {
             outputHex: inputs.tuningColor
@@ -64,5 +64,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

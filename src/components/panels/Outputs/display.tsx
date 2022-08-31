@@ -8,6 +8,15 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Display';
 
+const inputEndpoints = [{
+    name: 'Value',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [];
+
 const create = (panelId: number): Panel => {
 
     const Component = (props) => {
@@ -60,15 +69,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Value',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [];
-
     const execute = (panel, inputs) => {
         return {
             outputFontSize: inputs.tuningFontSize
@@ -92,5 +92,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

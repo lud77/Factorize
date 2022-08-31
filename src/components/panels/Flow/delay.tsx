@@ -7,6 +7,21 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Delay';
 
+const inputEndpoints = [{
+    name: 'In',
+    signal: 'Pulse'
+}, {
+    name: 'Seconds',
+    defaultValue: 1,
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Out',
+    signal: 'Pulse'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -19,21 +34,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'In',
-        signal: 'Pulse'
-    }, {
-        name: 'Seconds',
-        defaultValue: 1,
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Out',
-        signal: 'Pulse'
-    }];
 
     const onPulse = (ep, panel, { sendPulseTo }) => {
         if (isNaN(panel.inputEpValues.inputSeconds) || panel.inputEpValues.inputSeconds < 0) return {};
@@ -64,5 +64,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

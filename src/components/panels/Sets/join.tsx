@@ -7,6 +7,25 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Join';
 
+const inputEndpoints = [{
+    name: 'List',
+    default: [],
+    type: 'array',
+    signal: 'Value'
+}, {
+    name: 'Separator',
+    defaultValue: '\n',
+    type: 'string',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Text',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -19,25 +38,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'List',
-        default: [],
-        type: 'array',
-        signal: 'Value'
-    }, {
-        name: 'Separator',
-        defaultValue: '\n',
-        type: 'string',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Text',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }];
 
     const execute = (panel, values) => {
         if (!Array.isArray(values.inputList)) return values;
@@ -61,5 +61,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['string']
+    tags: ['string'],
+    inputEndpoints,
+    outputEndpoints
 };

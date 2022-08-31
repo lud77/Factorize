@@ -7,6 +7,25 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Valve';
 
+const inputEndpoints = [{
+    name: 'Open',
+    defaultValue: false,
+    type: 'boolean',
+    signal: 'Value'
+}, {
+    name: 'Value',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Value',
+    defaultValue: null,
+    type: 'any',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -19,25 +38,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Open',
-        defaultValue: false,
-        type: 'boolean',
-        signal: 'Value'
-    }, {
-        name: 'Value',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Value',
-        defaultValue: null,
-        type: 'any',
-        signal: 'Value'
-    }];
 
     const execute = (panel, values) => {
         return {
@@ -59,5 +59,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['switch']
+    tags: ['switch'],
+    inputEndpoints,
+    outputEndpoints
 };

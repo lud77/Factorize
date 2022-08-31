@@ -7,6 +7,40 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Compare';
 
+const inputEndpoints = [{
+    name: 'A',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'B',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'High',
+    default: false,
+    type: 'boolean',
+    signal: 'Value'
+}, {
+    name: 'Equal',
+    default: false,
+    type: 'boolean',
+    signal: 'Value'
+}, {
+    name: 'Low',
+    default: false,
+    type: 'boolean',
+    signal: 'Value'
+}, {
+    name: 'Different',
+    default: false,
+    type: 'boolean',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -26,40 +60,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'A',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'B',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'High',
-        default: false,
-        type: 'boolean',
-        signal: 'Value'
-    }, {
-        name: 'Equal',
-        default: false,
-        type: 'boolean',
-        signal: 'Value'
-    }, {
-        name: 'Low',
-        default: false,
-        type: 'boolean',
-        signal: 'Value'
-    }, {
-        name: 'Different',
-        default: false,
-        type: 'boolean',
-        signal: 'Value'
-    }];
 
     const execute = (panel, values) => {
         return {
@@ -85,5 +85,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['greater', 'lesser', 'lower', 'higher', 'equal', 'threshold']
+    tags: ['greater', 'lesser', 'lower', 'higher', 'equal', 'threshold'],
+    inputEndpoints,
+    outputEndpoints
 };

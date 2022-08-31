@@ -10,6 +10,35 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Plotter';
 
+const inputEndpoints = [{
+    name: 'Function',
+    defaultValue: '',
+    type: 'function',
+    signal: 'Value'
+}, {
+    name: 'MinX',
+    defaultValue: -10,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'MaxX',
+    defaultValue: 10,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'MinY',
+    defaultValue: -10,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'MaxY',
+    defaultValue: 10,
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         const displayStyle = {
@@ -86,35 +115,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Function',
-        defaultValue: '',
-        type: 'function',
-        signal: 'Value'
-    }, {
-        name: 'MinX',
-        defaultValue: -10,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'MaxX',
-        defaultValue: 10,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'MinY',
-        defaultValue: -10,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'MaxY',
-        defaultValue: 10,
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [];
-
     const execute = (panel, inputs) => {
         const oldFunction = panel.outputEpValues.inputFunction;
 
@@ -154,5 +154,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

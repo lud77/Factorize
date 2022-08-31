@@ -9,6 +9,15 @@ import './range.css';
 
 const panelType = 'Range';
 
+const inputEndpoints = [];
+
+const outputEndpoints = [{
+    name: 'Value',
+    defaultValue: .5,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const clamp = (v) => Math.max(0, Math.min(1, v));
 
@@ -47,15 +56,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [];
-
-    const outputEndpoints = [{
-        name: 'Value',
-        defaultValue: .5,
-        type: 'number',
-        signal: 'Value'
-    }];
-
     const execute = (panel, inputs) => {
         return {
             outputValue: inputs.tuningValue
@@ -75,5 +75,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['number']
+    tags: ['number'],
+    inputEndpoints,
+    outputEndpoints
 };

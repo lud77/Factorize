@@ -7,6 +7,32 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Throttle';
 
+const inputEndpoints = [{
+    name: 'In',
+    signal: 'Pulse'
+}, {
+    name: 'Window',
+    defaultValue: Infinity, // seconds
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Max',
+    defaultValue: 1, // events
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Reset',
+    signal: 'Pulse'
+}];
+
+const outputEndpoints = [{
+    name: 'Accepted',
+    signal: 'Pulse'
+}, {
+    name: 'Discarded',
+    signal: 'Pulse'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -26,32 +52,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'In',
-        signal: 'Pulse'
-    }, {
-        name: 'Window',
-        defaultValue: Infinity, // seconds
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Max',
-        defaultValue: 1, // events
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Reset',
-        signal: 'Pulse'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Accepted',
-        signal: 'Pulse'
-    }, {
-        name: 'Discarded',
-        signal: 'Pulse'
-    }];
 
     const onPulse = (ep, panel, { sendPulseTo }) => {
         switch (ep) {
@@ -91,5 +91,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['rate limiter']
+    tags: ['rate limiter'],
+    inputEndpoints,
+    outputEndpoints
 };

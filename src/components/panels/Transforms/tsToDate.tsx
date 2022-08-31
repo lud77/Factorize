@@ -7,6 +7,35 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'TsToDate';
 
+const inputEndpoints = [{
+    name: 'Timestamp',
+    defaultValue: '',
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Day',
+    defaultValue: '',
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Month',
+    defaultValue: '',
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Year',
+    defaultValue: '',
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'WeekDay',
+    defaultValue: '',
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const getDay = (ts) => (new Date(ts)).getDate();
     const getMonth = (ts) => (new Date(ts)).getMonth() + 1;
@@ -30,35 +59,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Timestamp',
-        defaultValue: '',
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Day',
-        defaultValue: '',
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Month',
-        defaultValue: '',
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Year',
-        defaultValue: '',
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'WeekDay',
-        defaultValue: '',
-        type: 'number',
-        signal: 'Value'
-    }];
 
     const execute = (panel, values) => {
         if (!values.inputTimestamp) return values;
@@ -87,5 +87,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

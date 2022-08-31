@@ -7,6 +7,25 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Intersection';
 
+const inputEndpoints = [{
+    name: 'Collection1',
+    defaultValue: [],
+    type: 'array',
+    signal: 'Value'
+}, {
+    name: 'Collection2',
+    defaultValue: [],
+    type: 'array',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Result',
+    default: [],
+    type: 'array',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
@@ -44,25 +63,6 @@ const create = (panelId: number): Panel => {
             }
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Collection1',
-        defaultValue: [],
-        type: 'array',
-        signal: 'Value'
-    }, {
-        name: 'Collection2',
-        defaultValue: [],
-        type: 'array',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Result',
-        default: [],
-        type: 'array',
-        signal: 'Value'
-    }];
 
     const intersect = (a, b) => {
         const setB = new Set(b);
@@ -106,5 +106,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['array', 'list']
+    tags: ['array', 'list'],
+    inputEndpoints,
+    outputEndpoints
 };

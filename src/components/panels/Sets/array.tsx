@@ -7,6 +7,15 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Array';
 
+const inputEndpoints = [];
+
+const outputEndpoints = [{
+    name: 'List',
+    default: [],
+    type: 'array',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
@@ -41,15 +50,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [];
-
-    const outputEndpoints = [{
-        name: 'List',
-        default: [],
-        type: 'array',
-        signal: 'Value'
-    }];
-
     const execute = (panel, values) => {
         const eps = panel.itemEps.map(([ep]) => ep);
 
@@ -75,5 +75,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['list']
+    tags: ['list'],
+    inputEndpoints,
+    outputEndpoints
 };

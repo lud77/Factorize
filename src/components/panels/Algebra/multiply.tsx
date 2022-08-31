@@ -7,6 +7,25 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Multiply';
 
+const inputEndpoints = [{
+    name: 'Multiplicand1',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Multiplicand2',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Result',
+    default: 0,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
@@ -45,25 +64,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Multiplicand1',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Multiplicand2',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Result',
-        default: 0,
-        type: 'number',
-        signal: 'Value'
-    }];
-
     const execute = (panel, values) => {
         const eps = ['inputMultiplicand1', 'inputMultiplicand2'].concat(panel.multiplicandEps.map(([ep]) => ep));
 
@@ -91,5 +91,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

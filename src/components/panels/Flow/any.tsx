@@ -7,6 +7,19 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Any';
 
+const inputEndpoints = [{
+    name: 'In1',
+    signal: 'Pulse'
+}, {
+    name: 'In2',
+    signal: 'Pulse'
+}];
+
+const outputEndpoints = [{
+    name: 'Out',
+    signal: 'Pulse'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
@@ -45,19 +58,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'In1',
-        signal: 'Pulse'
-    }, {
-        name: 'In2',
-        signal: 'Pulse'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Out',
-        signal: 'Pulse'
-    }];
-
     const onPulse = (ep, panel, { sendPulseTo }) => {
         sendPulseTo(panel.panelId, 'outputOut');
     };
@@ -81,5 +81,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

@@ -7,6 +7,25 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Sum';
 
+const inputEndpoints = [{
+    name: 'Addend1',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Addend2',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Result',
+    default: 0,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
@@ -45,25 +64,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Addend1',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Addend2',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Result',
-        default: 0,
-        type: 'number',
-        signal: 'Value'
-    }];
-
     const execute = (panel, values) => {
         const eps = ['inputAddend1', 'inputAddend2'].concat(panel.addendEps.map(([ep]) => ep));
 
@@ -92,5 +92,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['addition']
+    tags: ['addition'],
+    inputEndpoints,
+    outputEndpoints
 };

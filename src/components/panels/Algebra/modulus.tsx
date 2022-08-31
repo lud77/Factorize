@@ -7,6 +7,25 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Modulus';
 
+const inputEndpoints = [{
+    name: 'Number',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Modulus',
+    defaultValue: 2,
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Remainder',
+    default: 0,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -19,25 +38,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Number',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Modulus',
-        defaultValue: 2,
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Remainder',
-        default: 0,
-        type: 'number',
-        signal: 'Value'
-    }];
 
     const execute = (panel, values) => {
         return { outputRemainder: parseInt(values.inputNumber) % parseInt(values.inputModulus) };
@@ -57,5 +57,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

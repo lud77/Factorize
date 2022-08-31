@@ -10,6 +10,13 @@ import PushButton from '../../PushButton/PushButton';
 
 const panelType = 'Button';
 
+const inputEndpoints = [];
+
+const outputEndpoints = [{
+    name: 'Send',
+    signal: 'Pulse'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         e.stopPropagation();
@@ -30,13 +37,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [];
-
-    const outputEndpoints = [{
-        name: 'Send',
-        signal: 'Pulse'
-    }];
-
     const execute = (panel, values) => values;
 
     return {
@@ -54,5 +54,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['trigger', 'fire']
+    tags: ['trigger', 'fire'],
+    inputEndpoints,
+    outputEndpoints
 };

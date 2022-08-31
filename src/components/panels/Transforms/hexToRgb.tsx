@@ -9,6 +9,23 @@ import { hex2rgb, hex2hsl } from '../../../utils/colors';
 
 const panelType = 'HexToRGB';
 
+const outputEndpoints = [{
+    name: 'Red',
+    defaultValue: 255,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Green',
+    defaultValue: 255,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Blue',
+    defaultValue: 255,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -29,23 +46,6 @@ const create = (panelId: number): Panel => {
         name: 'Hex',
         defaultValue: '#ffffff',
         type: 'string',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Red',
-        defaultValue: 255,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Green',
-        defaultValue: 255,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Blue',
-        defaultValue: 255,
-        type: 'number',
         signal: 'Value'
     }];
 
@@ -72,5 +72,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['color']
+    tags: ['color'],
+    inputEndpoints,
+    outputEndpoints
 };

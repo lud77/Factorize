@@ -8,6 +8,23 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Clock';
 
+const inputEndpoints = [{
+    name: 'Active',
+    defaultValue: false,
+    type: 'boolean',
+    signal: 'Value'
+}, {
+    name: 'Seconds',
+    defaultValue: 1,
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Tick',
+    signal: 'Pulse'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -20,23 +37,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Active',
-        defaultValue: false,
-        type: 'boolean',
-        signal: 'Value'
-    }, {
-        name: 'Seconds',
-        defaultValue: 1,
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Tick',
-        signal: 'Pulse'
-    }];
 
     const expunge = ['timeoutHandler'];
 
@@ -125,5 +125,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['cron', 'repeat', 'schedule']
+    tags: ['cron', 'repeat', 'schedule'],
+    inputEndpoints,
+    outputEndpoints
 };

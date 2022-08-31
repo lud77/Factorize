@@ -8,6 +8,20 @@ import isBoolean from '../../../utils/isBoolean';
 
 const panelType = 'Not';
 
+const inputEndpoints = [{
+    name: 'Value',
+    defaultValue: 0,
+    type: 'boolean',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'NegatedValue',
+    default: 0,
+    type: 'boolean',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -17,20 +31,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Value',
-        defaultValue: 0,
-        type: 'boolean',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'NegatedValue',
-        default: 0,
-        type: 'boolean',
-        signal: 'Value'
-    }];
 
     const execute = (panel, values) => {
         if (!isBoolean(values.inputValue)) return { outputNegatedValue: '' };
@@ -51,5 +51,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

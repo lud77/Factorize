@@ -7,6 +7,25 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Merge';
 
+const inputEndpoints = [{
+    name: 'Collection1',
+    defaultValue: [],
+    type: 'array',
+    signal: 'Value'
+}, {
+    name: 'Collection2',
+    defaultValue: [],
+    type: 'array',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Result',
+    default: [],
+    type: 'array',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
@@ -45,25 +64,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Collection1',
-        defaultValue: [],
-        type: 'array',
-        signal: 'Value'
-    }, {
-        name: 'Collection2',
-        defaultValue: [],
-        type: 'array',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Result',
-        default: [],
-        type: 'array',
-        signal: 'Value'
-    }];
-
     const execute = (panel, values) => {
         const eps = ['inputCollection1', 'inputCollection2'].concat(panel.collectionEps.map(([ep]) => ep));
 
@@ -92,5 +92,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['array', 'list']
+    tags: ['array', 'list'],
+    inputEndpoints,
+    outputEndpoints
 };

@@ -7,6 +7,15 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Number';
 
+const inputEndpoints = [];
+
+const outputEndpoints = [{
+    name: 'Number',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
         machine.executePanelLogic(panelId, { tuningNumber: parseFloat(e.target.value) });
@@ -32,15 +41,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [];
-
-    const outputEndpoints = [{
-        name: 'Number',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }];
-
     const execute = (panel, inputs) => {
         return {
             outputNumber: inputs.tuningNumber
@@ -59,5 +59,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

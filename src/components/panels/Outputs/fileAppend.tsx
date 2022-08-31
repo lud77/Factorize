@@ -10,6 +10,23 @@ import System from '../../../domain/System';
 
 const panelType = 'FileAppend';
 
+const inputEndpoints = [{
+    name: 'Log',
+    signal: 'Pulse'
+}, {
+    name: 'Message',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}, {
+    name: 'File',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -24,23 +41,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Log',
-        signal: 'Pulse'
-    }, {
-        name: 'Message',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }, {
-        name: 'File',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [];
 
     const onPulse = (ep, panel) => {
         switch (ep) {
@@ -69,5 +69,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['log']
+    tags: ['log'],
+    inputEndpoints,
+    outputEndpoints
 };

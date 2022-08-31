@@ -8,6 +8,25 @@ import isBoolean from '../../../utils/isBoolean';
 
 const panelType = 'Or';
 
+const inputEndpoints = [{
+    name: 'Operand1',
+    defaultValue: false,
+    type: 'boolean',
+    signal: 'Value'
+}, {
+    name: 'Operand2',
+    defaultValue: false,
+    type: 'boolean',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Result',
+    default: 0,
+    type: 'boolean',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
@@ -46,25 +65,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Operand1',
-        defaultValue: false,
-        type: 'boolean',
-        signal: 'Value'
-    }, {
-        name: 'Operand2',
-        defaultValue: false,
-        type: 'boolean',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Result',
-        default: 0,
-        type: 'boolean',
-        signal: 'Value'
-    }];
-
     const execute = (panel, values) => {
         const eps = ['inputOperand1', 'inputOperand2'].concat(panel.operandEps.map(([ep]) => ep));
 
@@ -92,5 +92,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

@@ -7,6 +7,28 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Dice';
 
+const inputEndpoints = [{
+    name: 'Roll',
+    signal: 'Pulse'
+}, {
+    name: 'Dice',
+    defaultValue: 1,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Faces',
+    defaultValue: 6,
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Value',
+    defaultValue: 1,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const rollDice = (dice, faces) => {
         return Array(parseInt(dice)).fill(1)
@@ -31,28 +53,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Roll',
-        signal: 'Pulse'
-    }, {
-        name: 'Dice',
-        defaultValue: 1,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Faces',
-        defaultValue: 6,
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Value',
-        defaultValue: 1,
-        type: 'number',
-        signal: 'Value'
-    }];
 
     const onPulse = (ep, panel) => {
         switch (ep) {
@@ -79,5 +79,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['random']
+    tags: ['random'],
+    inputEndpoints,
+    outputEndpoints
 };

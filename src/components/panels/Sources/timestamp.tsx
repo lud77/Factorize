@@ -7,6 +7,18 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Timestamp';
 
+const inputEndpoints = [{
+    name: 'Fetch',
+    signal: 'Pulse'
+}];
+
+const outputEndpoints = [{
+    name: 'Timestamp',
+    defaultValue: getValue(),
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const getValue = () => Date.now();
 
@@ -18,18 +30,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Fetch',
-        signal: 'Pulse'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Timestamp',
-        defaultValue: getValue(),
-        type: 'number',
-        signal: 'Value'
-    }];
 
     const onPulse = (ep, panel) => {
         switch (ep) {
@@ -56,5 +56,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['date']
+    tags: ['date'],
+    inputEndpoints,
+    outputEndpoints
 };

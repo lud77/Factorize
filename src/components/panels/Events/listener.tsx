@@ -10,6 +10,28 @@ import Sockets from '../../../domain/Sockets';
 
 const panelType = 'Listener';
 
+const inputEndpoints = [{
+    name: 'Active',
+    defaultValue: false,
+    type: 'boolean',
+    signal: 'Value'
+}, {
+    name: 'Topic',
+    defaultValue: 'default',
+    type: 'string',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Received',
+    signal: 'Pulse'
+}, {
+    name: 'Message',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
          return <>
@@ -23,28 +45,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Active',
-        defaultValue: false,
-        type: 'boolean',
-        signal: 'Value'
-    }, {
-        name: 'Topic',
-        defaultValue: 'default',
-        type: 'string',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Received',
-        signal: 'Pulse'
-    }, {
-        name: 'Message',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }];
 
     const onMessage = (panel, { executePanelLogic, sendPulseTo }) => (e, receivedMessage) => {
         console.log('listener - Received message', receivedMessage);
@@ -149,5 +149,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['external', 'os', 'server']
+    tags: ['external', 'os', 'server'],
+    inputEndpoints,
+    outputEndpoints
 };

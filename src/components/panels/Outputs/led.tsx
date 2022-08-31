@@ -9,6 +9,15 @@ import Led from '../../Led/Led';
 
 const panelType = 'Led';
 
+const inputEndpoints = [{
+    name: 'Hue',
+    defaultValue: undefined,
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [];
+
 const create = (panelId: number): Panel => {
     const isFloat = (x) => typeof x === 'number' && !isNaN(x);
 
@@ -28,15 +37,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Hue',
-        defaultValue: undefined,
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [];
-
     const execute = (panel, values) => values;
 
     return {
@@ -53,5 +53,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

@@ -7,6 +7,20 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Inverse';
 
+const inputEndpoints = [{
+    name: 'Value',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Inverse',
+    default: 0,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -16,20 +30,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Value',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Inverse',
-        default: 0,
-        type: 'number',
-        signal: 'Value'
-    }];
 
     const execute = (panel, values) => {
         if (isNaN(values.inputValue)) return { outputInverse: '' };
@@ -51,5 +51,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

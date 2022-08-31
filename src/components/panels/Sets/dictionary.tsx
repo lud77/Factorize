@@ -7,6 +7,42 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Dictionary';
 
+const inputEndpoints = [{
+    name: 'Store',
+    signal: 'Pulse'
+}, {
+    name: 'Read',
+    signal: 'Pulse'
+}, {
+    name: 'Remove',
+    signal: 'Pulse'
+}, {
+    name: 'Key',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}, {
+    name: 'Value',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}, {
+    name: 'Reset',
+    signal: 'Pulse'
+}];
+
+const outputEndpoints = [{
+    name: 'Dictionary',
+    defaultValue: {},
+    type: 'object',
+    signal: 'Value'
+}, {
+    name: 'Value',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -32,42 +68,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Store',
-        signal: 'Pulse'
-    }, {
-        name: 'Read',
-        signal: 'Pulse'
-    }, {
-        name: 'Remove',
-        signal: 'Pulse'
-    }, {
-        name: 'Key',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }, {
-        name: 'Value',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }, {
-        name: 'Reset',
-        signal: 'Pulse'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Dictionary',
-        defaultValue: {},
-        type: 'object',
-        signal: 'Value'
-    }, {
-        name: 'Value',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }];
 
     const onPulse = (ep, panel) => {
         switch (ep) {
@@ -112,5 +112,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['associative', 'hashmap']
+    tags: ['associative', 'hashmap'],
+    inputEndpoints,
+    outputEndpoints
 };

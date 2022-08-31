@@ -10,6 +10,32 @@ import System from '../../../domain/System';
 
 const panelType = 'TextFile';
 
+const inputEndpoints = [{
+    name: 'Read',
+    signal: 'Pulse'
+}, {
+    name: 'File',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}, {
+    name: 'Rewind',
+    signal: 'Pulse'
+}];
+
+const outputEndpoints = [{
+    name: 'EOF',
+    signal: 'Pulse'
+}, {
+    name: 'Next',
+    signal: 'Pulse'
+}, {
+    name: 'Line',
+    defaultValue: '',
+    type: 'string',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -27,32 +53,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Read',
-        signal: 'Pulse'
-    }, {
-        name: 'File',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }, {
-        name: 'Rewind',
-        signal: 'Pulse'
-    }];
-
-    const outputEndpoints = [{
-        name: 'EOF',
-        signal: 'Pulse'
-    }, {
-        name: 'Next',
-        signal: 'Pulse'
-    }, {
-        name: 'Line',
-        defaultValue: '',
-        type: 'string',
-        signal: 'Value'
-    }];
 
     const expunge = ['outputFileHandler'];
 
@@ -154,5 +154,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

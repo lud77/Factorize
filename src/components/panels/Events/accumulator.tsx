@@ -7,6 +7,26 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Accumulator';
 
+const inputEndpoints = [{
+    name: 'Event',
+    signal: 'Pulse'
+}, {
+    name: 'Value',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Reset',
+    signal: 'Pulse'
+}];
+
+const outputEndpoints = [{
+    name: 'Count',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -22,26 +42,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Event',
-        signal: 'Pulse'
-    }, {
-        name: 'Value',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'Reset',
-        signal: 'Pulse'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Count',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }];
 
     const onPulse = (ep, panel) => {
         switch (ep) {
@@ -75,5 +75,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['counter']
+    tags: ['counter'],
+    inputEndpoints,
+    outputEndpoints
 };

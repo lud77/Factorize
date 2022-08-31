@@ -7,6 +7,24 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'If';
 
+const inputEndpoints = [{
+    name: 'Enable',
+    signal: 'Pulse'
+}, {
+    name: 'Condition',
+    defaultValue: undefined,
+    type: 'boolean',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Then',
+    signal: 'Pulse'
+}, {
+    name: 'Else',
+    signal: 'Pulse'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -20,24 +38,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Enable',
-        signal: 'Pulse'
-    }, {
-        name: 'Condition',
-        defaultValue: undefined,
-        type: 'boolean',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Then',
-        signal: 'Pulse'
-    }, {
-        name: 'Else',
-        signal: 'Pulse'
-    }];
 
     const onPulse = (ep, panel, { sendPulseTo }) => {
         switch (ep) {
@@ -68,5 +68,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['condition']
+    tags: ['condition'],
+    inputEndpoints,
+    outputEndpoints
 };

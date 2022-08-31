@@ -7,6 +7,18 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Delta';
 
+const inputEndpoints = [{
+    name: 'Value',
+    defaultValue: '',
+    type: 'any',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Changed',
+    signal: 'Pulse'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -16,18 +28,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Value',
-        defaultValue: '',
-        type: 'any',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Changed',
-        signal: 'Pulse'
-    }];
 
     const execute = (panel, values, { sendPulseTo }) => {
         sendPulseTo(panel.panelId, 'outputChanged');
@@ -48,5 +48,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['change']
+    tags: ['change'],
+    inputEndpoints,
+    outputEndpoints
 };

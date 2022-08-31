@@ -8,6 +8,15 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'ColorView';
 
+const inputEndpoints = [{
+    name: 'Hex',
+    defaultValue: '#fff',
+    type: 'string',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [];
+
 const create = (panelId: number): Panel => {
 
     const Component = (props) => {
@@ -30,15 +39,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Hex',
-        defaultValue: '#fff',
-        type: 'string',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [];
-
     const execute = (panel, inputs) => inputs;
 
     return {
@@ -58,5 +58,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };

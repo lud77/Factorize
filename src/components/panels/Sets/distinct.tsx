@@ -7,6 +7,20 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Distinct';
 
+const inputEndpoints = [{
+    name: 'List',
+    defaultValue: [],
+    type: 'array',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Distinct',
+    default: [],
+    type: 'array',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -16,20 +30,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'List',
-        defaultValue: [],
-        type: 'array',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Distinct',
-        default: [],
-        type: 'array',
-        signal: 'Value'
-    }];
 
     const execute = (panel, values) => {
         if (!Array.isArray(values.inputList)) return { outputDistinct: [] };
@@ -51,5 +51,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['unique']
+    tags: ['unique'],
+    inputEndpoints,
+    outputEndpoints
 };

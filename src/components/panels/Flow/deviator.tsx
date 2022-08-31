@@ -7,6 +7,30 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Deviator';
 
+const inputEndpoints = [{
+    name: 'Select',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'In1',
+    defaultValue: undefined,
+    type: 'any',
+    signal: 'Value'
+}, {
+    name: 'In2',
+    defaultValue: undefined,
+    type: 'any',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Out',
+    default: 0,
+    type: 'any',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
@@ -48,30 +72,6 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const inputEndpoints = [{
-        name: 'Select',
-        defaultValue: 0,
-        type: 'number',
-        signal: 'Value'
-    }, {
-        name: 'In1',
-        defaultValue: undefined,
-        type: 'any',
-        signal: 'Value'
-    }, {
-        name: 'In2',
-        defaultValue: undefined,
-        type: 'any',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Out',
-        default: 0,
-        type: 'any',
-        signal: 'Value'
-    }];
-
     const execute = (panel, values) => {
         const eps = ['inputIn1', 'inputIn2'].concat(panel.inEps.map(([ep]) => ep));
 
@@ -95,5 +95,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['switch']
+    tags: ['switch'],
+    inputEndpoints,
+    outputEndpoints
 };

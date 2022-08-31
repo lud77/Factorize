@@ -10,6 +10,20 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'Derivative';
 
+const inputEndpoints = [{
+    name: 'Function',
+    defaultValue: '',
+    type: 'function',
+    signal: 'Value'
+}];
+
+const outputEndpoints = [{
+    name: 'Derivative',
+    defaultValue: '',
+    type: 'function',
+    signal: 'Value'
+}];
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -19,20 +33,6 @@ const create = (panelId: number): Panel => {
             </div>
         </>;
     };
-
-    const inputEndpoints = [{
-        name: 'Function',
-        defaultValue: '',
-        type: 'function',
-        signal: 'Value'
-    }];
-
-    const outputEndpoints = [{
-        name: 'Derivative',
-        defaultValue: '',
-        type: 'function',
-        signal: 'Value'
-    }];
 
     const execute = (panel, inputs) => {
         const oldFunction = panel.outputEpValues.inputFunction;
@@ -69,5 +69,7 @@ const create = (panelId: number): Panel => {
 
 export default {
     type: panelType,
-    create
+    create,
+    inputEndpoints,
+    outputEndpoints
 };
