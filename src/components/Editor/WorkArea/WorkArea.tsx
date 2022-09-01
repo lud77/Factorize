@@ -480,7 +480,7 @@ const WorkArea = (props) => {
 				connectorAnchor,
 				side: 'output',
 				signal: panel.inputSignalByEp[ep],
-				type: panel.outputTypeByEp[ep]
+				type: panel.inputTypeByEp[ep]
 			});
 		}
 

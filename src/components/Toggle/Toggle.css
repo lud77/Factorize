@@ -41,7 +41,7 @@ input:focus + .Slider {
 }
 
 input:checked + .Slider:before {
-    transform: translateX(52px);
+    transform: translateX(61px);
 }
 
 /* Rounded sliders */

@@ -10,10 +10,13 @@ const ComboBox = (props) => {
 
     const panelFactories = Object.values(props.items);
 
-    console.log(props);
-
     React.useEffect(() => {
         inputRef.current.focus();
+
+        if (search == '' && list.length === 0) {
+            const sieve = getSieve(props.side, props.signal, props.type);
+            setList(panelFactories.filter(sieve).slice(0, 10));
+        }
     });
 
     const areEndpointsCompatible = (ep1, ep2) => {
@@ -27,30 +30,33 @@ const ComboBox = (props) => {
     const getSieve = (side, signal, type) => {
         if (!side) return () => true;
 
-        if (side === 'input') return (panelFactory) => panelFactory.inputEndpoints.find((epDef) => areEndpointsCompatible(epDef, { signal, type }));
+        if (side === 'input') {
+            return (panelFactory) => {
+                return (panelFactory.inputEndpoints || []).find((epDef) => areEndpointsCompatible(epDef, { signal, type }));
+            };
+        }
 
-        return (panelFactory) => panelFactory.outputEndpoints.find((epDef) => areEndpointsCompatible(epDef, { signal, type }));
+        return (panelFactory) => {
+            return (panelFactory.outputEndpoints || []).find((epDef) => areEndpointsCompatible(epDef, { signal, type }));
+        };
     };
 
     const handleChange = (e) => {
         setSearch(e.target.value);
 
+        const sieve = getSieve(props.side, props.signal, props.type);
+
         if (e.target.value == '') {
-            setList([]);
+            setList(panelFactories.filter(sieve).slice(0, 10));
             return;
         }
 
-        const sieve = getSieve(props.side, props.signal, props.type);
-
-        console.log(props.signal);
-
         const compatiblePanels =
             props.index
-                .search(e.target.value, 10)
+                .search(e.target.value)
                 .map((ndx) => panelFactories[ndx])
-                .filter(sieve);
-
-        console.log(compatiblePanels);
+                .filter(sieve)
+                .slice(0, 10);
 
         setList(compatiblePanels);
     };
@@ -103,11 +109,12 @@ const ComboBox = (props) => {
 
             props.setConnectorAnchor(null);
         }, 1);
-
-        // props.setConnectorAnchor(null);
     };
 
-    const backdropClick = () => {
+    const backdropClick = (e) => {
+        e.stopPropagation();
+        if (!e.target.classList.contains('Backdrop')) return;
+
         props.setSearchBoxData(null);
         props.setConnectorAnchor(null);
     };
