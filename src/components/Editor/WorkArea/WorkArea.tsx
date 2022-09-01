@@ -23,8 +23,7 @@ import '../Panel/Panel.css';
 let resizeEvents: number[] = [];
 let mouseMoveEvents: number[] = [];
 
-const searchableItems = dictionary;
-const searchableItemsIndex = getIndexFor(searchableItems);
+const searchableItemsIndex = getIndexFor(dictionary);
 
 const WorkArea = (props) => {
 	const {
@@ -33,7 +32,6 @@ const WorkArea = (props) => {
 		graphState,
 		focused, setFocus,
 		connectorAnchor, setConnectorAnchor,
-		makeConnection,
 		workAreaOffset, setWorkAreaOffset,
 		inclusiveSelection,
 		setTimer
@@ -266,7 +264,7 @@ const WorkArea = (props) => {
 
 		e.preventDefault();
 
-		if (!dragCoords.isDragging && connectorAnchor != null) {
+		if (!dragCoords.isDragging && connectorAnchor != null && !connectorAnchor.suspended) {
 			if (connectorAnchor.fromRef != null) {
 				setConnectorAnchor({
 					...connectorAnchor,
@@ -370,7 +368,7 @@ const WorkArea = (props) => {
 				(inclusiveSelection ? selectInclusive : selectExclusive)(panels, panelCoords, selection)
 					.map(({ panelId }) => panelId);
 
-				setSelectedPanels(Set(included).concat(backupSelectedPanels));
+			setSelectedPanels(Set(included).concat(backupSelectedPanels));
 
 			return false;
 		}
@@ -383,8 +381,11 @@ const WorkArea = (props) => {
 
 		setDragCoords({ isDragging: false });
 
+		if (connectorAnchor == null) return;
+
+		// attaching outgoing connector to input endpoint
 		if (
-			(connectorAnchor != null && connectorAnchor.fromRef != null) &&
+			(connectorAnchor.fromRef != null) &&
 			e.target.classList.contains('InputEndpoint') &&
 			!e.target.classList.contains('Connected')
 		) {
@@ -393,7 +394,7 @@ const WorkArea = (props) => {
 			const toPanelId = parseInt(toPanelEl.dataset.key);
 			const toRef = machine.getPanelInputRef(toPanelId, e.target.dataset.name);
 
-			const newConnection = makeConnection(connectorAnchor.fromRef, toRef, connectorAnchor.fromPanelId, toPanelId);
+			const newConnection = machine.makeConnection(connectorAnchor.fromRef, toRef, connectorAnchor.fromPanelId, toPanelId);
 
 			if (newConnection) {
 				flushSync(() => {
@@ -403,18 +404,21 @@ const WorkArea = (props) => {
 					]);
 				});
 			}
+
+			setConnectorAnchor(null);
 		}
 
+		// attaching ingoing connector to output endpoint
 		if (
-			(connectorAnchor != null && connectorAnchor.toRef != null) &&
-			(e.target.classList.contains('OutputEndpoint'))
+			(connectorAnchor.toRef != null) &&
+			e.target.classList.contains('OutputEndpoint')
 		) {
 			const fromPanelEl = e.target.closest('.Panel');
 
 			const fromPanelId = parseInt(fromPanelEl.dataset.key);
 			const fromRef = machine.getPanelOutputRef(fromPanelId, e.target.dataset.name);
 
-			const newConnection = makeConnection(fromRef, connectorAnchor.toRef, fromPanelId, connectorAnchor.toPanelId);
+			const newConnection = machine.makeConnection(fromRef, connectorAnchor.toRef, fromPanelId, connectorAnchor.toPanelId);
 
 			if (newConnection) {
 				flushSync(() => {
@@ -424,9 +428,61 @@ const WorkArea = (props) => {
 					]);
 				});
 			}
+
+			setConnectorAnchor(null);
 		}
 
-		setConnectorAnchor(null);
+		// opening search box from outgoing connector
+		if (
+			!connectorAnchor.suspended &&
+			(connectorAnchor.fromRef != null) &&
+			!e.target.classList.contains('InputEndpoint')
+		) {
+			console.log('selecting input', connectorAnchor);
+
+			setConnectorAnchor({
+				...connectorAnchor,
+				suspended: true
+			});
+
+			const panel = panels[connectorAnchor.fromPanelId];
+			const ep = panel.outputEpByRef[connectorAnchor.fromRef];
+
+			setSearchBoxData({
+				left: e.clientX,
+				top: e.clientY,
+				connectorAnchor,
+				side: 'input',
+				signal: panel.outputSignalByEp[ep],
+				type: panel.outputTypeByEp[ep]
+			});
+		}
+
+		// opening search box from ingoing connector
+		if (
+			!connectorAnchor.suspended &&
+			(connectorAnchor.toRef != null) &&
+			!e.target.classList.contains('OutputEndpoint')
+		) {
+			console.log('selecting output', connectorAnchor);
+
+			setConnectorAnchor({
+				...connectorAnchor,
+				suspended: true
+			});
+
+			const panel = panels[connectorAnchor.toPanelId];
+			const ep = panel.inputEpByRef[connectorAnchor.toRef];
+
+			setSearchBoxData({
+				left: e.clientX,
+				top: e.clientY,
+				connectorAnchor,
+				side: 'output',
+				signal: panel.inputSignalByEp[ep],
+				type: panel.outputTypeByEp[ep]
+			});
+		}
 
 		redraw(Math.random());
 	};
@@ -570,11 +626,14 @@ const WorkArea = (props) => {
 			? <>
 				<ComboBox
 					{...searchBoxData}
-					items={searchableItems}
+					items={dictionary}
 					index={searchableItemsIndex}
 					addPanel={machine.addPanel}
 					emptySearchMessage="Search panels by name or tag"
 					setSearchBoxData={setSearchBoxData}
+					setConnectorAnchor={setConnectorAnchor}
+					machine={machine}
+					setConnections={setConnections}
 					/>
 			</>
 			: null;

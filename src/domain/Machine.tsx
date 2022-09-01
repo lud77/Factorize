@@ -397,6 +397,8 @@ const Machine = ({
                 [newPanelCoords.panelId]: newPanelCoords
             };
         });
+
+        return [newPanel, newPanelCoords];
     };
 
     const addOutputEndpoint = (panelId, label, name, type, defaultValue, signal, value, registry) => {

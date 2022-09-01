@@ -12,6 +12,11 @@ To send a message to a socket-listener panel, use:
 where XXXX is the name of the panel's channel and YYYY is the actual message
 
 
+--- Refactoring
+
+- [ ] Rename ComboBox component to something better (SearchBox? PanelCreator? PanelSelector?)
+- [ ] Extract everything that can be extracted from panel factories
+
 --- System integration
 
 - [~] Main menu' commands
@@ -102,13 +107,13 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Add scale input ep (editable) to knob and range panels
 - [ ] Choose which eps to make editable
 - [ ] Make the context menu and combo box coordinates window-sensitive
-- [ ] Pulling a connection from an endpoint to the workarea opens Panel search
-    - [ ] Panel search is constrained by the initial endpoint being an input or output endpoint
-    - [ ] Panel search is constrained by signal and type of the initial endpoint
 - [ ] Make width of collapsed panel a constant (currently the magic number 120)
 - [ ] Make magic numbers become constants
 - [ ] Make endpoint section in the panels collapsible
 - [ ] Change editable property to become "editor" and change it from boolean to text where you specify the type of editor
+- [x] Pulling a connection from an endpoint to the workarea opens Panel search
+    - [x] Panel search is constrained by the initial endpoint being an input or output endpoint
+    - [x] Panel search is constrained by signal and type of the initial endpoint
 - [x] Make selected panels get closer or farther away by rolling the scroller
 - [x] Add tags to all panels
 - [x] Double clicking on the workarea opens Panel search

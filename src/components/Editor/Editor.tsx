@@ -58,7 +58,6 @@ const Editor = (props) => {
     });
 
     const {
-        makeConnection,
         addPanel,
         executePanelLogic,
         sendPulseTo
@@ -118,7 +117,6 @@ const Editor = (props) => {
                 inclusiveSelection={inclusiveSelection}
                 graphState={graphState}
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
-                makeConnection={makeConnection}
                 workAreaOffset={workAreaOffset} setWorkAreaOffset={setWorkAreaOffset}
                 setTimer={timers.setTimer}
                 />;
