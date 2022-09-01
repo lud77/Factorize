@@ -9,7 +9,12 @@ import './range.css';
 
 const panelType = 'Range';
 
-const inputEndpoints = [];
+const inputEndpoints = [{
+    name: 'Scale',
+    defaultValue: 1,
+    type: 'number',
+    signal: 'Value'
+}];
 
 const outputEndpoints = [{
     name: 'Value',
@@ -28,9 +33,9 @@ const create = (panelId: number): Panel => {
     };
 
     const handleMouseWheel = ({ panel, machine }) => (e) => {
-        const currentValue = panel.outputEpValues.outputValue != null ? panel.outputEpValues.outputValue : panel.outputEpDefaults.outputValue;
+        const currentValue = (panel.outputEpValues.outputValue != null ? panel.outputEpValues.outputValue : panel.outputEpDefaults.outputValue) / parseInt(panel.inputEpValues.inputScale);
         machine.executePanelLogic(panelId, {
-            tuningValue: clamp(currentValue - e.deltaY / 3000)
+            tuningValue: clamp(currentValue - e.deltaY / 6000)
         });
     };
 
@@ -45,20 +50,22 @@ const create = (panelId: number): Panel => {
                             max={100}
                             onChange={handleChange(props)}
                             onWheel={handleMouseWheel(props)}
-                            value={ props.panel.outputEpValues.outputValue * 100 }
+                            value={ props.panel.outputEpValues.outputValue * 100 / parseInt(props.panel.inputEpValues.inputScale) }
                             />
                     </div>
                 </div>
             </div>
             <div className="Row">
+                <InputEndpoint name="Scale" panelId={panelId} editable={true} {...props}>Scale</InputEndpoint>
                 <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
             </div>
         </>;
     };
 
     const execute = (panel, inputs) => {
+        console.log('inputs', inputs);
         return {
-            outputValue: inputs.tuningValue
+            outputValue: ((inputs.tuningValue != null) ? inputs.tuningValue : 0.5) * parseInt(inputs.inputScale)
         };
     };
 

@@ -37,7 +37,10 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <div className="InteractiveItem">
-                    <Knob onMouseWheel={handleMouseWheel(props)} value={ props.panel.outputEpValues.outputValue / parseInt(props.panel.inputEpValues.inputScale) }/>
+                    <Knob
+                        onMouseWheel={handleMouseWheel(props)}
+                        value={ props.panel.outputEpValues.outputValue / parseInt(props.panel.inputEpValues.inputScale) }
+                        />
                 </div>
             </div>
             <div className="Row">
