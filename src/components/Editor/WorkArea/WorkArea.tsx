@@ -289,12 +289,14 @@ const WorkArea = (props) => {
 			};
 
 			const panelId = Number(dragCoords.el.dataset.key);
+			const panel = panels[panelId];
+			const panelCoord = panelCoords[panelId];
 
 			const updates = {
 				[panelId]: {
-					...panelCoords[panelId],
-					width: Math.max(panelCoords[panelId].minWidth, dragCoords.c.x + distance.dx),
-                    height: Math.max(panelCoords[panelId].minHeight, dragCoords.c.y + distance.dy)
+					...panelCoord,
+					width: Math.max(panelCoord.minWidth, dragCoords.c.x + distance.dx),
+                    height: Math.max(panelCoord.minHeight, dragCoords.c.y + distance.dy)
 				}
 			};
 
@@ -302,6 +304,8 @@ const WorkArea = (props) => {
 				...panelCoords,
 				...updates
 			}));
+
+			computeEpCoords(panel, panelCoord, setPanelCoords);
 
 			return false;
 		}
@@ -634,6 +638,7 @@ const WorkArea = (props) => {
 					setConnectorAnchor={setConnectorAnchor}
 					machine={machine}
 					setConnections={setConnections}
+					redraw={redraw}
 					/>
 			</>
 			: null;

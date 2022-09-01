@@ -9,7 +9,12 @@ import Knob from '../../Knob/Knob';
 
 const panelType = 'Knob';
 
-const inputEndpoints = [];
+const inputEndpoints = [{
+    name: 'Scale',
+    defaultValue: 1,
+    type: 'number',
+    signal: 'Value'
+}];
 
 const outputEndpoints = [{
     name: 'Value',
@@ -22,7 +27,7 @@ const create = (panelId: number): Panel => {
     const clamp = (v) => Math.max(0, Math.min(1, v));
 
     const handleMouseWheel = ({ panel, machine }) => (e) => {
-        const currentValue = panel.outputEpValues.outputValue != null ? panel.outputEpValues.outputValue : panel.outputEpDefaults.outputValue;
+        const currentValue = (panel.outputEpValues.outputValue != null ? panel.outputEpValues.outputValue : panel.outputEpDefaults.outputValue) / parseInt(panel.inputEpValues.inputScale);
         machine.executePanelLogic(panelId, {
             tuningValue: clamp(currentValue - e.deltaY / 6000)
         });
@@ -32,18 +37,20 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <div className="InteractiveItem">
-                    <Knob onMouseWheel={handleMouseWheel(props)} value={ props.panel.outputEpValues.outputValue }/>
+                    <Knob onMouseWheel={handleMouseWheel(props)} value={ props.panel.outputEpValues.outputValue / parseInt(props.panel.inputEpValues.inputScale) }/>
                 </div>
             </div>
             <div className="Row">
+                <InputEndpoint name="Scale" panelId={panelId} editable={true} {...props}>Scale</InputEndpoint>
                 <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
             </div>
         </>;
     };
 
     const execute = (panel, inputs) => {
+        console.log('inputs', inputs);
         return {
-            outputValue: inputs.tuningValue
+            outputValue: ((inputs.tuningValue != null) ? inputs.tuningValue : 0.5) * parseInt(inputs.inputScale)
         };
     }
 

@@ -278,7 +278,7 @@ const Machine = ({
         if (signal == null) return null;
 
         const newValue = getOutputValue(sourcePanelId, sourceEpRef);
-        console.log('makeConnection', newValue, { [targetInputEp]: newValue });
+        console.log('makeConnection', targetPanelId, signal, newValue, { [targetInputEp]: newValue });
 
         executePanelLogic(targetPanelId, (signal === 'Value') ? { [targetInputEp]: newValue } : null);
 

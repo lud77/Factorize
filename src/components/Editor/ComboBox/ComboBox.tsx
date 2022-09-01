@@ -79,6 +79,7 @@ const ComboBox = (props) => {
                 const toRef = newPanel.inputRefs[`input${firstCompatibleEp.name}`];
 
                 const newConnection = props.machine.makeConnection(props.connectorAnchor.fromRef, toRef, props.connectorAnchor.fromPanelId, newPanel.panelId);
+                props.machine.executePanelLogic(props.connectorAnchor.fromPanelId);
 
                 if (newConnection) {
                     flushSync(() => {
@@ -108,6 +109,7 @@ const ComboBox = (props) => {
             }
 
             props.setConnectorAnchor(null);
+            props.redraw(Math.random());
         }, 1);
     };
 
