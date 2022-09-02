@@ -556,6 +556,8 @@ const Machine = ({
                 }
             };
         });
+
+        executePanelLogic(panelId);
     };
 
     const removeOutputEndpoint = (panelId, ep, ref, registry) => {
