@@ -588,6 +588,7 @@ const WorkArea = (props) => {
 					e.stopPropagation();
 					setSearchBoxData(null);
 					setContextMenuData(null);
+					setConnectorAnchor(null);
 
 					const panel = e.target.closest('.Panel');
 					const panelId = parseInt(panel.dataset.key);

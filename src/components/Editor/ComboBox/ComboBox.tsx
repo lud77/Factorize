@@ -14,15 +14,16 @@ const ComboBox = (props) => {
         inputRef.current.focus();
 
         if (search == '' && list.length === 0) {
+            console.log('sieve', props.side, props.signal, props.type);
             const sieve = getSieve(props.side, props.signal, props.type);
             setList(panelFactories.filter(sieve).slice(0, 10));
         }
     });
 
     const areEndpointsCompatible = (ep1, ep2) => {
-        const isPulse = ep1.signal === 'Pulse' && ep1.signal === 'Pulse';
-        const areSignalsCompatible = ep1.signal == ep2.signal;
-        const areTypesCompatible = ep1.type == 'any' || ep2.type == 'any' || ep1.type == ep2.type;
+        const isPulse = ep1.signal === 'Pulse' && ep2.signal === 'Pulse';
+        const areSignalsCompatible = ep1.signal === ep2.signal;
+        const areTypesCompatible = ep1.type === 'any' || ep2.type === 'any' || ep1.type === ep2.type;
 
         return isPulse || (areSignalsCompatible && areTypesCompatible);
     };
@@ -117,8 +118,8 @@ const ComboBox = (props) => {
         e.stopPropagation();
         if (!e.target.classList.contains('Backdrop')) return;
 
-        props.setSearchBoxData(null);
         props.setConnectorAnchor(null);
+        props.setSearchBoxData(null);
     };
 
     return <>
