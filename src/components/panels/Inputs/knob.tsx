@@ -53,7 +53,7 @@ const create = (panelId: number): Panel => {
     const execute = (panel, inputs) => {
         console.log('inputs', inputs);
         return {
-            outputValue: ((inputs.tuningValue != null) ? inputs.tuningValue : 0.5) * parseInt(inputs.inputScale)
+            outputValue: ((inputs.tuningValue != null) ? inputs.tuningValue : 0.5) * parseInt(inputs.inputScale != null ? inputs.inputScale : 0)
         };
     }
 
