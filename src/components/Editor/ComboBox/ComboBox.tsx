@@ -8,15 +8,13 @@ const ComboBox = (props) => {
     const [ list, setList ] = React.useState([]);
     const inputRef = React.useRef();
 
-    const panelFactories = Object.values(props.items);
-
     React.useEffect(() => {
         inputRef.current.focus();
 
         if (search == '' && list.length === 0) {
-            console.log('sieve', props.side, props.signal, props.type);
             const sieve = getSieve(props.side, props.signal, props.type);
-            setList(panelFactories.filter(sieve).slice(0, 10));
+
+            setList(props.items.filter(sieve));
         }
     });
 
@@ -48,16 +46,15 @@ const ComboBox = (props) => {
         const sieve = getSieve(props.side, props.signal, props.type);
 
         if (e.target.value == '') {
-            setList(panelFactories.filter(sieve).slice(0, 10));
+            setList(props.items.filter(sieve));
             return;
         }
 
         const compatiblePanels =
             props.index
                 .search(e.target.value)
-                .map((ndx) => panelFactories[ndx])
-                .filter(sieve)
-                .slice(0, 10);
+                .map((ndx) => props.items[ndx])
+                .filter(sieve);
 
         setList(compatiblePanels);
     };
@@ -136,10 +133,9 @@ const ComboBox = (props) => {
                         ? <>
                             <ul className="Results">
                             {
-                                list
-                                    .map((item, key) => (
-                                        <li key={key} className="Item" onClick={handleItemClick}>{item.type}</li>
-                                    ))
+                                list.map((item, key) => (
+                                    <li key={key} className="Item" onClick={handleItemClick}>{item.type}</li>
+                                ))
                             }
                             </ul>
                         </>

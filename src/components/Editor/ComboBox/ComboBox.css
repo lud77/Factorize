@@ -44,6 +44,8 @@
     list-style-type: none;
     margin: 0px;
     padding: 0px;
+    max-height: 15em;
+    overflow-y: auto;
 }
 
 .ComboBox .Content ul.Results li.Item {
@@ -64,4 +66,21 @@
 
 .ComboBox .Content ul.Results li.Item .Label {
     margin: 0 0 0 0.75em ;
+}
+
+
+.ComboBox ::-webkit-scrollbar {
+    width: 3px;
+}
+
+.ComboBox ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ComboBox ::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.ComboBox ::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

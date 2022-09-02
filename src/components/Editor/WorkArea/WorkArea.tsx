@@ -23,7 +23,7 @@ import '../Panel/Panel.css';
 let resizeEvents: number[] = [];
 let mouseMoveEvents: number[] = [];
 
-const searchableItemsIndex = getIndexFor(dictionary);
+const [searchableItems, searchableItemsIndex] = getIndexFor(dictionary);
 
 const WorkArea = (props) => {
 	const {
@@ -631,7 +631,7 @@ const WorkArea = (props) => {
 			? <>
 				<ComboBox
 					{...searchBoxData}
-					items={dictionary}
+					items={searchableItems}
 					index={searchableItemsIndex}
 					addPanel={machine.addPanel}
 					emptySearchMessage="Search panels by name or tag"
