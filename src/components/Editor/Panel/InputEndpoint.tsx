@@ -67,6 +67,7 @@ export default (props) => {
 
     const style = {};
     if (props.span) style.flexGrow = props.span;
+    if (props.editable) style.textDecoration = 'underline';
 
     return <>
         <div
