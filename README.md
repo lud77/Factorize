@@ -17,6 +17,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Rename ComboBox component to something better (SearchBox? PanelCreator? PanelSelector?)
 - [ ] Extract everything that can be extracted from panel factories
 
+
 --- System integration
 
 - [~] Main menu' commands
@@ -33,13 +34,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Add lateral scrolling to toolbar to be able to reach out-of-screen items
 - [x] Main-thread service framework to avoid squashing everything into electron.js
 
---- Context menu
-
-- [x] Disconnect panel -> removes all connections
-- [x] Duplicate panel -> creates an clone of the panel
-- [x] Find origin -> moves view to --middle of the graph-- NO: it moves you back to [0, 0]
-- [x] "Delete panel" becomes "Delete panels" when used on selected panel
-- [x] Group/Ungroup panels: grouped panels move together
 
 --- Engine
 
@@ -50,16 +44,16 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
-    - [ ] Stdin/Stdout/Stderr
-        - [ ] Stdin
-        - [x] Stdout
-        - [ ] Stderr?
     - [ ] IMAGE: Convolution
     - [ ] ALGEBRA: Matrix
     - [ ] Color ramp
     - [ ] SOURCE: Perlin noise
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
+    - [ ] Stdin/Stdout/Stderr
+        - [ ] Stdin
+        - [x] Stdout
+        - [ ] Stderr?
     - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
         - [x] Basic Array panel (List)
             - [x] Add Pop, Shift, Unshift pins
@@ -67,6 +61,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] INPUT: date selector
     - [x] SET: item by item array
     - [x] FLOW: All: (multiple Pulses -> si                 ngle Pulse) waits for a pulse on each of the inputs and then sends a pulse through the output
     - [x] TRANSFORMS: Date/time to Timestamp
@@ -104,6 +99,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
+- [ ]
 - [ ] Choose which eps to make editable
 - [ ] Make the context menu and combo box coordinates window-sensitive
 - [ ] Make width of collapsed panel a constant (currently the magic number 120)
@@ -164,6 +160,15 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 --- QA
 
 - [ ] Add tests
+
+
+--- Context menu
+
+- [x] Disconnect panel -> removes all connections
+- [x] Duplicate panel -> creates an clone of the panel
+- [x] Find origin -> moves view to --middle of the graph-- NO: it moves you back to [0, 0]
+- [x] "Delete panel" becomes "Delete panels" when used on selected panel
+- [x] Group/Ungroup panels: grouped panels move together
 
 
 --- NOTES
