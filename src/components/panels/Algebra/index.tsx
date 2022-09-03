@@ -12,6 +12,7 @@ import And from './and';
 import Or from './or';
 import Not from './not';
 
+import Matrix from './matrix';
 
 export default {
     Sum,
@@ -24,5 +25,6 @@ export default {
     Compare,
     And,
     Or,
-    Not
+    Not,
+    Matrix
 };

@@ -28,7 +28,7 @@ const create = (panelId: number): Panel => {
             <div className="Row">
                 <div className="InteractiveItem">
                     <input
-                        type="number"
+                        type="number" step="any"
                         onChange={handleChange(props)}
                         defaultValue={ props.panel.outputEpValues.outputNumber }
                         style={{ borderRadius: '5px', border: 'none' }}

@@ -467,7 +467,7 @@ const Machine = ({
                 [panelId]: {
                     ...panelCoord,
                     height: panelCoord.height + 21,
-                    minHeight: panelCoord.minHeight + 21,
+                    minHeight: panelCoord.minHeight + 21
                 }
             };
         });

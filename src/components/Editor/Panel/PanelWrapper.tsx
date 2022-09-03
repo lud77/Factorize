@@ -76,6 +76,7 @@ const PanelWrapper = (props) => {
                     ? <>
                         <panel.Component
                             panel={panel} setPanels={setPanels}
+                            setPanelCoords={setPanelCoords}
                             machine={machine}
                             connections={connections}
                             connectorAnchor={connectorAnchor}

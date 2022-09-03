@@ -41,11 +41,10 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] IMAGE: Convolution
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
-    - [ ] IMAGE: Convolution
-    - [ ] ALGEBRA: Matrix
     - [ ] Color ramp
     - [ ] SOURCE: Perlin noise
     - [ ] INPUTS: File info
@@ -61,6 +60,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] ALGEBRA: Matrix
+    - [x] INPUT: time selector
     - [x] INPUT: date selector
     - [x] SET: item by item array
     - [x] FLOW: All: (multiple Pulses -> si                 ngle Pulse) waits for a pulse on each of the inputs and then sends a pulse through the output
