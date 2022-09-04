@@ -49,17 +49,22 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] SOURCE: Perlin noise
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
-    - [ ] Stdin/Stdout/Stderr
+    - [~] Add explicit support for different object types
+        - [x] Represent Matrices in Display panel
+        - [ ] Represent Matrices in Logger panel
+        - [ ] Represent Matrices in FileAppend?
+    - [~] Stdin/Stdout/Stderr
         - [ ] Stdin
         - [x] Stdout
         - [ ] Stderr?
-    - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
+    - [~] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
         - [x] Basic Array panel (List)
             - [x] Add Pop, Shift, Unshift pins
         - [x] Merge
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] ALGEBRA: Matrix multiplication
     - [x] ALGEBRA: Matrix
     - [x] INPUT: time selector
     - [x] INPUT: date selector
@@ -100,7 +105,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
-- [ ]
 - [ ] Choose which eps to make editable
 - [ ] Make the context menu and combo box coordinates window-sensitive
 - [ ] Make width of collapsed panel a constant (currently the magic number 120)

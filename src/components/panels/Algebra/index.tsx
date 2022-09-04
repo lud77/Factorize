@@ -13,6 +13,8 @@ import Or from './or';
 import Not from './not';
 
 import Matrix from './matrix';
+import Convolution from './convolution';
+import DotProduct from './dotProduct';
 
 export default {
     Sum,
@@ -26,5 +28,7 @@ export default {
     And,
     Or,
     Not,
-    Matrix
+    Matrix,
+    Convolution,
+    DotProduct
 };

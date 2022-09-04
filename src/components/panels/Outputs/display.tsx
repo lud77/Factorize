@@ -2,6 +2,7 @@ import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
+import * as Matrices from '../../../domain/Matrices';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -16,6 +17,14 @@ const inputEndpoints = [{
 }];
 
 const outputEndpoints = [];
+
+const getContents = (input) => {
+    if (input == null) return '';
+
+    if (input.type === Matrices.matrixSym) return Matrices.toString(input);
+
+    return String(input);
+};
 
 const create = (panelId: number): Panel => {
 
@@ -64,7 +73,7 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row" style={displayStyle}>
-                {String(inputValue).split('\n').map((str, i) => <p key={i} style={paragraphStyle}>{str}</p>)}
+                {getContents(inputValue).split('\n').map((str, i) => <p key={i} style={paragraphStyle}>{str}</p>)}
             </div>
         </>;
     };

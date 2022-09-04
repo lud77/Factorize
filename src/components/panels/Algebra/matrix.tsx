@@ -12,7 +12,7 @@ const inputEndpoints = [];
 
 const outputEndpoints = [{
     name: 'Matrix',
-    defaultValue: [[0]],
+    defaultValue: Matrices.createMatrix(1, 1),
     type: 'matrix',
     signal: 'Value'
 }];
@@ -26,7 +26,7 @@ const create = (panelId: number): Panel => {
                 props.panel.outputEpValues.tuningMatrix = Matrices.createMatrix(i + 1, j + 1);
             }
 
-            props.panel.outputEpValues.tuningMatrix[i][j] = parseFloat(e.target.value);
+            props.panel.outputEpValues.tuningMatrix.contents[i][j] = parseFloat(e.target.value);
 
             props.machine.executePanelLogic(panelId, { tuningMatrix: props.panel.outputEpValues.tuningMatrix });
         };
@@ -37,26 +37,26 @@ const create = (panelId: number): Panel => {
             }
 
             if (row > 0) {
-                props.panel.outputEpValues.tuningMatrix =
-                    props.panel.outputEpValues.tuningMatrix
-                        .concat(Array(1).fill(Array(props.panel.outputEpValues.tuningMatrix[0].length).fill(0)));
+                props.panel.outputEpValues.tuningMatrix.contents =
+                    props.panel.outputEpValues.tuningMatrix.contents
+                        .concat(Array(1).fill(Array(props.panel.outputEpValues.tuningMatrix.contents[0].length).fill(0)));
             }
 
             if (col > 0) {
-                props.panel.outputEpValues.tuningMatrix =
-                    props.panel.outputEpValues.tuningMatrix
-                        .map((row, i) => props.panel.outputEpValues.tuningMatrix[i].concat(Array(1).fill(0)));
+                props.panel.outputEpValues.tuningMatrix.contents =
+                    props.panel.outputEpValues.tuningMatrix.contents
+                        .map((row, i) => props.panel.outputEpValues.tuningMatrix.contents[i].concat(Array(1).fill(0)));
             }
 
-            if (row < 0 && props.panel.outputEpValues.tuningMatrix.length > 1) {
-                props.panel.outputEpValues.tuningMatrix =
-                    props.panel.outputEpValues.tuningMatrix.slice(0, props.panel.outputEpValues.tuningMatrix.length - 1);
+            if (row < 0 && props.panel.outputEpValues.tuningMatrix.contents.length > 1) {
+                props.panel.outputEpValues.tuningMatrix.contents =
+                    props.panel.outputEpValues.tuningMatrix.contents.slice(0, props.panel.outputEpValues.tuningMatrix.contents.length - 1);
             }
 
-            if (col < 0 && props.panel.outputEpValues.tuningMatrix[0].length > 1) {
-                props.panel.outputEpValues.tuningMatrix =
-                    props.panel.outputEpValues.tuningMatrix
-                        .map((row, i) => props.panel.outputEpValues.tuningMatrix[i].slice(0, props.panel.outputEpValues.tuningMatrix[i].length - 1));
+            if (col < 0 && props.panel.outputEpValues.tuningMatrix.contents[0].length > 1) {
+                props.panel.outputEpValues.tuningMatrix.contents =
+                    props.panel.outputEpValues.tuningMatrix.contents
+                        .map((row, i) => props.panel.outputEpValues.tuningMatrix.contents[i].slice(0, props.panel.outputEpValues.tuningMatrix.contents[i].length - 1));
             }
 
             const height = 79 + 24 * Matrices.getHeight(props.panel.outputEpValues.tuningMatrix);
@@ -93,7 +93,7 @@ const create = (panelId: number): Panel => {
                 <div className="InteractiveItem">
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         {
-                            props.panel.outputEpValues.outputMatrix.map((row, i) => (
+                            props.panel.outputEpValues.outputMatrix.contents.map((row, i) => (
                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                                     {
                                         row.map((cell, j) => (
@@ -113,7 +113,9 @@ const create = (panelId: number): Panel => {
     };
 
     const execute = (panel, values) => {
-        const allNumbers = values.tuningMatrix.reduce((a, row) => a && row.reduce((b, cell) => b && !isNaN(cell), true), true);
+        if (!values.tuningMatrix) return { outputResult: '' };
+
+        const allNumbers = values.tuningMatrix.contents.reduce((a, row) => a && row.reduce((b, cell) => b && !isNaN(cell), true), true);
 
         console.log('execute matrix', values.tuningMatrix, allNumbers);
 

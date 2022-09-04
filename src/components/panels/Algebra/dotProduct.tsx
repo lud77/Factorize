@@ -10,19 +10,19 @@ const panelType = 'DotProduct';
 
 const inputEndpoints = [{
     name: 'Matrix1',
-    defaultValue: [[0]],
+    defaultValue: null,
     type: 'matrix',
     signal: 'Value'
 }, {
     name: 'Matrix2',
-    defaultValue: [[0]],
+    defaultValue: null,
     type: 'matrix',
     signal: 'Value'
 }];
 
 const outputEndpoints = [{
     name: 'Result',
-    default: [[0]],
+    default: null,
     type: 'matrix',
     signal: 'Value'
 }];

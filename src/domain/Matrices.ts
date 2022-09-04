@@ -1,12 +1,22 @@
-const createMatrix = (r, c) => {
-    return Array(r).fill(Array(c).fill(0));
+const matrixSym = Symbol('matrix');
+
+const toMatrix = (contents) => {
+    return {
+        type: matrixSym,
+        contents,
+        toString: () => '[matrix Object]'
+    };
 };
 
-const getWidth = (matrix) => matrix.length > 0 ? matrix[0].length : 0;
-const getHeight = (matrix) => matrix.length;
+const createMatrix = (r, c) => {
+    return toMatrix(Array(r).fill(0).map(() => Array(c).fill(0)));
+};
 
-const getRow = (matrix, r) => matrix[r];
-const getColumn = (matrix, c) => matrix.map((row) => row[c]);
+const getWidth = (matrix) => matrix.contents.length > 0 ? matrix.contents[0].length : 0;
+const getHeight = (matrix) => matrix.contents.length;
+
+const getRow = (matrix, r) => matrix.contents[r];
+const getColumn = (matrix, c) => matrix.contents.map((row) => row[c]);
 
 const dotProduct = (v1, v2) => {
     if (v1.length != v2.length) throw new Error('Tried to multiply vectors of different lengths');
@@ -15,7 +25,7 @@ const dotProduct = (v1, v2) => {
 };
 
 const scalarProduct = (matrix, scalar) => {
-    return matrix.map((row) => row.map((cell) => cell * scalar));
+    return toMatrix(matrix.contents.map((row) => row.map((cell) => cell * scalar)));
 };
 
 const matrixProduct = (m1, m2) => {
@@ -27,15 +37,19 @@ const matrixProduct = (m1, m2) => {
     if (m1w != m2h) throw new Error('Tried to multiply incompatible matrices');
 
     const result = createMatrix(m1h, m2w);
+    console.log('start', result.contents.toString());
 
-    for (let r = 0; r < m1h; r++) {
-        for (let c = 0; c < m2w; c++) {
+    for (let c = 0; c < m2w; c++) {
+        const column = getColumn(m2, c);
+        for (let r = 0; r < m1h; r++) {
             const row = getRow(m1, r);
-            const column = getColumn(m2, c);
-            result[r][c] = dotProduct(row, column);
-            console.log(r, c, row, column, result[r][c]);
+            result.contents[r][c] = dotProduct(row, column);
+            console.log(r, row, c, column, result.contents[r][c] + '');
+            console.log(r, c, result.contents.toString());
         }
     }
+
+    console.log('end', result.contents.toString());
 
     return result;
 };
@@ -45,7 +59,21 @@ const convolution = (m1, m2) => {
     return m1;
 };
 
+const toString = (matrix) => {
+    const nbspace = ' ';
+    const cols = getWidth(matrix);
+    const colWidth = ('' + matrix.contents.reduce((a, r) => Math.max(a, r.reduce((b, c) => Math.max(b, c), 0)), 0)).length;
+    const spaces = Array(cols * colWidth + cols + 1).fill(nbspace).join('');
+
+    return `\n┌${spaces}┐\n` +
+        matrix.contents
+            .map((row, r) => `│${nbspace}${ row.map((cell) => ('' + cell).padStart(colWidth, nbspace)).join(nbspace) }${nbspace}│`)
+            .join('\n') +
+        `\n└${spaces}┘\n`;
+};
+
 export {
+    matrixSym,
     createMatrix,
     getWidth,
     getHeight,
@@ -54,5 +82,6 @@ export {
     scalarProduct,
     dotProduct,
     matrixProduct,
-    convolution
+    convolution,
+    toString
 };
