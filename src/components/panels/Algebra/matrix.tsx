@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
+import * as Matrices from '../../../domain/Matrices';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -12,13 +13,9 @@ const inputEndpoints = [];
 const outputEndpoints = [{
     name: 'Matrix',
     defaultValue: [[0]],
-    type: 'array',
+    type: 'matrix',
     signal: 'Value'
 }];
-
-const createMatrix = (r, c) => {
-    return Array(r).fill(Array(c).fill(0));
-};
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -26,7 +23,7 @@ const create = (panelId: number): Panel => {
             console.log(`value for matrix at ${i}, ${j} is ${e.target.value}`);
 
             if (!props.panel.outputEpValues.tuningMatrix) {
-                props.panel.outputEpValues.tuningMatrix = createMatrix(i + 1, j + 1);
+                props.panel.outputEpValues.tuningMatrix = Matrices.createMatrix(i + 1, j + 1);
             }
 
             props.panel.outputEpValues.tuningMatrix[i][j] = parseFloat(e.target.value);
@@ -36,7 +33,7 @@ const create = (panelId: number): Panel => {
 
         const changeSize = (row, col) => (e) => {
             if (!props.panel.outputEpValues.tuningMatrix) {
-                props.panel.outputEpValues.tuningMatrix = createMatrix(1, 1);
+                props.panel.outputEpValues.tuningMatrix = Matrices.createMatrix(1, 1);
             }
 
             if (row > 0) {
@@ -62,8 +59,8 @@ const create = (panelId: number): Panel => {
                         .map((row, i) => props.panel.outputEpValues.tuningMatrix[i].slice(0, props.panel.outputEpValues.tuningMatrix[i].length - 1));
             }
 
-            const height = 79 + 24 * props.panel.outputEpValues.tuningMatrix.length;
-            const width = 18 + 50 * props.panel.outputEpValues.tuningMatrix[0].length;
+            const height = 79 + 24 * Matrices.getHeight(props.panel.outputEpValues.tuningMatrix);
+            const width = 18 + 50 * Matrices.getWidth(props.panel.outputEpValues.tuningMatrix);
 
             props.setPanelCoords((panelCoords) => {
                 const panelCoord = panelCoords[panelId];
@@ -82,7 +79,6 @@ const create = (panelId: number): Panel => {
 
             props.machine.executePanelLogic(panelId, { tuningMatrix: props.panel.outputEpValues.tuningMatrix });
         };
-
 
         return <>
             <div className="Row">

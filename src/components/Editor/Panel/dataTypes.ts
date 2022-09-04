@@ -4,6 +4,7 @@ const dataTypeMarkers = {
     object: 'd',
     function: 'f',
     array: 'l',
+    matrix: 'm',
     number: 'n',
     string: 's'
 };
