@@ -60,7 +60,15 @@ const convolution = (m1, m2) => {
 const toString = (matrix) => {
     const nbspace = ' ';
     const cols = getWidth(matrix);
-    const colWidth = ('' + matrix.contents.reduce((a, r) => Math.max(a, r.reduce((b, c) => Math.max(b, c), 0)), 0)).length;
+
+    const colWidth = (
+        '' +
+        matrix.contents
+            .flat()
+            .map((v) => v > 0 ? v : -v * 10)
+            .reduce((a, v) => Math.max(a, v), 0)
+    ).length;
+
     const spaces = Array(cols * colWidth + cols + 1).fill(nbspace).join('');
 
     return `\n┌${spaces}┐\n` +
