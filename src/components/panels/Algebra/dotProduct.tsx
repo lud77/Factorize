@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import * as Matrices from '../../../domain/Matrices';
+import * as Matrix from '../../../domain/Matrix';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -42,7 +42,7 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, values) => {
         try {
-            const outputResult = Matrices.matrixProduct(values.inputMatrix1, values.inputMatrix2)
+            const outputResult = Matrix.matrixProduct(values.inputMatrix1, values.inputMatrix2);
             return { outputResult };
         } catch (e) {
             return { outputResult: null };

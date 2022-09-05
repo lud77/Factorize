@@ -29,6 +29,6 @@ export default {
     Or,
     Not,
     Matrix,
-    Convolution,
-    DotProduct
+    DotProduct,
+    Convolution
 };

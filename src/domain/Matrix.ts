@@ -1,16 +1,14 @@
 const matrixSym = Symbol('matrix');
 
-const toMatrix = (contents) => {
-    return {
-        type: matrixSym,
-        contents,
-        toString: () => '[matrix Object]'
-    };
-};
+const toMatrix = (contents) => ({
+    type: matrixSym,
+    contents,
+    toString: () => '[matrix Object]'
+});
 
-const createMatrix = (r, c) => {
-    return toMatrix(Array(r).fill(0).map(() => Array(c).fill(0)));
-};
+const zeroes = (r, c) => toMatrix(Array(r).fill(0).map(() => Array(c).fill(0)));
+
+const fromArray = (array) => toMatrix([array]);
 
 const getWidth = (matrix) => matrix.contents.length > 0 ? matrix.contents[0].length : 0;
 const getHeight = (matrix) => matrix.contents.length;
@@ -21,7 +19,7 @@ const getColumn = (matrix, c) => matrix.contents.map((row) => row[c]);
 const dotProduct = (v1, v2) => {
     if (v1.length != v2.length) throw new Error('Tried to multiply vectors of different lengths');
 
-    return v1.map((e, i) => e * v2[i]).reduce((a, v) => a + v, 0);
+    return v1.reduce((a, v, i) => a + v * v2[i], 0);
 };
 
 const scalarProduct = (matrix, scalar) => {
@@ -36,7 +34,7 @@ const matrixProduct = (m1, m2) => {
 
     if (m1w != m2h) throw new Error('Tried to multiply incompatible matrices');
 
-    const result = createMatrix(m1h, m2w);
+    const result = zeroes(m1h, m2w);
     console.log('start', result.contents.toString());
 
     for (let c = 0; c < m2w; c++) {
@@ -73,8 +71,9 @@ const toString = (matrix) => {
 };
 
 export {
+    zeroes,
     matrixSym,
-    createMatrix,
+    fromArray,
     getWidth,
     getHeight,
     getRow,

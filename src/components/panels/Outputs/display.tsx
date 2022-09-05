@@ -2,7 +2,7 @@ import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import * as Matrices from '../../../domain/Matrices';
+import * as Matrix from '../../../domain/Matrix';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -21,7 +21,7 @@ const outputEndpoints = [];
 const getContents = (input) => {
     if (input == null) return '';
 
-    if (input.type === Matrices.matrixSym) return Matrices.toString(input);
+    if (input.type === Matrix.matrixSym) return Matrix.toString(input);
 
     return String(input);
 };
