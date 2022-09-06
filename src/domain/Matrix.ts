@@ -3,7 +3,7 @@ const matrixSym = Symbol('matrix');
 const toMatrix = (contents) => ({
     type: matrixSym,
     contents,
-    toString: () => '[matrix Object]'
+    toString: () => '[object Matrix]'
 });
 
 const zeroes = (r, c) => toMatrix(Array(r).fill(0).map(() => Array(c).fill(0)));
