@@ -1,23 +1,23 @@
-import Logger from './logger';
-import FileAppend from './fileAppend';
-import Display from './display';
-import Picture from './picture';
+import DisplayLogger from './displayLogger';
+import FileLogger from './fileLogger';
+import StdOutLogger from './stdOutLogger';
+import ConsoleLogger from './consoleLogger';
+import TextView from './textView';
+import PictureView from './pictureView';
+import ColorView from './colorView';
+import FunctionPlotter from './FunctionPlotter';
 import Semaphore from './semaphore';
 import Led from './led';
-import Console from './console';
-import StdOut from './stdout';
-import ColorView from './colorView';
-import Plotter from './plotter';
 
 export default {
-    Logger,
-    StdOut,
-    FileAppend,
-    Display,
-    Picture,
-    Semaphore,
-    Led,
-    Console,
+    DisplayLogger,
+    StdOutLogger,
+    FileLogger,
+    ConsoleLogger,
+    TextView,
+    PictureView,
     ColorView,
-    Plotter
+    FunctionPlotter,
+    Semaphore,
+    Led
 };

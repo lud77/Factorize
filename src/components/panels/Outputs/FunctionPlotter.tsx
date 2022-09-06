@@ -8,7 +8,7 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const panelType = 'Plotter';
+const panelType = 'FunctionPlotter';
 
 const inputEndpoints = [{
     name: 'Function',

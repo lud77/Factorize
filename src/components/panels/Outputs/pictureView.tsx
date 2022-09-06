@@ -9,7 +9,7 @@ import Lightbox from '../../Lightbox/Lightbox';
 import System from '../../../domain/System';
 import { flushSync } from 'react-dom';
 
-const panelType = 'Picture';
+const panelType = 'PictureView';
 
 const inputEndpoints = [{
     name: 'File',

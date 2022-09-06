@@ -5,9 +5,7 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-import System from '../../../domain/System';
-
-const panelType = 'StdOut';
+const panelType = 'ConsoleLogger';
 
 const inputEndpoints = [{
     name: 'Log',
@@ -25,7 +23,7 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Log" panelId={panelId} signal="Pulse" description="Write the [Message] to standard output" {...props}>Log</InputEndpoint>
+                <InputEndpoint name="Log" panelId={panelId} signal="Pulse" description="Write the [Message] to console" {...props}>Log</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Message" panelId={panelId} {...props}>Message</InputEndpoint>
@@ -36,7 +34,7 @@ const create = (panelId: number): Panel => {
     const onPulse = (ep, panel) => {
         switch (ep) {
             case 'inputLog':
-                System.consoleLog(panel.inputEpValues.inputMessage);
+                console.log('FACTORIZE:', Date.now(), panel.inputEpValues.inputMessage);
                 return {};
         }
     };
@@ -58,7 +56,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['output'],
+    tags: ['log', 'output'],
     inputEndpoints,
     outputEndpoints
 };

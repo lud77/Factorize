@@ -2,33 +2,32 @@ import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
+import * as Matrix from '../../../domain/Matrix';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const panelType = 'Logger';
+const panelType = 'TextView';
 
 const inputEndpoints = [{
-    name: 'Log',
-    signal: 'Pulse'
-}, {
-    name: 'Message',
+    name: 'Value',
     defaultValue: '',
     type: 'any',
     signal: 'Value'
-}, {
-    name: 'Clear',
-    signal: 'Pulse'
 }];
 
-const outputEndpoints = [{
-    name: 'Contents',
-    defaultValue: '',
-    type: 'string',
-    signal: 'Value'
-}];
+const outputEndpoints = [];
+
+const getContents = (input) => {
+    if (input == null) return '';
+
+    if (input.type === Matrix.matrixSym) return Matrix.toString(input);
+
+    return String(input);
+};
 
 const create = (panelId: number): Panel => {
+
     const Component = (props) => {
         const handleClickPlus = ({ panel, machine }) => () => {
             const fontSize = panel.outputEpValues.outputFontSize || 15;
@@ -63,34 +62,20 @@ const create = (panelId: number): Panel => {
             margin: '1px'
         };
 
+        const inputValue = props.panel.inputEpValues.inputValue != null ? props.panel.inputEpValues.inputValue : '';
+
         return <>
             <div className="Row">
-                <InputEndpoint name="Log" panelId={panelId} signal="Pulse" description="Append the [Message] to the [Contents]" {...props}>Log</InputEndpoint>
-                <OutputEndpoint name="Contents" panelId={panelId} {...props}>Contents</OutputEndpoint>
-            </div>
-            <div className="Row">
-                <InputEndpoint name="Message" panelId={panelId} {...props}>Message</InputEndpoint>
-            </div>
-            <div className="Row">
-                <InputEndpoint name="Clear" panelId={panelId} signal="Pulse" description="Clear the [Contents]" {...props}>Clear</InputEndpoint>
+                <InputEndpoint name="Value" panelId={panelId} {...props}>Value</InputEndpoint>
                 <div className="InteractiveItem" style={{ textAlign: 'right' }}>
                     <button className="Button" title="Increase font size" onClick={handleClickPlus(props)} style={{ width: '2em', marginRight: '1px' }}>+</button>
                     <button className="Button" title="Decrease font size" onClick={handleClickMinus(props)} style={{ width: '2em' }}>-</button>
                 </div>
             </div>
             <div className="Row" style={displayStyle}>
-                {String(props.panel.outputEpValues.outputContents || '').split('\n').map((str, i) => <p key={i} style={paragraphStyle}>{str}</p>)}
+                {getContents(inputValue).split('\n').map((str, i) => <p key={i} style={paragraphStyle}>{str}</p>)}
             </div>
         </>;
-    };
-
-    const onPulse = (ep, panel) => {
-        switch (ep) {
-            case 'inputLog':
-                return { outputContents: panel.outputEpValues.outputContents + panel.inputEpValues.inputMessage + os.EOL };
-            case 'inputClear':
-                return { outputContents: '' };
-        }
     };
 
     const execute = (panel, inputs) => {
@@ -106,11 +91,10 @@ const create = (panelId: number): Panel => {
         outputEndpoints,
         Component,
         execute,
-        onPulse,
         width: 200,
         height: 200,
         minWidth: 120,
-        minHeight: 150,
+        minHeight: 120,
         resizer: 'both'
     } as Panel;
 };
@@ -118,7 +102,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['log', 'screen', 'monitor', 'output'],
+    tags: ['output'],
     inputEndpoints,
     outputEndpoints
 };

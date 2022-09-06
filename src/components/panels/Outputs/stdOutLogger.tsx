@@ -1,4 +1,3 @@
-import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
@@ -8,7 +7,7 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 import System from '../../../domain/System';
 
-const panelType = 'FileAppend';
+const panelType = 'StdOutLogger';
 
 const inputEndpoints = [{
     name: 'Log',
@@ -18,11 +17,6 @@ const inputEndpoints = [{
     defaultValue: '',
     type: 'any',
     signal: 'Value'
-}, {
-    name: 'File',
-    defaultValue: '',
-    type: 'string',
-    signal: 'Value'
 }];
 
 const outputEndpoints = [];
@@ -31,13 +25,10 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Log" panelId={panelId} signal="Pulse" description="Append the [Message] to the [File]" {...props}>Log</InputEndpoint>
+                <InputEndpoint name="Log" panelId={panelId} signal="Pulse" description="Write the [Message] to standard output" {...props}>Log</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Message" panelId={panelId} {...props}>Message</InputEndpoint>
-            </div>
-            <div className="Row">
-                <InputEndpoint name="File" panelId={panelId} {...props}>File</InputEndpoint>
             </div>
         </>;
     };
@@ -45,9 +36,7 @@ const create = (panelId: number): Panel => {
     const onPulse = (ep, panel) => {
         switch (ep) {
             case 'inputLog':
-                if (panel.inputEpValues.inputFile === '' || panel.inputEpValues.inputMessage === '') return {}
-
-                System.appendToFile(panel.inputEpValues.inputFile, panel.inputEpValues.inputMessage + os.EOL);
+                System.consoleLog(panel.inputEpValues.inputMessage);
                 return {};
         }
     };
@@ -62,14 +51,14 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse,
-        height: 94
+        height: 74
     } as Panel;
 };
 
 export default {
     type: panelType,
     create,
-    tags: ['log', 'output'],
+    tags: ['output'],
     inputEndpoints,
     outputEndpoints
 };
