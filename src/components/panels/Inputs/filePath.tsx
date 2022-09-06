@@ -20,7 +20,7 @@ const outputEndpoints = [{
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
-        System.saveFileDialog()
+        System.saveFileDialog({ title: 'Select file...' })
             .then((filePath) => {
                 if (filePath == null) return;
 

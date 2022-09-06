@@ -45,7 +45,7 @@ const addServices = (win) => {
         Promise.resolve()
             .then(() => {
                 return dialog.showSaveDialogSync({
-                    title: 'Save To File...',
+                    title: arg.title || 'Save to file...',
                     defaultPath: app.getPath('documents'),
                     filters: arg.fileTypes ? filters.filter((filter) => arg.fileTypes.includes(filter.name)) : undefined,
                     browserWindow: win
