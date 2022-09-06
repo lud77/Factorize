@@ -41,6 +41,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] SOURCE: Glob
     - [ ] IMAGE: Convolution
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
@@ -49,6 +50,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] SOURCE: Perlin noise
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
+    - [x] INPUT: Folder path
     - [~] Add explicit support for different object types
         - [x] Represent Matrices in Display panel
         - [ ] Represent Matrices in Logger panel

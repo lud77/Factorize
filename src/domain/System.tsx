@@ -86,6 +86,18 @@ const saveFileDialog = (options = {}) => {
     });
 };
 
+const openFolderDialog = (options = {}) => {
+    return new Promise((resolve) => {
+        ipcRenderer.send('api:select-folder', options);
+        ipcRenderer.once('api:folder-path', (e, msg) => {
+            console.log(msg);
+            if (msg.cancelled) return resolve(null);
+
+            resolve(msg.path);
+        });
+    });
+};
+
 const writeFile = (filePath, contents) => {
     ipcRenderer.send('api:write-file', { filePath, contents });
 };
@@ -126,6 +138,7 @@ export default {
     quit,
     openFileDialog,
     saveFileDialog,
+    openFolderDialog,
     writeFile,
     appendToFile,
     readFile,

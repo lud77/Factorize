@@ -1,4 +1,5 @@
 import FilePath from './filePath';
+import FolderPath from './folderPath';
 import Text from './text';
 import Number from './number';
 import Toggle from './toggle';
@@ -17,5 +18,6 @@ export default {
     Range,
     Knob,
     FilePath,
+    FolderPath,
     ColorPicker
 };
