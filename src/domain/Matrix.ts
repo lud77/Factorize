@@ -52,6 +52,22 @@ const matrixProduct = (m1, m2) => {
     return result;
 };
 
+const transpose = (m) => {
+    const mw = getWidth(m);
+    const mh = getHeight(m);
+    const tw = mh;
+    const th = mw;
+    const t = zeroes(th, tw);
+
+    for (let c = 0; c < mw; c++) {
+        for (let r = 0; r < mh; r++) {
+            t.contents[c][r] = m.contents[r][c];
+        }
+    }
+
+    return t;
+};
+
 const convolution = (m1, m2) => {
     // if (
     return m1;
@@ -90,5 +106,6 @@ export {
     dotProduct,
     matrixProduct,
     convolution,
+    transpose,
     toString
 };

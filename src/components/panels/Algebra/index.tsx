@@ -12,8 +12,8 @@ import And from './and';
 import Or from './or';
 import Not from './not';
 
-import Matrix from './matrix';
 import DotProduct from './dotProduct';
+import Transpose from './transpose';
 
 export default {
     Sum,
@@ -27,6 +27,6 @@ export default {
     And,
     Or,
     Not,
-    Matrix,
+    Transpose,
     DotProduct
 };

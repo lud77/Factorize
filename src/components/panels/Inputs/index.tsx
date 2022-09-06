@@ -8,11 +8,13 @@ import Knob from './knob';
 import ColorPicker from './colorPicker/colorPicker';
 import Date from './date';
 import Time from './time';
+import Matrix from '../Inputs/matrix';
 
 export default {
     Toggle,
     Text,
     Number,
+    Matrix,
     Date,
     Time,
     Range,
