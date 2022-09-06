@@ -1,7 +1,7 @@
-import Dice from '../Sources/dice';
-import Random from '../Sources/random';
-import Timestamp from '../Sources/timestamp';
-import TextFile from '../Sources/textFile';
+import Dice from './dice';
+import Random from './random';
+import Timestamp from './timestamp';
+import TextFile from './textFile';
 
 export default {
     Dice,

@@ -71,7 +71,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] INPUT: time selector
     - [x] INPUT: date selector
     - [x] SET: item by item array
-    - [x] FLOW: All: (multiple Pulses -> si                 ngle Pulse) waits for a pulse on each of the inputs and then sends a pulse through the output
+    - [x] FLOW: All: (multiple Pulses -> single Pulse) waits for a pulse on each of the inputs and then sends a pulse through the output
     - [x] TRANSFORMS: Date/time to Timestamp
     - [x] TRANSFORMS: Timestamp to Date/time
     - [x] ALGEBRA: Threshold: (Value -> Value) sets outputs (High, Equal, Low) to true depending on whether first input is <=> than second
