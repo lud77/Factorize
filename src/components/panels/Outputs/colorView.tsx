@@ -10,7 +10,7 @@ const panelType = 'ColorView';
 
 const inputEndpoints = [{
     name: 'Hex',
-    defaultValue: '#fff',
+    defaultValue: 'transparent',
     type: 'string',
     signal: 'Value'
 }];
@@ -21,21 +21,33 @@ const create = (panelId: number): Panel => {
 
     const Component = (props) => {
         console.log('hex', props.panel.inputEpValues.inputHex);
-        const displayStyle = {
+        const backgroundStyle = {
+            backgroundImage: 'linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%)',
+            backgroundSize: '20px 20px',
+            backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px',
             overflow: 'auto',
             width: '100%',
-            backgroundColor: `${props.panel.inputEpValues.inputHex}`,
             flexGrow: 1,
             display: 'block',
             marginTop: '2px',
             borderRadius: '5px'
         };
 
+        const displayStyle = {
+            backgroundColor: `${props.panel.inputEpValues.inputHex}`,
+            overflow: 'auto',
+            width: '100%',
+            height: '100%',
+            display: 'block'
+        };
+
         return <>
             <div className="Row">
                 <InputEndpoint name="Hex" panelId={panelId} {...props}>Hex</InputEndpoint>
             </div>
-            <div className="Row" style={displayStyle}></div>
+            <div className="Row" style={backgroundStyle}>
+                <div style={displayStyle}></div>
+            </div>
         </>;
     };
 
