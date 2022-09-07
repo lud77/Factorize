@@ -12,6 +12,7 @@ import And from './and';
 import Or from './or';
 import Not from './not';
 
+import ScalarProduct from './scalarProduct';
 import DotProduct from './dotProduct';
 import Transpose from './transpose';
 
@@ -28,5 +29,6 @@ export default {
     Or,
     Not,
     Transpose,
+    ScalarProduct,
     DotProduct
 };
