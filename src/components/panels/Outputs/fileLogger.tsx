@@ -2,6 +2,7 @@ import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
+import { getContents } from '../../../domain/Contents';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -47,7 +48,8 @@ const create = (panelId: number): Panel => {
             case 'inputLog':
                 if (panel.inputEpValues.inputFile === '' || panel.inputEpValues.inputMessage === '') return {}
 
-                System.appendToFile(panel.inputEpValues.inputFile, panel.inputEpValues.inputMessage + os.EOL);
+                const inputMessage = panel.inputEpValues.inputMessage != null ? panel.inputEpValues.inputMessage : '';
+                System.appendToFile(panel.inputEpValues.inputFile, getContents(inputMessage) + os.EOL);
                 return {};
         }
     };

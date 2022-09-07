@@ -51,11 +51,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] SOURCE: Perlin noise
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
-    - [x] INPUT: Folder path
-    - [~] Add explicit support for different object types
-        - [x] Represent Matrices in TextView
-        - [ ] Represent Matrices in DisplayLogger
-        - [ ] Represent Matrices in FileLogger
     - [~] Stdin/Stdout/Stderr
         - [ ] Stdin
         - [x] Stdout
@@ -67,6 +62,11 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] INPUT: Folder path
+    - [x] Add explicit support for different object types
+        - [x] Represent Matrices in TextView
+        - [x] Represent Matrices in DisplayLogger
+        - [x] Represent Matrices in FileLogger
     - [x] ALGEBRA: Matrix multiplication
     - [x] ALGEBRA: Matrix
     - [x] INPUT: time selector
