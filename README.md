@@ -44,7 +44,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: imageView must have checkered background
     - [ ] IMAGE: imageView wrong panel size on first image load
     - [ ] ALGEBRA: Unify scalar and dot product in a single panel
-    - [ ] ALGEBRA: Normalize matrix
     - [ ] SOURCE: Glob
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
@@ -64,6 +63,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] ALGEBRA: Normalize matrix
     - [x] IMAGE: Convolution
     - [x] INPUT: Folder path
     - [x] Add explicit support for different object types

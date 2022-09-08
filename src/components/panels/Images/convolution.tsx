@@ -6,8 +6,6 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-import System from '../../../domain/System';
-
 const panelType = 'Convolution';
 
 const inputEndpoints = [{

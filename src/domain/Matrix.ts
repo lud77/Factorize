@@ -68,22 +68,17 @@ const transpose = (m) => {
     return t;
 };
 
-const convolution = (m1, m2) => {
-    // if (
-    return m1;
-};
+const grandSum = (m) => m.contents.flat().reduce((a, v) => a + v, 0);
 
 const toString = (matrix) => {
     const nbspace = ' ';
     const cols = getWidth(matrix);
 
-    const colWidth = (
-        '' +
+    const colWidth =
         matrix.contents
             .flat()
-            .map((v) => v > 0 ? v : -v * 10)
-            .reduce((a, v) => Math.max(a, v), 0)
-    ).length;
+            .map((v) => '' + v)
+            .reduce((a, v) => Math.max(a, v.length), 0);
 
     const spaces = Array(cols * colWidth + cols + 1).fill(nbspace).join('');
 
@@ -105,7 +100,7 @@ export {
     scalarProduct,
     dotProduct,
     matrixProduct,
-    convolution,
     transpose,
+    grandSum,
     toString
 };
