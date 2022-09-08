@@ -8,12 +8,17 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 import System from '../../../domain/System';
 
-const panelType = 'ImageLoad';
+const panelType = 'Convolution';
 
 const inputEndpoints = [{
-    name: 'File',
+    name: 'Image',
     defaultValue: '',
-    type: 'string',
+    type: 'image',
+    signal: 'Value'
+}, {
+    name: 'Kernel',
+    defaultValue: null,
+    type: 'matrix',
     signal: 'Value'
 }];
 
@@ -28,21 +33,25 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="File" panelId={panelId} {...props}>File</InputEndpoint>
+                <InputEndpoint name="Image" panelId={panelId} {...props}>Image</InputEndpoint>
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Kernel" panelId={panelId} {...props}>Kernel</InputEndpoint>
             </div>
         </>;
     };
 
     const execute = (panel, inputs) => {
-        console.log('execute imageLoad', inputs);
-        if (inputs.inputFile == '') return {
-            outputImage: null
+        console.log('execute convolution', inputs);
+        if (!inputs.inputKernel) return {
+            outputImage: inputs.inputImage
         };
 
+        if (!inputs.inputImage) return {};
+
         return Promise.resolve()
-            .then(() => System.readImageFile(inputs.inputFile))
-            .then((info) => Image.load(info.data))
+            .then(() => inputs.inputImage.convolution(inputs.inputKernel.contents))
             .then((outputImage) => {
                 return { outputImage };
             });
@@ -62,7 +71,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['picture'],
+    tags: ['picture', 'filter', 'effect'],
     inputEndpoints,
     outputEndpoints
 };
