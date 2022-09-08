@@ -23,11 +23,22 @@ const create = (panelId: number): Panel => {
         const closeLightbox = () => props.setShowLightbox(null);
         const openLightbox = () => props.setShowLightbox({ url: props.panel.outputEpValues.imageData, close: closeLightbox });
 
+        const backgroundStyle = {
+            backgroundImage: 'linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%)',
+            backgroundSize: '20px 20px',
+            backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px',
+            overflow: 'hidden',
+            width: '100%',
+            display: 'block',
+            marginTop: '2px',
+            borderRadius: '5px'
+        };
+
         return <>
             <div className="Row">
                 <InputEndpoint name="Image" panelId={panelId} {...props}>Image</InputEndpoint>
             </div>
-            <div className="Row">
+            <div className="Row" style={backgroundStyle}>
                 {
                     props.panel.inputEpValues.inputImage
                         ? <img
@@ -35,13 +46,19 @@ const create = (panelId: number): Panel => {
                             style={{
                                 width: '100%',
                                 height: (props.panelCoord.height - 68) + 'px',
-                                backgroundColor: 'black',
+                                // backgroundColor: 'black',
                                 borderRadius: '4px',
                                 objectFit: 'contain'
                             }}
                             onClick={openLightbox}
                             />
-                        : null
+                        : <div
+                            style={{
+                                width: '100%',
+                                height: (props.panelCoord.height - 68) + 'px',
+                                borderRadius: '4px'
+                            }}
+                            ></div>
                 }
             </div>
         </>;
@@ -52,21 +69,21 @@ const create = (panelId: number): Panel => {
 
         if (!inputs.inputImage) {
 
-            flushSync(() => {
-                setPanelCoords((panelCoords) => {
-                    const updatePanelCoords = panelCoords[panel.panelId];
+            // flushSync(() => {
+            //     setPanelCoords((panelCoords) => {
+            //         const updatePanelCoords = panelCoords[panel.panelId];
 
-                    return {
-                        ...panelCoords,
-                        [panel.panelId]: {
-                            ...updatePanelCoords,
-                            height: 53,
-                            minHeight: 53,
-                            resizer: 'none'
-                        }
-                    };
-                });
-            });
+            //         return {
+            //             ...panelCoords,
+            //             [panel.panelId]: {
+            //                 ...updatePanelCoords,
+            //                 height: 53,
+            //                 minHeight: 53,
+            //                 resizer: 'none'
+            //             }
+            //         };
+            //     });
+            // });
 
             return {
                 ...inputs,
@@ -74,59 +91,26 @@ const create = (panelId: number): Panel => {
             };
         }
 
-        const { width, height } = inputs.inputImage;
+        // flushSync(() => {
+        //     setPanelCoords((panelCoords) => {
+        //         const updatePanelCoords = panelCoords[panel.panelId];
 
-        flushSync(() => {
-            setPanelCoords((panelCoords) => {
-                const updatePanelCoords = panelCoords[panel.panelId];
-
-                return {
-                    ...panelCoords,
-                    [panel.panelId]: {
-                        ...updatePanelCoords,
-                        height: 200,
-                        minHeight: 200,
-                        resizer: 'both'
-                    }
-                };
-            });
-        });
+        //         return {
+        //             ...panelCoords,
+        //             [panel.panelId]: {
+        //                 ...updatePanelCoords,
+        //                 height: 200,
+        //                 minHeight: 200,
+        //                 resizer: 'both'
+        //             }
+        //         };
+        //     });
+        // });
 
         return {
             ...inputs,
             imageData: inputs.inputImage ? inputs.inputImage.toDataURL() : null
         };
-
-
-        // if (inputs.inputImage == null) {
-        //     setPanels((panels) => {
-        //         const updatePanel = panels[panel.panelId];
-
-        //         return {
-        //             ...panels,
-        //             [panel.panelId]: {
-        //                 ...updatePanel,
-        //                 height: 53
-        //             }
-        //         };
-        //     });
-
-        //     return inputs;
-        // }
-
-        // flushSync(() => {
-        //     setPanels((panels) => {
-        //         const updatePanel = panels[panel.panelId];
-
-        //         return {
-        //             ...panels,
-        //             [panel.panelId]: {
-        //                 ...updatePanel,
-        //                 height: 109 + (111 * ((inputs.inputImage.height || 0) / (inputs.inputImage.width || 1)))
-        //             }
-        //         };
-        //     });
-        // });
     };
 
     return {
@@ -136,8 +120,9 @@ const create = (panelId: number): Panel => {
         outputEndpoints,
         Component,
         execute,
-        height: 53,
-        minHeight: 53
+        height: 200,
+        minHeight: 200,
+        resizer: 'both'
     } as Panel;
 };
 
