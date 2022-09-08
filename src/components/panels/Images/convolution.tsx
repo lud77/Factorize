@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Image } from 'image-js';
 
 import { Panel } from '../../../types/Panel';
+import * as Matrix from '../../../domain/Matrix';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -42,11 +43,11 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, inputs) => {
         console.log('execute convolution', inputs);
-        if (!inputs.inputKernel) return {
-            outputImage: inputs.inputImage
-        };
+        if (!inputs.inputKernel) return { outputImage: inputs.inputImage };
 
-        if (!inputs.inputImage) return {};
+        const mw = Matrix.getWidth(inputs.inputKernel);
+        const mh = Matrix.getHeight(inputs.inputKernel);
+        if ((mw % 2 == 0) || (mh % 2 == 0) || !inputs.inputImage) return { outputImage: inputs.inputImage };
 
         return Promise.resolve()
             .then(() => inputs.inputImage.convolution(inputs.inputKernel.contents))
@@ -62,7 +63,7 @@ const create = (panelId: number): Panel => {
         outputEndpoints,
         Component,
         execute,
-        height: 53
+        height: 74
     } as Panel;
 };
 

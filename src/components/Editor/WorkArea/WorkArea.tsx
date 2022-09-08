@@ -34,6 +34,7 @@ const WorkArea = (props) => {
 		connectorAnchor, setConnectorAnchor,
 		workAreaOffset, setWorkAreaOffset,
 		inclusiveSelection,
+		setShowLightbox,
 		setTimer
 	} = props;
 
@@ -583,6 +584,7 @@ const WorkArea = (props) => {
 				connectorAnchor={connectorAnchor}
 				isFocused={isFocused}
 				isSelected={isSelected}
+				setShowLightbox={setShowLightbox}
 				computeEpCoords={computeEpCoords}
 				onSelect={(e) => {
 					e.stopPropagation();

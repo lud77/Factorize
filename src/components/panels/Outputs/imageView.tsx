@@ -4,9 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
-import Lightbox from '../../Lightbox/Lightbox';
 
-import System from '../../../domain/System';
 import { flushSync } from 'react-dom';
 
 const panelType = 'ImageView';
@@ -22,16 +20,13 @@ const outputEndpoints = [];
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
-        const [showLightbox, setShowLightbox] = React.useState(false);
-
-        const openLightbox = () => setShowLightbox(true);
-        const closeLightbox = () => setShowLightbox(false);
+        const closeLightbox = () => props.setShowLightbox(null);
+        const openLightbox = () => props.setShowLightbox({ url: props.panel.outputEpValues.imageData, close: closeLightbox });
 
         return <>
             <div className="Row">
                 <InputEndpoint name="Image" panelId={panelId} {...props}>Image</InputEndpoint>
             </div>
-            {showLightbox ? <Lightbox url={props.panel.outputEpValues.imageData} close={closeLightbox} /> : null}
             <div className="Row">
                 {
                     props.panel.inputEpValues.inputImage
@@ -89,7 +84,8 @@ const create = (panelId: number): Panel => {
                     ...panelCoords,
                     [panel.panelId]: {
                         ...updatePanelCoords,
-                        minHeight: 100,
+                        height: 200,
+                        minHeight: 200,
                         resizer: 'both'
                     }
                 };

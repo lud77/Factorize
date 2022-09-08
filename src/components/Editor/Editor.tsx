@@ -3,6 +3,7 @@ import * as React from 'react';
 import WorkArea from './WorkArea/WorkArea';
 import Toolbar from './Toolbar/Toolbar';
 import Statusbar from './Statusbar/Statusbar';
+import Lightbox from '../Lightbox/Lightbox';
 
 import { ConnectorAnchor } from '../../types/ConnectorAnchor';
 import { Connection } from '../../types/Connection';
@@ -41,6 +42,7 @@ const Editor = (props) => {
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
     const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
+    const [ showLightbox, setShowLightbox ] = React.useState(null);
 
     const graphState = {
         panels, setPanels,
@@ -105,7 +107,8 @@ const Editor = (props) => {
         flagsMenu, panelsMenu
     });
 
-    return (
+    return <>
+        {showLightbox ? <Lightbox url={showLightbox.url} close={showLightbox.close} /> : null}
         <div className={`Editor ${grid ? 'Gridded' : ''}`} style={{ backgroundPosition: `left ${workAreaOffset[0]}px top ${workAreaOffset[1]}px` }}>
             <Toolbar menus={menus} primary="Panels" />
             <WorkArea
@@ -118,11 +121,12 @@ const Editor = (props) => {
                 graphState={graphState}
                 connectorAnchor={connectorAnchor} setConnectorAnchor={setConnectorAnchor}
                 workAreaOffset={workAreaOffset} setWorkAreaOffset={setWorkAreaOffset}
+                setShowLightbox={setShowLightbox}
                 setTimer={timers.setTimer}
                 />;
             <Statusbar status="Ready" />
         </div>
-    );
+    </>;
 };
 
 export default Editor;

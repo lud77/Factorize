@@ -11,6 +11,7 @@ const PanelWrapper = (props) => {
         connections,
         workAreaOffset,
         connectorAnchor,
+        setShowLightbox,
         machine,
         redraw
     } = props;
@@ -80,6 +81,7 @@ const PanelWrapper = (props) => {
                             machine={machine}
                             connections={connections}
                             connectorAnchor={connectorAnchor}
+                            setShowLightbox={setShowLightbox}
                             />
                         {
                             hasResizer
