@@ -5,7 +5,7 @@ import ConsoleLogger from './consoleLogger';
 import TextView from './textView';
 import ImageView from './imageView';
 import ColorView from './colorView';
-import FunctionPlotter from './FunctionPlotter';
+import FunctionPlotter from './functionPlotter';
 import Semaphore from './semaphore';
 import Led from './led';
 

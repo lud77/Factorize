@@ -3,6 +3,7 @@ const dataTypeMarkers = {
     boolean: 'b',
     object: 'd',
     function: 'f',
+    image: 'i',
     array: 'l',
     matrix: 'm',
     number: 'n',

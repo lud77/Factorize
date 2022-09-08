@@ -2,6 +2,7 @@ import Algebra from './Algebra';
 import Events from './Events';
 import Flow from './Flow';
 import Functions from './Functions';
+import Images from './Images';
 import Inputs from './Inputs';
 import Outputs from './Outputs';
 import Sets from './Sets';
@@ -16,6 +17,7 @@ export default {
     Events,
     Flow,
     Functions,
+    Images,
     Inputs,
     Outputs,
     Sets,

@@ -12,28 +12,13 @@ import { flushSync } from 'react-dom';
 const panelType = 'ImageView';
 
 const inputEndpoints = [{
-    name: 'File',
-    defaultValue: '',
-    type: 'string',
+    name: 'Image',
+    defaultValue: null,
+    type: 'image',
     signal: 'Value'
 }];
 
-const outputEndpoints = [{
-    name: 'PictureData',
-    defaultValue: '',
-    type: 'string',
-    signal: 'Value'
-}, {
-    name: 'PictureWidth',
-    defaultValue: '',
-    type: 'number',
-    signal: 'Value'
-}, {
-    name: 'PictureHeight',
-    defaultValue: '',
-    type: 'number',
-    signal: 'Value'
-}];
+const outputEndpoints = [];
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -44,26 +29,20 @@ const create = (panelId: number): Panel => {
 
         return <>
             <div className="Row">
-                <InputEndpoint name="File" panelId={panelId} {...props}>File</InputEndpoint>
-                <OutputEndpoint name="PictureData" panelId={panelId} {...props}>Picture</OutputEndpoint>
+                <InputEndpoint name="Image" panelId={panelId} {...props}>Image</InputEndpoint>
             </div>
-            <div className="Row">
-                <OutputEndpoint name="PictureWidth" panelId={panelId} {...props}>Width</OutputEndpoint>
-            </div>
-            <div className="Row">
-                <OutputEndpoint name="PictureHeight" panelId={panelId} {...props}>Height</OutputEndpoint>
-            </div>
-            {showLightbox ? <Lightbox url={props.panel.outputEpValues.outputPictureData} close={closeLightbox} /> : null}
+            {showLightbox ? <Lightbox url={props.panel.outputEpValues.imageData} close={closeLightbox} /> : null}
             <div className="Row">
                 {
-                    props.panel.outputEpValues.outputPictureData
+                    props.panel.inputEpValues.inputImage
                         ? <img
-                            src={props.panel.outputEpValues.outputPictureData}
+                            src={props.panel.outputEpValues.imageData}
                             style={{
                                 width: '100%',
-                                marginTop: '6px',
+                                height: (props.panelCoord.height - 68) + 'px',
                                 backgroundColor: 'black',
-                                borderRadius: '4px'
+                                borderRadius: '4px',
+                                objectFit: 'contain'
                             }}
                             onClick={openLightbox}
                             />
@@ -73,52 +52,85 @@ const create = (panelId: number): Panel => {
         </>;
     };
 
-    const execute = (panel, inputs, { setPanels }) => {
-        console.log('execute picture', inputs);
-        if (inputs.inputFile == '') {
-            setPanels((panels) => {
-                const updatePanel = panels[panel.panelId];
+    const execute = (panel, inputs, { setPanelCoords }) => {
+        console.log('execute imageView', inputs);
 
-                return {
-                    ...panels,
-                    [panel.panelId]: {
-                        ...updatePanel,
-                        height: 94
-                    }
-                };
+        if (!inputs.inputImage) {
+
+            flushSync(() => {
+                setPanelCoords((panelCoords) => {
+                    const updatePanelCoords = panelCoords[panel.panelId];
+
+                    return {
+                        ...panelCoords,
+                        [panel.panelId]: {
+                            ...updatePanelCoords,
+                            height: 53,
+                            minHeight: 53,
+                            resizer: 'none'
+                        }
+                    };
+                });
             });
 
             return {
-                outputPictureData: '',
-                outputPictureWidth: '',
-                outputPictureHeight: ''
+                ...inputs,
+                imageData: ''
             };
         }
 
-        return System.readImageFile(inputs.inputFile)
-            .then((info) => {
-                const res = {
-                    outputPictureData: info.data,
-                    outputPictureWidth: info.meta.width,
-                    outputPictureHeight: info.meta.height
+        const { width, height } = inputs.inputImage;
+
+        flushSync(() => {
+            setPanelCoords((panelCoords) => {
+                const updatePanelCoords = panelCoords[panel.panelId];
+
+                return {
+                    ...panelCoords,
+                    [panel.panelId]: {
+                        ...updatePanelCoords,
+                        minHeight: 100,
+                        resizer: 'both'
+                    }
                 };
-
-                flushSync(() => {
-                    setPanels((panels) => {
-                        const updatePanel = panels[panel.panelId];
-
-                        return {
-                            ...panels,
-                            [panel.panelId]: {
-                                ...updatePanel,
-                                height: 109 + (111 * ((res.outputPictureHeight || 0) / (res.outputPictureWidth || 1)))
-                            }
-                        };
-                    });
-                });
-
-                return res;
             });
+        });
+
+        return {
+            ...inputs,
+            imageData: inputs.inputImage ? inputs.inputImage.toDataURL() : null
+        };
+
+
+        // if (inputs.inputImage == null) {
+        //     setPanels((panels) => {
+        //         const updatePanel = panels[panel.panelId];
+
+        //         return {
+        //             ...panels,
+        //             [panel.panelId]: {
+        //                 ...updatePanel,
+        //                 height: 53
+        //             }
+        //         };
+        //     });
+
+        //     return inputs;
+        // }
+
+        // flushSync(() => {
+        //     setPanels((panels) => {
+        //         const updatePanel = panels[panel.panelId];
+
+        //         return {
+        //             ...panels,
+        //             [panel.panelId]: {
+        //                 ...updatePanel,
+        //                 height: 109 + (111 * ((inputs.inputImage.height || 0) / (inputs.inputImage.width || 1)))
+        //             }
+        //         };
+        //     });
+        // });
     };
 
     return {
@@ -128,12 +140,15 @@ const create = (panelId: number): Panel => {
         outputEndpoints,
         Component,
         execute,
-        height: 94
+        height: 53,
+        minHeight: 53
     } as Panel;
 };
 
 export default {
     type: panelType,
     create,
-    tags: ['image', 'output']
+    tags: ['output'],
+    inputEndpoints,
+    outputEndpoints
 };
