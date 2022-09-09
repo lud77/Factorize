@@ -45,7 +45,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] SOURCE: Create Empty Image (take w/h + background color, default transparent)
     - [ ] IMAGE: Erode
     - [ ] IMAGE: Dilate
-    - [ ] IMAGE: Get Channel
     - [ ] IMAGE: Combine Channels
     - [ ] IMAGE: FlipX
     - [ ] IMAGE: FlipY
@@ -79,6 +78,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] IMAGE: Get Channel
     - [x] IMAGE: Rotate
     - [x] IMAGE: Gaussian blur
     - [x] IMAGE: imageView must have checkered background
