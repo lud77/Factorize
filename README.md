@@ -41,21 +41,24 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] SOURCE: Simplex noise (take w/h + seed)
+    - [ ] SOURCE: Create Empty Image (take w/h + background color, default transparent)
     - [ ] IMAGE: Erode
     - [ ] IMAGE: Dilate
     - [ ] IMAGE: Get Channel
     - [ ] IMAGE: Combine Channels
     - [ ] IMAGE: FlipX
     - [ ] IMAGE: FlipY
-    - [ ] IMAGE: Rotate
     - [ ] IMAGE: Scale
     - [ ] IMAGE: Crop
     - [ ] IMAGE: Resize
-    - [ ] IMAGE: Create Empty Image
     - [ ] IMAGE: Translate
     - [ ] IMAGE: Merge (merge different layer)
     - [ ] IMAGE: ImageSave
     - [ ] IMAGE:
+    - [ ] HASHES: Hash functions
+        - [ ] Md5
+        - [ ] Sha1
     - [ ] ALGEBRA: Unify scalar and dot product in a single panel
     - [ ] SOURCE: Glob
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
@@ -76,6 +79,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] IMAGE: Rotate
     - [x] IMAGE: Gaussian blur
     - [x] IMAGE: imageView must have checkered background
     - [x] IMAGE: imageView wrong panel size on first image load
