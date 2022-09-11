@@ -172,7 +172,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 --- Bugs / Performance
 
-- [ ] Values don't seem to propagate correctly when creating a panel from an endpoint
+- [x] Values don't seem to propagate correctly when creating a panel from an endpoint
 - [ ] Disallow Value-type signals from creating feedback loops
 - [ ] Sanitize topic input to listener (how?)
 - [ ] Stalls when trying to rewind file source from EOF signal without a delay

@@ -63,7 +63,7 @@ const ComboBox = (props) => {
         e.stopPropagation();
         e.preventDefault();
 
-        const [newPanel, newPanelCoords] = props.addPanel(e.target.innerText, { x: props.left, y: props.top });
+        const [ newPanel, newPanelCoords ] = props.addPanel(e.target.innerText, { x: props.left, y: props.top });
         props.setSearchBoxData(null);
 
         if (!props.side) return;
@@ -77,7 +77,6 @@ const ComboBox = (props) => {
                 const toRef = newPanel.inputRefs[`input${firstCompatibleEp.name}`];
 
                 const newConnection = props.machine.makeConnection(props.connectorAnchor.fromRef, toRef, props.connectorAnchor.fromPanelId, newPanel.panelId);
-                props.machine.executePanelLogic(props.connectorAnchor.fromPanelId);
 
                 if (newConnection) {
                     flushSync(() => {
@@ -87,6 +86,8 @@ const ComboBox = (props) => {
                         ]);
                     });
                 }
+
+                props.machine.executePanelLogic(props.connectorAnchor.fromPanelId);
             }
 
             if (props.side === 'output') {
@@ -104,6 +105,8 @@ const ComboBox = (props) => {
                         ]);
                     });
                 }
+
+                props.machine.executePanelLogic(newPanel.panelId);
             }
 
             props.setConnectorAnchor(null);
