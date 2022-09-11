@@ -5,8 +5,6 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-import { flushSync } from 'react-dom';
-
 const panelType = 'ImageView';
 
 const inputEndpoints = [{

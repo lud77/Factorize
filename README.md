@@ -54,7 +54,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: Translate
     - [ ] IMAGE: Merge (merge different layer)
     - [ ] IMAGE: ImageSave
-    - [ ] IMAGE:
+    - [ ] IMAGE: Text
     - [ ] HASHES: Hash functions
         - [ ] Md5
         - [ ] Sha1
@@ -172,9 +172,9 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 --- Bugs / Performance
 
-- [ ] Add lookup table for using numeric ids in indexing
+- [ ] Values don't seem to propagate correctly when creating a panel from an endpoint
 - [ ] Disallow Value-type signals from creating feedback loops
-- [ ] Sanitize topic input to listener
+- [ ] Sanitize topic input to listener (how?)
 - [ ] Stalls when trying to rewind file source from EOF signal without a delay
 
 - [x] Window resize causes slowdown and stalling --- PROBABLY FIXED
