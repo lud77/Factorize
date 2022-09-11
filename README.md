@@ -41,8 +41,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
-    - [ ] SOURCE: Simplex noise (take w/h + seed)
-    - [ ] SOURCE: Create Empty Image (take w/h + background color, default transparent)
+    - [ ] IMAGE: Simplex noise (take w/h + seed)
     - [ ] IMAGE: Erode
     - [ ] IMAGE: Dilate
     - [ ] IMAGE: Combine Channels
@@ -78,6 +77,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] IMAGE: Create Empty Image (take w/h + background color, default transparent)
     - [x] IMAGE: Get Channel
     - [x] IMAGE: Rotate
     - [x] IMAGE: Gaussian blur

@@ -5,7 +5,7 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-import { hex2rgb, hex2hsl } from '../../../utils/colors';
+import { hex2rgba, hex2hsl } from '../../../utils/colors';
 
 const panelType = 'HexToRGB';
 
@@ -50,7 +50,11 @@ const create = (panelId: number): Panel => {
     };
 
     const execute = (panel, inputs) => {
-        const [ outputRed, outputGreen, outputBlue ] = hex2rgb(inputs.inputHex);
+        const color = hex2rgba(inputs.inputHex);
+        if (color == null) return {};
+
+        const [ outputRed, outputGreen, outputBlue ] = color;
+
         return {
             outputRed,
             outputGreen,

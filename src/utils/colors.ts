@@ -1,29 +1,60 @@
-const hex2rgb = (hex: string) => {
-    const getComponents = (fullHex) => {
+const hex2rgba = (hex: string) => {
+    const getComponents = (fullHex): string[] | null => {
         const hex = fullHex.replace("#", "");
         if (hex.length == 6) return [
             hex.substr(0, 2),
             hex.substr(2, 2),
-            hex.substr(4, 2)
+            hex.substr(4, 2),
+            'ff'
         ];
 
-        const r = hex.substr(0, 1);
-        const g = hex.substr(1, 1);
-        const b = hex.substr(2, 1);
+        if (hex.length == 8) return [
+            hex.substr(0, 2),
+            hex.substr(2, 2),
+            hex.substr(4, 2),
+            hex.substr(6, 2)
+        ];
 
-        return [r + r, g + g, b + b];
+        if (hex.length == 3) {
+            const r = hex.substr(0, 1);
+            const g = hex.substr(1, 1);
+            const b = hex.substr(2, 1);
+
+            return [r + r, g + g, b + b, 'ff'];
+        }
+
+        if (hex.length == 4) {
+            const r = hex.substr(0, 1);
+            const g = hex.substr(1, 1);
+            const b = hex.substr(2, 1);
+            const a = hex.substr(3, 1);
+
+            return [r + r, g + g, b + b, a + a];
+        }
+
+        return null;
     };
 
-    const [ rc, gc, bc ] = getComponents(hex);
+    const result = getComponents(hex);
+    if (result == null) return null;
 
-    return [
-        parseInt(rc, 16),
-        parseInt(gc, 16),
-        parseInt(bc, 16)
-    ];
+    const [ rc, gc, bc, ac ] = result;
+
+    try {
+        return [
+            parseInt(rc, 16),
+            parseInt(gc, 16),
+            parseInt(bc, 16),
+            parseInt(ac, 16)
+        ];
+    } catch (e) {
+        return null;
+    }
 };
 
-const rgb2hsl = (rgb: number[]) => {
+const rgb2hsl = (rgb: number[] | null) => {
+    if (rgb == null) return null;
+
     const normRgb = [rgb[0] / 255, rgb[1] / 255, rgb[2] / 255];
     const min = normRgb.reduce((a, v) => Math.min(a, v), Infinity);
     const [max, maxIndex] = normRgb.reduce((a, v, i) => {
@@ -51,10 +82,10 @@ const rgb2hsl = (rgb: number[]) => {
     return [hue, sat, lum];
 };
 
-const hex2hsl = (hex: string) => rgb2hsl(hex2rgb(hex));
+const hex2hsl = (hex: string) => rgb2hsl(hex2rgba(hex));
 
 export {
-    hex2rgb,
+    hex2rgba,
     rgb2hsl,
     hex2hsl
-}
+};
