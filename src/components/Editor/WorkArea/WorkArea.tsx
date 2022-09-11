@@ -65,8 +65,6 @@ const WorkArea = (props) => {
 
 	const [ searchBoxData, setSearchBoxData ] = React.useState<object | null>(null);
 
-	const [ contextMenuData, setContextMenuData ] = React.useState<object | null>(null);
-	const contextMenuItems = getContextMenuItems(machine, setWorkAreaOffset, setSearchBoxData);
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
@@ -74,6 +72,9 @@ const WorkArea = (props) => {
 	const [ selectedPanels, setSelectedPanels ] = React.useState<Set<number>>(Set());
 
 	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
+
+	const [ contextMenuData, setContextMenuData ] = React.useState<object | null>(null);
+	const contextMenuItems = getContextMenuItems(machine, setWorkAreaOffset, setSearchBoxData, setSelectedPanels);
 
 	const getPanelIdsToMove = (contactPanelId) => {
 		let panelIds = ((selectedPanels.size > 0) && selectedPanels.contains(contactPanelId)) ? Array.from(selectedPanels) : [contactPanelId];
@@ -500,6 +501,7 @@ const WorkArea = (props) => {
 		if (e.shiftKey || e.ctrlKey) {
 			console.log(panels, panelCoords);
 			console.log(connections);
+			console.log(selectedPanels);
 			return;
 		}
 

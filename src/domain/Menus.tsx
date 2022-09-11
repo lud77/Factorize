@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Set } from 'immutable';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -140,12 +141,13 @@ const contextMenusSetup = (handlers) => {
     }];
 };
 
-const getContextMenuItems = (machine, setWorkAreaOffset, setSearchBoxData) => contextMenusSetup({
+const getContextMenuItems = (machine, setWorkAreaOffset, setSearchBoxData, setSelectedPanels) => contextMenusSetup({
     deletePanel: (target) => (e) => {
         machine.removePanelsByIds([target.panelId]);
     },
     deletePanels: (target) => (e) => {
         machine.removePanelsByIds(target.selectedPanels);
+        setSelectedPanels(Set());
     },
     groupPanels: (target) => (e) => {
         machine.groupPanelsByIds(target.selectedPanels);
