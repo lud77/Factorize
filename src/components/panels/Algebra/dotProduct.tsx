@@ -22,7 +22,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Result',
-    default: null,
+    defaultValue: null,
     type: 'matrix',
     signal: 'Value'
 }];
@@ -42,7 +42,7 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, values) => {
         try {
-            const outputResult = Matrix.matrixProduct(values.inputMatrix1, values.inputMatrix2);
+            const outputResult = Matrix.dotProduct(values.inputMatrix1, values.inputMatrix2);
             return { outputResult };
         } catch (e) {
             return { outputResult: null };
@@ -64,6 +64,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
+    tags: ['algebra', 'matrix', 'matrices'],
     inputEndpoints,
     outputEndpoints
 };

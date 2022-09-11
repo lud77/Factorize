@@ -1,10 +1,12 @@
 const matrixSym = Symbol('matrix');
 
-const toMatrix = (contents) => ({
-    type: matrixSym,
-    contents,
-    toString: () => '[object Matrix]'
-});
+const toMatrix = (contents) => {
+    return {
+        type: matrixSym,
+        contents,
+        toString: () => '[object Matrix]'
+    };
+};
 
 const zeroes = (r, c) => toMatrix(Array(r).fill(0).map(() => Array(c).fill(0)));
 
@@ -16,7 +18,7 @@ const getHeight = (matrix) => matrix.contents.length;
 const getRow = (matrix, r) => matrix.contents[r];
 const getColumn = (matrix, c) => matrix.contents.map((row) => row[c]);
 
-const dotProduct = (v1, v2) => {
+const arrayProduct = (v1, v2) => {
     if (v1.length != v2.length) throw new Error('Tried to multiply vectors of different lengths');
 
     return v1.reduce((a, v, i) => a + v * v2[i], 0);
@@ -26,7 +28,7 @@ const scalarProduct = (matrix, scalar) => {
     return toMatrix(matrix.contents.map((row) => row.map((cell) => cell * scalar)));
 };
 
-const matrixProduct = (m1, m2) => {
+const dotProduct = (m1, m2) => {
     const m1w = getWidth(m1);
     const m1h = getHeight(m1);
     const m2w = getWidth(m2);
@@ -41,13 +43,32 @@ const matrixProduct = (m1, m2) => {
         const column = getColumn(m2, c);
         for (let r = 0; r < m1h; r++) {
             const row = getRow(m1, r);
-            result.contents[r][c] = dotProduct(row, column);
+            result.contents[r][c] = arrayProduct(row, column);
             console.log(r, row, c, column, result.contents[r][c] + '');
             console.log(r, c, result.contents.toString());
         }
     }
 
     console.log('end', result.contents.toString());
+
+    return result;
+};
+
+const sum = (m1, m2) => {
+    const m1w = getWidth(m1);
+    const m1h = getHeight(m1);
+    const m2w = getWidth(m2);
+    const m2h = getHeight(m2);
+
+    if ((m1w != m2w) || (m1h != m2h)) throw new Error('Tried to sum incompatible matrices');
+
+    const result = zeroes(m1h, m1w);
+
+    for (let c = 0; c < m1w; c++) {
+        for (let r = 0; r < m1h; r++) {
+            result.contents[r][c] = m1.contents[r][c] + m2.contents[r][c];
+        }
+    }
 
     return result;
 };
@@ -98,8 +119,9 @@ export {
     getRow,
     getColumn,
     scalarProduct,
+    arrayProduct,
     dotProduct,
-    matrixProduct,
+    sum,
     transpose,
     grandSum,
     toString
