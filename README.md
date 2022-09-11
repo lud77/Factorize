@@ -83,13 +83,14 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] IMAGE: Gaussian blur
     - [x] IMAGE: imageView must have checkered background
     - [x] IMAGE: imageView wrong panel size on first image load
-    - [x] ALGEBRA: Normalize matrix
     - [x] IMAGE: Convolution
     - [x] INPUT: Folder path
     - [x] Add explicit support for different object types
         - [x] Represent Matrices in TextView
         - [x] Represent Matrices in DisplayLogger
         - [x] Represent Matrices in FileLogger
+    - [x] ALGEBRA: Matrix summation
+    - [x] ALGEBRA: Normalize matrix
     - [x] ALGEBRA: Matrix multiplication
     - [x] ALGEBRA: Matrix
     - [x] INPUT: time selector
