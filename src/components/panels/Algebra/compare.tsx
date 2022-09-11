@@ -21,22 +21,22 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'High',
-    default: false,
+    defaultValue: false,
     type: 'boolean',
     signal: 'Value'
 }, {
     name: 'Equal',
-    default: false,
+    defaultValue: false,
     type: 'boolean',
     signal: 'Value'
 }, {
     name: 'Low',
-    default: false,
+    defaultValue: false,
     type: 'boolean',
     signal: 'Value'
 }, {
     name: 'Different',
-    default: false,
+    defaultValue: false,
     type: 'boolean',
     signal: 'Value'
 }];

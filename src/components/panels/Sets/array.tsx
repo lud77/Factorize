@@ -11,7 +11,7 @@ const inputEndpoints = [];
 
 const outputEndpoints = [{
     name: 'List',
-    default: [],
+    defaultValue: [],
     type: 'array',
     signal: 'Value'
 }];

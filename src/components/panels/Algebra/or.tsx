@@ -22,7 +22,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Result',
-    default: 0,
+    defaultValue: 0,
     type: 'boolean',
     signal: 'Value'
 }];
@@ -93,6 +93,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
+    tags: ['algebra', 'boolean', 'binary', 'union', 'addition', 'summation'],
     inputEndpoints,
     outputEndpoints
 };

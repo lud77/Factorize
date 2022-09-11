@@ -17,7 +17,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Normalized',
-    default: null,
+    defaultValue: null,
     type: 'matrix',
     signal: 'Value'
 }];
@@ -59,6 +59,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
+    tags: ['algebra', 'matrix', 'matrices'],
     inputEndpoints,
     outputEndpoints
 };

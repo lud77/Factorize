@@ -17,7 +17,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'NegatedValue',
-    default: 0,
+    defaultValue: 0,
     type: 'boolean',
     signal: 'Value'
 }];
@@ -52,6 +52,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
+    tags: ['algebra', 'boolean', 'binary', 'negation'],
     inputEndpoints,
     outputEndpoints
 };

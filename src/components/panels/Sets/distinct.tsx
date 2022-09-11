@@ -16,7 +16,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Distinct',
-    default: [],
+    defaultValue: [],
     type: 'array',
     signal: 'Value'
 }];

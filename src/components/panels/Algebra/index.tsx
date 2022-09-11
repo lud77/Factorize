@@ -14,6 +14,7 @@ import Not from './not';
 
 import ScalarProduct from './scalarProduct';
 import DotProduct from './dotProduct';
+import MatrixSum from './matrixSum';
 import Transpose from './transpose';
 import Normalize from './normalize';
 
@@ -31,6 +32,7 @@ export default {
     Not,
     Transpose,
     Normalize,
+    MatrixSum,
     ScalarProduct,
     DotProduct
 };

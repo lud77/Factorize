@@ -9,7 +9,7 @@ const panelType = 'Join';
 
 const inputEndpoints = [{
     name: 'List',
-    default: [],
+    defaultValue: [],
     type: 'array',
     signal: 'Value'
 }, {

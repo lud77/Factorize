@@ -16,7 +16,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Inverse',
-    default: 0,
+    defaultValue: 0,
     type: 'number',
     signal: 'Value'
 }];
@@ -52,6 +52,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
+    tags: ['algebra'],
     inputEndpoints,
     outputEndpoints
 };

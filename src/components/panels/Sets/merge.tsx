@@ -21,7 +21,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Result',
-    default: [],
+    defaultValue: [],
     type: 'array',
     signal: 'Value'
 }];
