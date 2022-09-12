@@ -23,11 +23,6 @@ const inputEndpoints = [{
     defaultValue: null,
     type: 'number',
     signal: 'Value'
-}, {
-    name: 'Hex',
-    defaultValue: '#0000',
-    type: 'string',
-    signal: 'Value'
 }];
 
 const outputEndpoints = [{
@@ -49,9 +44,6 @@ const create = (panelId: number): Panel => {
             </div>
             <div className="Row">
                 <InputEndpoint name="Height" panelId={panelId} signal="Value" editable={true} {...props}>Height</InputEndpoint>
-            </div>
-            <div className="Row">
-                <InputEndpoint name="Hex" panelId={panelId} signal="Value" editable={true} {...props}>Hex</InputEndpoint>
             </div>
         </>;
     };
