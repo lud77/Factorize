@@ -46,7 +46,10 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: Combine Channels
     - [ ] IMAGE: FlipX
     - [ ] IMAGE: FlipY
-    - [ ] IMAGE: Scale
+    - [ ] IMAGE: Grey
+    - [ ] IMAGE: Adjustments
+        - Contrast
+        - Luminosity
     - [ ] IMAGE: Crop
     - [ ] IMAGE: Resize
     - [ ] IMAGE: Translate
@@ -79,6 +82,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] IMAGE: CopyImage
+    - [x] IMAGE: Rescale
     - [x] IMAGE: Simplex noise (take w/h + seed)
     - [x] IMAGE: Create Empty Image (take w/h + background color, default transparent)
     - [x] IMAGE: Get Channel

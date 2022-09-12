@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { Image } from 'image-js';
 
 import { Panel } from '../../../types/Panel';
-import * as Matrix from '../../../domain/Matrix';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -46,7 +44,7 @@ const create = (panelId: number): Panel => {
         if (!inputs.inputAngle || isNaN(inputs.inputAngle) || !inputs.inputImage) return { outputImage: inputs.inputImage };
 
         return Promise.resolve()
-            .then(() => inputs.inputImage.rotate(parseInt(inputs.inputAngle)))
+            .then(() => inputs.inputImage.rotate(parseInt(inputs.inputAngle), { interpolation: 'bilinear' }))
             .then((outputImage) => {
                 return { outputImage };
             });

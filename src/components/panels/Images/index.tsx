@@ -4,6 +4,8 @@ import ImageLoad from './imageLoad';
 import Convolution from './convolution';
 import GaussianBlur from './gaussianBlur';
 import Rotate from './rotate';
+import Rescale from './rescale';
+import CopyImage from './copyImage';
 import ExtractChannel from './extractChannel';
 
 export default {
@@ -13,5 +15,7 @@ export default {
     Convolution,
     GaussianBlur,
     Rotate,
+    Rescale,
+    CopyImage,
     ExtractChannel
 };
