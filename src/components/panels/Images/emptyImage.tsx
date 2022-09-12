@@ -52,21 +52,21 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => {
         console.log('empty image execute');
 
-        if (panel.inputEpValues.inputHex == null) return {};
+        if (values.inputHex == null) return { outputImage: null };
 
-        const color = hex2rgba(panel.inputEpValues.inputHex);
+        const color = hex2rgba(values.inputHex);
 
-        if (color == null) return {};
+        if (color == null) return { outputImage: null };
 
-        const width = parseInt(panel.inputEpValues.inputWidth || '0');
-        const height = parseInt(panel.inputEpValues.inputHeight || '0');
+        const width = parseInt(values.inputWidth || '0');
+        const height = parseInt(values.inputHeight || '0');
         const hasHexChanged = (panel.outputEpValues.oldHex == null) || (color.toString() != panel.outputEpValues.oldHex.toString());
         const hasWidthChanged = (panel.outputEpValues.oldWidth == null) || (width != panel.outputEpValues.oldWidth);
         const hasHeightChanged = (panel.outputEpValues.oldHeight == null) || (height != panel.outputEpValues.oldHeight);
 
         const hasChanged = hasHexChanged || hasWidthChanged || hasHeightChanged;
 
-        if (!hasChanged) return {};
+        if (!hasChanged) return { outputImage: null };
 
         const size = width * height;
         const data = new Uint8ClampedArray(size * 4);
@@ -86,7 +86,7 @@ const create = (panelId: number): Panel => {
         });
 
         return {
-            oldColor: panel.inputEpValues.inputColor,
+            oldColor: values.inputColor,
             oldWidth: width,
             oldHeight: height,
             outputImage

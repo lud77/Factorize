@@ -51,19 +51,14 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => {
         console.log('resize image execute');
 
-        if (values.inputImage == null || values.inputHex == null) return { outputImage: null };
-
-        const color = hex2rgba(values.inputHex);
-
-        if (color == null) return { outputImage: null };
+        if (values.inputImage == null) return { outputImage: null };
 
         const width = values.inputWidth ? parseInt(values.inputWidth) : undefined;
         const height = values.inputHeight ? parseInt(values.inputHeight) : undefined;
-        const hasHexChanged = (panel.outputEpValues.oldHex == null) || (color.toString() != panel.outputEpValues.oldHex.toString());
         const hasWidthChanged = (panel.outputEpValues.oldWidth == null) || (width != panel.outputEpValues.oldWidth);
         const hasHeightChanged = (panel.outputEpValues.oldHeight == null) || (height != panel.outputEpValues.oldHeight);
 
-        const hasChanged = hasHexChanged || hasWidthChanged || hasHeightChanged;
+        const hasChanged = hasWidthChanged || hasHeightChanged;
 
         if (!hasChanged) return { outputImage: null };
 
@@ -74,7 +69,6 @@ const create = (panelId: number): Panel => {
             }))
             .then((outputImage) => {
                 return {
-                    oldColor: values.inputColor,
                     oldWidth: width,
                     oldHeight: height,
                     outputImage

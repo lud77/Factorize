@@ -6,6 +6,7 @@ import GaussianBlur from './gaussianBlur';
 import Rotate from './rotate';
 import Rescale from './rescale';
 import CopyImage from './copyImage';
+import PaintText from './paintText';
 import ExtractChannel from './extractChannel';
 
 export default {
@@ -17,5 +18,6 @@ export default {
     Rotate,
     Rescale,
     CopyImage,
+    PaintText,
     ExtractChannel
 };
