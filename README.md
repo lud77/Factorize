@@ -41,7 +41,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
-    - [ ] IMAGE: Simplex noise (take w/h + seed)
     - [ ] IMAGE: Erode
     - [ ] IMAGE: Dilate
     - [ ] IMAGE: Combine Channels
@@ -52,6 +51,9 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: Resize
     - [ ] IMAGE: Translate
     - [ ] IMAGE: Merge (merge different layer)
+        - [ ] Moltiplica
+        - [ ] Somma
+        - [ ] Etc
     - [ ] IMAGE: ImageSave
     - [ ] IMAGE: Text
     - [ ] HASHES: Hash functions
@@ -77,6 +79,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] IMAGE: Simplex noise (take w/h + seed)
     - [x] IMAGE: Create Empty Image (take w/h + background color, default transparent)
     - [x] IMAGE: Get Channel
     - [x] IMAGE: Rotate

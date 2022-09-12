@@ -10,9 +10,6 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 const panelType = 'EmptyImage';
 
 const inputEndpoints = [{
-    name: 'Fetch',
-    signal: 'Pulse'
-}, {
     name: 'Width',
     defaultValue: 100,
     type: 'number',
