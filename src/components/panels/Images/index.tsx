@@ -9,6 +9,7 @@ import CopyImage from './copyImage';
 import PaintText from './paintText';
 import Dilate from './dilate';
 import Erode from './erode';
+import Blend from './blend';
 import ExtractChannel from './extractChannel';
 
 export default {
@@ -23,5 +24,6 @@ export default {
     PaintText,
     Dilate,
     Erode,
+    Blend,
     ExtractChannel
 };

@@ -41,18 +41,20 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] CopyImage and Blend panels should become a single BlendImages panel to copy and blend in one go
+    - [ ] IMAGE: Resize
     - [ ] IMAGE: Combine Channels
     - [ ] IMAGE: FlipX
     - [ ] IMAGE: FlipY
     - [ ] IMAGE: Grey
     - [ ] IMAGE: Color Gradient
     - [ ] IMAGE: Adjustments
+        - [ ] Opacity
         - [ ] Contrast
         - [ ] Luminosity
     - [ ] IMAGE: Crop
-    - [ ] IMAGE: Resize
     - [ ] IMAGE: Translate
-    - [ ] IMAGE: Blend
+    - [ ] IMAGE: Blend Modes
         - [ ] Dissolve
         - [ ] Darken
         - [ ] Multiply
@@ -87,12 +89,12 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] ALGEBRA: Unify scalar and dot product in a single panel
     - [ ] SOURCE: Glob
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
-    - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
     - [ ] Color ramp
     - [ ] SOURCE: Perlin noise
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
+    - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
     - [~] Stdin/Stdout/Stderr
         - [ ] Stdin
         - [x] Stdout

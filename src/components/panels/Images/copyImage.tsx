@@ -20,12 +20,12 @@ const inputEndpoints = [{
     signal: 'Value'
 }, {
     name: 'X',
-    defaultValue: null,
+    defaultValue: 0,
     type: 'number',
     signal: 'Value'
 }, {
     name: 'Y',
-    defaultValue: null,
+    defaultValue: 0,
     type: 'number',
     signal: 'Value'
 }];
