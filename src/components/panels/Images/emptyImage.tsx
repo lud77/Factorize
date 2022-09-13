@@ -9,6 +9,25 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
 const panelType = 'EmptyImage';
 
+const createImage = (width, height, bgcolor) => {
+    const size = width * height;
+    const data = new Uint8ClampedArray(size * 4);
+
+    for (let i = 0; i < size; i++) {
+        data[i * 4] = bgcolor[0];
+        data[i * 4 + 1] = bgcolor[1];
+        data[i * 4 + 2] = bgcolor[2];
+        data[i * 4 + 3] = bgcolor[3];
+    }
+
+    return new Image({
+        width,
+        height,
+        data,
+        kind: 'RGBA'
+    });
+};
+
 const inputEndpoints = [{
     name: 'Width',
     defaultValue: 100,
@@ -28,7 +47,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Image',
-    defaultValue: null,
+    defaultValue: createImage(100, 100, [0, 0, 0, 0]),
     type: 'image',
     signal: 'Value'
 }];
@@ -68,22 +87,7 @@ const create = (panelId: number): Panel => {
 
         if (!hasChanged) return { outputImage: null };
 
-        const size = width * height;
-        const data = new Uint8ClampedArray(size * 4);
-
-        for (let i = 0; i < size; i++) {
-            data[i * 4] = color[0];
-            data[i * 4 + 1] = color[1];
-            data[i * 4 + 2] = color[2];
-            data[i * 4 + 3] = color[3];
-        }
-
-        const outputImage = new Image({
-            width,
-            height,
-            data,
-            kind: 'RGBA'
-        });
+        const outputImage = createImage(width, height, color);
 
         return {
             oldColor: values.inputColor,
