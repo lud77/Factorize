@@ -45,9 +45,10 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: FlipX
     - [ ] IMAGE: FlipY
     - [ ] IMAGE: Grey
+    - [ ] IMAGE: Color Gradient
     - [ ] IMAGE: Adjustments
-        - Contrast
-        - Luminosity
+        - [ ] Contrast
+        - [ ] Luminosity
     - [ ] IMAGE: Crop
     - [ ] IMAGE: Resize
     - [ ] IMAGE: Translate
