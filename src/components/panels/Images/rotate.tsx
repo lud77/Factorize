@@ -64,7 +64,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['picture', 'filter', 'effect'],
+    tags: ['picture', 'image'],
     inputEndpoints,
     outputEndpoints
 };

@@ -110,6 +110,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
+    tags: ['duplicate', 'picture'],
     inputEndpoints,
     outputEndpoints
 };

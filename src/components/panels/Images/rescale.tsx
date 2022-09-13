@@ -91,6 +91,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
+    tags: ['image', 'perlin', 'size', 'zoom'],
     inputEndpoints,
     outputEndpoints
 };

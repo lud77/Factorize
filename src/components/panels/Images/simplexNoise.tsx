@@ -153,6 +153,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
+    tags: ['picture', 'image', 'perlin', 'generative'],
     inputEndpoints,
     outputEndpoints
 };

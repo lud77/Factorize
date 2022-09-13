@@ -41,8 +41,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
-    - [ ] IMAGE: Erode
-    - [ ] IMAGE: Dilate
     - [ ] IMAGE: Combine Channels
     - [ ] IMAGE: FlipX
     - [ ] IMAGE: FlipY
@@ -53,10 +51,33 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: Crop
     - [ ] IMAGE: Resize
     - [ ] IMAGE: Translate
-    - [ ] IMAGE: Merge (merge different layer)
-        - [ ] Moltiplica
-        - [ ] Somma
-        - [ ] Etc
+    - [ ] IMAGE: Blend
+        - [ ] Dissolve
+        - [ ] Darken
+        - [ ] Multiply
+        - [ ] Color Burn
+        - [ ] Linear Burn
+        - [ ] Darker Color
+        - [ ] Lighten
+        - [ ] Screen
+        - [ ] Color Dodge
+        - [ ] Linear Dodge
+        - [ ] Lighter Color
+        - [ ] Overlay
+        - [ ] Soft Light
+        - [ ] Vivid Light
+        - [ ] Hard Light
+        - [ ] Linear Light
+        - [ ] Pin Light
+        - [ ] Hard Mix
+        - [ ] Difference
+        - [ ] Exclusion
+        - [ ] Subtract
+        - [ ] Divide
+        - [ ] Hue
+        - [ ] Saturation
+        - [ ] Color
+        - [ ] Luminosity
     - [ ] IMAGE: ImageSave
     - [ ] IMAGE: Text
     - [ ] HASHES: Hash functions
@@ -82,6 +103,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] IMAGE: Erode
+    - [x] IMAGE: Dilate
     - [x] IMAGE: CopyImage
     - [x] IMAGE: Rescale
     - [x] IMAGE: Simplex noise (take w/h + seed)
@@ -180,6 +203,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 --- Bugs / Performance
 
+- [ ] Dilate and Erode block the UI while being applied?
 - [x] Values don't seem to propagate correctly when creating a panel from an endpoint
 - [ ] Disallow Value-type signals from creating feedback loops
 - [ ] Sanitize topic input to listener (how?)

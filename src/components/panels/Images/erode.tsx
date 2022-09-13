@@ -5,7 +5,7 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 
-const panelType = 'GaussianBlur';
+const panelType = 'Erode';
 
 const inputEndpoints = [{
     name: 'Image',
@@ -13,7 +13,7 @@ const inputEndpoints = [{
     type: 'image',
     signal: 'Value'
 }, {
-    name: 'Radius',
+    name: 'Iterations',
     defaultValue: 1,
     type: 'number',
     signal: 'Value'
@@ -34,17 +34,17 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Radius" panelId={panelId} editable={true} {...props}>Radius</InputEndpoint>
+                <InputEndpoint name="Iterations" panelId={panelId} editable={true} {...props}>Iterations</InputEndpoint>
             </div>
         </>;
     };
 
     const execute = (panel, inputs) => {
-        console.log('execute gaussianBlur', inputs);
-        if (!inputs.inputRadius || isNaN(inputs.inputRadius) || !inputs.inputImage) return { outputImage: inputs.inputImage };
+        console.log('execute dilate', inputs);
+        if (!inputs.inputIterations || isNaN(inputs.inputIterations) || !inputs.inputImage) return { outputImage: inputs.inputImage };
 
         return Promise.resolve()
-            .then(() => inputs.inputImage.gaussianFilter({ radius: parseInt(inputs.inputRadius) }))
+            .then(() => inputs.inputImage.erode({ iterations: parseInt(inputs.inputIterations) }))
             .then((outputImage) => {
                 return { outputImage };
             });
