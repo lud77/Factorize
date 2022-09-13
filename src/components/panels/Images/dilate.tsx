@@ -9,7 +9,7 @@ const panelType = 'Dilate';
 
 const inputEndpoints = [{
     name: 'Image',
-    defaultValue: '',
+    defaultValue: null,
     type: 'image',
     signal: 'Value'
 }, {
@@ -21,7 +21,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Image',
-    defaultValue: '',
+    defaultValue: null,
     type: 'image',
     signal: 'Value'
 }];
@@ -41,7 +41,8 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, inputs) => {
         console.log('execute dilate', inputs);
-        if (!inputs.inputIterations || isNaN(inputs.inputIterations) || !inputs.inputImage) return { outputImage: inputs.inputImage };
+        if (!inputs.inputIterations || isNaN(inputs.inputIterations) || !inputs.inputImage) return { outputImage: null };
+        if (inputs.inputImage.components > 1) return { outputImage: null };
 
         return Promise.resolve()
             .then(() => inputs.inputImage.dilate({ iterations: parseInt(inputs.inputIterations) }))

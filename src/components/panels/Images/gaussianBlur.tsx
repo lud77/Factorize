@@ -9,7 +9,7 @@ const panelType = 'GaussianBlur';
 
 const inputEndpoints = [{
     name: 'Image',
-    defaultValue: '',
+    defaultValue: null,
     type: 'image',
     signal: 'Value'
 }, {
@@ -21,7 +21,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Image',
-    defaultValue: '',
+    defaultValue: null,
     type: 'image',
     signal: 'Value'
 }];
@@ -41,7 +41,7 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, inputs) => {
         console.log('execute gaussianBlur', inputs);
-        if (!inputs.inputRadius || isNaN(inputs.inputRadius) || !inputs.inputImage) return { outputImage: inputs.inputImage };
+        if (!inputs.inputRadius || isNaN(inputs.inputRadius) || !inputs.inputImage) return { outputImage: null };
 
         return Promise.resolve()
             .then(() => inputs.inputImage.gaussianFilter({ radius: parseInt(inputs.inputRadius) }))
