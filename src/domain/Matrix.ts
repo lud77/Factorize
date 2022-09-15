@@ -1,3 +1,5 @@
+import * as Vector from './Vector';
+
 const matrixSym = Symbol('matrix');
 
 const toMatrix = (contents) => {
@@ -18,12 +20,6 @@ const getHeight = (matrix) => matrix.contents.length;
 const getRow = (matrix, r) => matrix.contents[r];
 const getColumn = (matrix, c) => matrix.contents.map((row) => row[c]);
 
-const arrayProduct = (v1, v2) => {
-    if (v1.length != v2.length) throw new Error('Tried to multiply vectors of different lengths');
-
-    return v1.reduce((a, v, i) => a + v * v2[i], 0);
-};
-
 const scalarProduct = (matrix, scalar) => {
     return toMatrix(matrix.contents.map((row) => row.map((cell) => cell * scalar)));
 };
@@ -43,7 +39,7 @@ const dotProduct = (m1, m2) => {
         const column = getColumn(m2, c);
         for (let r = 0; r < m1h; r++) {
             const row = getRow(m1, r);
-            result.contents[r][c] = arrayProduct(row, column);
+            result.contents[r][c] = Vector.dotProduct(row, column);
             console.log(r, row, c, column, result.contents[r][c] + '');
             console.log(r, c, result.contents.toString());
         }
@@ -119,7 +115,6 @@ export {
     getRow,
     getColumn,
     scalarProduct,
-    arrayProduct,
     dotProduct,
     sum,
     transpose,
