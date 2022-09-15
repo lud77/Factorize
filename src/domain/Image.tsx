@@ -8,6 +8,16 @@ const toImage = (contents) => ({
 
 const toString = () => '[object Image]';
 
+const getSourceAlpha = (source, sourceWidth, sourceChannels, sourceMaxValue, baseWidth, x, y, i, j) => {
+    if (source.alpha) {
+        const sourceAlphaNdx = (j * sourceWidth + i + 1) * sourceChannels - 1;
+
+        return source.data[sourceAlphaNdx] / sourceMaxValue;
+    }
+
+    return 1;
+};
+
 const blend = (source, base, x, y, blendFunction, opacity, fill) => {
     const result = base.clone();
 
@@ -25,17 +35,20 @@ const blend = (source, base, x, y, blendFunction, opacity, fill) => {
 
     for (let i = 0; i < patchWidth; i++) {
         for (let j = 0; j < patchHeight; j++) {
-            const alpha = source.alpha
-                ? base.data[((y + j) * baseWidth + x + i + 1) * sourceChannels - 1] / baseMaxValue * opacity
-                : opacity;
+            const baseAlphaNdx = ((y + j) * baseWidth + x + i + 1) * sourceChannels - 1;
+            const sourceAlpha = getSourceAlpha(source, sourceWidth, sourceChannels, sourceMaxValue, baseWidth, x, y, i, j) * opacity;
+            result.data[baseAlphaNdx] = sourceAlpha * baseMaxValue;
 
             for (let k = 0; k < channelsToProcess; k++) {
                 const sourceNdx = (j * sourceWidth + i) * sourceChannels + k;
                 const baseNdx = ((y + j) * baseWidth + x + i) * sourceChannels + k;
-                if (i < 10)
-                    console.log('+++', sourceNdx, baseNdx);
-                result.data[baseNdx] = source.data[sourceNdx];
-                    // blendFunction(source.data[sourceNdx] / sourceMaxValue, base.data[baseNdx] / baseMaxValue, alpha, fill) * baseMaxValue;
+
+                result.data[baseNdx] =
+                    blendFunction(
+                        source.data[sourceNdx] / sourceMaxValue,
+                        base.data[baseNdx] / baseMaxValue,
+                        sourceAlpha, fill
+                    ) * baseMaxValue;
             }
         }
     }
