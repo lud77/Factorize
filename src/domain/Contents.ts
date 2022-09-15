@@ -1,14 +1,14 @@
 import * as Matrix from './Matrix';
 
-const getContents = (input) => {
+const getExtendedFormat = (input) => {
     if (input == null) return '';
 
-    if (input.type === Matrix.matrixSym) return Matrix.toString(input);
+    if (input.type === Matrix.matrixSym) return Matrix.printable(input);
 
     return String(input);
 };
 
 
 export {
-    getContents
+    getExtendedFormat
 };

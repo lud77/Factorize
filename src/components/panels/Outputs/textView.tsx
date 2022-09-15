@@ -2,7 +2,7 @@ import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import { getContents } from '../../../domain/Contents';
+import { getExtendedFormat } from '../../../domain/Contents';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -65,7 +65,7 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row" style={displayStyle}>
-                {getContents(inputValue).split('\n').map((str, i) => <p key={i} style={paragraphStyle}>{str}</p>)}
+                {getExtendedFormat(inputValue).split('\n').map((str, i) => <p key={i} style={paragraphStyle}>{str}</p>)}
             </div>
         </>;
     };

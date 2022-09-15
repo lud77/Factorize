@@ -2,7 +2,7 @@ import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import { getContents } from '../../../domain/Contents';
+import { getExtendedFormat } from '../../../domain/Contents';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -89,7 +89,7 @@ const create = (panelId: number): Panel => {
         switch (ep) {
             case 'inputLog':
                 const inputMessage = panel.inputEpValues.inputMessage != null ? panel.inputEpValues.inputMessage : '';
-                return { outputContents: panel.outputEpValues.outputContents + getContents(inputMessage) + os.EOL };
+                return { outputContents: panel.outputEpValues.outputContents + getExtendedFormat(inputMessage) + os.EOL };
             case 'inputClear':
                 return { outputContents: '' };
         }
