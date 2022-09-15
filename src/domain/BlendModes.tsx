@@ -1,5 +1,5 @@
 const superimposeMode = (a, b, opacity, fill) => {
-    return a * opacity + b * (1 - opacity);
+    return a;
 };
 
 const dissolveMode = (a, b, opacity, fill) => {
@@ -7,7 +7,7 @@ const dissolveMode = (a, b, opacity, fill) => {
 };
 
 const darkenMode = (a, b, opacity, fill) => {
-    return Math.min(a, b) * opacity + b * (1 - opacity);
+    return Math.min(a, b);
 };
 
 const multiplyMode = (a, b, opacity, fill) => {

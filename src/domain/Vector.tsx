@@ -22,10 +22,18 @@ const opposite = (v) => {
     return v.map((el) => -el);
 };
 
+const copy = (source, target, offset) => {
+    const sl = source.length;
+    for (let s = 0, t = offset; s < sl; s++, t++) {
+        target[t] = source[s];
+    }
+};
+
 export {
     dotProduct,
     scalarProduct,
     sum,
     opposite,
-    grandSum
+    grandSum,
+    copy
 };

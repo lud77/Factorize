@@ -6,7 +6,7 @@ const toMatrix = (contents) => {
     return {
         type: matrixSym,
         contents,
-        toString: () => '[object Matrix]'
+        toString: () => `Matrix (${getWidth({ contents })}x${getHeight({ contents })})`
     };
 };
 
@@ -87,7 +87,7 @@ const transpose = (m) => {
 
 const grandSum = (m) => m.contents.flat().reduce((a, v) => a + v, 0);
 
-const toString = (matrix) => {
+const printable = (matrix) => {
     const nbspace = ' ';
     const cols = getWidth(matrix);
 
@@ -119,5 +119,5 @@ export {
     sum,
     transpose,
     grandSum,
-    toString
+    printable
 };
