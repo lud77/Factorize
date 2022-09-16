@@ -23,7 +23,8 @@ const inputEndpoints = [{
 const outputEndpoints = [];
 
 const panelSizes = {
-    ...defaultSizes
+    ...defaultSizes,
+    height: 74
 };
 
 const create = (panelId: number): Panel => {
@@ -56,8 +57,7 @@ const create = (panelId: number): Panel => {
         ...panelSizes,
         Component,
         execute,
-        onPulse,
-        height: 74
+        onPulse
     } as Panel;
 };
 

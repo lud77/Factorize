@@ -35,12 +35,42 @@ const getIndexFor = (image) => {
     return (x, y) => y * width + x;
 };
 
-const blend = (source, base, x, y, blendFunction, opacity, fill) => {
+const copy = (source, base, x, y, opacity = 1) => {
     const result = base.clone();
 
-    const sourceWidth = source.width;
-    const sourceHeight = source.height;
-    const baseWidth = base.width;
+    const patchWidth = Math.min(source.width, base.width - x);
+    const patchHeight = Math.min(source.height, base.height - y);
+    // console.log('blender', patchWidth, patchHeight, sourceWidth, sourceHeight, baseWidth);
+
+    const channelsToProcess = source.channels;
+
+    const getSourceIndex = getIndexFor(source);
+    const getBaseIndex = getIndexFor(base);
+
+    for (let i = 0; i < patchWidth; i++) {
+        for (let j = 0; j < patchHeight; j++) {
+            const sourcePixelNdx = getSourceIndex(i, j);
+            const sourcePixel = source.getPixel(sourcePixelNdx);
+
+            const basePixelNdx = getBaseIndex(i + x, j + y);
+            const basePixel = base.getPixel(basePixelNdx);
+
+            // if (i == 0) console.log('+-+-+', { sourcePixelNdx, basePixelNdx, sourcePixel, sourceAlpha, basePixel });
+
+            for (let k = 0; k < channelsToProcess; k++) {
+                basePixel[k] = sourcePixel[k] * opacity + basePixel[k] * (1 - opacity);
+            }
+
+            result.setPixel(basePixelNdx, basePixel);
+        }
+    }
+
+    return result;
+};
+
+const blend = (source, base, x, y, blendFunction, opacity = 1) => {
+    const result = base.clone();
+
     const patchWidth = Math.min(source.width, base.width - x);
     const patchHeight = Math.min(source.height, base.height - y);
     // console.log('blender', patchWidth, patchHeight, sourceWidth, sourceHeight, baseWidth);
@@ -67,12 +97,7 @@ const blend = (source, base, x, y, blendFunction, opacity, fill) => {
                 const baseComponent = basePixel[k] / baseMaxValue;
 
                 basePixel[k] = (
-                    sourceAlpha * blendFunction(
-                        sourcePixel[k],
-                        baseComponent,
-                        sourceAlpha,
-                        fill
-                    ) +
+                    sourceAlpha * blendFunction(sourcePixel[k], baseComponent) +
                     (1 - sourceAlpha) * baseComponent
                 ) * baseMaxValue;
             }
@@ -88,5 +113,6 @@ export {
     imageSym,
     toImage,
     printable,
-    blend
+    blend,
+    copy
 };

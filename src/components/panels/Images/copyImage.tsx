@@ -1,7 +1,7 @@
 import * as React from 'react';
-import copy from 'image-js/src/image/internal/copy';
 
 import { Panel } from '../../../types/Panel';
+import { copy } from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -41,7 +41,7 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 93
+    height: 114
 };
 
 const create = (panelId: number): Panel => {
@@ -81,15 +81,11 @@ const create = (panelId: number): Panel => {
 
         return Promise.resolve()
             .then(() => {
-                const result = values.inputTarget.clone();
-
-                copy(
+                return copy(
                     values.inputSource,
-                    result,
+                    values.inputTarget,
                     x, y
                 );
-
-                return result;
             })
             .then((outputImage) => {
                 return {
