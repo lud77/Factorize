@@ -390,8 +390,8 @@ const Machine = ({
         return [newPanel, newPanelCoords];
     };
 
-    const addPanel = (type, coords = null) => {
-        const [newPanel, newPanelCoords] = makePanel(type, coords);
+    const addPanel = (type, coords = null, toTheLeft = false) => {
+        const [newPanel, newPanelCoords] = makePanel(type, coords ? { x: coords.x - (toTheLeft ? dictionary[type].width : 0), y: coords.y } : null);
 
         setPanels((panels) => {
             return {

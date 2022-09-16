@@ -63,7 +63,7 @@ const ComboBox = (props) => {
         e.stopPropagation();
         e.preventDefault();
 
-        const [ newPanel, newPanelCoords ] = props.addPanel(e.target.innerText, { x: props.left, y: props.top });
+        const [ newPanel, newPanelCoords ] = props.addPanel(e.target.innerText, { x: props.left, y: props.top }, props.side === 'output');
         props.setSearchBoxData(null);
 
         if (!props.side) return;
