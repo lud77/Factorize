@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Throttle';
 
@@ -32,6 +33,11 @@ const outputEndpoints = [{
     name: 'Discarded',
     signal: 'Pulse'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    height: 114
+};
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -81,10 +87,10 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
+        ...panelSizes,
         Component,
         execute,
-        onPulse,
-        height: 114
+        onPulse
     } as Panel;
 };
 
@@ -93,5 +99,6 @@ export default {
     create,
     tags: ['rate limiter'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

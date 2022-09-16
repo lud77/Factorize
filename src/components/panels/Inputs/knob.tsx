@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 import Knob from '../../Knob/Knob';
 
@@ -22,6 +23,12 @@ const outputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 100,
+    height: 109
+};
 
 const create = (panelId: number): Panel => {
     const clamp = (v) => Math.max(0, Math.min(1, v));
@@ -62,8 +69,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 100,
-        height: 109,
+        ...panelSizes,
         Component,
         execute
     } as Panel;
@@ -74,5 +80,6 @@ export default {
     create,
     tags: ['number', 'potentiometer', 'input'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

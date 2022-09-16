@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Sum';
 
@@ -25,6 +26,12 @@ const outputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 134,
+    height: 94
+};
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
@@ -80,8 +87,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 134,
-        height: 94,
+        ...panelSizes,
         addendEps: [],
         addendEpsCounter: 3,
         Component,
@@ -94,5 +100,6 @@ export default {
     create,
     tags: ['algebra', 'addition'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

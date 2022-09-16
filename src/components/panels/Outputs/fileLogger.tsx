@@ -6,6 +6,7 @@ import { getExtendedFormat } from '../../../domain/Contents';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 import System from '../../../domain/System';
 
@@ -27,6 +28,11 @@ const inputEndpoints = [{
 }];
 
 const outputEndpoints = [];
+
+const panelSizes = {
+    ...defaultSizes,
+    height: 94
+};
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -61,10 +67,10 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
+        ...panelSizes,
         Component,
         execute,
-        onPulse,
-        height: 94
+        onPulse
     } as Panel;
 };
 
@@ -73,5 +79,6 @@ export default {
     create,
     tags: ['log', 'output'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

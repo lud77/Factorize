@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 import Led from '../../Led/Led';
 
@@ -17,6 +18,12 @@ const inputEndpoints = [{
 }];
 
 const outputEndpoints = [];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 60,
+    height: 89
+};
 
 const create = (panelId: number): Panel => {
     const isFloat = (x) => typeof x === 'number' && !isNaN(x);
@@ -44,10 +51,9 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
+        ...panelSizes,
         Component,
-        execute,
-        width: 60,
-        height: 89
+        execute
     } as Panel;
 };
 
@@ -56,5 +62,6 @@ export default {
     create,
     tags: ['output'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

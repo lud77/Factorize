@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Array';
 
@@ -15,6 +16,12 @@ const outputEndpoints = [{
     type: 'array',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 134,
+    height: 74
+};
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
@@ -63,8 +70,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 134,
-        height: 74,
+        ...panelSizes,
         itemEps: [],
         itemEpsCounter: 1,
         Component,
@@ -77,5 +83,6 @@ export default {
     create,
     tags: ['list', 'set', 'collection'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

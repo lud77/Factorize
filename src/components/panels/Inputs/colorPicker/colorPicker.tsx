@@ -4,6 +4,7 @@ import { Panel } from '../../../../types/Panel';
 
 import InputEndpoint from '../../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../../Editor/Panel/defaultSizes';
 
 import './colorPicker.css';
 
@@ -17,6 +18,11 @@ const outputEndpoints = [{
     type: 'string',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    height: 84
+};
 
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
@@ -56,9 +62,9 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
+        ...panelSizes,
         Component,
-        execute,
-        height: 84
+        execute
     } as Panel;
 };
 
@@ -67,5 +73,6 @@ export default {
     create,
     tags: ['input'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

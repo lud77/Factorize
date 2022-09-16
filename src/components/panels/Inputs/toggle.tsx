@@ -5,6 +5,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 import Toggle from '../../Toggle/Toggle';
 
@@ -18,6 +19,12 @@ const outputEndpoints = [{
     type: 'boolean',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 100,
+    height: 94
+};
 
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
@@ -46,8 +53,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 100,
-        height: 94,
+        ...panelSizes,
         Component,
         execute
     } as Panel;
@@ -58,5 +64,6 @@ export default {
     create,
     tags: ['switch', 'input'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

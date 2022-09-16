@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Opposite';
 
@@ -20,6 +21,12 @@ const outputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 134,
+    height: 54
+};
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -41,8 +48,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 134,
-        height: 54,
+        ...panelSizes,
         Component,
         execute
     } as Panel;
@@ -53,5 +59,6 @@ export default {
     create,
     tags: ['algebra'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

@@ -5,6 +5,7 @@ import * as Matrix from '../../../domain/Matrix';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Matrix';
 
@@ -16,6 +17,13 @@ const outputEndpoints = [{
     type: 'matrix',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 55,
+    minWidth: 155,
+    height: 94
+};
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -128,9 +136,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 55,
-        minWidth: 155,
-        height: 94,
+        ...panelSizes,
         addendEps: [],
         addendEpsCounter: 3,
         Component,
@@ -143,5 +149,6 @@ export default {
     create,
     tags: ['vector', 'tensor'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

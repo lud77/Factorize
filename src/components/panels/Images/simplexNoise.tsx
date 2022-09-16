@@ -8,6 +8,7 @@ import { hex2rgba } from '../../../utils/colors';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'SimplexNoise';
 
@@ -49,6 +50,12 @@ const outputEndpoints = [{
     type: 'image',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 134,
+    height: 166
+};
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -143,8 +150,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 134,
-        height: 166,
+        ...panelSizes,
         Component,
         execute
     } as Panel;
@@ -155,5 +161,6 @@ export default {
     create,
     tags: ['picture', 'image', 'perlin', 'generative'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

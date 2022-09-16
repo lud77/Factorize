@@ -4,8 +4,13 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Audio';
+
+const panelSizes = {
+    ...defaultSizes
+};
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -48,6 +53,7 @@ const create = (panelId: number): Panel => {
         type: panelType,
         inputEndpoints,
         outputEndpoints,
+        ...panelSizes,
         Component,
         execute
     } as Panel;

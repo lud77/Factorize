@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Time';
 
@@ -20,6 +21,11 @@ const outputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    height: 95
+};
 
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
@@ -66,7 +72,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        height: 95,
+        ...panelSizes,
         Component,
         execute
     } as Panel;
@@ -77,5 +83,6 @@ export default {
     create,
     tags: ['input', 'time'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

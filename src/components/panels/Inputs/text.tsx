@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Text';
 
@@ -15,6 +16,14 @@ const outputEndpoints = [{
     type: 'string',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 200,
+    height: 200,
+    minWidth: 120,
+    minHeight: 120
+};
 
 const create = (panelId: number): Panel => {
     const handleChangeText = ({ panel, machine }) => (e) => {
@@ -58,12 +67,9 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
+        ...panelSizes,
         Component,
         execute,
-        width: 200,
-        height: 200,
-        minWidth: 120,
-        minHeight: 120,
         resizer: 'both'
     } as Panel;
 };
@@ -73,5 +79,6 @@ export default {
     create,
     tags: ['input'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

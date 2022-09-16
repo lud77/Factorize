@@ -5,6 +5,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Random';
 
@@ -30,6 +31,12 @@ const outputEndpoints = [{
 
 const defaultSeed = Math.random();
 let rand = Random(defaultSeed);
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 134,
+    height: 93
+};
 
 const create = (panelId: number): Panel => {
     const getValue = () => rand.random();
@@ -81,8 +88,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 134,
-        height: 93,
+        ...panelSizes,
         Component,
         execute,
         onPulse
@@ -93,5 +99,6 @@ export default {
     type: panelType,
     create,
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

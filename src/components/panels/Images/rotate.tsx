@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Rotate';
 
@@ -25,6 +26,11 @@ const outputEndpoints = [{
     type: 'image',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    height: 74
+};
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -55,9 +61,9 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
+        ...panelSizes,
         Component,
-        execute,
-        height: 74
+        execute
     } as Panel;
 };
 
@@ -66,5 +72,6 @@ export default {
     create,
     tags: ['picture', 'image'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

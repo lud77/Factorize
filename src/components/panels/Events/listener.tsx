@@ -5,6 +5,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 import Sockets from '../../../domain/Sockets';
 
@@ -31,6 +32,12 @@ const outputEndpoints = [{
     type: 'string',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 120,
+    height: 74
+};
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -137,8 +144,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 120,
-        height: 74,
+        ...panelSizes,
         Component,
         execute,
         expunge,
@@ -151,5 +157,6 @@ export default {
     create,
     tags: ['external', 'os', 'server', 'event'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

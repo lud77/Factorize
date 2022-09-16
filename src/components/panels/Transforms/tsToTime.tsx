@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'TsToTime';
 
@@ -30,6 +31,12 @@ const outputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 144,
+    height: 94
+};
 
 const create = (panelId: number): Panel => {
     const getHour = (ts) => (new Date(ts)).getHours();
@@ -68,8 +75,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 144,
-        height: 94,
+        ...panelSizes,
         Component,
         execute
     } as Panel;
@@ -79,5 +85,6 @@ export default {
     type: panelType,
     create,
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

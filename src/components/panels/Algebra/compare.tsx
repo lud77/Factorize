@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Compare';
 
@@ -41,6 +42,12 @@ const outputEndpoints = [{
     signal: 'Value'
 }];
 
+const panelSizes = {
+    ...defaultSizes,
+    width: 134,
+    height: 114
+};
+
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
@@ -75,8 +82,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 134,
-        height: 114,
+        ...panelSizes,
         Component,
         execute
     } as Panel;
@@ -87,5 +93,6 @@ export default {
     create,
     tags: ['greater', 'lesser', 'lower', 'higher', 'equal', 'threshold'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

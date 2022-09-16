@@ -5,6 +5,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 import PushButton from '../../PushButton/PushButton';
 
@@ -16,6 +17,12 @@ const outputEndpoints = [{
     name: 'Send',
     signal: 'Pulse'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 100,
+    height: 94
+};
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
@@ -44,8 +51,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 100,
-        height: 94,
+        ...panelSizes,
         Component,
         execute
     } as Panel;
@@ -56,5 +62,6 @@ export default {
     create,
     tags: ['trigger', 'fire', 'event'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

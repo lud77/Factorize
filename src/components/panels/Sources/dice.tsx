@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Dice';
 
@@ -28,6 +29,12 @@ const outputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 134,
+    height: 94
+};
 
 const create = (panelId: number): Panel => {
     const rollDice = (dice, faces) => {
@@ -68,8 +75,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 134,
-        height: 94,
+        ...panelSizes,
         Component,
         execute,
         onPulse
@@ -81,5 +87,6 @@ export default {
     create,
     tags: ['random'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

@@ -4,6 +4,7 @@ import { Panel } from '../../../../types/Panel';
 
 import InputEndpoint from '../../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../../Editor/Panel/defaultSizes';
 
 import './range.css';
 
@@ -22,6 +23,10 @@ const outputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes
+};
 
 const create = (panelId: number): Panel => {
     const clamp = (v) => Math.max(0, Math.min(1, v));
@@ -74,6 +79,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
+        ...panelSizes,
         Component,
         execute
     } as Panel;
@@ -84,5 +90,6 @@ export default {
     create,
     tags: ['number', 'input'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };

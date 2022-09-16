@@ -4,6 +4,7 @@ import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
+import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Join';
 
@@ -25,6 +26,12 @@ const outputEndpoints = [{
     type: 'string',
     signal: 'Value'
 }];
+
+const panelSizes = {
+    ...defaultSizes,
+    width: 134,
+    height: 75
+};
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
@@ -51,8 +58,7 @@ const create = (panelId: number): Panel => {
         starter: true,
         inputEndpoints,
         outputEndpoints,
-        width: 134,
-        height: 75,
+        ...panelSizes,
         Component,
         execute
     } as Panel;
@@ -63,5 +69,6 @@ export default {
     create,
     tags: ['string', 'set', 'collection', 'implode'],
     inputEndpoints,
-    outputEndpoints
+    outputEndpoints,
+    ...panelSizes
 };
