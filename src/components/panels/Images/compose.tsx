@@ -8,17 +8,25 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
-const panelType = 'Morphology';
+const panelType = 'Compose';
 
-const createImage = (width, height, bgcolor) => {
+const composeImage = (R, G, B, A) => {
+    const { width, height } = R;
+    const hasAlpha = A != null;
+    const channels = 4;
+
     const size = width * height;
-    const data = new Uint8ClampedArray(size * 4);
+    const data = new Uint8ClampedArray(size * channels);
 
-    for (let i = 0; i < size; i++) {
-        data[i * 4] = bgcolor[0];
-        data[i * 4 + 1] = bgcolor[1];
-        data[i * 4 + 2] = bgcolor[2];
-        data[i * 4 + 3] = bgcolor[3];
+    for (let x = 0; x < width; x++) {
+        for (let y = 0; y < height; y++) {
+            const i = (x + y * width);
+            const o = i * channels;
+            data[o] = R.data[i];
+            data[o + 1] = G.data[i];
+            data[o + 2] = B.data[i];
+            data[o + 3] = hasAlpha ? A.data[i]: 255;
+        }
     }
 
     return new Image({
@@ -30,25 +38,30 @@ const createImage = (width, height, bgcolor) => {
 };
 
 const inputEndpoints = [{
-    name: 'Width',
-    defaultValue: 100,
-    type: 'number',
+    name: 'R',
+    defaultValue: null,
+    type: 'image',
     signal: 'Value'
 }, {
-    name: 'Height',
-    defaultValue: 100,
-    type: 'number',
+    name: 'G',
+    defaultValue: null,
+    type: 'image',
     signal: 'Value'
 }, {
-    name: 'Hex',
-    defaultValue: '#0000',
-    type: 'string',
+    name: 'B',
+    defaultValue: null,
+    type: 'image',
+    signal: 'Value'
+}, {
+    name: 'A',
+    defaultValue: null,
+    type: 'image',
     signal: 'Value'
 }];
 
 const outputEndpoints = [{
     name: 'Image',
-    defaultValue: createImage(100, 100, [0, 0, 0, 0]),
+    defaultValue: null,
     type: 'image',
     signal: 'Value'
 }];
@@ -56,50 +69,49 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 93
+    height: 137
 };
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Hex" panelId={panelId} signal="Value" editable={true} {...props}>Hex</InputEndpoint>
+                <InputEndpoint name="R" panelId={panelId} signal="Value" {...props}>R</InputEndpoint>
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Width" panelId={panelId} signal="Value" editable={true} {...props}>Width</InputEndpoint>
+                <InputEndpoint name="G" panelId={panelId} signal="Value" {...props}>G</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Height" panelId={panelId} signal="Value" editable={true} {...props}>Height</InputEndpoint>
+                <InputEndpoint name="B" panelId={panelId} signal="Value" {...props}>B</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="A" panelId={panelId} signal="Value" {...props}>A</InputEndpoint>
             </div>
         </>;
     };
 
     const execute = (panel, values) => {
-        console.log('empty image execute');
+        console.log('compose execute');
 
-        if (values.inputHex == null) return { outputImage: null };
+        if (values.inputR == null || values.inputG == null || values.inputB == null) return { outputImage: null };
 
-        const color = hex2rgba(values.inputHex);
+        const hasRChanged = (panel.outputEpValues.oldR == null) || (values.inputR != panel.outputEpValues.oldR);
+        const hasGChanged = (panel.outputEpValues.oldG == null) || (values.inputG != panel.outputEpValues.oldG);
+        const hasBChanged = (panel.outputEpValues.oldB == null) || (values.inputB != panel.outputEpValues.oldB);
+        const hasAChanged = (panel.outputEpValues.oldA == null) || (values.inputA != panel.outputEpValues.oldA);
 
-        if (color == null) return { outputImage: null };
-
-        const width = parseInt(values.inputWidth || '0');
-        const height = parseInt(values.inputHeight || '0');
-        const hasHexChanged = (panel.outputEpValues.oldHex == null) || (color.toString() != panel.outputEpValues.oldHex.toString());
-        const hasWidthChanged = (panel.outputEpValues.oldWidth == null) || (width != panel.outputEpValues.oldWidth);
-        const hasHeightChanged = (panel.outputEpValues.oldHeight == null) || (height != panel.outputEpValues.oldHeight);
-
-        const hasChanged = hasHexChanged || hasWidthChanged || hasHeightChanged;
+        const hasChanged = hasRChanged || hasGChanged || hasBChanged || hasAChanged;
 
         if (!hasChanged) return { outputImage: null };
 
-        const outputImage = createImage(width, height, color);
+        const outputImage = composeImage(values.inputR, values.inputG, values.inputB, values.inputA);
 
         return {
-            oldColor: values.inputColor,
-            oldWidth: width,
-            oldHeight: height,
+            oldR: values.inputR,
+            oldG: values.inputG,
+            oldB: values.inputB,
+            oldA: values.inputA,
             outputImage
         };
     };

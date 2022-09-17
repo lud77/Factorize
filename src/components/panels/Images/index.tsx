@@ -10,6 +10,7 @@ import PaintText from './paintText';
 import Blend from './blend';
 import Morphology from './morphology';
 import ExtractChannel from './extractChannel';
+import Compose from './compose';
 
 export default {
     EmptyImage,
@@ -23,5 +24,6 @@ export default {
     PaintText,
     Blend,
     Morphology,
-    ExtractChannel
+    ExtractChannel,
+    Compose
 };
