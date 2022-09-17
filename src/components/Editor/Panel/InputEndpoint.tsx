@@ -59,15 +59,15 @@ export default (props) => {
         }));
 
         props.machine.executePanelLogic(props.panel.panelId, { [`input${props.name}`]: e.target.value });
-
-        console.log('test input', false);
     };
 
     // console.log('+++++++++++++++++++', ep, props.panel.inputSignalByEp[ep]);
 
-    const style = {};
-    if (props.span) style.flexGrow = props.span;
-    if (props.editable) style.textDecoration = 'underline';
+    const style = {
+        flexGrow: props.span != null ? props.span : 'none',
+        textDecoration: props.editable ? 'underline' : 'none',
+        textDecorationStyle: isConnected ? 'dotted' : 'none'
+    };
 
     return <>
         <div
@@ -98,7 +98,7 @@ export default (props) => {
             {
                 isEditing
                     ? <>
-                        <input autoFocus type="text" defaultValue={epValue} onBlur={finishEditing(props)} />
+                        <input autoFocus type="text" defaultValue={epValue} onBlur={finishEditing(props)} onKeyPress={(e) => { console.log('test', e); if (e.key === "Enter") finishEditing(props)(e); }} />
                     </>
                     : <>
                         {props.children}

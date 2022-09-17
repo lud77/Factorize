@@ -41,7 +41,10 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
-    - [ ] CopyImage and Blend panels should become a single BlendImages panel to copy and blend in one go
+    - [ ] IMAGE: Add different types of noise
+    - [ ] IMAGE: Tile
+    - [ ] IMAGE: Path
+    - [ ] IMAGE: Shape
     - [ ] IMAGE: Resize
     - [ ] IMAGE: Combine Channels
     - [ ] IMAGE: FlipX
@@ -54,35 +57,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [ ] Luminosity
     - [ ] IMAGE: Crop
     - [ ] IMAGE: Translate
-    - [ ] IMAGE: Blend Modes
-        - [ ] Dissolve
-        - [ ] Darken
-        - [ ] Multiply
-        - [ ] Color Burn
-        - [ ] Linear Burn
-        - [ ] Darker Color
-        - [ ] Lighten
-        - [ ] Screen
-        - [ ] Color Dodge
-        - [ ] Linear Dodge
-        - [ ] Lighter Color
-        - [ ] Overlay
-        - [ ] Soft Light
-        - [ ] Vivid Light
-        - [ ] Hard Light
-        - [ ] Linear Light
-        - [ ] Pin Light
-        - [ ] Hard Mix
-        - [ ] Difference
-        - [ ] Exclusion
-        - [ ] Subtract
-        - [ ] Divide
-        - [ ] Hue
-        - [ ] Saturation
-        - [ ] Color
-        - [ ] Luminosity
     - [ ] IMAGE: ImageSave
-    - [ ] IMAGE: Text
     - [ ] HASHES: Hash functions
         - [ ] Md5
         - [ ] Sha1
@@ -95,6 +70,33 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
+    - [~] IMAGE: Blend Modes
+        - [ ] Dissolve
+        - [ ] Darker Color
+        - [ ] Lighter Color
+        - [ ] Hue
+        - [ ] Saturation
+        - [ ] Color
+        - [ ] Luminosity
+        - [x] Darken
+        - [x] Multiply
+        - [x] Color Burn
+        - [x] Linear Burn
+        - [x] Lighten
+        - [x] Screen
+        - [x] Color Dodge
+        - [x] Linear Dodge
+        - [x] Overlay
+        - [x] Soft Light
+        - [x] Vivid Light
+        - [x] Hard Light
+        - [x] Linear Light
+        - [x] Pin Light
+        - [x] Hard Mix
+        - [x] Difference
+        - [x] Exclusion
+        - [x] Subtract
+        - [x] Divide
     - [~] Stdin/Stdout/Stderr
         - [ ] Stdin
         - [x] Stdout
@@ -106,6 +108,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] IMAGE: Text
     - [x] IMAGE: Erode
     - [x] IMAGE: Dilate
     - [x] IMAGE: CopyImage
@@ -166,7 +169,10 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
+- [ ] Editable eps' names have dotted underlining when connected
+- [ ] Introduce window manager
 - [ ] Choose which eps to make editable
+- [x] Editable eps should close on enter
 - [ ] Make the context menu and combo box coordinates window-sensitive
 - [ ] Make width of collapsed panel a constant (currently the magic number 120)
 - [ ] Make magic numbers become constants
@@ -198,19 +204,18 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Make background of text input panel darker
 
 
---- State management
-
-- [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary
-- [x] Maintain and use endpoint offsets relative to panel position (only rely on screen state when updating the offsets)
-
-
 --- Bugs / Performance
 
+- [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary
+    - [ ] Try reducing actual panel state to a single "redraw" property to be set to a random value when we want to update the component,
+          the rest of the state can stay in a non-state array
+- [x] Maintain and use endpoint offsets relative to panel position (only rely on screen state when updating the offsets)
+
 - [ ] Dilate and Erode block the UI while being applied?
-- [x] Values don't seem to propagate correctly when creating a panel from an endpoint
 - [ ] Disallow Value-type signals from creating feedback loops
 - [ ] Sanitize topic input to listener (how?)
 - [ ] Stalls when trying to rewind file source from EOF signal without a delay
+- [x] Values don't seem to propagate correctly when creating a panel from an endpoint
 
 - [x] Window resize causes slowdown and stalling --- PROBABLY FIXED
 - [x] Only render panels in view
