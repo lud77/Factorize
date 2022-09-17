@@ -169,7 +169,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
-- [ ] Editable eps' names have dotted underlining when connected
 - [ ] Introduce window manager
 - [ ] Choose which eps to make editable
 - [ ] Make the context menu and combo box coordinates window-sensitive
@@ -177,6 +176,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Make magic numbers become constants
 - [ ] Make endpoint section in the panels collapsible
 - [ ] Change editable property to become "editor" and change it from boolean to text where you specify the type of editor
+- [x] Editable eps' names have dotted underlining when connected
 - [x] Editable eps should close on enter
 - [x] Add scale input ep (editable) to range panel
 - [x] Add scale input ep (editable) to knob panel
