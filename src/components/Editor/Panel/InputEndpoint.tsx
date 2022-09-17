@@ -7,7 +7,7 @@ export default (props) => {
     const [ isEditing, setIsEditing ] = React.useState(false);
 
 	const isInputConnected = (ref) => props.connections.find((connection) => connection.target === ref);
-
+    console.log(props.connections);
     const signal = props.signal || 'Value';
 
     const ep = `input${props.name}`;
@@ -66,7 +66,7 @@ export default (props) => {
     const style = {
         flexGrow: props.span != null ? props.span : 'none',
         textDecoration: props.editable ? 'underline' : 'none',
-        textDecorationStyle: isConnected ? 'dotted' : 'none'
+        textDecorationStyle: isConnected ? 'dotted' : 'solid'
     };
 
     return <>
@@ -98,7 +98,13 @@ export default (props) => {
             {
                 isEditing
                     ? <>
-                        <input autoFocus type="text" defaultValue={epValue} onBlur={finishEditing(props)} onKeyPress={(e) => { console.log('test', e); if (e.key === "Enter") finishEditing(props)(e); }} />
+                        <input
+                            autoFocus
+                            type="text"
+                            defaultValue={epValue}
+                            onBlur={finishEditing(props)}
+                            onKeyPress={(e) => { if (e.key === "Enter") finishEditing(props)(e); }}
+                            />
                     </>
                     : <>
                         {props.children}
