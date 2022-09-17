@@ -7,7 +7,7 @@ export default (props) => {
     const [ isEditing, setIsEditing ] = React.useState(false);
 
 	const isInputConnected = (ref) => props.connections.find((connection) => connection.target === ref);
-    console.log(props.connections);
+
     const signal = props.signal || 'Value';
 
     const ep = `input${props.name}`;
@@ -42,7 +42,6 @@ export default (props) => {
 
     const startEditing = (props) => (e) => {
         setIsEditing(true);
-        console.log('test input', props);
     };
 
     const finishEditing = (props) => (e) => {

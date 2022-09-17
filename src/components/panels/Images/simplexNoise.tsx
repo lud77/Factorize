@@ -42,6 +42,11 @@ const inputEndpoints = [{
     defaultValue: 1,
     type: 'number',
     signal: 'Value'
+}, {
+    name: 'Octaves',
+    defaultValue: 1,
+    type: 'number',
+    signal: 'Value'
 }];
 
 const outputEndpoints = [{
@@ -54,7 +59,7 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 166
+    height: 187
 };
 
 const create = (panelId: number): Panel => {
@@ -74,6 +79,9 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Scale" panelId={panelId} signal="Value" editable={true} {...props}>Scale</InputEndpoint>
             </div>
             <div className="Row">
+                <InputEndpoint name="Octaves" panelId={panelId} signal="Value" editable={true} {...props}>Octaves</InputEndpoint>
+            </div>
+            <div className="Row">
                 <InputEndpoint name="OffsetX" panelId={panelId} signal="Value" editable={true} {...props}>Offset X</InputEndpoint>
             </div>
             <div className="Row">
@@ -89,20 +97,30 @@ const create = (panelId: number): Panel => {
         const width = parseInt(panel.inputEpValues.inputWidth || '0');
         const height = parseInt(panel.inputEpValues.inputHeight || '0');
         const scale = parseFloat(panel.inputEpValues.inputScale || '1') / 100;
+        const octaves = parseInt(panel.inputEpValues.inputScale || '1');
         const offsetX = parseFloat(panel.inputEpValues.inputOffsetX || '0');
         const offsetY = parseFloat(panel.inputEpValues.inputOffsetY || '0');
+
         const hasSeedChanged = (panel.outputEpValues.oldSeed == null) || (seed != panel.outputEpValues.oldSeed);
         const hasWidthChanged = (panel.outputEpValues.oldWidth == null) || (width != panel.outputEpValues.oldWidth);
         const hasHeightChanged = (panel.outputEpValues.oldHeight == null) || (height != panel.outputEpValues.oldHeight);
         const hasScaleChanged = (panel.outputEpValues.oldScale == null) || (scale != panel.outputEpValues.oldScale);
+        const hasOctavesChanged = (panel.outputEpValues.oldOctaves == null) || (scale != panel.outputEpValues.oldOctaves);
         const hasOffsetXChanged = (panel.outputEpValues.oldOffsetX == null) || (offsetX != panel.outputEpValues.oldOffsetX);
         const hasOffsetYChanged = (panel.outputEpValues.oldOffsetY == null) || (offsetY != panel.outputEpValues.oldOffsetY);
 
-        const hasChanged = hasSeedChanged || hasWidthChanged || hasHeightChanged || hasScaleChanged || hasOffsetXChanged || hasOffsetYChanged;
+        const hasChanged =
+            hasSeedChanged ||
+            hasWidthChanged ||
+            hasHeightChanged ||
+            hasScaleChanged ||
+            hasOctavesChanged ||
+            hasOffsetXChanged ||
+            hasOffsetYChanged;
 
         if (!hasChanged) return {};
 
-        if (width <= 0 || height <= 0 || scale <= 0) return {};
+        if (width <= 0 || height <= 0 || scale <= 0 || octaves <= 0) return {};
 
         console.log('create image', hasSeedChanged, seed, width, height, offsetX, offsetY);
 
@@ -115,15 +133,28 @@ const create = (panelId: number): Panel => {
         const size = width * height;
         const data = new Uint8ClampedArray(size * 4);
 
+        const firstInterval = 2 ** (octaves - 1);
+        const octave = firstInterval / (2 * firstInterval - 1);
+        console.log('firstInterval, octave', firstInterval, octave);
+
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
                 const i = x + y * width;
-                const value = Math.floor((noise((x + offsetX) * scale, (y + offsetY) * scale) + 1) * 127);
+                const ndx = i * 4;
+                data[ndx + 3] = 255;
 
-                data[i * 4] = value;
-                data[i * 4 + 1] = value;
-                data[i * 4 + 2] = value;
-                data[i * 4 + 3] = 255;
+                let amplitude = 127 * octave;
+                let frequency = scale;
+
+                for (let o = 0; o < octaves; o++) {
+                    const value = Math.floor((noise((x + offsetX) * frequency, (y + offsetY) * frequency) + 1) * amplitude);
+                    amplitude /= 2;
+                    frequency += frequency;
+
+                    data[ndx] += value;
+                    data[ndx + 1] += value;
+                    data[ndx + 2] += value;
+                }
             }
         }
 
