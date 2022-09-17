@@ -97,7 +97,7 @@ const create = (panelId: number): Panel => {
         const width = parseInt(panel.inputEpValues.inputWidth || '0');
         const height = parseInt(panel.inputEpValues.inputHeight || '0');
         const scale = parseFloat(panel.inputEpValues.inputScale || '1') / 100;
-        const octaves = parseInt(panel.inputEpValues.inputScale || '1');
+        const octaves = parseInt(panel.inputEpValues.inputOctaves || '1');
         const offsetX = parseFloat(panel.inputEpValues.inputOffsetX || '0');
         const offsetY = parseFloat(panel.inputEpValues.inputOffsetY || '0');
 
@@ -131,17 +131,14 @@ const create = (panelId: number): Panel => {
             : panel.outputEpValues.oldNoise
 
         const size = width * height;
-        const data = new Uint8ClampedArray(size * 4);
+        const data = new Uint8ClampedArray(size);
 
         const firstInterval = 2 ** (octaves - 1);
         const octave = firstInterval / (2 * firstInterval - 1);
-        console.log('firstInterval, octave', firstInterval, octave);
-
+        console.log('firstInterval, octaves', firstInterval, octaves);
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
                 const i = x + y * width;
-                const ndx = i * 4;
-                data[ndx + 3] = 255;
 
                 let amplitude = 127 * octave;
                 let frequency = scale;
@@ -151,9 +148,7 @@ const create = (panelId: number): Panel => {
                     amplitude /= 2;
                     frequency += frequency;
 
-                    data[ndx] += value;
-                    data[ndx + 1] += value;
-                    data[ndx + 2] += value;
+                    data[i] += value;
                 }
             }
         }
@@ -162,7 +157,7 @@ const create = (panelId: number): Panel => {
             width,
             height,
             data,
-            kind: 'RGBA'
+            kind: 'GREY'
         });
 
         return {
@@ -172,6 +167,8 @@ const create = (panelId: number): Panel => {
             oldOffsetX: offsetX,
             oldOffsetY: offsetY,
             oldNoise: noise,
+            oldScale: scale,
+            oldOctave: octave,
             outputImage
         };
     };

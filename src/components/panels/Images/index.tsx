@@ -7,9 +7,8 @@ import Rotate from './rotate';
 import Rescale from './rescale';
 import CopyImage from './copyImage';
 import PaintText from './paintText';
-import Dilate from './dilate';
-import Erode from './erode';
 import Blend from './blend';
+import Morphology from './morphology';
 import ExtractChannel from './extractChannel';
 
 export default {
@@ -22,8 +21,7 @@ export default {
     Rescale,
     CopyImage,
     PaintText,
-    Dilate,
-    Erode,
     Blend,
+    Morphology,
     ExtractChannel
 };

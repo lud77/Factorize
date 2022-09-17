@@ -109,6 +109,8 @@ const create = (panelId: number): Panel => {
             values.inputAngle == null
         ) return { outputImage: null };
 
+        if (values.inputImage.colorModel != 'RGB') return { outputImage: null };
+
         const color = hex2rgba(values.inputHex);
 
         if (color == null) return { outputImage: null };

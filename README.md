@@ -41,6 +41,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] IMAGE: Heightmap
     - [ ] IMAGE: Add different types of noise
     - [ ] IMAGE: Tile
     - [ ] IMAGE: Path
@@ -70,6 +71,13 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
+    - [x] IMAGE: Replace Dilate and Erode with Morphology Operators
+        - [x] Dilate
+        - [x] Erode
+        - [x] Open
+        - [x] Close
+        - [x] Black Hat
+        - [x] Top Hat
     - [~] IMAGE: Blend Modes
         - [ ] Dissolve
         - [ ] Darker Color
