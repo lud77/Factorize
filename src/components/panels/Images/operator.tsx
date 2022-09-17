@@ -6,17 +6,12 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
-const panelType = 'Morphology';
+const panelType = 'Operator';
 
 const inputEndpoints = [{
     name: 'Image',
     defaultValue: null,
     type: 'image',
-    signal: 'Value'
-}, {
-    name: 'Iterations',
-    defaultValue: 1,
-    type: 'number',
     signal: 'Value'
 }];
 
@@ -29,21 +24,20 @@ const outputEndpoints = [{
 
 const panelSizes = {
     ...defaultSizes,
-    height: 95
+    height: 74
 };
 
-const MorphologicalOperators = {
-    'Dilate': 'dilate',
-    'Erode': 'erode',
-    'Open': 'open',
-    'Close': 'close',
-    'Black Hat': 'blackHat',
-    'Top Hat': 'topHat'
+const Operators = {
+    'Flip Horizontally': 'flipX',
+    'Flip Vertically': 'flipY',
+    'Invert colors': 'invert',
+    'Grey': 'grey',
+    'Canny': 'cannyEdge'
 };
 
 const create = (panelId: number): Panel => {
     const handleChange = ({ panel, machine }) => (e) => {
-        machine.executePanelLogic(panelId, { tuningMorphologicalOperator: e.target.value });
+        machine.executePanelLogic(panelId, { tuningOperator: e.target.value });
 
         return true;
     };
@@ -54,11 +48,11 @@ const create = (panelId: number): Panel => {
                 <div className="InteractiveItem">
                     <select
                         onChange={handleChange(props)}
-                        defaultValue={ props.panel.outputEpValues.outputMorphologicalOperator || 'Dilate' }
+                        defaultValue={ props.panel.outputEpValues.outputOperator || 'Flip Horizontally' }
                         style={{ width: '100%', borderRadius: '5px', border: 'none' }}
                         >
                         {
-                            Object.keys(MorphologicalOperators).map((op, key) => (<option key={key}>{op}</option>))
+                            Object.keys(Operators).map((op, key) => (<option key={key}>{op}</option>))
                         }
                     </select>
                 </div>
@@ -67,30 +61,28 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Image" panelId={panelId} {...props}>Image</InputEndpoint>
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
-            <div className="Row">
-                <InputEndpoint name="Iterations" panelId={panelId} editable={true} {...props}>Iterations</InputEndpoint>
-            </div>
         </>;
     };
 
     const execute = (panel, inputs) => {
-        console.log('execute morphological operator', inputs);
+        console.log('execute operator', inputs);
 
-        if (!inputs.inputIterations || isNaN(inputs.inputIterations) || !inputs.inputImage) return { outputImage: null };
-        if ((panel.outputEpValues.outputMorphologicalOperator == null) || (panel.outputEpValues.outputMorphologicalOperator == inputs.tuningMorphologicalOperator)) return { outputImage: null };
-        if (inputs.inputImage.components > 1) return { outputImage: null };
+        if (inputs.inputImage == null) return { outputImage: null };
 
-        const operatorName = inputs.tuningMorphologicalOperator || 'Dilate';
-        if (!MorphologicalOperators[operatorName]) return { outputImage: null };
+        const operatorName = inputs.tuningOperator || 'Flip Horizontally';
+        if (!Operators[operatorName]) return { outputImage: null };
 
-        const operatorFunc = MorphologicalOperators[operatorName];
-
+        const operatorFunc = Operators[operatorName];
+        console.log('operatorFunc', operatorFunc);
         return Promise.resolve()
-            .then(() => inputs.inputImage[operatorFunc]({ iterations: parseInt(inputs.inputIterations) }))
+            .then(() => {
+                const result = inputs.inputImage.clone();
+                return result[operatorFunc]()
+            })
             .then((outputImage) => {
                 return {
                     outputImage,
-                    outputMorphologicalOperator: inputs.tuningMorphologicalOperator
+                    outputOperator: inputs.tuningOperator
                 };
             });
     };
@@ -109,7 +101,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['image', 'picture', 'filter', 'effect', 'dilate', 'erode', 'open', 'close', 'black', 'top', 'hat'],
+    tags: ['image', 'picture', 'effect', 'flip', 'vertical', 'horizontal', 'invert', 'reverse'],
     inputEndpoints,
     outputEndpoints,
     ...panelSizes

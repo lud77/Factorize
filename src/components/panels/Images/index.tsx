@@ -8,6 +8,7 @@ import Rescale from './rescale';
 import CopyImage from './copyImage';
 import PaintText from './paintText';
 import Blend from './blend';
+import Operator from './operator';
 import Morphology from './morphology';
 import ExtractChannel from './extractChannel';
 import Compose from './compose';
@@ -23,6 +24,7 @@ export default {
     CopyImage,
     PaintText,
     Blend,
+    Operator,
     Morphology,
     ExtractChannel,
     Compose

@@ -69,7 +69,7 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 137
+    height: 116
 };
 
 const create = (panelId: number): Panel => {

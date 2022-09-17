@@ -45,12 +45,15 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: Add different types of noise
     - [ ] IMAGE: Tile
     - [ ] IMAGE: Path
-    - [ ] IMAGE: Shape
+    - [ ] IMAGE: Shape / Polygon
+    - [ ] IMAGE: Polyline
+    - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: Resize
-    - [ ] IMAGE: Combine Channels
-    - [ ] IMAGE: FlipX
-    - [ ] IMAGE: FlipY
-    - [ ] IMAGE: Grey
+    - [~] IMAGE: Unary Operators
+        - [x] IMAGE: Invert colors
+        - [x] IMAGE: FlipX
+        - [x] IMAGE: FlipY
+        - [x] IMAGE: Grey
     - [ ] IMAGE: Color Gradient
     - [ ] IMAGE: Adjustments
         - [ ] Opacity
@@ -71,13 +74,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
-    - [x] IMAGE: Replace Dilate and Erode with Morphology Operators
-        - [x] Dilate
-        - [x] Erode
-        - [x] Open
-        - [x] Close
-        - [x] Black Hat
-        - [x] Top Hat
     - [~] IMAGE: Blend Modes
         - [ ] Dissolve
         - [ ] Darker Color
@@ -116,6 +112,14 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] IMAGE: Combine Channels
+    - [x] IMAGE: Replace Dilate and Erode with Morphology Operators
+        - [x] Dilate
+        - [x] Erode
+        - [x] Open
+        - [x] Close
+        - [x] Black Hat
+        - [x] Top Hat
     - [x] IMAGE: Text
     - [x] IMAGE: Erode
     - [x] IMAGE: Dilate
