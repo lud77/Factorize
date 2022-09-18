@@ -54,6 +54,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] IMAGE: FlipX
         - [x] IMAGE: FlipY
         - [x] IMAGE: Grey
+        - [x] IMAGE: Canny
     - [ ] IMAGE: Color Gradient
     - [ ] IMAGE: Adjustments
         - [ ] Opacity
@@ -181,7 +182,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 -- UI
 
-- [ ] Introduce window manager
 - [ ] Choose which eps to make editable
 - [ ] Make the context menu and combo box coordinates window-sensitive
 - [ ] Make width of collapsed panel a constant (currently the magic number 120)
@@ -214,11 +214,13 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [x] Expose type of endpoint throught symbols/letters
 - [x] Expose type of endpoint in tooltip
 - [x] Make background of text input panel darker
+- [/] Introduce window manager
 
 
 --- Bugs / Performance
 
 - [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary
+    - [ ] Try transforming the "tuning" variables into local component state variables, so that they only redraw the component
     - [ ] Try reducing actual panel state to a single "redraw" property to be set to a random value when we want to update the component,
           the rest of the state can stay in a non-state array
 - [x] Maintain and use endpoint offsets relative to panel position (only rely on screen state when updating the offsets)

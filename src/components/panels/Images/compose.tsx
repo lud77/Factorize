@@ -68,7 +68,7 @@ const outputEndpoints = [{
 
 const panelSizes = {
     ...defaultSizes,
-    width: 134,
+    width: 94,
     height: 116
 };
 
