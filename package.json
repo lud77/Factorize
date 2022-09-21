@@ -29,6 +29,8 @@
     "immutable": "^4.1.0",
     "mathjs": "^11.0.1",
     "n-readlines": "^1.0.1",
+    "ndarray": "^1.0.19",
+    "ndarray-fft": "^1.0.3",
     "prettier": "^2.6.2",
     "random-seed": "^0.3.0",
     "randomcolor": "^0.6.2",
@@ -40,7 +42,8 @@
     "source-map-loader": "^3.0.1",
     "typescript": "^4.6.4",
     "web-vitals": "^2.1.4",
-    "xpipe": "^1.0.5"
+    "xpipe": "^1.0.5",
+    "zeros": "^1.0.0"
   },
   "main": "public/electron.js",
   "scripts": {

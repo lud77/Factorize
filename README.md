@@ -37,12 +37,17 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 --- Engine
 
+- [ ] Can we introduce jimp as well? Is it interoperable with image-js? what would it add?
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] Threejs renderer panel (decide format for scene data type)
+    - [ ] IMAGE: FFT / IFFT
     - [ ] IMAGE: Heightmap
     - [ ] IMAGE: Add different types of noise
+    - [ ] IMAGE: Checkers (
+    - [ ] IMAGE: Stripes (angle, width, fill, transition)
     - [ ] IMAGE: Tile
     - [ ] IMAGE: Path
     - [ ] IMAGE: Shape / Polygon
@@ -218,6 +223,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 
 --- Bugs / Performance
+
+- [ ] Introduce ndarray module in matrices etc.
 
 - [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary
     - [ ] Try transforming the "tuning" variables into local component state variables, so that they only redraw the component

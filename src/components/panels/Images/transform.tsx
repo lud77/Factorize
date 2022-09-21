@@ -1,12 +1,13 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
+import * as ImageTransforms from '../../../domain/ImageTransforms';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
-const panelType = 'Operator';
+const panelType = 'Transform';
 
 const inputEndpoints = [{
     name: 'Image',
@@ -32,7 +33,12 @@ const Operators = {
     'Flip Vertically': 'flipY',
     'Invert colors': 'invert',
     'Grey': 'grey',
-    'Canny': 'cannyEdge'
+    'Canny': 'cannyEdge',
+    'Rotate 90° CW': 'rotate90',
+    'Rotate 180°': 'rotate180',
+    'Rotate 90° CCW': 'rotate270',
+    // 'FFT': 'fourier',
+    // 'Inverse FFT': 'inverseFourier'
 };
 
 const create = (panelId: number): Panel => {
@@ -76,8 +82,7 @@ const create = (panelId: number): Panel => {
         console.log('operatorFunc', operatorFunc);
         return Promise.resolve()
             .then(() => {
-                const result = inputs.inputImage.clone();
-                return result[operatorFunc]()
+                return ImageTransforms[operatorFunc](inputs.inputImage);
             })
             .then((outputImage) => {
                 return {

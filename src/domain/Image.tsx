@@ -109,6 +109,13 @@ const blend = (source, base, x, y, blendFunction, opacity = 1) => {
     return result;
 };
 
+const resize = (image, newWidth, newHeight, hAnchor, vAnchor) => {
+    const result = ((newWidth < image.width) || (newHeight < image.height))
+        ? image.crop()
+        : image.clone();
+};
+
+
 export {
     imageSym,
     toImage,
