@@ -138,7 +138,7 @@ const create = (panelId: number): Panel => {
             hasSizeChanged ||
             hasAngleChanged;
 
-        if (!hasChanged) return { outputImage: null };
+        if (!hasChanged) return {};
 
         return Promise.resolve()
             .then(() => {

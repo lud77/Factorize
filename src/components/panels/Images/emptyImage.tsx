@@ -22,7 +22,7 @@ const inputEndpoints = [{
     signal: 'Value'
 }, {
     name: 'Hex',
-    defaultValue: '#0000',
+    defaultValue: '#ffff',
     type: 'string',
     signal: 'Value'
 }];
@@ -73,7 +73,7 @@ const create = (panelId: number): Panel => {
 
         const hasChanged = hasHexChanged || hasWidthChanged || hasHeightChanged;
 
-        if (!hasChanged) return { outputImage: null };
+        if (!hasChanged) return {};
 
         const outputImage = Image.empty(width, height, color);
 

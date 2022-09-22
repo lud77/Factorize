@@ -79,7 +79,7 @@ const create = (panelId: number): Panel => {
 
         const hasChanged = hasXChanged || hasYChanged || hasSourceChanged || hasTargetChanged;
 
-        if (!hasChanged) return { outputImage: null };
+        if (!hasChanged) return {};
 
         return Promise.resolve()
             .then(() => {

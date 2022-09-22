@@ -56,7 +56,7 @@ const create = (panelId: number): Panel => {
     };
 
     const execute = (panel, values) => {
-        console.log('resize image execute');
+        console.log('rescale image execute');
 
         if (values.inputImage == null) return { outputImage: null };
 
@@ -67,7 +67,7 @@ const create = (panelId: number): Panel => {
 
         const hasChanged = hasWidthChanged || hasHeightChanged;
 
-        if (!hasChanged) return { outputImage: null };
+        if (!hasChanged) return {};
 
         return Promise.resolve()
             .then(() => values.inputImage.resize({

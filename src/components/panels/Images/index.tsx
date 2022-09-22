@@ -5,6 +5,7 @@ import Convolution from './convolution';
 import GaussianBlur from './gaussianBlur';
 import Rotate from './rotate';
 import Rescale from './rescale';
+import Resize from './resize';
 import CopyImage from './copyImage';
 import PaintText from './paintText';
 import Blend from './blend';
@@ -21,6 +22,7 @@ export default {
     GaussianBlur,
     Rotate,
     Rescale,
+    Resize,
     CopyImage,
     PaintText,
     Blend,

@@ -133,7 +133,7 @@ const create = (panelId: number): Panel => {
             hasFillChanged ||
             hasModeChanged;
 
-        if (!hasChanged) return { outputImage: null };
+        if (!hasChanged) return {};
 
         return Promise.resolve()
             .then(() => {

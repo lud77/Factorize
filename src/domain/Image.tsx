@@ -3,6 +3,18 @@ import * as Vector from './Vector';
 
 const imageSym = Symbol('image');
 
+const hAnchorMultiplier = {
+    left: 0,
+    center: .5,
+    right: 1
+};
+
+const vAnchorMultiplier = {
+    top: 0,
+    center: .5,
+    bottom: 1
+};
+
 const toImage = (contents) => {
     return {
         type: imageSym,
@@ -143,45 +155,21 @@ const empty = (width, height, bgcolor) => {
 };
 
 const getTargetX = (hAnchor, newWidth, imWidth) => {
-    switch (hAnchor) {
-        case 'left': return 0;
-        case 'center': return Math.floor((newWidth - imWidth) / 2);
-        case 'right': return newWidth - imWidth - 1;
-    }
+    return Math.floor((newWidth - imWidth) * hAnchorMultiplier[hAnchor]);
 };
 
 const getTargetY = (vAnchor, newHeight, imHeight) => {
-    switch (vAnchor) {
-        case 'top': return 0;
-        case 'center': return Math.floor((newHeight - imHeight) / 2);
-        case 'bottom': return newHeight - imHeight - 1;
-    }
+    return Math.floor((newHeight - imHeight) * vAnchorMultiplier[vAnchor]);
 };
 
 const resize = (image, newWidth, newHeight, hAnchor, vAnchor, bgcolor) => {
-    if ((newWidth < image.width) || (newHeight < image.height)) return null;
-
-    const size = newWidth * newWidth * 4;
-    const data = new Uint8ClampedArray(size);
+    const newImage = empty(newWidth, newHeight, bgcolor);
 
     const targetX = getTargetX(hAnchor, newWidth, image.width);
     const targetY = getTargetY(vAnchor, newHeight, image.height);
 
-    for (let i = 0; i < size; i += 4) {
-        data[i] = bgcolor[0];
-        data[i + 1] = bgcolor[1];
-        data[i + 2] = bgcolor[2];
-        data[i + 3] = bgcolor[3];
-    }
-
-    return new Image({
-        width,
-        height,
-        data,
-        kind: 'RGBA'
-    });
+    return copy(image, newImage, targetX, targetY, 1);
 };
-
 
 export {
     imageSym,
@@ -189,5 +177,8 @@ export {
     printable,
     blend,
     copy,
-    empty
+    empty,
+    resize,
+    hAnchorMultiplier,
+    vAnchorMultiplier
 };
