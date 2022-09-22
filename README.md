@@ -43,7 +43,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
     - [ ] Threejs renderer panel (decide format for scene data type)
-    - [ ] IMAGE: Resize
+    - [ ] IMAGE: Threshold
     - [ ] IMAGE: Heightmap
     - [ ] IMAGE: Add different types of generators
         - [ ] IMAGE: Checkers
@@ -118,6 +118,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] IMAGE: Resize
     - [x] IMAGE: Combine Channels
     - [x] IMAGE: Replace Dilate and Erode with Morphology Operators
         - [x] Dilate
