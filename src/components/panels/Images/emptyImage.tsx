@@ -1,33 +1,14 @@
 import * as React from 'react';
-import { Image } from 'image-js';
 
 import { Panel } from '../../../types/Panel';
 import { hex2rgba } from '../../../utils/colors';
+import * as Image from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'EmptyImage';
-
-const createImage = (width, height, bgcolor) => {
-    const size = width * height;
-    const data = new Uint8ClampedArray(size * 4);
-
-    for (let i = 0; i < size; i++) {
-        data[i * 4] = bgcolor[0];
-        data[i * 4 + 1] = bgcolor[1];
-        data[i * 4 + 2] = bgcolor[2];
-        data[i * 4 + 3] = bgcolor[3];
-    }
-
-    return new Image({
-        width,
-        height,
-        data,
-        kind: 'RGBA'
-    });
-};
 
 const inputEndpoints = [{
     name: 'Width',
@@ -48,7 +29,7 @@ const inputEndpoints = [{
 
 const outputEndpoints = [{
     name: 'Image',
-    defaultValue: createImage(100, 100, [0, 0, 0, 0]),
+    defaultValue: Image.empty(100, 100, [0, 0, 0, 0]),
     type: 'image',
     signal: 'Value'
 }];
@@ -94,7 +75,7 @@ const create = (panelId: number): Panel => {
 
         if (!hasChanged) return { outputImage: null };
 
-        const outputImage = createImage(width, height, color);
+        const outputImage = Image.empty(width, height, color);
 
         return {
             oldColor: values.inputColor,

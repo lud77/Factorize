@@ -43,17 +43,17 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
     - [ ] Threejs renderer panel (decide format for scene data type)
-    - [ ] IMAGE: FFT / IFFT
+    - [ ] IMAGE: Resize
     - [ ] IMAGE: Heightmap
-    - [ ] IMAGE: Add different types of noise
-    - [ ] IMAGE: Checkers (
-    - [ ] IMAGE: Stripes (angle, width, fill, transition)
+    - [ ] IMAGE: Add different types of generators
+        - [ ] IMAGE: Checkers
+        - [ ] IMAGE: Stripes (angle, width, fill, transition)
     - [ ] IMAGE: Tile
     - [ ] IMAGE: Path
     - [ ] IMAGE: Shape / Polygon
     - [ ] IMAGE: Polyline
     - [ ] IMAGE: Transform (4 points)
-    - [ ] IMAGE: Resize
+    - [ ] IMAGE: FFT / IFFT
     - [~] IMAGE: Unary Operators
         - [x] IMAGE: Invert colors
         - [x] IMAGE: FlipX

@@ -68,6 +68,8 @@ const create = (panelId: number): Panel => {
 
         if (values.inputSource == null || values.inputTarget == null) return { outputImage: null };
 
+        if (values.inputSource.ColorModel != values.inputTarget.ColorModel) return { outputImage: null };
+
         const x = values.inputX ? parseInt(values.inputX) : 0;
         const y = values.inputY ? parseInt(values.inputY) : 0;
         const hasXChanged = (panel.outputEpValues.oldX == null) || (x != panel.outputEpValues.oldX);
