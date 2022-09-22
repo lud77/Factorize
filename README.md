@@ -42,6 +42,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] Introduce tinycolor in components with hex input
     - [ ] Threejs renderer panel (decide format for scene data type)
     - [ ] IMAGE: Threshold
     - [ ] IMAGE: Heightmap

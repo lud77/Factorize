@@ -155,6 +155,9 @@ const create = (panelId: number): Panel => {
                     oldBase: values.inputBase,
                     outputImage
                 };
+            })
+            .catch(() => {
+                return { outputImage: null };
             });
     };
 

@@ -1,3 +1,6 @@
+import Jimp from 'jimp/es';
+import { Image } from 'image-js';
+
 import ndarray from 'ndarray';
 import fft from 'ndarray-fft';
 import zeros from 'zeros';
@@ -68,6 +71,14 @@ const inverseFourier = (image) => {
     return result;
 };
 
+const sepia = (image) => {
+    const clone = new Jimp(image);
+
+    clone.sepia();
+
+    return new Image(image.width, image.height, clone.bitmap.data);
+};
+
 export {
     flipX,
     flipY,
@@ -77,6 +88,7 @@ export {
     rotate90,
     rotate180,
     rotate270,
+    sepia,
     // fourier,
     // inverseFourier
 };

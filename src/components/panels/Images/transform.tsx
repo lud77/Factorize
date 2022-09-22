@@ -29,11 +29,12 @@ const panelSizes = {
 };
 
 const Operators = {
-    'Flip Horizontally': 'flipX',
-    'Flip Vertically': 'flipY',
     'Invert colors': 'invert',
     'Grey': 'grey',
-    'Canny': 'cannyEdge',
+    // 'Canny': 'cannyEdge',
+    'Sepia': 'sepia',
+    'Flip Horizontally': 'flipX',
+    'Flip Vertically': 'flipY',
     'Rotate 90° CW': 'rotate90',
     'Rotate 180°': 'rotate180',
     'Rotate 90° CCW': 'rotate270',
@@ -89,6 +90,9 @@ const create = (panelId: number): Panel => {
                     outputImage,
                     outputOperator: inputs.tuningOperator
                 };
+            })
+            .catch(() => {
+                return { outputImage: null };
             });
     };
 
