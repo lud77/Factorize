@@ -11,7 +11,7 @@ const dotProduct = (v1, v2) => {
 const sum = (v1, v2) => {
     if (v1.length != v2.length) throw new Error('Tried to sum incompatible vectors');
 
-    return Array(v1.length).map((el, i) => el + v2[i]);
+    return v1.map((el, i) => el + v2[i]);
 };
 
 const grandSum = (v) => {
