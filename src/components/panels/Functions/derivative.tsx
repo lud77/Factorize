@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import functionPlot from 'function-plot';
 import * as math from 'mathjs';
 
 import { Panel } from '../../../types/Panel';
