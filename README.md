@@ -42,13 +42,9 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
-    - [ ] Introduce tinycolor in components with hex input
     - [ ] Threejs renderer panel (decide format for scene data type)
     - [ ] IMAGE: Threshold
     - [ ] IMAGE: Heightmap
-    - [~] IMAGE: Add different types of generators
-        - [x] IMAGE: Checkers
-        - [ ] IMAGE: Stripes (angle, width, fill, transition)
     - [ ] IMAGE: Tile
     - [ ] IMAGE: Path
     - [ ] IMAGE: Shape / Polygon
@@ -56,7 +52,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: FFT / IFFT
     - [ ] IMAGE: Color Gradient
-    - [ ] IMAGE: Adjustments
+    - [ ] ADJUSTMENTS
         - [ ] Opacity
         - [ ] Contrast
         - [ ] Luminosity
@@ -74,7 +70,12 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] SOURCE: Perlin noise
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
+    - [ ] Hex2HSL introduce tinycolor
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
+    - [~] IMAGE: Add different types of generators
+        - [~] IMAGE: Stripes (angle, width, fill, transition)
+        - [x] IMAGE: Checkers
+        - [x] IMAGE: Rings
     - [~] IMAGE: Unary Operators
         - [x] IMAGE: Invert colors
         - [x] IMAGE: FlipX
@@ -120,6 +121,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] Introduce tinycolor in components with hex input
     - [x] IMAGE: Resize
     - [x] IMAGE: Combine Channels
     - [x] IMAGE: Replace Dilate and Erode with Morphology Operators

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Image } from 'image-js';
 
 import { Panel } from '../../../types/Panel';
-import { hex2rgba } from '../../../utils/colors';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';

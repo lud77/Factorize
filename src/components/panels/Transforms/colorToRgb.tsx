@@ -6,12 +6,12 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
-import { hex2rgba, hex2hsl } from '../../../utils/colors';
+import { color2rgba } from '../../../utils/colors';
 
-const panelType = 'HexToRGB';
+const panelType = 'ColorToRGB';
 
 const inputEndpoints = [{
-    name: 'Hex',
+    name: 'Color',
     defaultValue: '#ffffff',
     type: 'string',
     signal: 'Value'
@@ -43,7 +43,7 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Hex" panelId={panelId} {...props}>Hex</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} editable={true} {...props}>Color</InputEndpoint>
                 <OutputEndpoint name="Red" panelId={panelId} {...props}>Red</OutputEndpoint>
             </div>
             <div className="Row">
@@ -56,8 +56,12 @@ const create = (panelId: number): Panel => {
     };
 
     const execute = (panel, inputs) => {
-        const color = hex2rgba(inputs.inputHex);
-        if (color == null) return {};
+        const color = color2rgba(inputs.inputColor);
+        if (color == null) return {
+            outputRed: null,
+            outputGreen: null,
+            outputBlue: null
+        };
 
         const [ outputRed, outputGreen, outputBlue ] = color;
 

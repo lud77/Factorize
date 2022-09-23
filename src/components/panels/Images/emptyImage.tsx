@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import { hex2rgba } from '../../../utils/colors';
+import { color2rgba } from '../../../utils/colors';
 import * as Image from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
@@ -21,7 +21,7 @@ const inputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }, {
-    name: 'Hex',
+    name: 'Color',
     defaultValue: '#ffff',
     type: 'string',
     signal: 'Value'
@@ -44,7 +44,7 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Hex" panelId={panelId} signal="Value" editable={true} {...props}>Hex</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} signal="Value" editable={true} {...props}>Color</InputEndpoint>
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
             <div className="Row">
@@ -59,19 +59,19 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => {
         console.log('empty image execute');
 
-        if (values.inputHex == null) return { outputImage: null };
+        if (values.inputColor == null) return { outputImage: null };
 
-        const color = hex2rgba(values.inputHex);
+        const color = color2rgba(values.inputColor);
 
         if (color == null) return { outputImage: null };
 
         const width = parseInt(values.inputWidth || '0');
         const height = parseInt(values.inputHeight || '0');
-        const hasHexChanged = (panel.outputEpValues.oldHex == null) || (color.toString() != panel.outputEpValues.oldHex.toString());
+        const hasColorChanged = (panel.outputEpValues.oldColor == null) || (color.toString() != panel.outputEpValues.oldColor.toString());
         const hasWidthChanged = (panel.outputEpValues.oldWidth == null) || (width != panel.outputEpValues.oldWidth);
         const hasHeightChanged = (panel.outputEpValues.oldHeight == null) || (height != panel.outputEpValues.oldHeight);
 
-        const hasChanged = hasHexChanged || hasWidthChanged || hasHeightChanged;
+        const hasChanged = hasColorChanged || hasWidthChanged || hasHeightChanged;
 
         if (!hasChanged) return {};
 

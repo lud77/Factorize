@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import { hex2rgba } from '../../../utils/colors';
+import { color2rgba } from '../../../utils/colors';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -20,7 +20,7 @@ const inputEndpoints = [{
     type: 'string',
     signal: 'Value'
 }, {
-    name: 'Hex',
+    name: 'Color',
     defaultValue: '#ffff',
     type: 'string',
     signal: 'Value'
@@ -75,7 +75,7 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Label" panelId={panelId} signal="Value" editable={true} {...props}>Label</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Hex" panelId={panelId} signal="Value" editable={true} {...props}>Hex</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} signal="Value" editable={true} {...props}>Color</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Font" panelId={panelId} signal="Value" editable={true} {...props}>Font</InputEndpoint>
@@ -100,7 +100,7 @@ const create = (panelId: number): Panel => {
 
         if (
             values.inputImage == null ||
-            values.inputHex == null ||
+            values.inputColor == null ||
             values.inputLabel == null ||
             values.inputFont == null ||
             values.inputSize == null ||
@@ -111,7 +111,7 @@ const create = (panelId: number): Panel => {
 
         if (values.inputImage.colorModel != 'RGB') return { outputImage: null };
 
-        const color = hex2rgba(values.inputHex);
+        const color = color2rgba(values.inputColor);
 
         if (color == null) return { outputImage: null };
 
@@ -119,7 +119,7 @@ const create = (panelId: number): Panel => {
         const y = values.inputY ? parseInt(values.inputY) : 0;
         const angle = values.inputAngle ? parseInt(values.inputAngle) : 0;
 
-        const hasHexChanged = (panel.outputEpValues.oldHex == null) || (values.inputHex != panel.outputEpValues.oldHex);
+        const hasColorChanged = (panel.outputEpValues.oldColor == null) || (values.inputColor != panel.outputEpValues.oldColor);
         const hasLabelChanged = (panel.outputEpValues.oldLabel == null) || (values.inputLabel != panel.outputEpValues.oldLabel);
         const hasFontChanged = (panel.outputEpValues.oldFont == null) || (values.inputFont != panel.outputEpValues.oldFont);
         const hasSizeChanged = (panel.outputEpValues.oldSize == null) || (values.inputSize != panel.outputEpValues.oldSize);
@@ -132,7 +132,7 @@ const create = (panelId: number): Panel => {
             hasXChanged ||
             hasYChanged ||
             hasImageChanged ||
-            hasHexChanged ||
+            hasColorChanged ||
             hasLabelChanged ||
             hasFontChanged ||
             hasSizeChanged ||
@@ -156,7 +156,7 @@ const create = (panelId: number): Panel => {
                 return {
                     oldX: values.inputX,
                     oldY: values.inputY,
-                    oldHex: values.inputHex,
+                    oldColor: values.inputColor,
                     oldLabel: values.inputLabel,
                     oldFont: values.inputFont,
                     oldSize: values.inputSize,

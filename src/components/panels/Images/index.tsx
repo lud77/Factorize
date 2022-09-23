@@ -3,6 +3,7 @@ import SimplexNoise from './simplexNoise';
 import ImageLoad from './imageLoad';
 import Convolution from './convolution';
 import GaussianBlur from './gaussianBlur';
+// import Displace from './displace';
 import Rotate from './rotate';
 import Rescale from './rescale';
 import Resize from './resize';
@@ -21,6 +22,7 @@ export default {
     ImageLoad,
     Convolution,
     GaussianBlur,
+    // Displace,
     Rotate,
     Rescale,
     Resize,

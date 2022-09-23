@@ -1,4 +1,6 @@
+import Jimp from 'jimp/es';
 import { Image } from 'image-js';
+
 import * as Vector from './Vector';
 
 const imageSym = Symbol('image');
@@ -195,6 +197,15 @@ const resize = (image, newWidth, newHeight, hAnchor, vAnchor, bgcolor) => {
     return copy(image, newImage, targetX, targetY, 1);
 };
 
+const displace = (image, map, offset) => {
+    const imageClone = new Jimp(image);
+    const mapClone = new Jimp(map);
+
+    imageClone.displace(mapClone, offset);
+
+    return new Image(image.width, image.height, imageClone.bitmap.data);
+};
+
 export {
     imageSym,
     toImage,
@@ -204,6 +215,7 @@ export {
     empty,
     patterned,
     resize,
+    displace,
     hAnchorMultiplier,
     vAnchorMultiplier
 };

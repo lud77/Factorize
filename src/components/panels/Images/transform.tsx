@@ -110,7 +110,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['image', 'picture', 'effect', 'flip', 'vertical', 'horizontal', 'invert', 'reverse'],
+    tags: ['image', 'picture', 'effect', 'flip', 'vertical', 'horizontal', 'invert', 'reverse', 'sepia', 'grey'],
     inputEndpoints,
     outputEndpoints,
     ...panelSizes

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import { hex2rgba } from '../../../utils/colors';
+import { color2rgba } from '../../../utils/colors';
 import * as Image from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
@@ -16,7 +16,7 @@ const inputEndpoints = [{
     type: 'image',
     signal: 'Value'
 }, {
-    name: 'Hex',
+    name: 'Color',
     defaultValue: '#ffff',
     type: 'string',
     signal: 'Value'
@@ -69,7 +69,7 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="HAlign" panelId={panelId} signal="Value" editable={true} {...props}>Horiz Align</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Hex" panelId={panelId} signal="Value" editable={true} {...props}>Hex</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} signal="Value" editable={true} {...props}>Color</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Width" panelId={panelId} signal="Value" editable={true} {...props}>Width</InputEndpoint>
@@ -91,11 +91,11 @@ const create = (panelId: number): Panel => {
 
         console.log('resize image execute - 2');
 
-        if (values.inputHex == null) return { outputImage: null };
+        if (values.inputColor == null) return { outputImage: null };
 
         console.log('resize image execute - 3');
 
-        const color = hex2rgba(values.inputHex);
+        const color = color2rgba(values.inputColor);
 
         if (color == null) return { outputImage: null };
 
@@ -105,7 +105,7 @@ const create = (panelId: number): Panel => {
         const height = values.inputHeight ? parseInt(values.inputHeight) : undefined;
 
         const hasImageChanged = (panel.outputEpValues.oldImage == null) || (values.inputImage != panel.outputEpValues.oldImage);
-        const hasHexChanged = (panel.outputEpValues.oldHex == null) || (color.toString() != panel.outputEpValues.oldHex.toString());
+        const hasColorChanged = (panel.outputEpValues.oldColor == null) || (values.inputColor != panel.outputEpValues.oldColor);
         const hasVAlignChanged = (panel.outputEpValues.oldVAlign == null) || (values.inputVAlign != panel.outputEpValues.oldVAlign);
         const hasHAlignChanged = (panel.outputEpValues.oldHAlign == null) || (values.inputHAlign != panel.outputEpValues.oldHAlign);
         const hasWidthChanged = (panel.outputEpValues.oldWidth == null) || (width != panel.outputEpValues.oldWidth);
@@ -113,7 +113,7 @@ const create = (panelId: number): Panel => {
 
         const hasChanged =
             hasImageChanged ||
-            hasHexChanged ||
+            hasColorChanged ||
             hasWidthChanged ||
             hasHeightChanged ||
             hasVAlignChanged ||
@@ -137,7 +137,7 @@ const create = (panelId: number): Panel => {
                     oldImage: values.inputImage,
                     oldWidth: width,
                     oldHeight: height,
-                    oldHex: color,
+                    oldColor: values.inputColor,
                     oldVAlign: values.inputVAlign,
                     oldHAlign: values.inputHAlign,
                     outputImage

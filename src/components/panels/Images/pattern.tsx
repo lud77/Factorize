@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
 import PatternTypes from '../../../domain/PatternTypes';
-import { hex2rgba } from '../../../utils/colors';
+import { color2rgba } from '../../../utils/colors';
 import * as Image from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
@@ -32,6 +32,16 @@ const inputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }, {
+    name: 'OffsetX',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'OffsetY',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
     name: 'Foreground',
     defaultValue: '#ffff',
     type: 'string',
@@ -53,7 +63,7 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 177
+    height: 219
 };
 
 const create = (panelId: number): Panel => {
@@ -86,10 +96,16 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Height" panelId={panelId} signal="Value" editable={true} {...props}>Height</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="HPeriod" panelId={panelId} signal="Value" editable={true} {...props}>Horiz Period</InputEndpoint>
+                <InputEndpoint name="HPeriod" panelId={panelId} signal="Value" editable={true} {...props}>X Period</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="VPeriod" panelId={panelId} signal="Value" editable={true} {...props}>Vert Period</InputEndpoint>
+                <InputEndpoint name="VPeriod" panelId={panelId} signal="Value" editable={true} {...props}>Y Period</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="OffsetX" panelId={panelId} signal="Value" editable={true} {...props}>X Offset</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="OffsetY" panelId={panelId} signal="Value" editable={true} {...props}>Y Offset</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Foreground" panelId={panelId} signal="Value" editable={true} {...props}>Foreground</InputEndpoint>
@@ -105,8 +121,8 @@ const create = (panelId: number): Panel => {
 
         if (values.inputForeground == null || values.inputBackground == null) return { outputImage: null };
 
-        const color = hex2rgba(values.inputForeground);
-        const bgcolor = hex2rgba(values.inputBackground);
+        const color = color2rgba(values.inputForeground);
+        const bgcolor = color2rgba(values.inputBackground);
 
         if (color == null || bgcolor == null) return { outputImage: null };
 
@@ -119,6 +135,8 @@ const create = (panelId: number): Panel => {
         const height = parseInt(values.inputHeight || '0');
         const hPeriod = parseInt(values.inputHPeriod || '10');
         const vPeriod = parseInt(values.inputVPeriod || '10');
+        const offsetX = parseInt(values.inputOffsetX || '0');
+        const offsetY = parseInt(values.inputOffsetY || '0');
 
         const hasForegroundChanged = (panel.outputEpValues.oldForeground == null) || (color.toString() != panel.outputEpValues.oldForeground.toString());
         const hasBackgroundChanged = (panel.outputEpValues.oldBackground == null) || (bgcolor.toString() != panel.outputEpValues.oldBackground.toString());
@@ -126,6 +144,8 @@ const create = (panelId: number): Panel => {
         const hasHeightChanged = (panel.outputEpValues.oldHeight == null) || (height != panel.outputEpValues.oldHeight);
         const hasHPeriodChanged = (panel.outputEpValues.oldHPeriod == null) || (hPeriod != panel.outputEpValues.oldHPeriod);
         const hasVPeriodChanged = (panel.outputEpValues.oldVPeriod == null) || (vPeriod != panel.outputEpValues.oldVPeriod);
+        const hasOffsetXChanged = (panel.outputEpValues.oldOffsetX == null) || (offsetX != panel.outputEpValues.oldOffsetX);
+        const hasOffsetYChanged = (panel.outputEpValues.oldOffsetY == null) || (offsetY != panel.outputEpValues.oldOffsetY);
         const hasPatternChanged = (panel.outputEpValues.oldPattern == null) || (patternType != panel.outputEpValues.oldPattern);
 
         const hasChanged =
@@ -135,11 +155,13 @@ const create = (panelId: number): Panel => {
             hasHeightChanged ||
             hasHPeriodChanged ||
             hasVPeriodChanged ||
+            hasOffsetXChanged ||
+            hasOffsetYChanged ||
             hasPatternChanged;
 
         if (!hasChanged) return {};
 
-        const outputImage = Image.patterned(width, height, patternFunction(hPeriod, vPeriod, color, bgcolor));
+        const outputImage = Image.patterned(width, height, patternFunction(hPeriod, vPeriod, offsetX, offsetY, color, bgcolor));
 
         return {
             oldForeground: values.inputForeground,
@@ -148,6 +170,8 @@ const create = (panelId: number): Panel => {
             oldHeight: height,
             oldHPeriod: hPeriod,
             oldVPeriod: vPeriod,
+            oldOffsetX: offsetX,
+            oldOffsetY: offsetY,
             oldPattern: patternType,
             outputImage
         };
@@ -167,7 +191,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['picture', 'create', 'new'],
+    tags: ['picture', 'create', 'new', 'texture', 'generator'],
     inputEndpoints,
     outputEndpoints,
     ...panelSizes

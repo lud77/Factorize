@@ -10,7 +10,7 @@ import defaultSizes from '../../Editor/Panel/defaultSizes';
 const panelType = 'ColorView';
 
 const inputEndpoints = [{
-    name: 'Hex',
+    name: 'Color',
     defaultValue: 'transparent',
     type: 'string',
     signal: 'Value'
@@ -29,7 +29,7 @@ const panelSizes = {
 const create = (panelId: number): Panel => {
 
     const Component = (props) => {
-        console.log('hex', props.panel.inputEpValues.inputHex);
+        console.log('Color', props.panel.inputEpValues.inputColor);
         const backgroundStyle = {
             backgroundImage: 'linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%)',
             backgroundColor: '#ccc',
@@ -44,7 +44,7 @@ const create = (panelId: number): Panel => {
         };
 
         const displayStyle = {
-            backgroundColor: `${props.panel.inputEpValues.inputHex}`,
+            backgroundColor: `${props.panel.inputEpValues.inputColor}`,
             overflow: 'auto',
             width: '100%',
             height: '100%',
@@ -53,7 +53,7 @@ const create = (panelId: number): Panel => {
 
         return <>
             <div className="Row">
-                <InputEndpoint name="Hex" panelId={panelId} {...props}>Hex</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} editable={true} {...props}>Color</InputEndpoint>
             </div>
             <div className="Row" style={backgroundStyle}>
                 <div style={displayStyle}></div>

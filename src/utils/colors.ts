@@ -1,3 +1,13 @@
+import tinycolor from 'tinycolor2';
+
+const color2rgba = (colorStr: string) => {
+    const color = tinycolor(colorStr);
+    if (!color.isValid()) return null;
+
+    const { r, g, b, a } = color.toRgb();;
+    return [r, g, b, Math.floor(a * 255)];
+};
+
 const hex2rgba = (hex: string) => {
     const getComponents = (fullHex): string[] | null => {
         const hex = fullHex.replace("#", "");
@@ -85,6 +95,7 @@ const rgb2hsl = (rgb: number[] | null) => {
 const hex2hsl = (hex: string) => rgb2hsl(hex2rgba(hex));
 
 export {
+    color2rgba,
     hex2rgba,
     rgb2hsl,
     hex2hsl
