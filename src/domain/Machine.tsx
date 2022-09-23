@@ -271,7 +271,7 @@ const Machine = ({
     };
 
     const getSignalType = (sourcePanel, sourceOutputEp, targetPanel, targetInputEp) => {
-        return (sourcePanel.outputTypeByEp[sourceOutputEp] === targetPanel.inputTypeByEp[targetInputEp])
+        return (sourcePanel.outputTypeByEp[sourceOutputEp] === targetPanel.inputTypeByEp[targetInputEp] || targetPanel.inputTypeByEp[targetInputEp] === 'any')
             ? sourcePanel.outputTypeByEp[sourceOutputEp]
             : null;
     };
