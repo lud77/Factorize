@@ -154,6 +154,30 @@ const empty = (width, height, bgcolor) => {
     });
 };
 
+const patterned = (width, height, patternCbk) => {
+    const size = width * height;
+    const data = new Uint8ClampedArray(size * 4);
+
+    for (let x = 0; x < width; x += 1) {
+        for (let y = 0; y < height; y += 1) {
+            const i = (x + y * width) * 4;
+            const color = patternCbk(x, y);
+
+            data[i] = color[0];
+            data[i + 1] = color[1];
+            data[i + 2] = color[2];
+            data[i + 3] = color[3];
+        }
+    }
+
+    return new Image({
+        width,
+        height,
+        data,
+        kind: 'RGBA'
+    });
+};
+
 const getTargetX = (hAnchor, newWidth, imWidth) => {
     return Math.floor((newWidth - imWidth) * hAnchorMultiplier[hAnchor]);
 };
@@ -178,6 +202,7 @@ export {
     blend,
     copy,
     empty,
+    patterned,
     resize,
     hAnchorMultiplier,
     vAnchorMultiplier

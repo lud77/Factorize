@@ -46,8 +46,8 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] Threejs renderer panel (decide format for scene data type)
     - [ ] IMAGE: Threshold
     - [ ] IMAGE: Heightmap
-    - [ ] IMAGE: Add different types of generators
-        - [ ] IMAGE: Checkers
+    - [~] IMAGE: Add different types of generators
+        - [x] IMAGE: Checkers
         - [ ] IMAGE: Stripes (angle, width, fill, transition)
     - [ ] IMAGE: Tile
     - [ ] IMAGE: Path
@@ -55,12 +55,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: Polyline
     - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: FFT / IFFT
-    - [~] IMAGE: Unary Operators
-        - [x] IMAGE: Invert colors
-        - [x] IMAGE: FlipX
-        - [x] IMAGE: FlipY
-        - [x] IMAGE: Grey
-        - [x] IMAGE: Canny
     - [ ] IMAGE: Color Gradient
     - [ ] IMAGE: Adjustments
         - [ ] Opacity
@@ -81,6 +75,13 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
+    - [~] IMAGE: Unary Operators
+        - [x] IMAGE: Invert colors
+        - [x] IMAGE: FlipX
+        - [x] IMAGE: FlipY
+        - [x] IMAGE: Grey
+        - [x] IMAGE: Sepia
+        - [~] IMAGE: Canny
     - [~] IMAGE: Blend Modes
         - [ ] Dissolve
         - [ ] Darker Color

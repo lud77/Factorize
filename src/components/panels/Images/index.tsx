@@ -11,6 +11,7 @@ import PaintText from './paintText';
 import Blend from './blend';
 import Transform from './transform';
 import Morphology from './morphology';
+import Pattern from './pattern';
 import ExtractChannel from './extractChannel';
 import Compose from './compose';
 
@@ -28,6 +29,7 @@ export default {
     Blend,
     Transform,
     Morphology,
+    Pattern,
     ExtractChannel,
     Compose
 };
