@@ -52,6 +52,10 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: FFT / IFFT
     - [ ] IMAGE: Color Gradient
+    - [~] IMAGE: Noise generators
+        - [x] Simplex noise (take w/h + seed)
+        - [ ] Gaussian noise
+        - [ ] Anisotropic noise
     - [ ] ADJUSTMENTS
         - [ ] Opacity
         - [ ] Contrast
@@ -136,7 +140,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] IMAGE: Dilate
     - [x] IMAGE: CopyImage
     - [x] IMAGE: Rescale
-    - [x] IMAGE: Simplex noise (take w/h + seed)
     - [x] IMAGE: Create Empty Image (take w/h + background color, default transparent)
     - [x] IMAGE: Get Channel
     - [x] IMAGE: Rotate
