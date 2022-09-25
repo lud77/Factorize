@@ -91,10 +91,7 @@ const create = (panelId: number): Panel => {
             //     });
             // });
 
-            return {
-                ...inputs,
-                imageData: ''
-            };
+            return { imageData: '' };
         }
 
         // flushSync(() => {
@@ -113,10 +110,7 @@ const create = (panelId: number): Panel => {
         //     });
         // });
 
-        return {
-            ...inputs,
-            imageData: inputs.inputImage ? inputs.inputImage.toDataURL() : null
-        };
+        return { imageData: inputs.inputImage ? inputs.inputImage.toDataURL() : '' };
     };
 
     return {

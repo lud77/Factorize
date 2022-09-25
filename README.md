@@ -43,6 +43,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
     - [ ] Threejs renderer panel (decide format for scene data type)
+    - [ ] Add turbulence input to generators
     - [ ] IMAGE: Threshold
     - [ ] IMAGE: Heightmap
     - [ ] IMAGE: Tile
@@ -53,9 +54,9 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] IMAGE: FFT / IFFT
     - [ ] IMAGE: Color Gradient
     - [~] IMAGE: Noise generators
-        - [x] Simplex noise (take w/h + seed)
         - [ ] Gaussian noise
-        - [ ] Anisotropic noise
+        - [x] Simplex noise (take w/h + seed)
+        - [x] Anisotropic noise
     - [ ] ADJUSTMENTS
         - [ ] Opacity
         - [ ] Contrast
@@ -71,22 +72,21 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
     - [ ] Color ramp
-    - [ ] SOURCE: Perlin noise
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [ ] Hex2HSL introduce tinycolor
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
     - [~] IMAGE: Add different types of generators
-        - [~] IMAGE: Stripes (angle, width, fill, transition)
+        - [x] IMAGE: Stripes
         - [x] IMAGE: Checkers
         - [x] IMAGE: Rings
     - [~] IMAGE: Unary Operators
+        - [~] IMAGE: Canny
         - [x] IMAGE: Invert colors
         - [x] IMAGE: FlipX
         - [x] IMAGE: FlipY
         - [x] IMAGE: Grey
         - [x] IMAGE: Sepia
-        - [~] IMAGE: Canny
     - [~] IMAGE: Blend Modes
         - [ ] Dissolve
         - [ ] Darker Color
@@ -232,6 +232,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 --- Bugs / Performance
 
+- [ ] Review all components and apply change guards (don't process if inputs have not changed)
 - [ ] Introduce ndarray module in matrices etc.
 
 - [ ] State management seems to be the main bottleneck, general simplification of the state management seems to be necessary

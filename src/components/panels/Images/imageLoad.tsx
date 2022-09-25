@@ -23,11 +23,21 @@ const outputEndpoints = [{
     defaultValue: '',
     type: 'image',
     signal: 'Value'
+}, {
+    name: 'Width',
+    defaultValue: null,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Height',
+    defaultValue: null,
+    type: 'number',
+    signal: 'Value'
 }];
 
 const panelSizes = {
     ...defaultSizes,
-    height: 53
+    height: 95
 };
 
 const create = (panelId: number): Panel => {
@@ -37,20 +47,35 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="File" panelId={panelId} {...props}>File</InputEndpoint>
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
+            <div className="Row">
+                <OutputEndpoint name="Width" panelId={panelId} {...props}>Width</OutputEndpoint>
+            </div>
+            <div className="Row">
+                <OutputEndpoint name="Height" panelId={panelId} {...props}>Height</OutputEndpoint>
+            </div>
         </>;
     };
 
-    const execute = (panel, inputs) => {
-        console.log('execute imageLoad', inputs);
-        if (inputs.inputFile == '') return {
-            outputImage: null
-        };
+    const execute = (panel, values) => {
+        console.log('execute imageLoad', values);
+        if (values.inputFile == '') return { outputImage: null };
+
+        const hasFileChanged = (panel.outputEpValues.oldFile == null) || (values.inputFile != panel.outputEpValues.oldFile);
+
+        const hasChanged = hasFileChanged;
+
+        if (!hasChanged) return {};
 
         return Promise.resolve()
-            .then(() => System.readImageFile(inputs.inputFile))
+            .then(() => System.readImageFile(values.inputFile))
             .then((info) => Image.load(info.data))
             .then((outputImage) => {
-                return { outputImage };
+                return {
+                    oldFile: values.inputFile,
+                    outputImage,
+                    outputWidth: outputImage.width,
+                    outputHeight: outputImage.height
+                };
             });
     };
 

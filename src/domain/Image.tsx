@@ -21,7 +21,7 @@ const toImage = (contents) => {
     return {
         type: imageSym,
         contents,
-        toString: () => 'Image (${contents.width}x${contents.height})'
+        toString: () => 'Image (${contents.width}x${contents.height}x${contents.channels})'
     };
 };
 
