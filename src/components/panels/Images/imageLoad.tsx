@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Image } from 'image-js';
 
 import { Panel } from '../../../types/Panel';
+import { toImage } from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -69,12 +70,12 @@ const create = (panelId: number): Panel => {
         return Promise.resolve()
             .then(() => System.readImageFile(values.inputFile))
             .then((info) => Image.load(info.data))
-            .then((outputImage) => {
+            .then((loadedImage) => {
                 return {
                     oldFile: values.inputFile,
-                    outputImage,
-                    outputWidth: outputImage.width,
-                    outputHeight: outputImage.height
+                    outputImage: toImage(loadedImage),
+                    outputWidth: loadedImage.width,
+                    outputHeight: loadedImage.height
                 };
             });
     };

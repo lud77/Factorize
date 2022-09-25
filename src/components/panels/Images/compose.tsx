@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Image } from 'image-js';
 
+import { toImage } from '../../../domain/Image';
 import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
@@ -10,7 +11,7 @@ import defaultSizes from '../../Editor/Panel/defaultSizes';
 const panelType = 'Compose';
 
 const composeImage = (R, G, B, A) => {
-    const { width, height } = R;
+    const { width, height } = R.contents;
     const hasAlpha = A != null;
     const channels = 4;
 
@@ -21,19 +22,19 @@ const composeImage = (R, G, B, A) => {
         for (let y = 0; y < height; y++) {
             const i = (x + y * width);
             const o = i * channels;
-            data[o] = R.data[i];
-            data[o + 1] = G.data[i];
-            data[o + 2] = B.data[i];
-            data[o + 3] = hasAlpha ? A.data[i]: 255;
+            data[o] = R.contents.data[i];
+            data[o + 1] = G.contents.data[i];
+            data[o + 2] = B.contents.data[i];
+            data[o + 3] = hasAlpha ? A.contents.data[i]: 255;
         }
     }
 
-    return new Image({
+    return toImage(new Image({
         width,
         height,
         data,
         kind: 'RGBA'
-    });
+    }));
 };
 
 const inputEndpoints = [{

@@ -5,48 +5,51 @@ import ndarray from 'ndarray';
 import fft from 'ndarray-fft';
 import zeros from 'zeros';
 
+import { toImage } from './Image';
+
 const flipX = (image) => {
-    const result = image.clone();
-    return result.flipX();
+    const result = image.contents.clone();
+    return toImage(result.flipX());
 };
 
 const flipY = (image) => {
-    const result = image.clone();
-    return result.flipY();
+    const result = image.contents.clone();
+    return toImage(result.flipY());
 };
 
 const invert = (image) => {
-    const result = image.clone();
-    return result.invert();
+    const result = image.contents.clone();
+    return toImage(result.invert());
 };
 
 const rotate90 = (image) => {
-    const result = image.clone();
-    return result.rotate(90);
+    const result = image.contents.clone();
+    return toImage(result.rotate(90));
 };
 
 const rotate180 = (image) => {
-    const result = image.clone();
-    return result.rotate(180);
+    const result = image.contents.clone();
+    return toImage(result.rotate(180));
 };
 
 const rotate270 = (image) => {
-    const result = image.clone();
-    return result.rotate(270);
+    const result = image.contents.clone();
+    return toImage(result.rotate(270));
 };
 
 const grey = (image) => {
-    const result = image.clone();
-    return result.grey();
+    const result = image.contents.clone();
+    return toImage(result.grey());
 };
 
 const cannyEdge = (image) => {
-    const result = image.clone();
-    return result.cannyEdge();
+    const result = image.contents.clone();
+    return toImage(result.cannyEdge());
 };
 
 const fourier = (image) => {
-    const result = image.clone();
+    const result = image.contents.clone();
+
     const size = 2 ** Math.ceil(Math.log2(Math.max(result.width, result.height)));
     const real = ndarray(result.data, [size, size]);
     const imaginary = zeros([size, size])
@@ -55,11 +58,11 @@ const fourier = (image) => {
 
     result.data = real.data;
 
-    return result;
+    return toImage(result);
 };
 
 const inverseFourier = (image) => {
-    const result = image.clone();
+    const result = image.contents.clone();
 
     const real = ndarray(result.data, [result.width, result.height]);
     const imaginary = zeros([result.width, result.height])
@@ -68,15 +71,15 @@ const inverseFourier = (image) => {
 
     result.data = real.data;
 
-    return result;
+    return toImage(result);
 };
 
 const sepia = (image) => {
-    const clone = new Jimp(image);
+    const clone = new Jimp(image.contents);
 
     clone.sepia();
 
-    return new Image(image.width, image.height, clone.bitmap.data);
+    return toImage(new Image(image.width, image.height, clone.bitmap.data));
 };
 
 export {

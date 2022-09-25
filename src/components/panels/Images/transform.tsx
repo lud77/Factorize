@@ -76,11 +76,19 @@ const create = (panelId: number): Panel => {
 
         if (inputs.inputImage == null) return { outputImage: null };
 
+        const hasImageChanged = (panel.outputEpValues.oldImage == null) || (inputs.inputImage != panel.outputEpValues.oldImage);
+        const hasOperatorChanged = (panel.outputEpValues.oldOperator == null) || (inputs.tuningOperator != panel.outputEpValues.oldOperator);
+
+        const hasChanged = hasImageChanged;
+
+        if (!hasChanged) return {};
+
         const operatorName = inputs.tuningOperator || 'Flip Horizontally';
         if (!Operators[operatorName]) return { outputImage: null };
 
         const operatorFunc = Operators[operatorName];
         console.log('operatorFunc', operatorFunc);
+
         return Promise.resolve()
             .then(() => {
                 return ImageTransforms[operatorFunc](inputs.inputImage);
@@ -88,7 +96,7 @@ const create = (panelId: number): Panel => {
             .then((outputImage) => {
                 return {
                     outputImage,
-                    outputOperator: inputs.tuningOperator
+                    oldOperator: inputs.tuningOperator
                 };
             })
             .catch(() => {

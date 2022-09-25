@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
+import { toImage } from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -49,10 +50,19 @@ const create = (panelId: number): Panel => {
         console.log('execute rotate', inputs);
         if (!inputs.inputAngle || isNaN(inputs.inputAngle) || !inputs.inputImage) return { outputImage: inputs.inputImage };
 
+        const hasImageChanged = (panel.outputEpValues.oldImage == null) || (inputs.inputImage != panel.outputEpValues.oldImage);
+        const hasAngleChanged = (panel.outputEpValues.oldAngle == null) || (inputs.inputAngle != panel.outputEpValues.oldAngle);
+
+        const hasChanged =
+            hasImageChanged ||
+            hasAngleChanged;
+
+        if (!hasChanged) return {};
+
         return Promise.resolve()
-            .then(() => inputs.inputImage.rotate(parseInt(inputs.inputAngle), { interpolation: 'bilinear' }))
-            .then((outputImage) => {
-                return { outputImage };
+            .then(() => inputs.inputImage.contents.rotate(parseInt(inputs.inputAngle), { interpolation: 'bilinear' }))
+            .then((resultImage) => {
+                return { outputImage: toImage(resultImage) };
             });
     };
 

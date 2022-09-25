@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Image } from 'image-js';
 
 import { Panel } from '../../../types/Panel';
 import * as Matrix from '../../../domain/Matrix';
+import { toImage } from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -49,16 +49,29 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, inputs) => {
         console.log('execute convolution', inputs);
-        if (!inputs.inputKernel) return { outputImage: inputs.inputImage };
+        if (!inputs.inputKernel) return { outputImage: null };
 
         const mw = Matrix.getWidth(inputs.inputKernel);
         const mh = Matrix.getHeight(inputs.inputKernel);
-        if ((mw % 2 == 0) || (mh % 2 == 0) || !inputs.inputImage) return { outputImage: inputs.inputImage };
+        if ((mw % 2 == 0) || (mh % 2 == 0) || !inputs.inputImage) return { outputImage: null };
+
+        const hasImageChanged = (panel.outputEpValues.oldImage == null) || (inputs.inputImage != panel.outputEpValues.oldImage);
+        const hasKernelChanged = (panel.outputEpValues.oldKernel == null) || (inputs.inputKernel != panel.outputEpValues.oldKernel);
+
+        const hasChanged =
+            hasImageChanged ||
+            hasKernelChanged;
+
+        if (!hasChanged) return {};
 
         return Promise.resolve()
-            .then(() => inputs.inputImage.convolution(inputs.inputKernel.contents))
-            .then((outputImage) => {
-                return { outputImage };
+            .then(() => inputs.inputImage.contents.convolution(inputs.inputKernel.contents))
+            .then((resultImage) => {
+                return {
+                    oldImage: inputs.inputImage,
+                    oldKernel: inputs.inputKernel,
+                    outputImage: toImage(resultImage)
+                };
             });
     };
 

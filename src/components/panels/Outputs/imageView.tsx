@@ -83,7 +83,7 @@ const create = (panelId: number): Panel => {
 
         return {
             oldImage: inputs.inputImage,
-            imageData: inputs.inputImage ? inputs.inputImage.toDataURL() : ''
+            imageData: inputs.inputImage ? inputs.inputImage.contents.toDataURL() : ''
         };
     };
 

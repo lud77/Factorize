@@ -4,6 +4,7 @@ import { createNoise2D } from 'simplex-noise';
 import alea from 'alea';
 
 import { Panel } from '../../../types/Panel';
+import { toImage } from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -152,12 +153,12 @@ const create = (panelId: number): Panel => {
             }
         }
 
-        const outputImage = new Image({
+        const outputImage = toImage(new Image({
             width,
             height,
             data,
             kind: 'GREY'
-        });
+        }));
 
         return {
             oldSeed: seed,

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
+import { toImage } from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -77,8 +78,18 @@ const create = (panelId: number): Panel => {
         console.log('execute morphological operator', inputs);
 
         if (!inputs.inputIterations || isNaN(inputs.inputIterations) || !inputs.inputImage) return { outputImage: null };
-        if ((panel.outputEpValues.outputMorphologicalOperator == null) || (panel.outputEpValues.outputMorphologicalOperator == inputs.tuningMorphologicalOperator)) return { outputImage: null };
-        if (inputs.inputImage.components > 1) return { outputImage: null };
+        if (inputs.inputImage.contents.components > 1) return { outputImage: null };
+
+        const hasImageChanged = (panel.outputEpValues.oldImage == null) || (inputs.inputImage != panel.outputEpValues.oldImage);
+        const hasIterationsChanged = (panel.outputEpValues.oldIterations == null) || (inputs.inputIterations != panel.outputEpValues.oldIterations);
+        const hasOperatorChanged = (panel.outputEpValues.oldOperator == null) || (inputs.tuningMorphologicalOperator != panel.outputEpValues.oldOperator);
+
+        const hasChanged =
+            hasImageChanged ||
+            hasIterationsChanged ||
+            hasOperatorChanged;
+
+        if (!hasChanged) return {};
 
         const operatorName = inputs.tuningMorphologicalOperator || 'Dilate';
         if (!MorphologicalOperators[operatorName]) return { outputImage: null };
@@ -86,11 +97,13 @@ const create = (panelId: number): Panel => {
         const operatorFunc = MorphologicalOperators[operatorName];
 
         return Promise.resolve()
-            .then(() => inputs.inputImage[operatorFunc]({ iterations: parseInt(inputs.inputIterations) }))
-            .then((outputImage) => {
+            .then(() => inputs.inputImage.contents[operatorFunc]({ iterations: parseInt(inputs.inputIterations) }))
+            .then((resultImage) => {
                 return {
-                    outputImage,
-                    outputMorphologicalOperator: inputs.tuningMorphologicalOperator
+                    outputImage: toImage(resultImage),
+                    oldImage: inputs.inputImage,
+                    oldIterations: inputs.inputIterations,
+                    oldOperator: inputs.tuningMorphologicalOperator
                 };
             });
     };

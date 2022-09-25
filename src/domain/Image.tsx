@@ -21,37 +21,37 @@ const toImage = (contents) => {
     return {
         type: imageSym,
         contents,
-        toString: () => 'Image (${contents.width}x${contents.height}x${contents.channels})'
+        toString: () => `Image (${contents.width}x${contents.height}x${contents.colorModel}${contents.alpha ? 'α' : ''})`
     };
 };
 
 const printable = (image) => {
     return `\nImage info:\n` +
-        `Width: ${image.width}px\n` +
-        `Height: ${image.height}px\n` +
-        `Bit depth: ${image.bitDepth}px\n` +
-        `Color model: ${image.colorModels}px\n` +
-        `Has alpha: ${image.alpha ? true : false}px\n` +
+        `Width: ${image.contents.width}px\n` +
+        `Height: ${image.contents.height}px\n` +
+        `Bit depth: ${image.contents.bitDepth}px\n` +
+        `Color model: ${image.contents.colorModels}px\n` +
+        `Has alpha: ${image.contents.alpha ? true : false}px\n` +
         '---';
 };
 
 const getAlpha = (image, pixel) => {
-    if (!image.alpha) return 1;
+    if (!image.contents.alpha) return 1;
     return pixel[pixel.length - 1];
 };
 
 const setAlpha = (image, pixel, value) => {
-    if (!image.alpha) return;
+    if (!image.contents.alpha) return;
     pixel[pixel.length - 1] = value;
 };
 
 const getIndexFor = (image) => {
-    const width = image.width;
+    const width = image.contents.width;
     return (x, y) => y * width + x;
 };
 
 const copy = (source, base, x, y, opacity = 1) => {
-    const result = base.clone();
+    const result = base.contents.clone();
 
     const patchX = Math.max(0, x);
     const patchY = Math.max(0, y);
@@ -59,11 +59,11 @@ const copy = (source, base, x, y, opacity = 1) => {
     const sourceX = Math.max(0, -x);
     const sourceY = Math.max(0, -y);
 
-    const patchWidth = Math.min(source.width, base.width - x) - sourceX;
-    const patchHeight = Math.min(source.height, base.height - y) - sourceY;
+    const patchWidth = Math.min(source.contents.width, base.contents.width - x) - sourceX;
+    const patchHeight = Math.min(source.contents.height, base.contents.height - y) - sourceY;
     // console.log('blender', patchWidth, patchHeight, sourceWidth, sourceHeight, baseWidth);
 
-    const channelsToProcess = source.channels;
+    const channelsToProcess = source.contents.channels;
 
     const getSourceIndex = getIndexFor(source);
     const getBaseIndex = getIndexFor(base);
@@ -71,10 +71,10 @@ const copy = (source, base, x, y, opacity = 1) => {
     for (let i = 0; i < patchWidth; i++) {
         for (let j = 0; j < patchHeight; j++) {
             const sourcePixelNdx = getSourceIndex(i + sourceX, j + sourceY);
-            const sourcePixel = source.getPixel(sourcePixelNdx);
+            const sourcePixel = source.contents.getPixel(sourcePixelNdx);
 
             const basePixelNdx = getBaseIndex(i + patchX, j + patchY);
-            const basePixel = base.getPixel(basePixelNdx);
+            const basePixel = base.contents.getPixel(basePixelNdx);
 
             // if (i == 0) console.log('+-+-+', { sourcePixelNdx, basePixelNdx, sourcePixel, sourceAlpha, basePixel });
 
@@ -86,11 +86,11 @@ const copy = (source, base, x, y, opacity = 1) => {
         }
     }
 
-    return result;
+    return toImage(result);
 };
 
 const blend = (source, base, x, y, blendFunction, opacity = 1) => {
-    const result = base.clone();
+    const result = base.contents.clone();
 
     const patchX = Math.max(0, x);
     const patchY = Math.max(0, y);
@@ -98,14 +98,14 @@ const blend = (source, base, x, y, blendFunction, opacity = 1) => {
     const sourceX = Math.max(0, -x);
     const sourceY = Math.max(0, -y);
 
-    const patchWidth = Math.min(source.width, base.width - x) - sourceX;
-    const patchHeight = Math.min(source.height, base.height - y) - sourceY;
+    const patchWidth = Math.min(source.contents.width, base.contents.width - x) - sourceX;
+    const patchHeight = Math.min(source.contents.height, base.contents.height - y) - sourceY;
 
     // console.log('blender', patchWidth, patchHeight, sourceWidth, sourceHeight, baseWidth);
 
-    const channelsToProcess = source.channels - source.alpha;
-    const sourceMaxValue = 2 ** source.bitDepth - 1;
-    const baseMaxValue = 2 ** base.bitDepth - 1;
+    const channelsToProcess = source.contents.channels - source.contents.alpha;
+    const sourceMaxValue = 2 ** source.contents.bitDepth - 1;
+    const baseMaxValue = 2 ** base.contents.bitDepth - 1;
 
     const getSourceIndex = getIndexFor(source);
     const getBaseIndex = getIndexFor(base);
@@ -113,11 +113,11 @@ const blend = (source, base, x, y, blendFunction, opacity = 1) => {
     for (let i = 0; i < patchWidth; i++) {
         for (let j = 0; j < patchHeight; j++) {
             const sourcePixelNdx = getSourceIndex(i + sourceX, j + sourceY);
-            const sourcePixel = Vector.scalarProduct(source.getPixel(sourcePixelNdx), 1 / sourceMaxValue);
+            const sourcePixel = Vector.scalarProduct(source.contents.getPixel(sourcePixelNdx), 1 / sourceMaxValue);
             const sourceAlpha = getAlpha(source, sourcePixel) * opacity;
 
             const basePixelNdx = getBaseIndex(i + patchX, j + patchY);
-            const basePixel = base.getPixel(basePixelNdx);
+            const basePixel = base.contents.getPixel(basePixelNdx);
 
             // if (i == 0) console.log('+-+-+', { sourcePixelNdx, basePixelNdx, sourcePixel, sourceAlpha, basePixel });
 
@@ -134,7 +134,7 @@ const blend = (source, base, x, y, blendFunction, opacity = 1) => {
         }
     }
 
-    return result;
+    return toImage(result);
 };
 
 const empty = (width, height, bgcolor) => {
@@ -148,12 +148,12 @@ const empty = (width, height, bgcolor) => {
         data[i * 4 + 3] = bgcolor[3];
     }
 
-    return new Image({
+    return toImage(new Image({
         width,
         height,
         data,
         kind: 'RGBA'
-    });
+    }));
 };
 
 const patterned = (width, height, patternCbk) => {
@@ -172,12 +172,12 @@ const patterned = (width, height, patternCbk) => {
         }
     }
 
-    return new Image({
+    return toImage(new Image({
         width,
         height,
         data,
         kind: 'RGBA'
-    });
+    }));
 };
 
 const getTargetX = (hAnchor, newWidth, imWidth) => {
@@ -191,19 +191,19 @@ const getTargetY = (vAnchor, newHeight, imHeight) => {
 const resize = (image, newWidth, newHeight, hAnchor, vAnchor, bgcolor) => {
     const newImage = empty(newWidth, newHeight, bgcolor);
 
-    const targetX = getTargetX(hAnchor, newWidth, image.width);
-    const targetY = getTargetY(vAnchor, newHeight, image.height);
+    const targetX = getTargetX(hAnchor, newWidth, image.contents.width);
+    const targetY = getTargetY(vAnchor, newHeight, image.contents.height);
 
     return copy(image, newImage, targetX, targetY, 1);
 };
 
 const displace = (image, map, offset) => {
-    const imageClone = new Jimp(image);
-    const mapClone = new Jimp(map);
+    const imageClone = new Jimp(image.contents);
+    const mapClone = new Jimp(map.contents);
 
     imageClone.displace(mapClone, offset);
 
-    return new Image(image.width, image.height, imageClone.bitmap.data);
+    return toImage(new Image(image.width, image.height, imageClone.bitmap.data));
 };
 
 export {

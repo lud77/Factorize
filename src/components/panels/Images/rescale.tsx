@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
+import { toImage } from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -69,15 +70,15 @@ const create = (panelId: number): Panel => {
         if (!hasChanged) return {};
 
         return Promise.resolve()
-            .then(() => values.inputImage.resize({
+            .then(() => values.inputImage.contents.resize({
                 width,
                 height
             }))
-            .then((outputImage) => {
+            .then((resultImage) => {
                 return {
                     oldWidth: width,
                     oldHeight: height,
-                    outputImage
+                    outputImage: toImage(resultImage)
                 };
             });
     };

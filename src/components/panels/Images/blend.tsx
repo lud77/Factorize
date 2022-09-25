@@ -142,8 +142,7 @@ const create = (panelId: number): Panel => {
                     values.inputBase,
                     x, y,
                     blendFunction,
-                    values.inputOpacity,
-                    values.inputFill
+                    values.inputOpacity
                 );
             })
             .then((outputImage) => {

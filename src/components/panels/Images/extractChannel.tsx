@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Image } from 'image-js';
 
 import { Panel } from '../../../types/Panel';
-import * as Matrix from '../../../domain/Matrix';
+import { toImage } from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -51,10 +50,19 @@ const create = (panelId: number): Panel => {
         console.log('execute extract channel', inputs);
         if (!inputs.inputChannel || !inputs.inputImage) return { outputImage: null };
 
+        const hasImageChanged = (panel.outputEpValues.oldImage == null) || (inputs.inputImage != panel.outputEpValues.oldImage);
+        const hasChannelChanged = (panel.outputEpValues.oldChannel == null) || (inputs.inputChannel != panel.outputEpValues.oldChannel);
+
+        const hasChanged =
+            hasImageChanged ||
+            hasChannelChanged;
+
+        if (!hasChanged) return {};
+
         return Promise.resolve()
-            .then(() => inputs.inputImage.getChannel(inputs.inputChannel))
-            .then((outputImage) => {
-                return { outputImage };
+            .then(() => inputs.inputImage.contents.getChannel(inputs.inputChannel))
+            .then((resultImage) => {
+                return { outputImage: toImage(resultImage) };
             })
             .catch(() => {
                 return { outputImage: null };

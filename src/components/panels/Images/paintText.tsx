@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
 import { color2rgba } from '../../../utils/colors';
+import { toImage } from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -109,7 +110,7 @@ const create = (panelId: number): Panel => {
             values.inputAngle == null
         ) return { outputImage: null };
 
-        if (values.inputImage.colorModel != 'RGB') return { outputImage: null };
+        if (values.inputImage.contents.colorModel != 'RGB') return { outputImage: null };
 
         const color = color2rgba(values.inputColor);
 
@@ -142,7 +143,7 @@ const create = (panelId: number): Panel => {
 
         return Promise.resolve()
             .then(() => {
-                const result = values.inputImage.clone();
+                const result = values.inputImage.contents.clone();
 
                 result.paintLabels([values.inputLabel], [[x, y]], {
                     color,
@@ -150,7 +151,7 @@ const create = (panelId: number): Panel => {
                     rotate: angle
                 });
 
-                return result;
+                return toImage(result);
             })
             .then((outputImage) => {
                 return {

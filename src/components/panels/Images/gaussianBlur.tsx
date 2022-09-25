@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
+import { toImage } from '../../../domain/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -49,10 +50,19 @@ const create = (panelId: number): Panel => {
         console.log('execute gaussianBlur', inputs);
         if (!inputs.inputRadius || isNaN(inputs.inputRadius) || !inputs.inputImage) return { outputImage: null };
 
+        const hasImageChanged = (panel.outputEpValues.oldImage == null) || (inputs.inputImage != panel.outputEpValues.oldImage);
+        const hasRadiusChanged = (panel.outputEpValues.oldRadius == null) || (inputs.inputRadius != panel.outputEpValues.oldRadius);
+
+        const hasChanged =
+            hasImageChanged ||
+            hasRadiusChanged;
+
+        if (!hasChanged) return {};
+
         return Promise.resolve()
-            .then(() => inputs.inputImage.gaussianFilter({ radius: parseInt(inputs.inputRadius) }))
-            .then((outputImage) => {
-                return { outputImage };
+            .then(() => inputs.inputImage.contents.gaussianFilter({ radius: parseInt(inputs.inputRadius) }))
+            .then((resultImage) => {
+                return { outputImage: toImage(resultImage) };
             });
     };
 
