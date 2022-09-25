@@ -73,10 +73,10 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Scale" panelId={panelId} signal="Value" editable={true} {...props}>Scale</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="OffsetX" panelId={panelId} signal="Value" editable={true} {...props}>Offset X</InputEndpoint>
+                <InputEndpoint name="OffsetX" panelId={panelId} signal="Value" editable={true} {...props}>X Offset</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="OffsetY" panelId={panelId} signal="Value" editable={true} {...props}>Offset Y</InputEndpoint>
+                <InputEndpoint name="OffsetY" panelId={panelId} signal="Value" editable={true} {...props}>Y Offset</InputEndpoint>
             </div>
         </>;
     };

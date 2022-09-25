@@ -73,44 +73,18 @@ const create = (panelId: number): Panel => {
     const execute = (panel, inputs, { setPanelCoords }) => {
         console.log('execute imageView', inputs);
 
-        if (!inputs.inputImage) {
+        if (!inputs.inputImage) return { imageData: '' };
 
-            // flushSync(() => {
-            //     setPanelCoords((panelCoords) => {
-            //         const updatePanelCoords = panelCoords[panel.panelId];
+        const hasImageChanged = (panel.outputEpValues.oldImage == null) || (inputs.inputImage != panel.outputEpValues.oldImage);
 
-            //         return {
-            //             ...panelCoords,
-            //             [panel.panelId]: {
-            //                 ...updatePanelCoords,
-            //                 height: 53,
-            //                 minHeight: 53,
-            //                 resizer: 'none'
-            //             }
-            //         };
-            //     });
-            // });
+        const hasChanged = hasImageChanged;
 
-            return { imageData: '' };
-        }
+        if (!hasChanged) return {};
 
-        // flushSync(() => {
-        //     setPanelCoords((panelCoords) => {
-        //         const updatePanelCoords = panelCoords[panel.panelId];
-
-        //         return {
-        //             ...panelCoords,
-        //             [panel.panelId]: {
-        //                 ...updatePanelCoords,
-        //                 height: 200,
-        //                 minHeight: 200,
-        //                 resizer: 'both'
-        //             }
-        //         };
-        //     });
-        // });
-
-        return { imageData: inputs.inputImage ? inputs.inputImage.toDataURL() : '' };
+        return {
+            oldImage: inputs.inputImage,
+            imageData: inputs.inputImage ? inputs.inputImage.toDataURL() : ''
+        };
     };
 
     return {
