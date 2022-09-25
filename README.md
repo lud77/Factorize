@@ -12,6 +12,14 @@ To send a message to a socket-listener panel, use:
 where XXXX is the name of the panel's channel and YYYY is the actual message
 
 
+--- Third party libraries
+
+Some of the functionality in certain areas is provided by third party libraries, in particular:
+    - Math.js for the function parsing and processing
+    - image-js and jimp for image manipulation
+    - ndarray for multidimensional array manipulation
+
+
 --- Refactoring
 
 - [ ] Rename ComboBox component to something better (SearchBox? PanelCreator? PanelSelector?)
@@ -37,7 +45,6 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
 
 --- Engine
 
-- [ ] Can we introduce jimp as well? Is it interoperable with image-js? what would it add?
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
@@ -189,6 +196,7 @@ where XXXX is the name of the panel's channel and YYYY is the actual message
     - [x] EVENTS: Emit on file change
     - [x] EVENTS: Socket: socket listener, together with CLI tool to connect and send messages
     - [x] EVENTS: Accumulator
+- [x] Can we introduce jimp as well? Is it interoperable with image-js? what would it add?
 - [x] Introduce Pulse-type signals
 - [x] Introduce Sources panel palette
 
