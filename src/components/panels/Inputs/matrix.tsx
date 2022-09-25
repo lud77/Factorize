@@ -102,10 +102,10 @@ const create = (panelId: number): Panel => {
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         {
                             props.panel.outputEpValues.outputMatrix.contents.map((row, i) => (
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div key={i} style={{ display: 'flex', flexDirection: 'row' }}>
                                     {
                                         row.map((cell, j) => (
-                                            <input type="number" step="any" defaultValue={cell} onChange={updateCell(i, j)} style={{ width: '50px' }} />
+                                            <input key={`${i}-${j}`} type="number" step="any" defaultValue={cell} onChange={updateCell(i, j)} style={{ width: '50px' }} />
                                         ))
                                     }
                                 </div>

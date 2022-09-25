@@ -82,6 +82,7 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] Simplex noise (take w/h + seed)
         - [x] Anisotropic noise
     - [~] ADJUSTMENTS
+        - [ ] Posterize
         - [x] Contrast
         - [x] Brightness
         - [x] Saturation
@@ -89,7 +90,6 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] Lighten
         - [x] Darken
         - [x] Fade
-        - [ ] Posterize
     - [x] TEXTURES: Add different types of generators
         - [x] IMAGE: Stripes
         - [x] IMAGE: Checkers
