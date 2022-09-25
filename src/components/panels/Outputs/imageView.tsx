@@ -73,7 +73,7 @@ const create = (panelId: number): Panel => {
     const execute = (panel, inputs, { setPanelCoords }) => {
         console.log('execute imageView', inputs);
 
-        if (!inputs.inputImage) return { imageData: '' };
+        if (!inputs.inputImage) return { oldImage: null, imageData: '' };
 
         const hasImageChanged = (panel.outputEpValues.oldImage == null) || (inputs.inputImage != panel.outputEpValues.oldImage);
 

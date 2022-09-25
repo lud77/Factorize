@@ -10,6 +10,7 @@ import CopyImage from './copyImage';
 import PaintText from './paintText';
 import Blend from './blend';
 import Transform from './transform';
+import ColorAdjust from './colorAdjust';
 import Morphology from './morphology';
 import ExtractChannel from './extractChannel';
 import Compose from './compose';
@@ -27,6 +28,7 @@ export default {
     PaintText,
     Blend,
     Transform,
+    ColorAdjust,
     Morphology,
     ExtractChannel,
     Compose

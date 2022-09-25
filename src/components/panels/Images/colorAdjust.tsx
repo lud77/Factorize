@@ -1,18 +1,23 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import * as ImageTransforms from '../../../domain/ImageTransforms';
+import * as ColorAdjustments from '../../../domain/ColorAdjustments';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
-const panelType = 'Transform';
+const panelType = 'ColorAdjust';
 
 const inputEndpoints = [{
     name: 'Image',
     defaultValue: null,
     type: 'image',
+    signal: 'Value'
+}, {
+    name: 'Amount',
+    defaultValue: 100,
+    type: 'number',
     signal: 'Value'
 }];
 
@@ -25,21 +30,18 @@ const outputEndpoints = [{
 
 const panelSizes = {
     ...defaultSizes,
-    height: 74
+    height: 95
 };
 
 const Operators = {
-    'Flip Horizontally': 'flipX',
-    'Flip Vertically': 'flipY',
-    'Rotate 90° CW': 'rotate90',
-    'Rotate 180°': 'rotate180',
-    'Rotate 90° CCW': 'rotate270',
-    'Invert colors': 'invert',
-    'Grey': 'grey',
-    'Sepia': 'sepia',
-    // 'Canny': 'cannyEdge',
-    // 'FFT': 'fourier',
-    // 'Inverse FFT': 'inverseFourier'
+    'Brightness': 'brightness',
+    'Contrast': 'contrast',
+    'Saturation': 'saturation',
+    'Hue': 'hue',
+    'Lighten': 'lighten',
+    'Darken': 'darken',
+    // 'Posterize': 'posterize',
+    'Fade': 'fade'
 };
 
 const create = (panelId: number): Panel => {
@@ -55,7 +57,7 @@ const create = (panelId: number): Panel => {
                 <div className="InteractiveItem">
                     <select
                         onChange={handleChange(props)}
-                        defaultValue={ props.panel.outputEpValues.outputOperator || 'Flip Horizontally' }
+                        defaultValue={ props.panel.outputEpValues.outputOperator || 'Lighten' }
                         style={{ width: '100%', borderRadius: '5px', border: 'none' }}
                         >
                         {
@@ -68,22 +70,26 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Image" panelId={panelId} {...props}>Image</InputEndpoint>
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
+            <div className="Row">
+                <InputEndpoint name="Amount" panelId={panelId} editable={true} {...props}>Amount</InputEndpoint>
+            </div>
         </>;
     };
 
     const execute = (panel, inputs) => {
         console.log('execute operator', inputs);
 
-        if (inputs.inputImage == null) return { outputImage: null };
+        if (inputs.inputImage == null || inputs.inputAmount == null) return { outputImage: null };
 
         const hasImageChanged = (panel.outputEpValues.oldImage == null) || (inputs.inputImage != panel.outputEpValues.oldImage);
+        const hasAmountChanged = (panel.outputEpValues.oldAmount == null) || (inputs.inputAmount != panel.outputEpValues.oldAmount);
         const hasOperatorChanged = (panel.outputEpValues.oldOperator == null) || (inputs.tuningOperator != panel.outputEpValues.oldOperator);
 
-        const hasChanged = hasImageChanged || hasOperatorChanged;
+        const hasChanged = hasImageChanged || hasAmountChanged || hasOperatorChanged;
 
         if (!hasChanged) return {};
 
-        const operatorName = inputs.tuningOperator || 'Flip Horizontally';
+        const operatorName = inputs.tuningOperator || 'Lighten';
         if (!Operators[operatorName]) return { outputImage: null };
 
         const operatorFunc = Operators[operatorName];
@@ -91,12 +97,13 @@ const create = (panelId: number): Panel => {
 
         return Promise.resolve()
             .then(() => {
-                return ImageTransforms[operatorFunc](inputs.inputImage);
+                return ColorAdjustments[operatorFunc](inputs.inputImage, inputs.inputAmount);
             })
             .then((outputImage) => {
                 return {
                     outputImage,
                     oldImage: inputs.inputImage,
+                    oldAmount: inputs.inputAmount,
                     oldOperator: inputs.tuningOperator
                 };
             })
@@ -119,7 +126,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['image', 'picture', 'effect', 'flip', 'vertical', 'horizontal', 'invert', 'reverse', 'sepia', 'grey'],
+    tags: ['image', 'picture', 'effect', 'level'],
     inputEndpoints,
     outputEndpoints,
     ...panelSizes

@@ -53,21 +53,15 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] Add turbulence input to generators
     - [ ] IMAGE: Threshold
     - [ ] IMAGE: Heightmap
-    - [ ] IMAGE: Tile
+    - [ ] TILES: Tile
     - [ ] IMAGE: Path
     - [ ] IMAGE: Shape / Polygon
     - [ ] IMAGE: Polyline
     - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: FFT / IFFT
-    - [ ] IMAGE: Color Gradient
-    - [~] IMAGE: Noise generators
-        - [ ] Gaussian noise
-        - [x] Simplex noise (take w/h + seed)
-        - [x] Anisotropic noise
-    - [ ] ADJUSTMENTS
-        - [ ] Opacity
-        - [ ] Contrast
-        - [ ] Luminosity
+    - [ ] TEXTURES: Color Gradient
+    - [ ] IMAGE: Pixelate
+    - [ ] IMAGE: Mix?
     - [ ] IMAGE: Crop
     - [ ] IMAGE: Translate
     - [ ] IMAGE: ImageSave
@@ -83,7 +77,20 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [ ] Hex2HSL introduce tinycolor
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
-    - [~] IMAGE: Add different types of generators
+    - [~] TEXTURES: Noise generators
+        - [ ] Gaussian noise
+        - [x] Simplex noise (take w/h + seed)
+        - [x] Anisotropic noise
+    - [~] ADJUSTMENTS
+        - [x] Contrast
+        - [x] Brightness
+        - [x] Saturation
+        - [x] Hue
+        - [x] Lighten
+        - [x] Darken
+        - [x] Fade
+        - [ ] Posterize
+    - [x] TEXTURES: Add different types of generators
         - [x] IMAGE: Stripes
         - [x] IMAGE: Checkers
         - [x] IMAGE: Rings

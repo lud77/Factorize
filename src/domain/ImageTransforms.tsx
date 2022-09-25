@@ -75,11 +75,11 @@ const inverseFourier = (image) => {
 };
 
 const sepia = (image) => {
-    const clone = new Jimp(image.contents);
+    const result = new Jimp(image.contents.clone());
 
-    clone.sepia();
+    result.sepia();
 
-    return toImage(new Image(image.width, image.height, clone.bitmap.data));
+    return toImage(new Image(image.contents.width, image.contents.height, result.bitmap.data));
 };
 
 export {
@@ -91,7 +91,7 @@ export {
     rotate90,
     rotate180,
     rotate270,
-    sepia,
+    sepia
     // fourier,
     // inverseFourier
 };
