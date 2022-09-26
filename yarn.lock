@@ -10882,6 +10882,11 @@ react-color-eye-dropper@^1.0.1:
     html2canvas "^1.4.1"
     robofox-react-portal "^1.0.1"
 
+react-color-gradient-picker@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-color-gradient-picker/-/react-color-gradient-picker-0.1.2.tgz#e98cbae82e5b043f41e4d3e8c75d436981a9a6aa"
+  integrity sha512-/woJfVZbp/lEwqdNfk/vxmuUj7K9imyF6C5mrsfvwvtF1uFr7THHRyEDPLZd4mD9N3opPl6Z7G7SZrFQ8qBq9w==
+
 react-dev-utils@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-8.0.0.tgz#7c5b227a45a32ea8ff7fbc318f336cf9e2c6e34c"

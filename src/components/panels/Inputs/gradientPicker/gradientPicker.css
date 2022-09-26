@@ -1,0 +1,15 @@
+.GradientPicker > div > div > div > div {
+	width: 250px !important;
+}
+
+.GradientPicker > div > div > div:nth-child(2) > div > div > div {
+	top: -4px !important;
+}
+
+.GradientPicker > div > div > div:nth-child(3) > div > div > div:nth-child(1) {
+	top: -4px !important;
+}
+
+.GradientPicker > div > div > div:nth-child(4) > div > div {
+	color: #aaa !important;
+}

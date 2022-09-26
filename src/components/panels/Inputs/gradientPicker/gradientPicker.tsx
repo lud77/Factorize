@@ -8,10 +8,10 @@ import InputEndpoint from '../../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../../Editor/Panel/defaultSizes';
 
+// import './gradientPicker.css';
 import 'react-color-gradient-picker/dist/index.css';
-import './colorPicker.css';
 
-const panelType = 'ColorPicker';
+const panelType = 'GradientPicker';
 
 const inputEndpoints = [];
 
@@ -25,36 +25,23 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 255,
-    height: 330
-};
-
-const toAttrs = (hex) => {
-    const rgb = tinycolor(hex).toRgb();
-
-    return {
-        red: rgb.r,
-        green: rgb.g,
-        blue: rgb.b,
-        alpha: rgb.a
-    };
-};
-
-const fromAttrs = (attrs) => {
-    return {
-        r: attrs.red,
-        g: attrs.green,
-        b: attrs.blue,
-        a: attrs.alpha
-    };
+    height: 300
 };
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
-        const [color, setColor] = React.useState('#ffff');
+        const [color, setColor] = React.useState('#0000');
+
+        const ColorPickerHook = useColorPicker(color, setColor);
+
+        // React.useEffect(() => {
+        //     console.log('test');
+        //     // setGradient();
+        // }, []);
 
         const handleChange = ({ panel, machine }) => (color) => {
-            console.log('color', color);
-            machine.executePanelLogic(panelId, { tuningColor: tinycolor(fromAttrs(color)).toHex8String() });
+            console.log('handle change');
+            machine.executePanelLogic(panelId, { tuningColor: tinycolor(color).toHex8String() });
             setColor(color);
 
             return true;
@@ -62,12 +49,15 @@ const create = (panelId: number): Panel => {
 
         return <>
             <div className="Row">
-                <div className="InteractiveItem ColorPicker">
+                <div className="InteractiveItem GradientPicker">
                     <ColorPicker
-                        color={toAttrs(color)}
-                        onStartChange={handleChange(props)}
+                        value={color}
                         onChange={handleChange(props)}
-                        onEndChange={handleChange(props)}
+                        width={250}
+                        height={100}
+                        hideControls={true}
+                        hidePresets={true}
+                        hideEyeDrop={true}
                         />
                 </div>
             </div>

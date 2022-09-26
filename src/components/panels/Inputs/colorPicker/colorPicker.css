@@ -1,4 +1,4 @@
-.ColorPicker > div > div > div > div {
+/* .ColorPicker > div > div > div > div {
 	width: 250px !important;
 }
 
@@ -12,4 +12,31 @@
 
 .ColorPicker > div > div > div:nth-child(4) > div > div {
 	color: #aaa !important;
+} */
+
+
+.ColorPicker .ui-color-picker {
+    background-color: transparent;
+	margin: 0px;
+	width: 250px;
+}
+
+.ColorPicker .ui-color-picker .picker-area {
+	padding: 0px;
+}
+
+.ColorPicker .ui-color-picker .picker-area .preview .color-hue-alpha .alpha .alpha-area {
+	background-color: #fff;
+}
+
+.ColorPicker .ui-color-picker .picker-area .picking-area .picking-area-overlay1 {
+	border-radius: 9px;
+}
+
+.ColorPicker .ui-color-picker .color-preview-area {
+	padding: 0px;
+}
+
+.ColorPicker .input-field .label {
+	color: #aaa;
 }
