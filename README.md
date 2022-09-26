@@ -49,6 +49,7 @@ Some of the functionality in certain areas is provided by third party libraries,
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] Add features to manipulate channels
     - [ ] Threejs renderer panel (decide format for scene data type)
     - [ ] Add turbulence input to generators
     - [ ] IMAGE: Threshold
@@ -130,8 +131,8 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] Divide
     - [~] Stdin/Stdout/Stderr
         - [ ] Stdin
-        - [x] Stdout
         - [ ] Stderr?
+        - [x] Stdout
     - [~] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
         - [x] Basic Array panel (List)
             - [x] Add Pop, Shift, Unshift pins
