@@ -1,4 +1,6 @@
 import * as React from 'react';
+import ColorPicker from 'react-best-gradient-color-picker';
+import tinycolor from 'tinycolor2';
 
 import { Panel } from '../../../../types/Panel';
 
@@ -13,47 +15,52 @@ const panelType = 'ColorPicker';
 const inputEndpoints = [];
 
 const outputEndpoints = [{
-    name: 'Hex',
-    defaultValue: '#ffffff',
+    name: 'Color',
+    defaultValue: '#ffff',
     type: 'string',
     signal: 'Value'
 }];
 
 const panelSizes = {
     ...defaultSizes,
-    height: 84
+    width: 255,
+    height: 260
 };
 
 const create = (panelId: number): Panel => {
-    const handleChange = ({ panel, machine }) => (e) => {
-        console.log('new color', e.target.value);
-        machine.executePanelLogic(panelId, { tuningColor: e.target.value });
-
-        return true;
-    };
-
     const Component = (props) => {
+        const [color, setColor] = React.useState('rgba(255,255,255,1)');
+
+        const handleChange = ({ panel, machine }) => (color) => {
+            machine.executePanelLogic(panelId, { tuningColor: tinycolor(color).toHex8String() });
+            setColor(color);
+
+            return true;
+        };
+
         return <>
             <div className="Row">
-                <div className="InteractiveItem">
-                    <div className="ColorPicker">
-                        <input
-                            type="color"
-                            onChange={handleChange(props)}
-                            value={ props.panel.outputEpValues.outputHex }
-                            />
-                    </div>
+                <div className="InteractiveItem ColorPicker">
+                    <ColorPicker
+                        value={color}
+                        onChange={handleChange(props)}
+                        width={250}
+                        height={100}
+                        hideControls={true}
+                        hidePresets={true}
+                        hideEyeDrop={true}
+                        />
                 </div>
             </div>
             <div className="Row">
-                <OutputEndpoint name="Hex" panelId={panelId} {...props}>Hex</OutputEndpoint>
+                <OutputEndpoint name="Color" panelId={panelId} {...props}>Color</OutputEndpoint>
             </div>
         </>;
     };
 
     const execute = (panel, inputs) => {
         return {
-            outputHex: inputs.tuningColor
+            outputColor: inputs.tuningColor
         };
     };
 

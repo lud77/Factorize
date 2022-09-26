@@ -1,12 +1,15 @@
-.ColorPicker input[type="color"] {
-	appearance: none;
-	border: none;
+.ColorPicker > div > div > div > div {
+	width: 250px !important;
 }
 
-.ColorPicker input[type="color"]::-webkit-color-swatch-wrapper {
-	padding: 0;
+.ColorPicker > div > div > div:nth-child(2) > div > div > div {
+	top: -4px !important;
 }
 
-.ColorPicker input[type="color"]::-webkit-color-swatch {
-	border: none;
+.ColorPicker > div > div > div:nth-child(3) > div > div > div:nth-child(1) {
+	top: -4px !important;
+}
+
+.ColorPicker > div > div > div:nth-child(4) > div > div {
+	color: #aaa !important;
 }
