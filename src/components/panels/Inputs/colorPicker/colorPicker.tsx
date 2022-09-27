@@ -3,6 +3,7 @@ import { ColorPicker } from 'react-color-gradient-picker';
 import tinycolor from 'tinycolor2';
 
 import { Panel } from '../../../../types/Panel';
+import { toAttrs, fromAttrs } from '../../../../utils/colors';
 
 import InputEndpoint from '../../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../../Editor/Panel/OutputEndpoint';
@@ -28,32 +29,11 @@ const panelSizes = {
     height: 330
 };
 
-const toAttrs = (hex) => {
-    const rgb = tinycolor(hex).toRgb();
-
-    return {
-        red: rgb.r,
-        green: rgb.g,
-        blue: rgb.b,
-        alpha: rgb.a
-    };
-};
-
-const fromAttrs = (attrs) => {
-    return {
-        r: attrs.red,
-        g: attrs.green,
-        b: attrs.blue,
-        a: attrs.alpha
-    };
-};
-
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         const [color, setColor] = React.useState('#ffff');
 
         const handleChange = ({ panel, machine }) => (color) => {
-            console.log('color', color);
             machine.executePanelLogic(panelId, { tuningColor: tinycolor(fromAttrs(color)).toHex8String() });
             setColor(color);
 

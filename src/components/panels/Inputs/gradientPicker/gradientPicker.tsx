@@ -3,46 +3,63 @@ import { ColorPicker } from 'react-color-gradient-picker';
 import tinycolor from 'tinycolor2';
 
 import { Panel } from '../../../../types/Panel';
+import { toAttrs, fromAttrs } from '../../../../utils/colors';
 
 import InputEndpoint from '../../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../../Editor/Panel/defaultSizes';
 
-// import './gradientPicker.css';
 import 'react-color-gradient-picker/dist/index.css';
+import './gradientPicker.css';
 
 const panelType = 'GradientPicker';
 
 const inputEndpoints = [];
 
+const toGradientPoint = (color, step) => {
+    return {
+        left: step,
+        ...toAttrs(color)
+    };
+};
+
+const toOutputPoint = (gradientPoint) => {
+    return [
+        fromAttrs(gradientPoint),
+        gradientPoint.left
+    ];
+};
+
+const makeGradient = (points) => {
+    return {
+        points: points.map(([ color, step ]) => toGradientPoint(color, step)),
+        degree: 0,
+        type: 'linear'
+    };
+};
+
+const defaultGradient = makeGradient([['#000f', 0], ['#ffff', 100]]);
+
 const outputEndpoints = [{
-    name: 'Color',
-    defaultValue: '#ffff',
-    type: 'string',
+    name: 'Gradient',
+    defaultValue: defaultGradient,
+    type: 'array',
     signal: 'Value'
 }];
 
 const panelSizes = {
     ...defaultSizes,
     width: 255,
-    height: 300
+    height: 350
 };
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
-        const [color, setColor] = React.useState('#0000');
+        const [gradient, setGradient] = React.useState(defaultGradient);
 
-        const ColorPickerHook = useColorPicker(color, setColor);
-
-        // React.useEffect(() => {
-        //     console.log('test');
-        //     // setGradient();
-        // }, []);
-
-        const handleChange = ({ panel, machine }) => (color) => {
-            console.log('handle change');
-            machine.executePanelLogic(panelId, { tuningColor: tinycolor(color).toHex8String() });
-            setColor(color);
+        const handleChange = ({ panel, machine }) => (gradient) => {
+            machine.executePanelLogic(panelId, { tuningGradient: gradient.points.map(toOutputPoint) });
+            setGradient(gradient);
 
             return true;
         };
@@ -51,25 +68,23 @@ const create = (panelId: number): Panel => {
             <div className="Row">
                 <div className="InteractiveItem GradientPicker">
                     <ColorPicker
-                        value={color}
+                        gradient={gradient}
+                        onStartChange={handleChange(props)}
                         onChange={handleChange(props)}
-                        width={250}
-                        height={100}
-                        hideControls={true}
-                        hidePresets={true}
-                        hideEyeDrop={true}
+                        onEndChange={handleChange(props)}
+                        isGradient
                         />
                 </div>
             </div>
             <div className="Row">
-                <OutputEndpoint name="Color" panelId={panelId} {...props}>Color</OutputEndpoint>
+                <OutputEndpoint name="Gradient" panelId={panelId} {...props}>Gradient</OutputEndpoint>
             </div>
         </>;
     };
 
     const execute = (panel, inputs) => {
         return {
-            outputColor: inputs.tuningColor
+            outputGradient: inputs.tuningGradient
         };
     };
 

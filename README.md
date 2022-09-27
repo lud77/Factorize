@@ -60,7 +60,7 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] IMAGE: Polyline
     - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: FFT / IFFT
-    - [ ] TEXTURES: Color Gradient
+    - [ ] TEXTURES: Gradient
     - [ ] IMAGE: Pixelate
     - [ ] IMAGE: Mix?
     - [ ] IMAGE: Crop
@@ -140,6 +140,7 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] INPUTS: Gradient Picker
     - [x] Introduce tinycolor in components with hex input
     - [x] IMAGE: Resize
     - [x] IMAGE: Combine Channels

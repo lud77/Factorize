@@ -94,9 +94,31 @@ const rgb2hsl = (rgb: number[] | null) => {
 
 const hex2hsl = (hex: string) => rgb2hsl(hex2rgba(hex));
 
+const toAttrs = (hex) => {
+    const rgb = tinycolor(hex).toRgb();
+
+    return {
+        red: rgb.r,
+        green: rgb.g,
+        blue: rgb.b,
+        alpha: rgb.a
+    };
+};
+
+const fromAttrs = (attrs) => {
+    return {
+        r: attrs.red,
+        g: attrs.green,
+        b: attrs.blue,
+        a: attrs.alpha
+    };
+};
+
 export {
     color2rgba,
     hex2rgba,
     rgb2hsl,
-    hex2hsl
+    hex2hsl,
+    toAttrs,
+    fromAttrs
 };
