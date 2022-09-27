@@ -29,9 +29,9 @@ const printable = (image) => {
     return `\nImage info:\n` +
         `Width: ${image.contents.width}px\n` +
         `Height: ${image.contents.height}px\n` +
-        `Bit depth: ${image.contents.bitDepth}px\n` +
-        `Color model: ${image.contents.colorModels}px\n` +
-        `Has alpha: ${image.contents.alpha ? true : false}px\n` +
+        `Bit depth: ${image.contents.bitDepth}\n` +
+        `Color model: ${image.contents.colorModels}\n` +
+        `Has alpha: ${image.contents.alpha ? true : false}\n` +
         '---';
 };
 
