@@ -48,7 +48,7 @@ const inputEndpoints = [{
     signal: 'Value'
 }, {
     name: 'Background',
-    defaultValue: '#0000',
+    defaultValue: '#000f',
     type: 'string',
     signal: 'Value'
 }];
@@ -161,7 +161,7 @@ const create = (panelId: number): Panel => {
 
         if (!hasChanged) return {};
 
-        const outputImage = Image.patterned(width, height, patternFunction(hPeriod, vPeriod, offsetX, offsetY, color, bgcolor));
+        const outputImage = Image.generatePattern(width, height, patternFunction(hPeriod, vPeriod, offsetX, offsetY, color, bgcolor));
 
         return {
             oldForeground: values.inputForeground,

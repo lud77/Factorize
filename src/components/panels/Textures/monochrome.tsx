@@ -8,7 +8,7 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
-const panelType = 'EmptyImage';
+const panelType = 'Monochrome';
 
 const inputEndpoints = [{
     name: 'Width',

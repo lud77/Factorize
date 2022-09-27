@@ -156,7 +156,7 @@ const empty = (width, height, bgcolor) => {
     }));
 };
 
-const patterned = (width, height, patternCbk) => {
+const generatePattern = (width, height, patternCbk) => {
     const size = width * height;
     const data = new Uint8ClampedArray(size * 4);
 
@@ -213,7 +213,7 @@ export {
     blend,
     copy,
     empty,
-    patterned,
+    generatePattern,
     resize,
     displace,
     hAnchorMultiplier,
