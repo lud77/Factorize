@@ -16,12 +16,18 @@ const linear = (offsetX, offsetY, angle, length, gradient) => {
 
     const stepNum = steps.length - 1;
 
+    const cosa = Math.cos(Math.PI * angle / 180);
+    const sina = Math.sin(Math.PI * angle / 180);
+
     return (x, y) => {
         const ox = x - offsetX;
         const oy = y - offsetY;
 
-        if (ox < 0) return beforeColor;
-        if (ox >= length) return afterColor;
+        const ax = cosa * ox - sina * oy;
+        const ay = sina * ox + cosa * oy;
+
+        if (ax < 0) return beforeColor;
+        if (ax >= length) return afterColor;
 
         let prev = -1;
         let delta = -1;
@@ -29,7 +35,7 @@ const linear = (offsetX, offsetY, angle, length, gradient) => {
         let succColor = colors[1];
 
         for (let s = 1; s <= stepNum; s++) {
-            if (steps[s] > ox) {
+            if (steps[s] > ax) {
                 prev = steps[s - 1];
                 prevColor = colors[s - 1];
                 succColor = colors[s];
@@ -39,7 +45,7 @@ const linear = (offsetX, offsetY, angle, length, gradient) => {
             }
         }
 
-        const fraction = (ox - prev) / delta;
+        const fraction = (ax - prev) / delta;
         return Vector.sum(Vector.scalarProduct(prevColor, 1 - fraction), Vector.scalarProduct(succColor, fraction));
     }
 };
