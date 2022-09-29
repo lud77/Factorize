@@ -65,7 +65,6 @@ const panelSizes = {
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         const [gradient, setGradient] = React.useState(defaultGradient);
-        console.log('component', gradient);
 
         const handleChange = ({ panel, machine }) => (newGradient) => {
             machine.executePanelLogic(panelId, { tuningGradient: fixGradient(newGradient) });
@@ -79,9 +78,9 @@ const create = (panelId: number): Panel => {
                 <div className="InteractiveItem GradientPicker">
                     <ColorPicker
                         gradient={gradient}
-                        // onStartChange={handleChange(props)}
+                        onStartChange={handleChange(props)}
                         onChange={handleChange(props)}
-                        // onEndChange={handleChange(props)}
+                        onEndChange={handleChange(props)}
                         isGradient
                         />
                 </div>
@@ -95,8 +94,6 @@ const create = (panelId: number): Panel => {
     const execute = (panel, inputs) => {
         console.log('execute gradientPicker', inputs);
         if (inputs.tuningGradient == null) return {};
-
-        console.log('gradientPicker 1');
         return { outputGradient: inputs.tuningGradient };
     };
 
