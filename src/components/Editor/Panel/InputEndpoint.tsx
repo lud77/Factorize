@@ -60,6 +60,12 @@ export default (props) => {
         props.machine.executePanelLogic(props.panel.panelId, { [`input${props.name}`]: e.target.value });
     };
 
+    const editing = (e) => {
+        e.stopPropagation();
+
+        if (e.key === "Enter") finishEditing(props)(e);
+    };
+
     // console.log('+++++++++++++++++++', ep, props.panel.inputSignalByEp[ep]);
 
     const style = {
@@ -102,7 +108,8 @@ export default (props) => {
                             type="text"
                             defaultValue={epValue}
                             onBlur={finishEditing(props)}
-                            onKeyPress={(e) => { if (e.key === "Enter") finishEditing(props)(e); }}
+                            onKeyUp={(e) => e.stopPropagation()}
+                            onKeyPress={editing}
                             />
                     </>
                     : <>

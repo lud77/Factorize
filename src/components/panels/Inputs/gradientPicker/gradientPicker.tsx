@@ -25,7 +25,7 @@ const toGradientPoint = (color, step) => {
 
 const toOutputPoint = (gradientPoint) => {
     return [
-        fromAttrs(gradientPoint),
+        tinycolor(fromAttrs(gradientPoint)).toHex8String(),
         gradientPoint.left
     ];
 };
@@ -38,11 +38,20 @@ const makeGradient = (points) => {
     };
 };
 
+const fixGradient = (gradient) => {
+    const clone = gradient.points.map(toOutputPoint);
+    const sorted = clone.sort((a, b) => a[1] - b[1]);
+
+    if (sorted[0][1] != 0) sorted.unshift([sorted[0][0], 0]);
+    if (sorted[sorted.length - 1][1] != 100) sorted.push([sorted[sorted.length - 1][0], 100]);
+    return sorted;
+};
+
 const defaultGradient = makeGradient([['#000f', 0], ['#ffff', 100]]);
 
 const outputEndpoints = [{
     name: 'Gradient',
-    defaultValue: defaultGradient,
+    defaultValue: fixGradient(defaultGradient),
     type: 'array',
     signal: 'Value'
 }];
@@ -56,10 +65,11 @@ const panelSizes = {
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         const [gradient, setGradient] = React.useState(defaultGradient);
+        console.log('component', gradient);
 
-        const handleChange = ({ panel, machine }) => (gradient) => {
-            machine.executePanelLogic(panelId, { tuningGradient: gradient.points.map(toOutputPoint) });
-            setGradient(gradient);
+        const handleChange = ({ panel, machine }) => (newGradient) => {
+            machine.executePanelLogic(panelId, { tuningGradient: fixGradient(newGradient) });
+            setGradient(newGradient);
 
             return true;
         };
@@ -69,9 +79,9 @@ const create = (panelId: number): Panel => {
                 <div className="InteractiveItem GradientPicker">
                     <ColorPicker
                         gradient={gradient}
-                        onStartChange={handleChange(props)}
+                        // onStartChange={handleChange(props)}
                         onChange={handleChange(props)}
-                        onEndChange={handleChange(props)}
+                        // onEndChange={handleChange(props)}
                         isGradient
                         />
                 </div>
@@ -83,9 +93,11 @@ const create = (panelId: number): Panel => {
     };
 
     const execute = (panel, inputs) => {
-        return {
-            outputGradient: inputs.tuningGradient
-        };
+        console.log('execute gradientPicker', inputs);
+        if (inputs.tuningGradient == null) return {};
+
+        console.log('gradientPicker 1');
+        return { outputGradient: inputs.tuningGradient };
     };
 
     return {

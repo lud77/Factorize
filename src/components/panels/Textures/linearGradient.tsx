@@ -2,14 +2,14 @@ import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
 import GradientTypes from '../../../domain/GradientTypes';
-import { color2rgba } from '../../../utils/colors';
 import * as Image from '../../../domain/Image';
+import { color2rgba } from '../../../utils/colors';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
-const panelType = 'Gradient';
+const panelType = 'LinearGradient';
 
 const inputEndpoints = [{
     name: 'Width',
@@ -22,7 +22,12 @@ const inputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }, {
-    name: 'Offset',
+    name: 'OffsetX',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'OffsetY',
     defaultValue: 0,
     type: 'number',
     signal: 'Value'
@@ -53,33 +58,14 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 93
+    height: 177
 };
 
 const create = (panelId: number): Panel => {
-    const handleChange = ({ panel, machine }) => (e) => {
-        machine.executePanelLogic(panelId, { tuningGradientType: e.target.value });
-
-        return true;
-    };
-
     const Component = (props) => {
         return <>
             <div className="Row">
-                <div className="InteractiveItem">
-                    <select
-                        onChange={handleChange(props)}
-                        defaultValue={ props.panel.outputEpValues.outputPatternType || 'Checkers' }
-                        style={{ width: '100%', borderRadius: '5px', border: 'none' }}
-                        >
-                        {
-                            Object.keys(GradientTypes).map((gradientType, key) => (<option key={key}>{gradientType}</option>))
-                        }
-                    </select>
-                </div>
-            </div>
-            <div className="Row">
-                <InputEndpoint name="Color" panelId={panelId} signal="Value" editable={true} {...props}>Color</InputEndpoint>
+                <InputEndpoint name="Gradient" panelId={panelId} signal="Value" {...props}>Gradient</InputEndpoint>
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
             <div className="Row">
@@ -89,7 +75,10 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Height" panelId={panelId} signal="Value" editable={true} {...props}>Height</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Offset" panelId={panelId} signal="Value" editable={true} {...props}>Offset</InputEndpoint>
+                <InputEndpoint name="OffsetX" panelId={panelId} signal="Value" editable={true} {...props}>X Offset</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="OffsetY" panelId={panelId} signal="Value" editable={true} {...props}>Y Offset</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Angle" panelId={panelId} signal="Value" editable={true} {...props}>Angle</InputEndpoint>
@@ -103,23 +92,27 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => {
         console.log('gradient execute');
 
-        if (values.inputGradient == null) return { outputImage: null };
+        if (values.inputGradient == null || !values.inputGradient.length || values.inputGradient.length < 2) return { outputImage: null };
 
         const width = parseInt(values.inputWidth || '0');
         const height = parseInt(values.inputHeight || '0');
-        const offset = parseInt(values.inputOffset || '0');
-        const length = parseInt(values.inputLength || '0');
+        const offsetX = parseInt(values.inputOffsetX || '0');
+        const offsetY = parseInt(values.inputOffsetY || '0');
+        const length = parseInt(values.inputLength || '1');
         const angle = parseInt(values.inputAngle || '0');
+        const gradientText = JSON.stringify(values.inputGradient);
 
-        const hasOffsetChanged = (panel.outputEpValues.oldOffset == null) || (offset != panel.outputEpValues.oldOffset);
+        const hasOffsetXChanged = (panel.outputEpValues.oldOffsetX == null) || (offsetX != panel.outputEpValues.oldOffsetX);
+        const hasOffsetYChanged = (panel.outputEpValues.oldOffsetY == null) || (offsetY != panel.outputEpValues.oldOffsetY);
         const hasWidthChanged = (panel.outputEpValues.oldWidth == null) || (width != panel.outputEpValues.oldWidth);
         const hasHeightChanged = (panel.outputEpValues.oldHeight == null) || (height != panel.outputEpValues.oldHeight);
         const hasAngleChanged = (panel.outputEpValues.oldAngle == null) || (angle != panel.outputEpValues.oldAngle);
         const hasLengthChanged = (panel.outputEpValues.oldLength == null) || (length != panel.outputEpValues.oldLength);
-        const hasGradientChanged = (panel.outputEpValues.oldGradient == null) || (values.inputGradient != panel.outputEpValues.oldGradient);
+        const hasGradientChanged = (panel.outputEpValues.oldGradient == null) || (gradientText != panel.outputEpValues.oldGradient);
 
         const hasChanged =
-            hasOffsetChanged ||
+            hasOffsetXChanged ||
+            hasOffsetYChanged ||
             hasWidthChanged ||
             hasHeightChanged ||
             hasAngleChanged ||
@@ -128,14 +121,15 @@ const create = (panelId: number): Panel => {
 
         if (!hasChanged) return {};
 
-        const outputImage = Image.generatePattern(width, height, GradientTypes.Linear(offset, angle, length, values.inputGradient));
+        const outputImage = Image.generatePattern(width, height, GradientTypes.Linear(offsetX, offsetY, angle, length, values.inputGradient));
 
         return {
-            oldOffset: offset,
+            oldOffsetX: offsetX,
+            oldOffsetY: offsetY,
             oldWidth: width,
             oldAngle: angle,
             oldLength: length,
-            oldGradient: values.inputGradient,
+            oldGradient: gradientText,
             outputImage
         };
     };
