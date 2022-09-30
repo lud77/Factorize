@@ -17,8 +17,8 @@ const linear = (offsetX, offsetY, angle, length, gradient) => {
     const stepNum = steps.length - 1;
 
     const Rad = Math.PI / 180;
-    const cosa = Math.cos(Math.PI * Rad);
-    const sina = Math.sin(Math.PI * Rad);
+    const cosa = Math.cos(angle * Rad);
+    const sina = Math.sin(angle * Rad);
 
     return (x, y) => {
         const ox = x - offsetX;
