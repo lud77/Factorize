@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Image } from 'image-js';
-import { createNoise2D } from 'simplex-noise';
-import alea from 'alea';
 
 import { Panel } from '../../../types/Panel';
-import { toImage } from '../../../domain/Image';
+import NoiseTypes from '../../../domain/NoiseTypes';
+import * as Image from '../../../domain/Image';
+import { color2rgba } from '../../../utils/colors';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -23,6 +22,26 @@ const inputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }, {
+    name: 'Seed',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'Octaves',
+    defaultValue: 1,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'HPeriod',
+    defaultValue: 1,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'VPeriod',
+    defaultValue: 1,
+    type: 'number',
+    signal: 'Value'
+}, {
     name: 'OffsetX',
     defaultValue: 0,
     type: 'number',
@@ -33,19 +52,19 @@ const inputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }, {
-    name: 'Seed',
+    name: 'Angle',
     defaultValue: 0,
     type: 'number',
     signal: 'Value'
 }, {
-    name: 'Scale',
-    defaultValue: 1,
-    type: 'number',
+    name: 'Foreground',
+    defaultValue: '#ffff',
+    type: 'string',
     signal: 'Value'
 }, {
-    name: 'Octaves',
-    defaultValue: 1,
-    type: 'number',
+    name: 'Background',
+    defaultValue: '#000f',
+    type: 'string',
     signal: 'Value'
 }];
 
@@ -59,7 +78,7 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 187
+    height: 261
 };
 
 const create = (panelId: number): Panel => {
@@ -70,16 +89,19 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
             <div className="Row">
+                <InputEndpoint name="Octaves" panelId={panelId} signal="Value" editor="text" {...props}>Octaves</InputEndpoint>
+            </div>
+            <div className="Row">
                 <InputEndpoint name="Width" panelId={panelId} signal="Value" editor="text" {...props}>Width</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Height" panelId={panelId} signal="Value" editor="text" {...props}>Height</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Scale" panelId={panelId} signal="Value" editor="text" {...props}>Scale</InputEndpoint>
+                <InputEndpoint name="HPeriod" panelId={panelId} signal="Value" editor="text" {...props}>X Scale</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Octaves" panelId={panelId} signal="Value" editor="text" {...props}>Octaves</InputEndpoint>
+                <InputEndpoint name="VPeriod" panelId={panelId} signal="Value" editor="text" {...props}>Y Scale</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="OffsetX" panelId={panelId} signal="Value" editor="text" {...props}>X Offset</InputEndpoint>
@@ -87,89 +109,80 @@ const create = (panelId: number): Panel => {
             <div className="Row">
                 <InputEndpoint name="OffsetY" panelId={panelId} signal="Value" editor="text" {...props}>Y Offset</InputEndpoint>
             </div>
+            <div className="Row">
+                <InputEndpoint name="Angle" panelId={panelId} signal="Value" editor="text" {...props}>Angle</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Foreground" panelId={panelId} signal="Value" editor="text" {...props}>Foreground</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Background" panelId={panelId} signal="Value" editor="text" {...props}>Background</InputEndpoint>
+            </div>
         </>;
     };
 
     const execute = (panel, values) => {
         console.log('simplex noise execute');
 
-        const seed = parseInt(panel.inputEpValues.inputSeed || '0');
-        const width = parseInt(panel.inputEpValues.inputWidth || '0');
-        const height = parseInt(panel.inputEpValues.inputHeight || '0');
-        const scale = parseFloat(panel.inputEpValues.inputScale || '1') / 100;
-        const octaves = parseInt(panel.inputEpValues.inputOctaves || '1');
-        const offsetX = parseFloat(panel.inputEpValues.inputOffsetX || '0');
-        const offsetY = parseFloat(panel.inputEpValues.inputOffsetY || '0');
+        if (values.inputForeground == null || values.inputBackground == null) return { outputImage: null };
 
+        const color = color2rgba(values.inputForeground);
+        const bgcolor = color2rgba(values.inputBackground);
+
+        if (color == null || bgcolor == null) return { outputImage: null };
+
+        const seed = parseInt(values.inputSeed || '0');
+        const width = parseInt(values.inputWidth || '0');
+        const height = parseInt(values.inputHeight || '0');
+        const hPeriod = parseFloat(values.inputHPeriod || '0') / 100;
+        const vPeriod = parseFloat(values.inputVPeriod || '0') / 100;
+        const octaves = parseInt(values.inputOctaves || '1');
+        const offsetX = parseFloat(values.inputOffsetX || '0');
+        const offsetY = parseFloat(values.inputOffsetY || '0');
+        const angle = parseInt(values.inputAngle || '0');
+
+        const hasForegroundChanged = (panel.outputEpValues.oldForeground == null) || (color.toString() != panel.outputEpValues.oldForeground.toString());
+        const hasBackgroundChanged = (panel.outputEpValues.oldBackground == null) || (bgcolor.toString() != panel.outputEpValues.oldBackground.toString());
         const hasSeedChanged = (panel.outputEpValues.oldSeed == null) || (seed != panel.outputEpValues.oldSeed);
         const hasWidthChanged = (panel.outputEpValues.oldWidth == null) || (width != panel.outputEpValues.oldWidth);
         const hasHeightChanged = (panel.outputEpValues.oldHeight == null) || (height != panel.outputEpValues.oldHeight);
-        const hasScaleChanged = (panel.outputEpValues.oldScale == null) || (scale != panel.outputEpValues.oldScale);
-        const hasOctavesChanged = (panel.outputEpValues.oldOctaves == null) || (scale != panel.outputEpValues.oldOctaves);
+        const hasHPeriodChanged = (panel.outputEpValues.oldHPeriod == null) || (hPeriod != panel.outputEpValues.oldHPeriod);
+        const hasVPeriodChanged = (panel.outputEpValues.oldVPeriod == null) || (vPeriod != panel.outputEpValues.oldVPeriod);
+        const hasOctavesChanged = (panel.outputEpValues.oldOctaves == null) || (octaves != panel.outputEpValues.oldOctaves);
         const hasOffsetXChanged = (panel.outputEpValues.oldOffsetX == null) || (offsetX != panel.outputEpValues.oldOffsetX);
         const hasOffsetYChanged = (panel.outputEpValues.oldOffsetY == null) || (offsetY != panel.outputEpValues.oldOffsetY);
+        const hasAngleChanged = (panel.outputEpValues.oldAngle == null) || (angle != panel.outputEpValues.oldAngle);
 
         const hasChanged =
-            hasSeedChanged ||
+            hasForegroundChanged ||
+            hasBackgroundChanged ||
             hasWidthChanged ||
             hasHeightChanged ||
-            hasScaleChanged ||
-            hasOctavesChanged ||
+            hasHPeriodChanged ||
+            hasVPeriodChanged ||
             hasOffsetXChanged ||
-            hasOffsetYChanged;
+            hasOffsetYChanged ||
+            hasSeedChanged ||
+            hasOctavesChanged ||
+            hasAngleChanged;
 
         if (!hasChanged) return {};
 
-        if (width <= 0 || height <= 0 || scale <= 0 || octaves <= 0) return {};
+        if (width <= 0 || height <= 0 || vPeriod < 0 || hPeriod < 0 || octaves <= 0) return {};
 
-        console.log('create image', hasSeedChanged, seed, width, height, offsetX, offsetY);
-
-        const prng = alea(seed);
-
-        const noise = hasSeedChanged
-            ? createNoise2D(prng)
-            : panel.outputEpValues.oldNoise
-
-        const size = width * height;
-        const data = new Uint8ClampedArray(size);
-
-        const firstInterval = 2 ** (octaves - 1);
-        const octave = firstInterval / (2 * firstInterval - 1);
-        console.log('firstInterval, octaves', firstInterval, octaves);
-
-        for (let x = 0; x < width; x++) {
-            for (let y = 0; y < height; y++) {
-                const i = x + y * width;
-
-                let amplitude = 127 * octave;
-                let frequency = scale;
-
-                for (let o = 0; o < octaves; o++) {
-                    const value = Math.floor((noise((x + offsetX) * frequency, (y + offsetY) * frequency) + 1) * amplitude);
-                    amplitude /= 2;
-                    frequency += frequency;
-
-                    data[i] += value;
-                }
-            }
-        }
-
-        const outputImage = toImage(new Image({
-            width,
-            height,
-            data,
-            kind: 'GREY'
-        }));
+        const outputImage = Image.generatePattern(width, height, NoiseTypes.Simplex(seed, octaves, hPeriod, vPeriod, offsetX, offsetY, angle, color, bgcolor));
 
         return {
             oldSeed: seed,
+            oldForeground: values.inputForeground,
+            oldBackground: values.inputBackground,
             oldWidth: width,
             oldHeight: height,
             oldOffsetX: offsetX,
             oldOffsetY: offsetY,
-            oldNoise: noise,
-            oldScale: scale,
-            oldOctave: octave,
+            oldHPeriod: hPeriod,
+            oldVPeriod: vPeriod,
+            oldOctaves: octaves,
             outputImage
         };
     };

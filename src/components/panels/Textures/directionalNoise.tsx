@@ -114,7 +114,7 @@ const create = (panelId: number): Panel => {
     };
 
     const execute = (panel, values) => {
-        console.log('simplex noise execute');
+        console.log('directional noise execute');
 
         if (values.inputForeground == null || values.inputBackground == null) return { outputImage: null };
 
@@ -123,13 +123,13 @@ const create = (panelId: number): Panel => {
 
         if (color == null || bgcolor == null) return { outputImage: null };
 
-        const seed = parseInt(panel.inputEpValues.inputSeed || '0');
-        const width = parseInt(panel.inputEpValues.inputWidth || '0');
-        const height = parseInt(panel.inputEpValues.inputHeight || '0');
+        const seed = parseInt(values.inputSeed || '0');
+        const width = parseInt(values.inputWidth || '0');
+        const height = parseInt(values.inputHeight || '0');
         const hPeriod = parseFloat(values.inputHPeriod || '0');
         const vPeriod = parseFloat(values.inputVPeriod || '0');
-        const offsetX = parseFloat(panel.inputEpValues.inputOffsetX || '0');
-        const offsetY = parseFloat(panel.inputEpValues.inputOffsetY || '0');
+        const offsetX = parseFloat(values.inputOffsetX || '0');
+        const offsetY = parseFloat(values.inputOffsetY || '0');
         const angle = parseInt(values.inputAngle || '0');
 
         const hasForegroundChanged = (panel.outputEpValues.oldForeground == null) || (color.toString() != panel.outputEpValues.oldForeground.toString());
