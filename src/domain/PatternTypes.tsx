@@ -1,27 +1,54 @@
 import * as Vector from './Vector';
 
-const checkers = (hP, vP, offsetX, offsetY, color, bgColor) => (x, y) => {
-    const ox = x - offsetX;
-    const oy = y - offsetY;
+const checkers = (hP, vP, offsetX, offsetY, angle, color, bgColor) => {
+    const Rad = Math.PI / 180;
+    const cosa = Math.cos(angle * Rad);
+    const sina = Math.sin(angle * Rad);
 
-    return ((((hP != 0) ? Math.floor(ox / hP) : 0) + ((vP != 0) ? Math.floor(oy / vP) : 0)) % 2 == 0) ? color : bgColor;
+    return (x, y) => {
+        const ox = x - offsetX;
+        const oy = y - offsetY;
+
+        const ax = cosa * ox - sina * oy;
+        const ay = sina * ox + cosa * oy;
+
+        return ((((hP != 0) ? Math.floor(ax / hP) : 0) + ((vP != 0) ? Math.floor(ay / vP) : 0)) % 2 == 0) ? color : bgColor;
+    };
 };
 
-const stripes = (hP, vP, offsetX, offsetY, color, bgColor) => (x, y) => {
-    const ox = x - offsetX;
-    const oy = y - offsetY;
+const stripes = (hP, vP, offsetX, offsetY, angle, color, bgColor) => {
+    const Rad = Math.PI / 180;
+    const cosa = Math.cos(angle * Rad);
+    const sina = Math.sin(angle * Rad);
 
-    const value = Math.abs(Math.sin((((hP != 0) ? (ox / hP) : 0) + ((vP != 0) ? (oy / vP) : 0)) * Math.PI));
-    return Vector.sum(Vector.scalarProduct(color, value), Vector.scalarProduct(bgColor, 1 - value));
+    return (x, y) => {
+        const ox = x - offsetX;
+        const oy = y - offsetY;
+
+        const ax = cosa * ox - sina * oy;
+        const ay = sina * ox + cosa * oy;
+
+        const value = Math.abs(Math.sin((((hP != 0) ? (ax / hP) : 0) + ((vP != 0) ? (ay / vP) : 0)) * Math.PI));
+        return Vector.sum(Vector.scalarProduct(color, value), Vector.scalarProduct(bgColor, 1 - value));
+    };
 };
 
-const rings = (hP, vP, offsetX, offsetY, color, bgColor) => (x, y) => {
-    const ox = (x - offsetX) / hP;
-    const oy = (y - offsetY) / vP;
+const rings = (hP, vP, offsetX, offsetY, angle, color, bgColor) => {
+    const Rad = Math.PI / 180;
+    const cosa = Math.cos(angle * Rad);
+    const sina = Math.sin(angle * Rad);
 
-    const distValue = Math.sqrt(ox * ox + oy * oy);
-    const value = Math.abs(Math.sin(distValue * 2 * Math.PI));
-    return Vector.sum(Vector.scalarProduct(color, value), Vector.scalarProduct(bgColor, 1 - value));
+    return (x, y) => {
+        const ox = x - offsetX;
+        const oy = y - offsetY;
+
+        const ax = cosa * ox - sina * oy;
+        const ay = sina * ox + cosa * oy;
+
+        const distValue = Math.sqrt(hP * ax * ax + vP * ay * ay);
+        const value = Math.abs(Math.sin(distValue * Rad));
+        return Vector.sum(Vector.scalarProduct(color, value), Vector.scalarProduct(bgColor, 1 - value));
+    };
 };
 
 const PatternTypes = {

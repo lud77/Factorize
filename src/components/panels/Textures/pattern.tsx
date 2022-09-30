@@ -42,6 +42,11 @@ const inputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }, {
+    name: 'Angle',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
     name: 'Foreground',
     defaultValue: '#ffff',
     type: 'string',
@@ -63,7 +68,7 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 240
+    height: 261
 };
 
 const create = (panelId: number): Panel => {
@@ -96,16 +101,19 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Height" panelId={panelId} signal="Value" editor="text" {...props}>Height</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="HPeriod" panelId={panelId} signal="Value" editor="text" {...props}>X Period</InputEndpoint>
+                <InputEndpoint name="HPeriod" panelId={panelId} signal="Value" editor="text" {...props}>X Scale</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="VPeriod" panelId={panelId} signal="Value" editor="text" {...props}>Y Period</InputEndpoint>
+                <InputEndpoint name="VPeriod" panelId={panelId} signal="Value" editor="text" {...props}>Y Scale</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="OffsetX" panelId={panelId} signal="Value" editor="text" {...props}>X Offset</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="OffsetY" panelId={panelId} signal="Value" editor="text" {...props}>Y Offset</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Angle" panelId={panelId} signal="Value" editor="text" {...props}>Angle</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Foreground" panelId={panelId} signal="Value" editor="text" {...props}>Foreground</InputEndpoint>
@@ -133,10 +141,11 @@ const create = (panelId: number): Panel => {
 
         const width = parseInt(values.inputWidth || '0');
         const height = parseInt(values.inputHeight || '0');
-        const hPeriod = parseInt(values.inputHPeriod || '10');
-        const vPeriod = parseInt(values.inputVPeriod || '10');
+        const hPeriod = parseFloat(values.inputHPeriod || '10');
+        const vPeriod = parseFloat(values.inputVPeriod || '10');
         const offsetX = parseInt(values.inputOffsetX || '0');
         const offsetY = parseInt(values.inputOffsetY || '0');
+        const angle = parseInt(values.inputAngle || '0');
 
         const hasForegroundChanged = (panel.outputEpValues.oldForeground == null) || (color.toString() != panel.outputEpValues.oldForeground.toString());
         const hasBackgroundChanged = (panel.outputEpValues.oldBackground == null) || (bgcolor.toString() != panel.outputEpValues.oldBackground.toString());
@@ -146,6 +155,7 @@ const create = (panelId: number): Panel => {
         const hasVPeriodChanged = (panel.outputEpValues.oldVPeriod == null) || (vPeriod != panel.outputEpValues.oldVPeriod);
         const hasOffsetXChanged = (panel.outputEpValues.oldOffsetX == null) || (offsetX != panel.outputEpValues.oldOffsetX);
         const hasOffsetYChanged = (panel.outputEpValues.oldOffsetY == null) || (offsetY != panel.outputEpValues.oldOffsetY);
+        const hasAngleChanged = (panel.outputEpValues.oldAngle == null) || (angle != panel.outputEpValues.oldAngle);
         const hasPatternChanged = (panel.outputEpValues.oldPattern == null) || (patternType != panel.outputEpValues.oldPattern);
 
         const hasChanged =
@@ -157,11 +167,12 @@ const create = (panelId: number): Panel => {
             hasVPeriodChanged ||
             hasOffsetXChanged ||
             hasOffsetYChanged ||
+            hasAngleChanged ||
             hasPatternChanged;
 
         if (!hasChanged) return {};
 
-        const outputImage = Image.generatePattern(width, height, patternFunction(hPeriod, vPeriod, offsetX, offsetY, color, bgcolor));
+        const outputImage = Image.generatePattern(width, height, patternFunction(hPeriod, vPeriod, offsetX, offsetY, angle, color, bgcolor));
 
         return {
             oldForeground: values.inputForeground,
@@ -172,6 +183,7 @@ const create = (panelId: number): Panel => {
             oldVPeriod: vPeriod,
             oldOffsetX: offsetX,
             oldOffsetY: offsetY,
+            oldAngle: angle,
             oldPattern: patternType,
             outputImage
         };

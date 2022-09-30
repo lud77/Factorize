@@ -16,15 +16,16 @@ const linear = (offsetX, offsetY, angle, length, gradient) => {
 
     const stepNum = steps.length - 1;
 
-    const cosa = Math.cos(Math.PI * angle / 180);
-    const sina = Math.sin(Math.PI * angle / 180);
+    const Rad = Math.PI / 180;
+    const cosa = Math.cos(Math.PI * Rad);
+    const sina = Math.sin(Math.PI * Rad);
 
     return (x, y) => {
         const ox = x - offsetX;
         const oy = y - offsetY;
 
         const ax = cosa * ox - sina * oy;
-        const ay = sina * ox + cosa * oy;
+        // const ay = sina * ox + cosa * oy;
 
         if (ax < 0) return beforeColor;
         if (ax >= length) return afterColor;

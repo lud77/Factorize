@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Image } from 'image-js';
-import { createNoise2D } from 'simplex-noise';
-import alea from 'alea';
 
 import { Panel } from '../../../types/Panel';
-import { toImage } from '../../../domain/Image';
+import NoiseTypes from '../../../domain/NoiseTypes';
+import * as Image from '../../../domain/Image';
+import { color2rgba } from '../../../utils/colors';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -23,6 +22,21 @@ const inputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }, {
+    name: 'Seed',
+    defaultValue: 0,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'HPeriod',
+    defaultValue: 10,
+    type: 'number',
+    signal: 'Value'
+}, {
+    name: 'VPeriod',
+    defaultValue: 10,
+    type: 'number',
+    signal: 'Value'
+}, {
     name: 'OffsetX',
     defaultValue: 0,
     type: 'number',
@@ -33,14 +47,19 @@ const inputEndpoints = [{
     type: 'number',
     signal: 'Value'
 }, {
-    name: 'Seed',
+    name: 'Angle',
     defaultValue: 0,
     type: 'number',
     signal: 'Value'
 }, {
-    name: 'Scale',
-    defaultValue: 1,
-    type: 'number',
+    name: 'Foreground',
+    defaultValue: '#ffff',
+    type: 'string',
+    signal: 'Value'
+}, {
+    name: 'Background',
+    defaultValue: '#000f',
+    type: 'string',
     signal: 'Value'
 }];
 
@@ -54,7 +73,7 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 187
+    height: 240
 };
 
 const create = (panelId: number): Panel => {
@@ -71,7 +90,10 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Height" panelId={panelId} signal="Value" editor="text" {...props}>Height</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Scale" panelId={panelId} signal="Value" editor="text" {...props}>Scale</InputEndpoint>
+                <InputEndpoint name="HPeriod" panelId={panelId} signal="Value" editor="text" {...props}>Confusion</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="VPeriod" panelId={panelId} signal="Value" editor="text" {...props}>Frequency</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="OffsetX" panelId={panelId} signal="Value" editor="text" {...props}>X Offset</InputEndpoint>
@@ -79,80 +101,77 @@ const create = (panelId: number): Panel => {
             <div className="Row">
                 <InputEndpoint name="OffsetY" panelId={panelId} signal="Value" editor="text" {...props}>Y Offset</InputEndpoint>
             </div>
+            <div className="Row">
+                <InputEndpoint name="Angle" panelId={panelId} signal="Value" editor="text" {...props}>Angle</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Foreground" panelId={panelId} signal="Value" editor="text" {...props}>Foreground</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Background" panelId={panelId} signal="Value" editor="text" {...props}>Background</InputEndpoint>
+            </div>
         </>;
     };
 
     const execute = (panel, values) => {
         console.log('simplex noise execute');
 
+        if (values.inputForeground == null || values.inputBackground == null) return { outputImage: null };
+
+        const color = color2rgba(values.inputForeground);
+        const bgcolor = color2rgba(values.inputBackground);
+
+        if (color == null || bgcolor == null) return { outputImage: null };
+
         const seed = parseInt(panel.inputEpValues.inputSeed || '0');
         const width = parseInt(panel.inputEpValues.inputWidth || '0');
         const height = parseInt(panel.inputEpValues.inputHeight || '0');
-        const scale = parseFloat(panel.inputEpValues.inputScale || '1') / 100;
+        const hPeriod = parseFloat(values.inputHPeriod || '0');
+        const vPeriod = parseFloat(values.inputVPeriod || '0');
         const offsetX = parseFloat(panel.inputEpValues.inputOffsetX || '0');
         const offsetY = parseFloat(panel.inputEpValues.inputOffsetY || '0');
+        const angle = parseInt(values.inputAngle || '0');
 
+        const hasForegroundChanged = (panel.outputEpValues.oldForeground == null) || (color.toString() != panel.outputEpValues.oldForeground.toString());
+        const hasBackgroundChanged = (panel.outputEpValues.oldBackground == null) || (bgcolor.toString() != panel.outputEpValues.oldBackground.toString());
         const hasSeedChanged = (panel.outputEpValues.oldSeed == null) || (seed != panel.outputEpValues.oldSeed);
         const hasWidthChanged = (panel.outputEpValues.oldWidth == null) || (width != panel.outputEpValues.oldWidth);
         const hasHeightChanged = (panel.outputEpValues.oldHeight == null) || (height != panel.outputEpValues.oldHeight);
-        const hasScaleChanged = (panel.outputEpValues.oldScale == null) || (scale != panel.outputEpValues.oldScale);
+        const hasHPeriodChanged = (panel.outputEpValues.oldHPeriod == null) || (hPeriod != panel.outputEpValues.oldHPeriod);
+        const hasVPeriodChanged = (panel.outputEpValues.oldVPeriod == null) || (vPeriod != panel.outputEpValues.oldVPeriod);
         const hasOffsetXChanged = (panel.outputEpValues.oldOffsetX == null) || (offsetX != panel.outputEpValues.oldOffsetX);
         const hasOffsetYChanged = (panel.outputEpValues.oldOffsetY == null) || (offsetY != panel.outputEpValues.oldOffsetY);
+        const hasAngleChanged = (panel.outputEpValues.oldAngle == null) || (angle != panel.outputEpValues.oldAngle);
 
         const hasChanged =
-            hasSeedChanged ||
+            hasForegroundChanged ||
+            hasBackgroundChanged ||
             hasWidthChanged ||
             hasHeightChanged ||
-            hasScaleChanged ||
+            hasHPeriodChanged ||
+            hasVPeriodChanged ||
             hasOffsetXChanged ||
-            hasOffsetYChanged;
+            hasOffsetYChanged ||
+            hasSeedChanged ||
+            hasAngleChanged;
 
         if (!hasChanged) return {};
 
-        if (width <= 0 || height <= 0 || scale <= 0) return {};
+        if (width <= 0 || height <= 0 || vPeriod < 0 || hPeriod < 0) return {};
 
-        console.log('create image', hasSeedChanged, seed, width, height, offsetX, offsetY);
-
-        const prng = alea(seed);
-
-        const noise = hasSeedChanged
-            ? createNoise2D(prng)
-            : panel.outputEpValues.oldNoise
-
-        const size = width * height;
-        const data = new Uint8ClampedArray(size);
-
-        const frequency = scale / Math.PI;
-
-        for (let x = 0; x < width; x++) {
-            for (let y = 0; y < height; y++) {
-                const i = x + y * width;
-
-                const value = Math.ceil(
-                    32 + Math.sin(
-                        (noise(Math.floor(x - offsetX), 0) * 100 + y - offsetY) * frequency
-                    ) * 223
-                );
-
-                data[i] += value;
-            }
-        }
-
-        const outputImage = toImage(new Image({
-            width,
-            height,
-            data,
-            kind: 'GREY'
-        }));
+        const outputImage = Image.generatePattern(width, height, NoiseTypes.Directional(seed, hPeriod, vPeriod, offsetX, offsetY, angle, color, bgcolor));
 
         return {
             oldSeed: seed,
+            oldForeground: values.inputForeground,
+            oldBackground: values.inputBackground,
             oldWidth: width,
             oldHeight: height,
+            oldHPeriod: hPeriod,
+            oldVPeriod: vPeriod,
             oldOffsetX: offsetX,
             oldOffsetY: offsetY,
-            oldNoise: noise,
-            oldScale: scale,
+            oldAngle: angle,
             outputImage
         };
     };
@@ -171,7 +190,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['picture', 'image', 'perlin', 'generative'],
+    tags: ['picture', 'image', 'anisotropic', 'generative'],
     inputEndpoints,
     outputEndpoints,
     ...panelSizes
