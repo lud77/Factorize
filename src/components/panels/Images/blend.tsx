@@ -85,16 +85,16 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Base" panelId={panelId} signal="Value" {...props}>Base</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="X" panelId={panelId} signal="Value" editable={true} {...props}>X</InputEndpoint>
+                <InputEndpoint name="X" panelId={panelId} signal="Value" editor="text" {...props}>X</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Y" panelId={panelId} signal="Value" editable={true} {...props}>Y</InputEndpoint>
+                <InputEndpoint name="Y" panelId={panelId} signal="Value" editor="text" {...props}>Y</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Opacity" panelId={panelId} signal="Value" editable={true} {...props}>Opacity</InputEndpoint>
+                <InputEndpoint name="Opacity" panelId={panelId} signal="Value" editor="text" {...props}>Opacity</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Fill" panelId={panelId} signal="Value" editable={true} {...props}>Fill</InputEndpoint>
+                <InputEndpoint name="Fill" panelId={panelId} signal="Value" editor="text" {...props}>Fill</InputEndpoint>
             </div>
         </>;
     };

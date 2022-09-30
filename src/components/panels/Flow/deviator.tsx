@@ -9,81 +9,64 @@ import defaultSizes from '../../Editor/Panel/defaultSizes';
 const panelType = 'Deviator';
 
 const inputEndpoints = [{
-    name: 'Select',
-    defaultValue: 0,
-    type: 'number',
-    signal: 'Value'
+    name: 'StoreA',
+    signal: 'Pulse'
 }, {
-    name: 'In1',
-    defaultValue: undefined,
+    name: 'StoreB',
+    signal: 'Pulse'
+}, {
+    name: 'A',
+    defaultValue: '',
     type: 'any',
     signal: 'Value'
 }, {
-    name: 'In2',
-    defaultValue: undefined,
+    name: 'B',
+    defaultValue: '',
     type: 'any',
     signal: 'Value'
 }];
 
 const outputEndpoints = [{
-    name: 'Out',
-    defaultValue: 0,
+    name: 'Value',
+    defaultValue: '',
     type: 'any',
     signal: 'Value'
 }];
 
 const panelSizes = {
     ...defaultSizes,
-    width: 134,
-    height: 114
+    height: 116
 };
 
 const create = (panelId: number): Panel => {
-    const handleClick = ({ panel, machine }) => (e) => {
-        machine.addInputEndpoint(
-            panelId,
-            `In`,
-            `In${panel.inEpsCounter}`,
-            'any',
-            undefined,
-            'Value',
-            undefined,
-            'inEps'
-        );
-    };
-
     const Component = (props) => {
         return <>
             <div className="Row">
-                <div className="InteractiveItem">
-                    <button className="Button" onClick={handleClick(props)}>+</button>
-                </div>
+                <InputEndpoint name="StoreA" panelId={panelId} signal="Pulse" description="Store the input [A] in memory" {...props}>Store A</InputEndpoint>
+                <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Select" panelId={panelId} {...props}>Select</InputEndpoint>
-                <OutputEndpoint name="Out" panelId={panelId} {...props}>Out</OutputEndpoint>
+                <InputEndpoint name="StoreB" panelId={panelId} signal="Pulse" description="Store the input [B] in memory" {...props}>Store B</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="In1" panelId={panelId} {...props}>In (0)</InputEndpoint>
+                <InputEndpoint name="A" panelId={panelId} editor="text" {...props}>A</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="In2" panelId={panelId} {...props}>In (1)</InputEndpoint>
+                <InputEndpoint name="B" panelId={panelId} editor="text" {...props}>B</InputEndpoint>
             </div>
-            {
-                props.panel.inEps.map(([ep, epRef, label, name, type], key) => (
-                    <div className="Row" key={key}>
-                        <InputEndpoint name={name} panelId={panelId} removable={true} registry="inEps" {...props}>{label} ({key + 2})</InputEndpoint>
-                    </div>
-                ))
-            }
         </>;
     };
 
-    const execute = (panel, values) => {
-        const eps = ['inputIn1', 'inputIn2'].concat(panel.inEps.map(([ep]) => ep));
-
-        return { outputOut: eps[values.inputSelect] != null ? values[eps[values.inputSelect]] : '' };
+    const onPulse = (ep, panel) => {
+        switch (ep) {
+            case 'inputStoreA':
+                return { outputValue: panel.inputEpValues.inputA };
+            case 'inputStoreB':
+                return { outputValue: panel.inputEpValues.inputB };
+        }
     };
+
+    const execute = (panel, values) => values;
 
     return {
         type: panelType,
@@ -91,17 +74,16 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         ...panelSizes,
-        inEps: [],
-        inEpsCounter: 3,
         Component,
-        execute
+        execute,
+        onPulse
     } as Panel;
 };
 
 export default {
     type: panelType,
     create,
-    tags: ['switch'],
+    tags: ['variable', 'store'],
     inputEndpoints,
     outputEndpoints,
     ...panelSizes

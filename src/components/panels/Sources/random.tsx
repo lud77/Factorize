@@ -48,7 +48,7 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Value" panelId={panelId} {...props}>Value</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Seed" panelId={panelId} signal="Value" editable={true} {...props}>Seed</InputEndpoint>
+                <InputEndpoint name="Seed" panelId={panelId} signal="Value" editor="text" {...props}>Seed</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Produce a random number" {...props}>Reset</InputEndpoint>

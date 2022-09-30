@@ -89,29 +89,29 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="Width" panelId={panelId} signal="Value" editable={true} {...props}>Width</InputEndpoint>
+                <InputEndpoint name="Width" panelId={panelId} signal="Value" editor="text" {...props}>Width</InputEndpoint>
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Height" panelId={panelId} signal="Value" editable={true} {...props}>Height</InputEndpoint>
+                <InputEndpoint name="Height" panelId={panelId} signal="Value" editor="text" {...props}>Height</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="HPeriod" panelId={panelId} signal="Value" editable={true} {...props}>X Period</InputEndpoint>
+                <InputEndpoint name="HPeriod" panelId={panelId} signal="Value" editor="text" {...props}>X Period</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="VPeriod" panelId={panelId} signal="Value" editable={true} {...props}>Y Period</InputEndpoint>
+                <InputEndpoint name="VPeriod" panelId={panelId} signal="Value" editor="text" {...props}>Y Period</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="OffsetX" panelId={panelId} signal="Value" editable={true} {...props}>X Offset</InputEndpoint>
+                <InputEndpoint name="OffsetX" panelId={panelId} signal="Value" editor="text" {...props}>X Offset</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="OffsetY" panelId={panelId} signal="Value" editable={true} {...props}>Y Offset</InputEndpoint>
+                <InputEndpoint name="OffsetY" panelId={panelId} signal="Value" editor="text" {...props}>Y Offset</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Foreground" panelId={panelId} signal="Value" editable={true} {...props}>Foreground</InputEndpoint>
+                <InputEndpoint name="Foreground" panelId={panelId} signal="Value" editor="text" {...props}>Foreground</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Background" panelId={panelId} signal="Value" editable={true} {...props}>Background</InputEndpoint>
+                <InputEndpoint name="Background" panelId={panelId} signal="Value" editor="text" {...props}>Background</InputEndpoint>
             </div>
         </>;
     };

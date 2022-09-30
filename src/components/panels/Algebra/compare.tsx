@@ -52,11 +52,11 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="A" panelId={panelId} {...props}>A</InputEndpoint>
+                <InputEndpoint name="A" panelId={panelId} editor="text" {...props}>A</InputEndpoint>
                 <OutputEndpoint name="High" panelId={panelId} {...props}>A &lt; B</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="B" panelId={panelId} {...props}>B</InputEndpoint>
+                <InputEndpoint name="B" panelId={panelId} editor="text" {...props}>B</InputEndpoint>
                 <OutputEndpoint name="Equal" panelId={panelId} {...props}>A = B</OutputEndpoint>
             </div>
             <div className="Row">

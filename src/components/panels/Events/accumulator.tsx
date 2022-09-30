@@ -41,7 +41,7 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Count" panelId={panelId} {...props}>Count</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Value" panelId={panelId} signal="Value" editable={true} {...props}>Value</InputEndpoint>
+                <InputEndpoint name="Value" panelId={panelId} signal="Value" editor="text" {...props}>Value</InputEndpoint>
             </div>
             <div className="Row">
                 <InputEndpoint name="Reset" panelId={panelId} signal="Pulse" description="Set the counter to zero" {...props}>Reset</InputEndpoint>

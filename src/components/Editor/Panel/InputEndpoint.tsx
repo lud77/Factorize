@@ -70,7 +70,7 @@ export default (props) => {
 
     const style = {
         flexGrow: props.span != null ? props.span : 'none',
-        textDecoration: props.editable ? 'underline' : 'none',
+        textDecoration: props.editor ? 'underline' : 'none',
         textDecorationStyle: isConnected ? 'dotted' : 'solid'
     };
 
@@ -78,7 +78,7 @@ export default (props) => {
         <div
             className="Input Item"
             title={ `(${epType}) ${epValue}` }
-            onDoubleClick={props.editable && !isConnected ? startEditing(props) : null}
+            onDoubleClick={props.editor && !isConnected ? startEditing(props) : null}
             style={style}
             >
             <div

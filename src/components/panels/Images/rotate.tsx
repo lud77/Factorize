@@ -41,7 +41,7 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Angle" panelId={panelId} editable={true} {...props}>Angle</InputEndpoint>
+                <InputEndpoint name="Angle" panelId={panelId} editor="text" {...props}>Angle</InputEndpoint>
             </div>
         </>;
     };

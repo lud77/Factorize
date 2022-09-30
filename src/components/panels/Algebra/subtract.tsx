@@ -37,11 +37,11 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Minuend" panelId={panelId} {...props}>Minuend</InputEndpoint>
+                <InputEndpoint name="Minuend" panelId={panelId} editor="text" {...props}>Minuend</InputEndpoint>
                 <OutputEndpoint name="Result" panelId={panelId} {...props}>Result</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Subtrahend" panelId={panelId} {...props}>Subtrahend</InputEndpoint>
+                <InputEndpoint name="Subtrahend" panelId={panelId} editor="text" {...props}>Subtrahend</InputEndpoint>
             </div>
         </>;
     };

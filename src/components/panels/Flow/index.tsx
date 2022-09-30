@@ -2,6 +2,7 @@ import All from './all';
 import Any from './any';
 import Fan from './fan';
 import Valve from './valve';
+import Switch from './switch';
 import Deviator from './deviator';
 import Memory from './memory';
 import If from './if';
@@ -11,6 +12,7 @@ import Delay from './delay';
 export default {
     Fan,
     Valve,
+    Switch,
     Deviator,
     Memory,
     If,

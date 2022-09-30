@@ -6,44 +6,49 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
-const panelType = 'Sum';
+const panelType = 'Switch';
 
 const inputEndpoints = [{
-    name: 'Addend1',
+    name: 'Select',
     defaultValue: 0,
     type: 'number',
     signal: 'Value'
 }, {
-    name: 'Addend2',
-    defaultValue: 0,
-    type: 'number',
+    name: 'In1',
+    defaultValue: undefined,
+    type: 'any',
+    signal: 'Value'
+}, {
+    name: 'In2',
+    defaultValue: undefined,
+    type: 'any',
     signal: 'Value'
 }];
 
 const outputEndpoints = [{
-    name: 'Result',
+    name: 'Out',
     defaultValue: 0,
-    type: 'number',
+    type: 'any',
     signal: 'Value'
 }];
 
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 94
+    height: 114
 };
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
         machine.addInputEndpoint(
             panelId,
-            `Addend`,
-            `Addend${panel.addendEpsCounter}`,
-            'number',
-            0,
+            `In`,
+            `In${panel.inEpsCounter}`,
+            'any',
+            undefined,
             'Value',
-            0,
-            'addendEps'
+            undefined,
+            'inEps'
         );
     };
 
@@ -55,16 +60,19 @@ const create = (panelId: number): Panel => {
                 </div>
             </div>
             <div className="Row">
-                <InputEndpoint name="Addend1" panelId={panelId} editor="text" {...props}>Addend</InputEndpoint>
-                <OutputEndpoint name="Result" panelId={panelId} {...props}>Result</OutputEndpoint>
+                <InputEndpoint name="Select" panelId={panelId} {...props}>Select</InputEndpoint>
+                <OutputEndpoint name="Out" panelId={panelId} {...props}>Out</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Addend2" panelId={panelId} editor="text" {...props}>Addend</InputEndpoint>
+                <InputEndpoint name="In1" panelId={panelId} {...props}>In (0)</InputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="In2" panelId={panelId} {...props}>In (1)</InputEndpoint>
             </div>
             {
-                props.panel.addendEps.map(([ep, epRef, label, name, type], key) => (
+                props.panel.inEps.map(([ep, epRef, label, name, type], key) => (
                     <div className="Row" key={key}>
-                        <InputEndpoint name={name} panelId={panelId} removable={true} registry="addendEps" editor="text" {...props}>{label}</InputEndpoint>
+                        <InputEndpoint name={name} panelId={panelId} removable={true} registry="inEps" {...props}>{label} ({key + 2})</InputEndpoint>
                     </div>
                 ))
             }
@@ -72,14 +80,9 @@ const create = (panelId: number): Panel => {
     };
 
     const execute = (panel, values) => {
-        const eps = ['inputAddend1', 'inputAddend2'].concat(panel.addendEps.map(([ep]) => ep));
+        const eps = ['inputIn1', 'inputIn2'].concat(panel.inEps.map(([ep]) => ep));
 
-        const allNumbers = eps.reduce((a, ep) => a && !isNaN(values[ep]), true);
-
-        console.log('execute sum', panel.addendEps, eps.reduce((a, ep) => a + parseFloat(values[ep]), 0));
-
-        if (!allNumbers) return { outputResult: '' };
-        return { outputResult: eps.reduce((a, ep) => a + parseFloat(values[ep]), 0) };
+        return { outputOut: eps[values.inputSelect] != null ? values[eps[values.inputSelect]] : '' };
     };
 
     return {
@@ -88,8 +91,8 @@ const create = (panelId: number): Panel => {
         inputEndpoints,
         outputEndpoints,
         ...panelSizes,
-        addendEps: [],
-        addendEpsCounter: 3,
+        inEps: [],
+        inEpsCounter: 3,
         Component,
         execute
     } as Panel;
@@ -98,7 +101,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['algebra', 'addition'],
+    tags: ['switch'],
     inputEndpoints,
     outputEndpoints,
     ...panelSizes

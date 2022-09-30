@@ -49,7 +49,7 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Map" panelId={panelId} {...props}>Map</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Offset" panelId={panelId} editable={true} {...props}>Offset</InputEndpoint>
+                <InputEndpoint name="Offset" panelId={panelId} editor="text" {...props}>Offset</InputEndpoint>
             </div>
         </>;
     };

@@ -53,7 +53,7 @@ const create = (panelId: number): Panel => {
 
         return <>
             <div className="Row">
-                <InputEndpoint name="Color" panelId={panelId} editable={true} {...props}>Color</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} editor="text" {...props}>Color</InputEndpoint>
             </div>
             <div className="Row" style={backgroundStyle}>
                 <div style={displayStyle}></div>

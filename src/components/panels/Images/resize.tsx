@@ -63,19 +63,19 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="VAlign" panelId={panelId} signal="Value" editable={true} {...props}>Vert Align</InputEndpoint>
+                <InputEndpoint name="VAlign" panelId={panelId} signal="Value" editor="text" {...props}>Vert Align</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="HAlign" panelId={panelId} signal="Value" editable={true} {...props}>Horiz Align</InputEndpoint>
+                <InputEndpoint name="HAlign" panelId={panelId} signal="Value" editor="text" {...props}>Horiz Align</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Color" panelId={panelId} signal="Value" editable={true} {...props}>Color</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} signal="Value" editor="text" {...props}>Color</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Width" panelId={panelId} signal="Value" editable={true} {...props}>Width</InputEndpoint>
+                <InputEndpoint name="Width" panelId={panelId} signal="Value" editor="text" {...props}>Width</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Height" panelId={panelId} signal="Value" editable={true} {...props}>Height</InputEndpoint>
+                <InputEndpoint name="Height" panelId={panelId} signal="Value" editor="text" {...props}>Height</InputEndpoint>
             </div>
         </>;
     };

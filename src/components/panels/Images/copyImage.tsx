@@ -55,10 +55,10 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Target" panelId={panelId} signal="Value" {...props}>Target</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="X" panelId={panelId} signal="Value" editable={true} {...props}>X</InputEndpoint>
+                <InputEndpoint name="X" panelId={panelId} signal="Value" editor="text" {...props}>X</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Y" panelId={panelId} signal="Value" editable={true} {...props}>Y</InputEndpoint>
+                <InputEndpoint name="Y" panelId={panelId} signal="Value" editor="text" {...props}>Y</InputEndpoint>
             </div>
         </>;
     };

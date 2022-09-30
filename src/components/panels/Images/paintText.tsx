@@ -73,25 +73,25 @@ const create = (panelId: number): Panel => {
                 <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Label" panelId={panelId} signal="Value" editable={true} {...props}>Label</InputEndpoint>
+                <InputEndpoint name="Label" panelId={panelId} signal="Value" editor="text" {...props}>Label</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Color" panelId={panelId} signal="Value" editable={true} {...props}>Color</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} signal="Value" editor="text" {...props}>Color</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Font" panelId={panelId} signal="Value" editable={true} {...props}>Font</InputEndpoint>
+                <InputEndpoint name="Font" panelId={panelId} signal="Value" editor="text" {...props}>Font</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Size" panelId={panelId} signal="Value" editable={true} {...props}>Size</InputEndpoint>
+                <InputEndpoint name="Size" panelId={panelId} signal="Value" editor="text" {...props}>Size</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="X" panelId={panelId} signal="Value" editable={true} {...props}>X</InputEndpoint>
+                <InputEndpoint name="X" panelId={panelId} signal="Value" editor="text" {...props}>X</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Y" panelId={panelId} signal="Value" editable={true} {...props}>Y</InputEndpoint>
+                <InputEndpoint name="Y" panelId={panelId} signal="Value" editor="text" {...props}>Y</InputEndpoint>
             </div>
             <div className="Row">
-                <InputEndpoint name="Angle" panelId={panelId} signal="Value" editable={true} {...props}>Angle</InputEndpoint>
+                <InputEndpoint name="Angle" panelId={panelId} signal="Value" editor="text" {...props}>Angle</InputEndpoint>
             </div>
         </>;
     };

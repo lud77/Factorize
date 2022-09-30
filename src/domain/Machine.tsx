@@ -271,7 +271,7 @@ const Machine = ({
     };
 
     const getSignalType = (sourcePanel, sourceOutputEp, targetPanel, targetInputEp) => {
-        return (sourcePanel.outputTypeByEp[sourceOutputEp] === targetPanel.inputTypeByEp[targetInputEp] || targetPanel.inputTypeByEp[targetInputEp] === 'any')
+        return (sourcePanel.outputTypeByEp[sourceOutputEp] === targetPanel.inputTypeByEp[targetInputEp] || sourcePanel.outputTypeByEp[sourceOutputEp] === 'any' || targetPanel.inputTypeByEp[targetInputEp] === 'any')
             ? sourcePanel.outputTypeByEp[sourceOutputEp]
             : null;
     };
@@ -284,7 +284,7 @@ const Machine = ({
         if (signal == null) return null;
 
         const signalType = getSignalType(sourcePanel, sourceOutputEp, targetPanel, targetInputEp);
-        if (signalType == null) return null;
+        if (signal == 'Value' && signalType == null) return null;
 
         const newValue = getOutputValue(sourcePanelId, sourceEpRef);
         console.log('makeConnection', targetPanelId, signal, newValue, { [targetInputEp]: newValue });

@@ -43,7 +43,7 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Color" panelId={panelId} editable={true} {...props}>Color</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} editor="text" {...props}>Color</InputEndpoint>
                 <OutputEndpoint name="Red" panelId={panelId} {...props}>Red</OutputEndpoint>
             </div>
             <div className="Row">
