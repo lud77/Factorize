@@ -1,11 +1,11 @@
 import ColorToRGB from './colorToRgb';
-import HexToHSL from './hexToHsl';
+import ColorToHSL from './colorToHsl';
 import TsToDate from './tsToDate';
 import TsToTime from './tsToTime';
 
 export default {
     ColorToRGB,
-    HexToHSL,
+    ColorToHSL,
     TsToDate,
     TsToTime
 };

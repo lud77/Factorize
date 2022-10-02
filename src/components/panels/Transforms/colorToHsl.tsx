@@ -1,4 +1,5 @@
 import * as React from 'react';
+import tinycolor from 'tinycolor2';
 
 import { Panel } from '../../../types/Panel';
 
@@ -6,12 +7,10 @@ import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
-import { hex2hsl } from '../../../utils/colors';
-
-const panelType = 'HexToHSL';
+const panelType = 'ColorToHSL';
 
 const inputEndpoints = [{
-    name: 'Hex',
+    name: 'Color',
     defaultValue: '#ffffff',
     type: 'string',
     signal: 'Value'
@@ -43,7 +42,7 @@ const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Hex" panelId={panelId} {...props}>Hex</InputEndpoint>
+                <InputEndpoint name="Color" panelId={panelId} {...props}>Color</InputEndpoint>
                 <OutputEndpoint name="Hue" panelId={panelId} {...props}>Hue</OutputEndpoint>
             </div>
             <div className="Row">
@@ -56,7 +55,9 @@ const create = (panelId: number): Panel => {
     };
 
     const execute = (panel, inputs) => {
-        const [ outputHue, outputSaturation, outputLuminosity ] = hex2hsl(inputs.inputHex);
+        const { h, s, l } = tinycolor(inputs.inputColor).toHsl();
+        const [ outputHue, outputSaturation, outputLuminosity ] = [h, s, l];
+
         return {
             outputHue,
             outputSaturation,
