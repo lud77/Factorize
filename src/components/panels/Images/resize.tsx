@@ -85,21 +85,13 @@ const create = (panelId: number): Panel => {
 
         if (values.inputImage == null || values.inputVAlign == null || values.inputHAlign == null) return { outputImage: null };
 
-        console.log('resize image execute - 1');
-
         if (Image.vAnchorMultiplier[values.inputVAlign] == null || Image.hAnchorMultiplier[values.inputHAlign] == null) return { outputImage: null };
 
-        console.log('resize image execute - 2');
-
         if (values.inputColor == null) return { outputImage: null };
-
-        console.log('resize image execute - 3');
 
         const color = color2rgba(values.inputColor);
 
         if (color == null) return { outputImage: null };
-
-        console.log('resize image execute - 4');
 
         const width = values.inputWidth ? parseInt(values.inputWidth) : undefined;
         const height = values.inputHeight ? parseInt(values.inputHeight) : undefined;
@@ -120,8 +112,6 @@ const create = (panelId: number): Panel => {
             hasHAlignChanged;
 
         if (!hasChanged) return {};
-
-        console.log('resize image execute -5');
 
         return Promise.resolve()
             .then(() => Image.resize(
