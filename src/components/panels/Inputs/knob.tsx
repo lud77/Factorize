@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import clamp from '../../../utils/clamp';
+import debounce from '../../../utils/debounce';
 import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
@@ -30,17 +30,6 @@ const panelSizes = {
     ...defaultSizes,
     width: 100,
     height: 109
-};
-
-
-const debounce = (func, delay = 250) => {
-    let timerId;
-    return (...args) => {
-        clearTimeout(timerId);
-        timerId = setTimeout(() => {
-            func(args);
-        }, delay);
-    };
 };
 
 const create = (panelId: number): Panel => {
