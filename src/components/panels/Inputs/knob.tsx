@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import clamp from '../../../utils/clamp';
 import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
@@ -7,6 +8,7 @@ import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 import Knob from '../../Knob/Knob';
+import { min } from 'mathjs';
 
 const panelType = 'Knob';
 
@@ -30,22 +32,32 @@ const panelSizes = {
     height: 109
 };
 
-const create = (panelId: number): Panel => {
-    const clamp = (v) => Math.max(0, Math.min(1, v));
 
-    const handleMouseWheel = ({ panel, machine }) => (e) => {
-        const currentValue = (panel.outputEpValues.outputValue != null ? panel.outputEpValues.outputValue : panel.outputEpDefaults.outputValue) / parseInt(panel.inputEpValues.inputScale);
+const debounce = (func, delay = 250) => {
+    let timerId;
+    return (...args) => {
+        clearTimeout(timerId);
+        timerId = setTimeout(() => {
+            func(args);
+        }, delay);
+    };
+};
+
+const create = (panelId: number): Panel => {
+    const handleMouseWheel = ({ panel, machine }) => (value) => {
         machine.executePanelLogic(panelId, {
-            tuningValue: clamp(currentValue - e.deltaY / 6000)
+            tuningNormalizedValue: value
         });
     };
+
+    const debouncedMouseWheel = (props) => debounce(handleMouseWheel(props));
 
     const Component = (props) => {
         return <>
             <div className="Row">
                 <div className="InteractiveItem">
                     <Knob
-                        onMouseWheel={handleMouseWheel(props)}
+                        onMouseWheel={debouncedMouseWheel(props)}
                         value={ props.panel.outputEpValues.outputValue / parseInt(props.panel.inputEpValues.inputScale) }
                         />
                 </div>
@@ -59,8 +71,12 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, inputs) => {
         console.log('inputs', inputs);
+        const scale = parseInt(inputs.inputScale != null ? inputs.inputScale : 0);
+        const baseNormalizedValue = panel.outputEpValues.normalizedValue != null ? panel.outputEpValues.normalizedValue : 0.5;
+        const normalizedValue = (inputs.tuningNormalizedValue != null) ? inputs.tuningNormalizedValue : baseNormalizedValue;
         return {
-            outputValue: ((inputs.tuningValue != null) ? inputs.tuningValue : 0.5) * parseInt(inputs.inputScale != null ? inputs.inputScale : 0)
+            normalizedValue,
+            outputValue: normalizedValue * scale
         };
     }
 
