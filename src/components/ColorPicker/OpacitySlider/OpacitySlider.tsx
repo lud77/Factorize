@@ -1,7 +1,7 @@
 import * as React from 'react';
 import tinycolor from 'tinycolor2';
 
-import clamp from '../../utils/clamp';
+import clamp from '../../../utils/clamp';
 
 import './OpacitySlider.css';
 

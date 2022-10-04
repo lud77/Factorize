@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import ToneSelector from './ToneSelector';
-import HueSlider from './HueSlider';
-import OpacitySlider from './OpacitySlider';
+import ToneSelector from '../ToneSelector';
+import HueSlider from '../HueSlider';
+import OpacitySlider from '../OpacitySlider';
 import GradientSlider from './GradientSlider';
 import GradientPreview from './GradientPreview';
 
-import './Picker.css';
+import '../Picker.css';
 import './GradientPicker.css';
 
 const GradientPicker = (props) => {

@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import ToneSelector from './ToneSelector';
-import HueSlider from './HueSlider';
-import OpacitySlider from './OpacitySlider';
+import ToneSelector from '../ToneSelector';
+import HueSlider from '../HueSlider';
+import OpacitySlider from '../OpacitySlider';
 import ColorPreview from './ColorPreview';
 
-import './Picker.css';
+import '../Picker.css';
 import './ColorPicker.css';
 
 const ColorPicker = (props) => {
