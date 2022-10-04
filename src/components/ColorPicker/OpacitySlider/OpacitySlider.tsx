@@ -26,9 +26,8 @@ const OpacitySlider = (props) => {
 
     const pointerStyle = { left: `${pointer - 6}px` };
 
-    const coordsToColor = (x, width, hue, value, saturation) => {
+    const coordsToColor = (x, hue, value, saturation) => {
         let alpha = clamp(x / width);
-        console.log(tinycolor({ h: hue, s: saturation, v: value, a: alpha })._originalInput);
         return tinycolor({ h: hue, s: saturation, v: value, a: alpha })._originalInput;
     };
 
@@ -49,15 +48,18 @@ const OpacitySlider = (props) => {
     const mouseDownHandler = (e) => {
         const {
             bounds,
+            startX, startY,
             positionX
         } = getMeasures(e);
+
+        if (!(startX >= bounds.left && startY >= bounds.top && startX <= bounds.left + width - 1 && startY <= bounds.bottom)) return true;
 
         e.stopPropagation();
 
         setDragging(true);
         setPointer(positionX);
 
-        props.onChange(coordsToColor(positionX, bounds.right - bounds.left, color.h, color.v, color.s));
+        props.onChange(coordsToColor(positionX, color.h, color.v, color.s));
     };
 
     const mouseMoveHandler = (e) => {
@@ -67,13 +69,13 @@ const OpacitySlider = (props) => {
             positionX
         } = getMeasures(e);
 
-        if (!(dragging && startX >= bounds.left && startY >= bounds.top && startX <= bounds.right && startY <= bounds.bottom)) return true;
+        if (!(dragging && startX >= bounds.left && startY >= bounds.top && startX <= bounds.left + width - 1 && startY <= bounds.bottom)) return true;
 
         e.stopPropagation();
 
         setPointer(positionX);
 
-        props.onChange(coordsToColor(positionX, bounds.right - bounds.left, color.h, color.v, color.s));
+        props.onChange(coordsToColor(positionX, color.h, color.v, color.s));
     };
 
     const mouseUpHandler = (e) => {

@@ -35,7 +35,7 @@ const ToneSelector = (props) => {
         top: `${pointer[1] - 6}px`
     };
 
-    const coordsToColor = (x, y, width, height, hue, alpha) => {
+    const coordsToColor = (x, y, hue, alpha) => {
         const lx = clamp(x, 0, width);
         const ly = clamp(y, 0, height);
 
@@ -74,7 +74,7 @@ const ToneSelector = (props) => {
         setDragging(true);
         setPointer([ positionX, positionY ]);
 
-        props.onChange(coordsToColor(positionX, positionY, bounds.right - bounds.left, bounds.bottom - bounds.top, color.h, color.a));
+        props.onChange(coordsToColor(positionX, positionY, color.h, color.a));
     };
 
     const mouseMoveHandler = (e) => {
@@ -84,13 +84,13 @@ const ToneSelector = (props) => {
             positionX, positionY
         } = getMeasures(e);
 
-        if (!(dragging && startX >= bounds.left && startY >= bounds.top && startX <= bounds.right && startY <= bounds.bottom)) return true;
+        if (!(dragging && startX >= bounds.left && startY >= bounds.top && startX <= bounds.left + width - 1 && startY <= bounds.top + height - 1)) return true;
 
         e.stopPropagation();
 
         setPointer([ positionX, positionY ]);
 
-        props.onChange(coordsToColor(positionX, positionY, bounds.right - bounds.left, bounds.bottom - bounds.top, color.h, color.a));
+        props.onChange(coordsToColor(positionX, positionY, color.h, color.a));
     };
 
     const mouseUpHandler = (e) => {
