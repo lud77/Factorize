@@ -1,0 +1,18 @@
+.Picker .Pointer {
+    position: absolute;
+    top: 1px;
+    height: 12px;
+    width: 12px;
+    border: 1px solid #FFFFFF;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: 0 0 4px 0 rgb(0 0 0 / 30%);
+}
+
+.Picker .Controls {
+    width: 100%;
+}
+
+.Picker .Controls .Sliders {
+    width: 100%;
+}

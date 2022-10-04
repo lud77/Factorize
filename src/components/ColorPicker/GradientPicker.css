@@ -1,0 +1,29 @@
+.GradientPicker .Controls {
+    display: flex;
+    flex-direction: row;
+}
+
+.GradientPicker .Controls .Sliders {
+    display: flex;
+    flex-direction: column;
+}
+
+.GradientPicker .GradientPreview {
+    box-sizing: content-box;
+    width: 36px;
+    height: 36px;
+    border: 1px solid white;
+    margin-right: 8px;
+    border-radius: 8px;
+    background-color: #ccc;
+    background-size: 8px 8px;
+    background-position: 0 0px, 0 4px, 4px -4px, -4px 0px;
+    background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
+    padding: 0px;
+}
+
+.GradientPicker .GradientPreview .Color {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+}
