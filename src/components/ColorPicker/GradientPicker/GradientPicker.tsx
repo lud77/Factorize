@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import ToneSelector from '../ToneSelector';
-import HueSlider from '../HueSlider';
-import OpacitySlider from '../OpacitySlider';
-import GradientSlider from './GradientSlider';
+import ToneSelector from '../ToneSelector/ToneSelector';
+import HueSlider from '../HueSlider/HueSlider';
+import OpacitySlider from '../OpacitySlider/OpacitySlider';
+import GradientSlider from './GradientSlider/GradientSlider';
 import GradientPreview from './GradientPreview';
 
 import '../Picker.css';

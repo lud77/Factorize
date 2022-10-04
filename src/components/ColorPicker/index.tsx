@@ -1,2 +1,2 @@
-export { default as ColorPicker } from './ColorPicker';
-export { default as GradientPicker } from './GradientPicker';
+export { default as ColorPicker } from './ColorPicker/ColorPicker';
+export { default as GradientPicker } from './GradientPicker/GradientPicker';
