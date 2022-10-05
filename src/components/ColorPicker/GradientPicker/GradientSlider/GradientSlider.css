@@ -46,3 +46,8 @@
     top: -13px;
     line-height: 11px;
 }
+
+.GradientSlider .Pointer:hover,
+.GradientSlider .Cross:hover {
+    border: 2px solid white;
+}
