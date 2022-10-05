@@ -38,7 +38,7 @@ const GradientPicker = (props) => {
                 />
             <div className="Controls">
                 <div className="Preview">
-                    <GradientPreview color={props.steps[selectedStep][0]} />
+                    <GradientPreview steps={props.steps} />
                 </div>
                 <div className="Sliders">
                     <HueSlider color={props.steps[selectedStep][0]} onChange={handleChange} />
