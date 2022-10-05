@@ -28,7 +28,7 @@ const ToneSelector = (props) => {
                 height - (colorHsv.v * height)
             ]);
         }
-    }, [width, height]);
+    }, [width, height, props.color]);
 
     const pointerStyle = {
         left: `${pointer[0] - 6}px`,
@@ -42,9 +42,9 @@ const ToneSelector = (props) => {
         const value = 1 - (ly / height);
         const saturation = lx / width;
 
-        console.log(tinycolor({ h: hue, s: saturation, v: value, a: alpha })._originalInput);
+        console.log({ h: hue, s: saturation, v: value, a: alpha });
 
-        return tinycolor({ h: hue, s: saturation, v: value, a: alpha })._originalInput;
+        return { h: hue, s: saturation, v: value, a: alpha };
     };
 
     const getMeasures = (e) => {
@@ -78,6 +78,11 @@ const ToneSelector = (props) => {
     };
 
     const mouseMoveHandler = (e) => {
+        if (e.buttons === 0) {
+            setDragging(false);
+            return true;
+        }
+
         const {
             bounds,
             startX, startY,

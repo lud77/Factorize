@@ -1,7 +1,7 @@
 import * as React from 'react';
 import tinycolor from 'tinycolor2';
 
-import { ColorPicker } from '../../../ColorPicker';
+import { ColorPicker } from '../../../ColorPicker/';
 import { Panel } from '../../../../types/Panel';
 import debounce from '../../../../utils/debounce';
 

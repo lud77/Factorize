@@ -14,10 +14,10 @@ const OpacitySlider = (props) => {
     React.useEffect(() => {
         if (opacitySliderRef.current) {
             setWidth(opacitySliderRef.current.clientWidth);
-
-            setPointer(color.a * width);
+            console.log('opacity', props.color);
+            setPointer(props.color.a * width);
         }
-    }, [width]);
+    }, [width, props.color]);
 
     const color = props.color;
     const colorHsl = tinycolor.fromRatio(props.color).toHsl();
@@ -28,7 +28,7 @@ const OpacitySlider = (props) => {
 
     const coordsToColor = (x, hue, value, saturation) => {
         let alpha = clamp(x / width);
-        return tinycolor({ h: hue, s: saturation, v: value, a: alpha })._originalInput;
+        return { h: hue, s: saturation, v: value, a: alpha };
     };
 
     const getMeasures = (e) => {
@@ -63,6 +63,11 @@ const OpacitySlider = (props) => {
     };
 
     const mouseMoveHandler = (e) => {
+        if (e.buttons === 0) {
+            setDragging(false);
+            return true;
+        }
+
         const {
             bounds,
             startX, startY,

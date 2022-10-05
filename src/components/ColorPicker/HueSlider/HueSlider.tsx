@@ -19,14 +19,14 @@ const HueSlider = (props) => {
 
             setPointer(color.h * width);
         }
-    }, [width]);
+    }, [width, props.color]);
 
     const pointerStyle = { left: `${pointer - 6}px` };
 
     const coordsToColor = (x, value, saturation, alpha) => {
         let hue = clamp(x / width);
-        console.log(tinycolor({ h: hue, s: saturation, v: value, a: alpha })._originalInput);
-        return tinycolor.fromRatio({ h: hue, s: saturation, v: value, a: alpha })._originalInput;
+        console.log({ h: hue, s: saturation, v: value, a: alpha });
+        return { h: hue, s: saturation, v: value, a: alpha };
     };
 
     const getMeasures = (e) => {
@@ -61,6 +61,11 @@ const HueSlider = (props) => {
     };
 
     const mouseMoveHandler = (e) => {
+        if (e.buttons === 0) {
+            setDragging(false);
+            return true;
+        }
+
         const {
             bounds,
             startX, startY,

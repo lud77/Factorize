@@ -1,29 +1,48 @@
-.GradientPicker .Controls {
-    display: flex;
-    flex-direction: row;
+.GradientSlider {
+    position: relative;
+    width: calc(100% - 12px);
+    left: 6px;
+    height: 42px;
+    margin-bottom: 8px;
 }
 
-.GradientPicker .Controls .Sliders {
-    display: flex;
-    flex-direction: column;
-}
-
-.GradientPicker .GradientPreview {
-    box-sizing: content-box;
-    width: 36px;
-    height: 36px;
-    border: 1px solid white;
-    margin-right: 8px;
-    border-radius: 8px;
+.GradientSlider .Checkered {
+    position: relative;
+    width: 100%;
+    height: 14px;
+    top: 14px;
     background-color: #ccc;
     background-size: 8px 8px;
-    background-position: 0 0px, 0 4px, 4px -4px, -4px 0px;
+    background-position: 0 -1px, 0 3px, 4px -5px, -4px -1px;
     background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
-    padding: 0px;
 }
 
-.GradientPicker .GradientPreview .Gradient {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
+.GradientSlider .GradientEditor {
+    width: 100%;
+    height: 100%;
+}
+
+.GradientSlider .Pointer {
+    top: 14px;
+    background-color: #ccc;
+    background-size: 8px 8px;
+    background-position: 0 -1px, 0 3px, 4px -5px, -4px -1px;
+    background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
+}
+
+.GradientSlider .Pointer .Color {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.GradientSlider .Line {
+    top: 0px;
+}
+
+.GradientSlider .Cross {
+    top: -13px;
+    line-height: 11px;
 }
