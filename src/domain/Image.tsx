@@ -33,7 +33,7 @@ const printable = (image) => {
         `Bit depth: ${image.contents.bitDepth}\n` +
         `Color model: ${image.contents.colorModels}\n` +
         `Has alpha: ${image.contents.alpha ? true : false}\n` +
-        '---';
+        '---\n';
 };
 
 const getAlpha = (image, pixel) => {

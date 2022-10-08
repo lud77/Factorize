@@ -49,7 +49,6 @@ Some of the functionality in certain areas is provided by third party libraries,
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
-    - [ ] IMAGE: Heightmap
     - [ ] IMAGE: Threshold
     - [ ] TEXTURES: Circular gradient
     - [ ] Add features to manipulate channels
@@ -141,6 +140,7 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+        - [x] IMAGE: Heightmap
     - [x] TEXTURES: Add angle to patterns
     - [x] TEXTURES: Linear Gradient
     - [x] INPUTS: Gradient Picker

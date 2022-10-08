@@ -1,9 +1,11 @@
 import * as Matrix from './Matrix';
 import * as Image from './Image';
+import * as Gradient from './Gradient';
 
 const extendedFormat = {
     [Matrix.matrixSym]: Matrix.printable,
-    [Image.imageSym]: Image.printable
+    [Image.imageSym]: Image.printable,
+    [Gradient.gradientSym]: Gradient.printable
 };
 
 const getExtendedFormat = (input) => {

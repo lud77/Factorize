@@ -3,6 +3,7 @@ import tinycolor from 'tinycolor2';
 
 import { GradientPicker } from '../../../ColorPicker';
 import { Panel } from '../../../../types/Panel';
+import { toGradient } from '../../../../domain/Gradient';
 import debounce from '../../../../utils/debounce';
 
 import InputEndpoint from '../../../Editor/Panel/InputEndpoint';
@@ -23,18 +24,18 @@ const toOutputPoint = (gradientPoint) => {
 };
 
 const fixGradient = (gradient) => {
-    const clone = gradient.map(toOutputPoint);
+    const clone = gradient.contents.map(toOutputPoint);
     const sorted = clone.sort((a, b) => a[1] - b[1]);
 
-    return sorted;
+    return toGradient(sorted);
 };
 
-const defaultGradient = [[{ h: 0, s: 0, v: 1, a: 0 }, 0], [{ h: 0, s: 0, v: 1, a: 1 }, 100]];
+const defaultGradient = toGradient([[{ h: 0, s: 0, v: 1, a: 0 }, 0], [{ h: 0, s: 0, v: 1, a: 1 }, 100]]);
 
 const outputEndpoints = [{
     name: 'Gradient',
     defaultValue: fixGradient(defaultGradient),
-    type: 'array',
+    type: 'gradient',
     signal: 'Value'
 }];
 
@@ -46,10 +47,10 @@ const panelSizes = {
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
-        const [steps, setSteps] = React.useState(null);
+        const [steps, setSteps] = React.useState(toGradient(null));
 
         React.useEffect(() => {
-            if (steps != null) return;
+            if (steps.contents != null) return;
 
             if (props.panel.outputEpValues.outputSteps == null) {
                 setSteps(defaultGradient);
@@ -60,19 +61,20 @@ const create = (panelId: number): Panel => {
         }, [steps]);
 
         const handleChange = ({ panel, machine }) => (newGradient) => {
-            machine.executePanelLogic(panelId, { tuningGradient: fixGradient(newGradient), tuningSteps: newGradient });
-            setSteps(newGradient);
+            const wrappedGradient = toGradient(newGradient);
+            machine.executePanelLogic(panelId, { tuningGradient: fixGradient(wrappedGradient), tuningSteps: wrappedGradient });
+            setSteps(wrappedGradient);
 
             return true;
         };
 
-        const debouncedChange = debounce(handleChange(props));
-
+        const debouncedChange = debounce(handleChange(props), 1);
+        // console.log('aaaa', steps);
         return <>
             <div className="Row">
                 <div className="InteractiveItem GradientPicker">
                     <GradientPicker
-                        steps={steps} setSteps={setSteps}
+                        steps={steps.contents} setSteps={setSteps}
                         onChange={debouncedChange}
                         />
                 </div>
@@ -86,7 +88,7 @@ const create = (panelId: number): Panel => {
     const execute = (panel, inputs) => {
         console.log('execute gradientPicker', inputs);
 
-        if (inputs.tuningGradient == null) return {};
+        if (inputs.tuningGradient == null || inputs.tuningGradient.contents == null) return {};
 
         return {
             outputSteps: inputs.tuningSteps,

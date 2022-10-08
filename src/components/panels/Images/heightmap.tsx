@@ -17,7 +17,7 @@ const inputEndpoints = [{
 }, {
     name: 'Gradient',
     defaultValue: null,
-    type: 'array',
+    type: 'gradient',
     signal: 'Value'
 }];
 
@@ -50,9 +50,9 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => {
         console.log('heightmap execute');
 
-        if (values.inputHeightmap == null || values.inputGradient == null) return { outputResult: null };
+        if (values.inputHeightmap == null || values.inputGradient == null || values.inputGradient.contents == null) return { outputResult: null };
 
-        const gradientText = JSON.stringify(values.inputGradient);
+        const gradientText = JSON.stringify(values.inputGradient.contents);
 
         const hasHeightmapChanged = (panel.outputEpValues.oldHeightmap == null) || (values.inputHeightmap != panel.outputEpValues.oldHeightmap);
         const hasGradientChanged = (panel.outputEpValues.oldGradient == null) || (gradientText != panel.outputEpValues.oldGradient);

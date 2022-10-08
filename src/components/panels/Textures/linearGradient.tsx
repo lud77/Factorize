@@ -43,8 +43,8 @@ const inputEndpoints = [{
     signal: 'Value'
 }, {
     name: 'Gradient',
-    defaultValue: [],
-    type: 'array',
+    defaultValue: null,
+    type: 'gradient',
     signal: 'Value'
 }];
 
@@ -92,7 +92,12 @@ const create = (panelId: number): Panel => {
     const execute = (panel, values) => {
         console.log('gradient execute');
 
-        if (values.inputGradient == null || !values.inputGradient.length || values.inputGradient.length < 2) return { outputImage: null };
+        if (
+            values.inputGradient == null ||
+            values.inputGradient.contents == null ||
+            !values.inputGradient.contents.length ||
+            values.inputGradient.contents.length < 2
+        ) return { outputImage: null };
 
         const width = parseInt(values.inputWidth || '0');
         const height = parseInt(values.inputHeight || '0');
@@ -100,7 +105,7 @@ const create = (panelId: number): Panel => {
         const offsetY = parseInt(values.inputOffsetY || '0');
         const length = parseInt(values.inputLength || '1');
         const angle = parseInt(values.inputAngle || '0');
-        const gradientText = JSON.stringify(values.inputGradient);
+        const gradientText = JSON.stringify(values.inputGradient.contents);
 
         const hasOffsetXChanged = (panel.outputEpValues.oldOffsetX == null) || (offsetX != panel.outputEpValues.oldOffsetX);
         const hasOffsetYChanged = (panel.outputEpValues.oldOffsetY == null) || (offsetY != panel.outputEpValues.oldOffsetY);

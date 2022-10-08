@@ -7,27 +7,30 @@ const toGradient = (contents) => {
     return {
         type: gradientSym,
         contents,
-        toString: () => `Gradient`
+        toString: () => `Color gradient`
     };
 };
 
 const printable = (gradient) => {
-    return `\nGradient info:\n` +
-        '---';
+    if (gradient.contents == null) return `\nGradient info:\nnull\n---\n`;
+
+    return `\nGradient with ${gradient.contents.length} keypoints:\n` +
+        gradient.contents.map(([c, p]) => `${c} (${Math.floor(p)})\n`).join('') +
+        `---\n`;
 };
 
 const renderGradient = (gradient, length) => {
-    const colors = gradient.map(([ colorPoint ]) => color2rgba(colorPoint));
+    const colors = gradient.contents.map(([ colorPoint ]) => color2rgba(colorPoint));
 
     const beforeColor = colors[0];
     const afterColor = colors[colors.length - 1];
 
-    const steps = gradient.map(([, step]) => step * length / 100);
+    const steps = gradient.contents.map(([, step]) => step * length / 100);
 
-    const deltas = gradient.map(([, step], i) => {
+    const deltas = gradient.contents.map(([, step], i) => {
         if (i == 0) return null;
 
-        return length * (step - gradient[i - 1][1]) / 100;
+        return length * (step - gradient.contents[i - 1][1]) / 100;
     });
 
     const stepNum = steps.length - 1;

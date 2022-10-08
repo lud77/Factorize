@@ -26,7 +26,6 @@ const GradientPicker = (props) => {
     // console.log('gradient picker 1', props.steps.map((x) => tinycolor.fromRatio(x[0]).toRgb()));
 
     if (props.steps == null) return <></>;
-    console.log('yyy', props.steps, selectedStep);
 
     return <>
         <div className="Picker GradientPicker">
