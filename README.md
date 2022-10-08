@@ -49,13 +49,12 @@ Some of the functionality in certain areas is provided by third party libraries,
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
-    - [ ] TEXTURES: Add angle to patterns
+    - [ ] IMAGE: Heightmap
+    - [ ] IMAGE: Threshold
     - [ ] TEXTURES: Circular gradient
     - [ ] Add features to manipulate channels
     - [ ] Threejs renderer panel (decide format for scene data type)
     - [ ] Add turbulence input to generators
-    - [ ] IMAGE: Threshold
-    - [ ] IMAGE: Heightmap
     - [ ] TILES: Tile
     - [ ] IMAGE: Path
     - [ ] IMAGE: Shape / Polygon
@@ -142,6 +141,7 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
+    - [x] TEXTURES: Add angle to patterns
     - [x] TEXTURES: Linear Gradient
     - [x] INPUTS: Gradient Picker
     - [x] Introduce tinycolor in components with hex input

@@ -91,7 +91,11 @@ const GradientSlider = (props) => {
                 ...props.steps.slice(stepIndex + 1)
             ];
 
-            props.setSteps(newSteps);
+            console.log('xxx', stepIndex, props.steps, newSteps);
+
+            // props.setSteps(newSteps);
+            props.onChange(newSteps);
+            props.setSelectedStep(Math.max(stepIndex - 1, 0));
             return;
         }
 
@@ -111,7 +115,8 @@ const GradientSlider = (props) => {
                 ...props.steps.slice(insertIndex + 1)
             ];
 
-            props.setSteps(newSteps);
+            // props.setSteps(newSteps);
+            props.onChange(newSteps);
             props.setSelectedStep(props.selectedStep + 1);
             return;
         }
@@ -132,7 +137,8 @@ const GradientSlider = (props) => {
             ...props.steps.slice(dragging + 1)
         ];
 
-        props.setSteps(newSteps);
+        props.onChange(newSteps);
+        // props.setSteps(newSteps);
     };
 
     const mouseUpHandler = (e) => {

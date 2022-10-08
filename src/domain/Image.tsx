@@ -2,6 +2,7 @@ import Jimp from 'jimp/es';
 import { Image } from 'image-js';
 
 import * as Vector from './Vector';
+import { renderGradient } from './Gradient';
 
 const imageSym = Symbol('image');
 
@@ -206,6 +207,40 @@ const displace = (image, map, offset) => {
     return toImage(new Image(image.width, image.height, imageClone.bitmap.data));
 };
 
+const createHeightmap = (heightmap, gradient) => {
+    const { width, height, channels } = heightmap.contents;
+    console.log('createHeightmap', width, height, channels);
+    const size = width * height;
+    const data = new Uint8ClampedArray(size * channels);
+
+    const getColorAt = renderGradient(gradient, 256);
+
+    const gradCache =
+        Array(256).fill(0)
+            .map((e, i) => getColorAt(i));
+
+    console.log('gradCache', gradCache);
+
+    for (let x = 0; x < width; x += 1) {
+        for (let y = 0; y < height; y += 1) {
+            const i = (x + y * width) * channels;
+            const color = gradCache[heightmap.contents.data[i]];
+
+            data[i] = color[0];
+            data[i + 1] = color[1];
+            data[i + 2] = color[2];
+            data[i + 3] = color[3];
+        }
+    }
+
+    return toImage(new Image({
+        width,
+        height,
+        data,
+        kind: 'RGBA'
+    }));
+};
+
 export {
     imageSym,
     toImage,
@@ -216,6 +251,7 @@ export {
     generatePattern,
     resize,
     displace,
+    createHeightmap,
     hAnchorMultiplier,
     vAnchorMultiplier
 };

@@ -13,7 +13,7 @@ import './GradientPicker.css';
 const GradientPicker = (props) => {
     const [ selectedStep, setSelectedStep ] = React.useState(0);
 
-    const handleChange = (hsva, position) => {
+    const handleChange = (hsva) => {
         const newSteps = [
             ...props.steps.slice(0, selectedStep),
             [hsva, props.steps[selectedStep][1]],
@@ -24,9 +24,9 @@ const GradientPicker = (props) => {
     };
 
     // console.log('gradient picker 1', props.steps.map((x) => tinycolor.fromRatio(x[0]).toRgb()));
-    console.log('gradient picker 2', props.steps, selectedStep);
 
     if (props.steps == null) return <></>;
+    console.log('yyy', props.steps, selectedStep);
 
     return <>
         <div className="Picker GradientPicker">

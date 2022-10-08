@@ -8,6 +8,7 @@ import Resize from './resize';
 import CopyImage from './copyImage';
 import PaintText from './paintText';
 import Blend from './blend';
+import Heightmap from './heightmap';
 import Transform from './transform';
 import ColorAdjust from './colorAdjust';
 import Morphology from './morphology';
@@ -25,6 +26,7 @@ export default {
     CopyImage,
     PaintText,
     Blend,
+    Heightmap,
     Transform,
     ColorAdjust,
     Morphology,

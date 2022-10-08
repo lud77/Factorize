@@ -85,7 +85,9 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, inputs) => {
         console.log('execute gradientPicker', inputs);
+
         if (inputs.tuningGradient == null) return {};
+
         return {
             outputSteps: inputs.tuningSteps,
             outputGradient: inputs.tuningGradient
