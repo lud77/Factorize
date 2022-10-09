@@ -51,9 +51,10 @@ Some of the functionality in certain areas is provided by third party libraries,
 - [~] Actual panels
     - [ ] IMAGE: ImageSave
     - [ ] IMAGE: Threshold
-    - [ ] TEXTURES: Circular gradient
     - [ ] Add features to manipulate channels
-    - [ ] Threejs renderer panel (decide format for scene data type)
+    - [ ] 3d and vector graphics integration?
+        - [ ] Three.js integration
+        - [ ] P5.js integration
     - [ ] Add turbulence input to generators
     - [ ] TILES: Tile
     - [ ] IMAGE: Path
@@ -61,7 +62,6 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] IMAGE: Polyline
     - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: FFT / IFFT
-    - [ ] TEXTURES: Gradient
     - [ ] IMAGE: Pixelate
     - [ ] IMAGE: Mix?
     - [ ] IMAGE: Crop
@@ -140,6 +140,9 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
         - [x] IMAGE: Heightmap
+    - [x] TEXTURES: Gradient
+        - [x] Linear Gradient
+        - [x] Circular Gradient
     - [x] Hex2HSL introduce tinycolor
     - [x] TEXTURES: Add angle to patterns
     - [x] TEXTURES: Linear Gradient

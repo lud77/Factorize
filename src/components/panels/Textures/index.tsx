@@ -1,5 +1,6 @@
 import Monochrome from './monochrome';
 import LinearGradient from './linearGradient';
+import CircularGradient from './circularGradient';
 import SimplexNoise from './simplexNoise';
 import DirectionalNoise from './directionalNoise';
 import Pattern from './pattern';
@@ -7,6 +8,7 @@ import Pattern from './pattern';
 export default {
     Monochrome,
     LinearGradient,
+    CircularGradient,
     SimplexNoise,
     DirectionalNoise,
     Pattern
