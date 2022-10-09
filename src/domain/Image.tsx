@@ -209,7 +209,7 @@ const displace = (image, map, offset) => {
 
 const createHeightmap = (heightmap, gradient) => {
     const { width, height, channels } = heightmap.contents;
-    console.log('createHeightmap', width, height, channels);
+
     const size = width * height;
     const data = new Uint8ClampedArray(size * channels);
 
@@ -218,8 +218,6 @@ const createHeightmap = (heightmap, gradient) => {
     const gradCache =
         Array(256).fill(0)
             .map((e, i) => getColorAt(i));
-
-    console.log('gradCache', gradCache);
 
     for (let x = 0; x < width; x += 1) {
         for (let y = 0; y < height; y += 1) {

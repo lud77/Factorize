@@ -76,7 +76,6 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] Color ramp
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
-    - [ ] Hex2HSL introduce tinycolor
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
     - [~] TEXTURES: Noise generators
         - [ ] Gaussian noise
@@ -141,6 +140,7 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
         - [x] IMAGE: Heightmap
+    - [x] Hex2HSL introduce tinycolor
     - [x] TEXTURES: Add angle to patterns
     - [x] TEXTURES: Linear Gradient
     - [x] INPUTS: Gradient Picker
