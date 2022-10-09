@@ -117,7 +117,7 @@ const GradientSlider = (props) => {
 
             // props.setSteps(newSteps);
             props.onChange(newSteps);
-            props.setSelectedStep(props.selectedStep + 1);
+            props.setSelectedStep(insertIndex + 1);
             return;
         }
     };
