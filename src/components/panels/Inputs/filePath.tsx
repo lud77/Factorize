@@ -25,7 +25,7 @@ const panelSizes = {
 
 const create = (panelId: number): Panel => {
     const handleClick = ({ panel, machine }) => (e) => {
-        System.saveFileDialog({ title: 'Select file...' })
+        System.saveFileDialog({ title: 'Select file...', buttonLabel: 'Select' })
             .then((filePath) => {
                 if (filePath == null) return;
 

@@ -49,6 +49,7 @@ Some of the functionality in certain areas is provided by third party libraries,
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] IMAGE: ImageSave
     - [ ] IMAGE: Threshold
     - [ ] TEXTURES: Circular gradient
     - [ ] Add features to manipulate channels
@@ -65,7 +66,6 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] IMAGE: Mix?
     - [ ] IMAGE: Crop
     - [ ] IMAGE: Translate
-    - [ ] IMAGE: ImageSave
     - [ ] HASHES: Hash functions
         - [ ] Md5
         - [ ] Sha1
