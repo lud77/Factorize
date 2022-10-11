@@ -49,7 +49,7 @@ Some of the functionality in certain areas is provided by third party libraries,
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
-    - [ ] IMAGE: ImageSave
+    - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: Threshold
     - [ ] Add features to manipulate channels
     - [ ] 3d and vector graphics integration?
@@ -60,12 +60,11 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] IMAGE: Path
     - [ ] IMAGE: Shape / Polygon
     - [ ] IMAGE: Polyline
-    - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: FFT / IFFT
     - [ ] IMAGE: Pixelate
     - [ ] IMAGE: Mix?
     - [ ] IMAGE: Crop
-    - [ ] IMAGE: Translate
+    - [/] IMAGE: Move
     - [ ] HASHES: Hash functions
         - [ ] Md5
         - [ ] Sha1
@@ -73,7 +72,6 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] SOURCE: Glob
     - [ ] FLOW: For: (from:Value + to:Value + step:Value + Pulse -> Pulse + Pulse + Value) expose index variable and emit "execute" every loop until "exit"
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
-    - [ ] Color ramp
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
     - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
@@ -139,7 +137,9 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] Intersection
         - [x] Unique (Distinct)
         - [x] Basic Object panel (Dictionary)
-        - [x] IMAGE: Heightmap
+    - [x] Color ramp
+    - [x] IMAGE: ImageSave
+    - [x] IMAGE: Heightmap
     - [x] TEXTURES: Gradient
         - [x] Linear Gradient
         - [x] Circular Gradient

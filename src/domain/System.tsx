@@ -131,7 +131,15 @@ const readImageFile = (filePath) => {
 const consoleLog = (message) => {
     return new Promise((resolve) => {
         ipcRenderer.send('api:console-log', message);
+        resolve(null);
     });
+};
+
+const saveImage = (filePath, image) => {
+    const { data, width, height } = image.contents;
+    const contents = { data, width, height };
+
+    ipcRenderer.send('api:save-image', { filePath, contents });
 };
 
 export default {
@@ -148,5 +156,6 @@ export default {
     readTextLine,
     startWatchingFile,
     stopWatchingFile,
-    consoleLog
+    consoleLog,
+    saveImage
 };

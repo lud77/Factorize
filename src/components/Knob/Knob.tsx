@@ -15,7 +15,7 @@ const Knob = (props) => {
     const offset = 90;
 
     const onMouseWheel = (e) => {
-        const newValue = clamp(value - e.deltaY / 6000);
+        const newValue = clamp(value - e.deltaY / (e.shiftKey ? 6000 : 1200));
         setValue(newValue);
         props.onMouseWheel(newValue);
     };

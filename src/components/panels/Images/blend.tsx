@@ -174,7 +174,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['duplicate', 'picture'],
+    tags: ['duplicate', 'picture', 'colorize'],
     inputEndpoints,
     outputEndpoints,
     ...panelSizes

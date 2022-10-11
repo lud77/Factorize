@@ -2,6 +2,7 @@ import DisplayLogger from './displayLogger';
 import FileLogger from './fileLogger';
 import StdOutLogger from './stdOutLogger';
 import ConsoleLogger from './consoleLogger';
+import ImageSave from './imageSave';
 import TextView from './textView';
 import ImageView from './imageView';
 import ColorView from './colorView';
@@ -14,6 +15,7 @@ export default {
     StdOutLogger,
     FileLogger,
     ConsoleLogger,
+    ImageSave,
     TextView,
     ImageView,
     ColorView,

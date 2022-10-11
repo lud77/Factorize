@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const nreadlines = require('n-readlines');
+const Jimp = require('jimp');
 
 const { getImageDimensions } = require('../utils');
 
@@ -158,6 +159,13 @@ const addServices = (win) => {
             console.log('error while appending to file', e);
         });
     });
+
+    ipcMain.on('api:save-image', (event, { filePath, contents }) => {
+        const image = new Jimp(contents);
+
+        image.write(filePath);
+    });
+
 
     return win;
 };
