@@ -13,14 +13,14 @@ const panelType = 'Simplify';
 const inputEndpoints = [{
     name: 'Function',
     defaultValue: '',
-    type: 'function',
+    type: 'string',
     signal: 'Value'
 }];
 
 const outputEndpoints = [{
     name: 'Function',
     defaultValue: '',
-    type: 'function',
+    type: 'string',
     signal: 'Value'
 }];
 

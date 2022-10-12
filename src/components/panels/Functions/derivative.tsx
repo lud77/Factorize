@@ -13,21 +13,26 @@ const panelType = 'Derivative';
 const inputEndpoints = [{
     name: 'Function',
     defaultValue: '',
-    type: 'function',
+    type: 'string',
+    signal: 'Value'
+}, {
+    name: 'Variable',
+    defaultValue: 'x',
+    type: 'string',
     signal: 'Value'
 }];
 
 const outputEndpoints = [{
     name: 'Derivative',
     defaultValue: '',
-    type: 'function',
+    type: 'string',
     signal: 'Value'
 }];
 
 const panelSizes = {
     ...defaultSizes,
     width: 134,
-    height: 54
+    height: 74
 };
 
 const create = (panelId: number): Panel => {
@@ -37,28 +42,38 @@ const create = (panelId: number): Panel => {
                 <InputEndpoint name="Function" panelId={panelId} signal="Value" {...props}>Function</InputEndpoint>
                 <OutputEndpoint name="Derivative" panelId={panelId} signal="Value" {...props}>Derivative</OutputEndpoint>
             </div>
+            <div className="Row">
+                <InputEndpoint name="Variable" panelId={panelId} signal="Value" editor="text" {...props}>Variable</InputEndpoint>
+            </div>
         </>;
     };
 
-    const execute = (panel, inputs) => {
-        const oldFunction = panel.outputEpValues.inputFunction;
+    const execute = (panel, values) => {
+        const hasFunctionChanged = (panel.outputEpValues.oldFunction == null) || (values.inputFunction != panel.outputEpValues.oldFunction);
+        const hasVariableChanged = (panel.outputEpValues.oldVariable == null) || (values.inputVariable != panel.outputEpValues.oldVariable);
 
-        if (oldFunction != inputs.inputFunction) {
+        const hasChanged =
+            hasFunctionChanged ||
+            hasVariableChanged;
 
-            try {
-                const outputDerivative = math.derivative(inputs.inputFunction, 'x').toString();
+        if (!hasChanged) return {};
 
-                return {
-                    ...inputs,
-                    oldFunction: inputs.inputFunction,
-                    outputDerivative
-                };
-            } catch (e) {
-                return { ...inputs, inputFunction: '', outputDerivative: '' };
-            }
+        try {
+            const outputDerivative = math.derivative(values.inputFunction, values.inputVariable).toString();
+
+            return {
+                ...values,
+                oldFunction: values.inputFunction,
+                oldVariable: values.inputVariable,
+                outputDerivative
+            };
+        } catch (e) {
+            return {
+                ...values,
+                oldFunction: values.inputFunction,
+                oldVariable: values.inputVariable
+            };
         }
-
-        return inputs;
     };
 
     return {
