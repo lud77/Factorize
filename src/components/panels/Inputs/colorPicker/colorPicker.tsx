@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { ColorPicker } from 'react-color-gradient-picker';
 import tinycolor from 'tinycolor2';
 
+import { ColorPicker } from '../../../ColorPicker/';
 import { Panel } from '../../../../types/Panel';
-import { toAttrs, fromAttrs } from '../../../../utils/colors';
+import debounce from '../../../../utils/debounce';
 
 import InputEndpoint from '../../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../../Editor/Panel/defaultSizes';
 
-import 'react-color-gradient-picker/dist/index.css';
 import './colorPicker.css';
 
 const panelType = 'ColorPicker';
@@ -26,28 +25,41 @@ const outputEndpoints = [{
 const panelSizes = {
     ...defaultSizes,
     width: 255,
-    height: 330
+    height: 277
 };
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
-        const [color, setColor] = React.useState('#ffff');
+        const [color, setColor] = React.useState('');
 
-        const handleChange = ({ panel, machine }) => (color) => {
-            machine.executePanelLogic(panelId, { tuningColor: tinycolor(fromAttrs(color)).toHex8String() });
-            setColor(color);
+        React.useEffect(() => {
+            if (color !== '') return;
+
+            if (props.panel.outputEpValues.outputColor == null) {
+                setColor({ h: 0, s: 0, v: 1, a: 1 });
+                return;
+            }
+
+            const { h, s, v, a } = tinycolor(props.panel.outputEpValues.outputColor).toHsv();
+            setColor({ h: h / 360, s, v, a });
+        }, [color]);
+
+        const handleChange = ({ panel, machine }) => (hsva) => {
+            console.log('handleChange', hsva);
+            machine.executePanelLogic(panelId, { tuningColor: tinycolor.fromRatio(hsva).toHex8String() });
+            setColor(hsva);
 
             return true;
         };
+
+        const debouncedChange = debounce(handleChange(props));
 
         return <>
             <div className="Row">
                 <div className="InteractiveItem ColorPicker">
                     <ColorPicker
-                        color={toAttrs(color)}
-                        onStartChange={handleChange(props)}
-                        onChange={handleChange(props)}
-                        onEndChange={handleChange(props)}
+                        color={color}
+                        onChange={debouncedChange}
                         />
                 </div>
             </div>
@@ -58,9 +70,8 @@ const create = (panelId: number): Panel => {
     };
 
     const execute = (panel, inputs) => {
-        return {
-            outputColor: inputs.tuningColor
-        };
+        if (inputs.tuningColor == null) return {};
+        return { outputColor: inputs.tuningColor };
     };
 
     return {

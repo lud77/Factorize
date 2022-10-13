@@ -49,12 +49,12 @@ Some of the functionality in certain areas is provided by third party libraries,
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] P5.js integration
     - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: Threshold
     - [ ] Add features to manipulate channels
     - [ ] 3d and vector graphics integration?
         - [ ] Three.js integration
-        - [ ] P5.js integration
     - [ ] Add turbulence input to generators
     - [ ] TILES: Tile
     - [ ] IMAGE: Path

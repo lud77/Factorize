@@ -7,8 +7,6 @@ import Range from './range/range';
 import Knob from './knob';
 import ColorPicker from './colorPicker/colorPicker';
 import GradientPicker from './gradientPicker/gradientPicker';
-import ColorPicker2 from './colorPicker2/colorPicker';
-import GradientPicker2 from './gradientPicker2/gradientPicker';
 import Date from './date';
 import Time from './time';
 import Matrix from '../Inputs/matrix';
@@ -25,7 +23,5 @@ export default {
     FilePath,
     FolderPath,
     ColorPicker,
-    GradientPicker,
-    ColorPicker2,
-    GradientPicker2
+    GradientPicker
 };
