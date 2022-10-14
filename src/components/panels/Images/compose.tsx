@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Image } from 'image-js';
 
-import { toImage } from '../../../domain/Image';
+import { toImage } from '../../../domain/types/Image';
 import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';

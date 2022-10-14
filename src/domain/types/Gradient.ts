@@ -1,5 +1,5 @@
-import * as Vector from './Vector';
-import { color2rgba } from '../utils/colors';
+import * as Vector from '../Vector';
+import { color2rgba } from '../../utils/colors';
 
 const gradientSym = Symbol('gradient');
 

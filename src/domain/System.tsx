@@ -117,6 +117,17 @@ const readFile = (filePath) => {
     });
 };
 
+const readSoundFile = (filePath) => {
+    return new Promise((resolve) => {
+        ipcRenderer.once('api:file-contents', (e, msg) => {
+            console.log('received', msg);
+
+            resolve(msg);
+        });
+        ipcRenderer.send('api:read-sound-file', filePath);
+    });
+};
+
 const readImageFile = (filePath) => {
     return new Promise((resolve) => {
         ipcRenderer.once('api:file-contents', (e, msg) => {
@@ -150,6 +161,7 @@ export default {
     writeFile,
     appendToFile,
     readFile,
+    readSoundFile,
     readImageFile,
     openTextFile,
     closeTextFile,

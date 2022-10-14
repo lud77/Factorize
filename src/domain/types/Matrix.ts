@@ -1,4 +1,4 @@
-import * as Vector from './Vector';
+import * as Vector from '../Vector';
 
 const matrixSym = Symbol('matrix');
 

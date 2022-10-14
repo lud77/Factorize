@@ -1,8 +1,8 @@
+
 import * as React from 'react';
-import { Image } from 'image-js';
 
 import { Panel } from '../../../types/Panel';
-import { toImage } from '../../../domain/types/Image';
+import * as Sound from '../../../domain/types/Sound';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
@@ -10,7 +10,7 @@ import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 import System from '../../../domain/System';
 
-const panelType = 'ImageLoad';
+const panelType = 'SoundLoad';
 
 const inputEndpoints = [{
     name: 'File',
@@ -20,25 +20,15 @@ const inputEndpoints = [{
 }];
 
 const outputEndpoints = [{
-    name: 'Image',
+    name: 'Sound',
     defaultValue: '',
-    type: 'image',
-    signal: 'Value'
-}, {
-    name: 'Width',
-    defaultValue: null,
-    type: 'number',
-    signal: 'Value'
-}, {
-    name: 'Height',
-    defaultValue: null,
-    type: 'number',
+    type: 'sound',
     signal: 'Value'
 }];
 
 const panelSizes = {
     ...defaultSizes,
-    height: 95
+    height: 53
 };
 
 const create = (panelId: number): Panel => {
@@ -46,20 +36,14 @@ const create = (panelId: number): Panel => {
         return <>
             <div className="Row">
                 <InputEndpoint name="File" panelId={panelId} {...props}>File</InputEndpoint>
-                <OutputEndpoint name="Image" panelId={panelId} {...props}>Image</OutputEndpoint>
-            </div>
-            <div className="Row">
-                <OutputEndpoint name="Width" panelId={panelId} {...props}>Width</OutputEndpoint>
-            </div>
-            <div className="Row">
-                <OutputEndpoint name="Height" panelId={panelId} {...props}>Height</OutputEndpoint>
+                <OutputEndpoint name="Sound" panelId={panelId} {...props}>Sound</OutputEndpoint>
             </div>
         </>;
     };
 
     const execute = (panel, values) => {
-        console.log('execute imageLoad', values);
-        if (values.inputFile == '') return { outputImage: null };
+        console.log('execute soundLoad', values);
+        if (values.inputFile == '') return { outputSound: null };
 
         const hasFileChanged = (panel.outputEpValues.oldFile == null) || (values.inputFile != panel.outputEpValues.oldFile);
 
@@ -68,14 +52,12 @@ const create = (panelId: number): Panel => {
         if (!hasChanged) return {};
 
         return Promise.resolve()
-            .then(() => System.readImageFile(values.inputFile))
-            .then((info) => Image.load(info.data))
-            .then((loadedImage) => {
+            .then(() => System.readSoundFile(values.inputFile))
+            .then((info) => Sound.load(info.data))
+            .then((loadedSound) => {
                 return {
                     oldFile: values.inputFile,
-                    outputImage: toImage(loadedImage),
-                    outputWidth: loadedImage.width,
-                    outputHeight: loadedImage.height
+                    outputSound: loadedSound
                 };
             });
     };
@@ -94,7 +76,7 @@ const create = (panelId: number): Panel => {
 export default {
     type: panelType,
     create,
-    tags: ['picture', 'import'],
+    tags: ['audio', 'import'],
     inputEndpoints,
     outputEndpoints,
     ...panelSizes

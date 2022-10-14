@@ -1,11 +1,31 @@
-import * as Matrix from './Matrix';
-import * as Image from './Image';
-import * as Gradient from './Gradient';
+import * as Matrix from './types/Matrix';
+import * as Image from './types/Image';
+import * as Sound from './types/Sound';
+import * as Gradient from './types/Gradient';
+
+const dataTypeMarkers = {
+    any: 'a',
+    boolean: 'b',
+    object: 'd',
+    function: 'f',
+    gradient: 'g',
+    image: 'i',
+    array: 'l',
+    matrix: 'm', // 2d numeric matrix
+    number: 'n',
+    sound: '♫',
+    string: 's'
+};
 
 const extendedFormat = {
     [Matrix.matrixSym]: Matrix.printable,
     [Image.imageSym]: Image.printable,
+    [Sound.soundSym]: Sound.printable,
     [Gradient.gradientSym]: Gradient.printable
+};
+
+const getDataTypeMarkerFor = (dataType) => {
+    return dataTypeMarkers[dataType] || '';
 };
 
 const getExtendedFormat = (input) => {
@@ -16,7 +36,7 @@ const getExtendedFormat = (input) => {
     return String(input);
 };
 
-
 export {
+    getDataTypeMarkerFor,
     getExtendedFormat
 };

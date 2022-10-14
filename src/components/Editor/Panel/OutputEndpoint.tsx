@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import getDataTypeMarkerFor from './dataTypes';
+import { getDataTypeMarkerFor } from '../../../domain/Contents';
 
 export default (props) => {
     const isOutputConnected = (ref) => props.connections.find((connection) => connection.source === ref);

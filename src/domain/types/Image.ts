@@ -1,7 +1,7 @@
 import Jimp from 'jimp/es';
 import { Image } from 'image-js';
 
-import * as Vector from './Vector';
+import * as Vector from '../Vector';
 import { renderGradient } from './Gradient';
 
 const imageSym = Symbol('image');

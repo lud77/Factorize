@@ -2,7 +2,6 @@ import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import { getExtendedFormat } from '../../../domain/Contents';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';

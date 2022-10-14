@@ -1,7 +1,7 @@
 import Jimp from 'jimp/es';
 import { Image } from 'image-js';
 
-import { toImage } from "./Image";
+import { toImage } from "./types/Image";
 
 const lighten = (image, amount) => {
     const result = new Jimp(image.contents.clone());

@@ -54,6 +54,24 @@ const addServices = (win) => {
             });
     });
 
+    ipcMain.on('api:read-sound-file', (event, filePath) => {
+        Promise.all([filePath, fs.promises.readFile(filePath)])
+            .then(([filePath, fileContents]) => {
+                if (!filePath) {
+                    win.webContents.send('api:file-contents', {
+                        cancelled: true
+                    });
+
+                    return null;
+                }
+
+                win.webContents.send('api:file-contents', { data: fileContents.buffer });
+            })
+            .catch((e) => {
+                console.log('error while reading file', e);
+            });
+    });
+
     ipcMain.on('api:watch-file', (event, filePath) => {
         console.log('watch-file', filePath);
         let watcherHandler = null;

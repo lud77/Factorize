@@ -1,5 +1,5 @@
-import Audio from './audio';
+import SoundLoad from './soundLoad';
 
 export default {
-    Audio
+    SoundLoad
 };

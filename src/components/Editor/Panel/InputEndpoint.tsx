@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { flushSync } from 'react-dom';
 
-import getDataTypeMarkerFor from './dataTypes';
+import { getDataTypeMarkerFor } from '../../../domain/Contents';
 
 export default (props) => {
     const [ isEditing, setIsEditing ] = React.useState(false);

@@ -1,4 +1,5 @@
 import Algebra from './Algebra';
+// import Audio from './Audio';
 import Events from './Events';
 import Flow from './Flow';
 import Functions from './Functions';
@@ -10,7 +11,7 @@ import Sources from './Sources';
 import Textures from './Textures';
 import Transforms from './Transforms';
 
-// import Sound from './Sound';
+import Sound from './Sound';
 // import Materials from './Materials';
 
 export default {
@@ -24,7 +25,7 @@ export default {
     Sets,
     Sources,
     Textures,
-    Transforms
-    // Sound,
+    Transforms,
+    Sound,
     // Materials
 };
