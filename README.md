@@ -49,6 +49,10 @@ Some of the functionality in certain areas is provided by third party libraries,
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] Web Audio nodes
+        - [ ] SoundOut: sink to which to connect sound producers
+        - [ ] SoundPlay: control playback of a sound
+        - [ ] Oscillator: play a frequency
     - [ ] P5.js integration
     - [ ] IMAGE: Transform (4 points)
     - [ ] IMAGE: Threshold

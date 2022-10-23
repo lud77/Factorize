@@ -1,5 +1,9 @@
-import SoundLoad from './soundLoad';
+import SampleLoad from './sampleLoad';
+import SoundPlay from './soundPlay';
+import Wave from './wave';
 
 export default {
-    SoundLoad
+    SampleLoad,
+    SoundPlay,
+    Wave
 };

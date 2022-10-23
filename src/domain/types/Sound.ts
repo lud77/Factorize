@@ -1,10 +1,13 @@
 const soundSym = Symbol('image');
 
-const toSound = (contents) => {
+const context = new AudioContext();
+
+const toSound = (contents, getSound = () => {}) => {
     return {
         type: soundSym,
         contents,
-        toString: () => `Sound`
+        toString: () => `Sound`,
+        getSound
     };
 };
 
@@ -13,22 +16,43 @@ const printable = (sound) => {
         '---\n';
 };
 
-const load = (data) => {
-    const audioCtx = new AudioContext();
-
+const loadSample = (data) => {
     return new Promise((resolve) => {
-        audioCtx.decodeAudioData(data, (decoded) => {
-            const source = audioCtx.createBufferSource();
-            source.buffer = decoded;
-            source.connect(audioCtx.destination);
-            resolve(toSound({ source, audioCtx }));
+        context.decodeAudioData(data, (decoded) => {
+            resolve(toSound(decoded, createSample));
         });
     });
+};
+
+const getContext = () => context;
+
+const createOscillator = (waveType = 'sine', frequency = 440) => {
+    const oscillator = context.createOscillator();
+
+    oscillator.type = waveType;
+    oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+
+    return toSound(oscillator);
+};
+
+const createGain = () => toSound(context.createGain());
+
+const createSample = (sample, loop, loopStart, loopEnd) => {
+    const source = context.createBufferSource();
+    source.buffer = sample;
+    source.loop = loop;
+    source.loopStart = loopStart;
+    source.loopEnd = loopEnd;
+    return toSound(source);
 };
 
 export {
     soundSym,
     toSound,
     printable,
-    load
+    loadSample,
+    getContext,
+    createOscillator,
+    createGain,
+    createSample
 };

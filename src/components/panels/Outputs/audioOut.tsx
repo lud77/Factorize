@@ -1,17 +1,15 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
+import * as Sound from '../../../domain/types/Sound';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
-const panelType = 'SoundPlay';
+const panelType = 'AudioOut';
 
 const inputEndpoints = [{
-    name: 'Play',
-    signal: 'Pulse'
-}, {
     name: 'Sound',
     defaultValue: null,
     type: 'sound',
@@ -22,27 +20,16 @@ const outputEndpoints = [];
 
 const panelSizes = {
     ...defaultSizes,
-    height: 74
+    height: 54
 };
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="Play" panelId={panelId} signal="Pulse" description="Play the [Sound]" {...props}>Play</InputEndpoint>
-            </div>
-            <div className="Row">
                 <InputEndpoint name="Sound" panelId={panelId} {...props}>Sound</InputEndpoint>
             </div>
         </>;
-    };
-
-    const onPulse = (ep, panel) => {
-        switch (ep) {
-            case 'inputPlay':
-                panel.inputEpValues.inputSound.contents.source.start();
-                return {};
-        }
     };
 
     const execute = (panel, inputs) => {
@@ -56,9 +43,18 @@ const create = (panelId: number): Panel => {
 
         if (!hasChanged) return {};
 
+        if (panel.outputEpValues.oldSound) {
+            inputs.inputSound.contents.disconnect();
+        }
+
+        console.log('xxxx', inputs.inputSound);
+
+        if (inputs.inputSound) {
+            inputs.inputSound.contents.connect(Sound.getContext().destination);
+        }
+
         return {
-            oldSound: inputs.inputSound,
-            imageData: inputs.inputSound ? inputs.inputSound.contents : ''
+            oldSound: inputs.inputSound
         };
     };
 
@@ -69,8 +65,7 @@ const create = (panelId: number): Panel => {
         outputEndpoints,
         ...panelSizes,
         Component,
-        execute,
-        onPulse
+        execute
     } as Panel;
 };
 
