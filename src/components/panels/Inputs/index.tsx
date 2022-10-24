@@ -9,7 +9,8 @@ import ColorPicker from './colorPicker/colorPicker';
 import GradientPicker from './gradientPicker/gradientPicker';
 import Date from './date';
 import Time from './time';
-import Matrix from '../Inputs/matrix';
+import Matrix from './matrix';
+import MicrophoneIn from './microphoneIn';
 
 export default {
     Toggle,
@@ -23,5 +24,6 @@ export default {
     FilePath,
     FolderPath,
     ColorPicker,
-    GradientPicker
+    GradientPicker,
+    MicrophoneIn
 };
