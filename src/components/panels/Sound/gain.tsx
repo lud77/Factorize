@@ -10,56 +10,71 @@ import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 import System from '../../../domain/System';
 
-const panelType = 'SoundLoad';
+const panelType = 'Gain';
 
 const inputEndpoints = [{
-    name: 'File',
-    defaultValue: '',
-    type: 'string',
+    name: 'Sound',
+    defaultValue: null,
+    type: 'sound',
+    signal: 'Value'
+}, {
+    name: 'Gain',
+    defaultValue: 1,
+    type: 'number',
     signal: 'Value'
 }];
 
 const outputEndpoints = [{
     name: 'Sound',
-    defaultValue: '',
+    defaultValue: null,
     type: 'sound',
     signal: 'Value'
 }];
 
 const panelSizes = {
     ...defaultSizes,
-    height: 53
+    height: 74
 };
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
         return <>
             <div className="Row">
-                <InputEndpoint name="File" panelId={panelId} {...props}>File</InputEndpoint>
+                <InputEndpoint name="Sound" panelId={panelId} {...props}>Sound</InputEndpoint>
                 <OutputEndpoint name="Sound" panelId={panelId} {...props}>Sound</OutputEndpoint>
+            </div>
+            <div className="Row">
+                <InputEndpoint name="Gain" panelId={panelId} {...props}>Gain</InputEndpoint>
             </div>
         </>;
     };
 
-    const execute = (panel, values) => {
-        console.log('execute soundLoad', values);
-        if (values.inputFile == '') return { outputSound: null };
+    const execute = (panel, inputs) => {
+        console.log('execute gain', inputs);
 
-        const hasFileChanged = (panel.outputEpValues.oldFile == null) || (values.inputFile != panel.outputEpValues.oldFile);
+        if (inputs.inputSound == null) return { outputSound: null };
 
-        const hasChanged = hasFileChanged;
+        const gain = parseFloat(inputs.inputGain);
+
+        const hasSoundChanged = (panel.outputEpValues.oldSound == null) || (inputs.inputSound != panel.outputEpValues.oldSound);
+        const hasGainChanged = (panel.outputEpValues.oldGain == null) || (gain != panel.outputEpValues.oldGain);
+
+        const hasChanged = hasSoundChanged || hasGainChanged;
 
         if (!hasChanged) return {};
 
-        return Promise.resolve()
-            .then(() => System.readSoundFile(values.inputFile))
-            .then((info) => Sound.load(info.data))
-            .then((loadedSound) => {
-                return {
-                    oldFile: values.inputFile,
-                    outputSound: loadedSound
-                };
-            });
+        if (panel.outputEpValues.oldSound) {
+            inputs.inputSound.contents.disconnect();
+        }
+
+        const gainNode = Sound.createGain(gain);
+        inputs.inputSound.contents.connect(gainNode.contents);
+
+        return {
+            oldSound: inputs.inputSound,
+            oldGain: gainNode,
+            outputSound: gainNode
+        };
     };
 
     return {

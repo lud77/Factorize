@@ -47,7 +47,7 @@ const create = (panelId: number): Panel => {
             inputs.inputSound.contents.disconnect();
         }
 
-        console.log('xxxx', inputs.inputSound);
+        // console.log('xxxx', inputs.inputSound);
 
         if (inputs.inputSound) {
             inputs.inputSound.contents.connect(Sound.getContext().destination);

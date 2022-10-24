@@ -35,7 +35,12 @@ const createOscillator = (waveType = 'sine', frequency = 440) => {
     return toSound(oscillator);
 };
 
-const createGain = () => toSound(context.createGain());
+const createGain = (gain) => {
+    const gainNode = context.createGain();
+    gainNode.gain.setValueAtTime(gain, context.currentTime);
+
+    return toSound(gainNode);
+};
 
 const createSample = (sample, loop, loopStart, loopEnd) => {
     const source = context.createBufferSource();

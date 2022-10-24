@@ -50,6 +50,7 @@ Some of the functionality in certain areas is provided by third party libraries,
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
     - [~] Web Audio nodes
+        - [x] Gain panel
         - [x] Integrate SamplePlay into SampleLoad
         - [x] AudioOut: sink to which to connect sound producers
         - [x] SampleLoad: load a sample
