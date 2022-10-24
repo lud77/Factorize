@@ -47,7 +47,22 @@ const create = (panelId: number): Panel => {
 
         if (!hasChanged) return {};
 
-        if (inputs.inputOpen && navigator.mediaDevices) {
+        if (!inputs.inputOpen) {
+            if (panel.outputEpValues.stream != null) {
+                panel.outputEpValues.stream.getAudioTracks()
+                    .forEach((track) => {
+                        track.stop();
+                    });
+            }
+
+            return {
+                oldOpen: inputs.inputOpen,
+                outputSound: null,
+                stream: null
+            };
+        }
+
+        if (navigator.mediaDevices) {
             return Promise.resolve()
                 .then(() => navigator.mediaDevices.getUserMedia({ "audio": true }))
                 .then((stream) => {
@@ -55,7 +70,8 @@ const create = (panelId: number): Panel => {
 
                     return {
                         oldOpen: inputs.inputOpen,
-                        outputSound: Sound.toSound(microphone)
+                        outputSound: Sound.toSound(microphone),
+                        stream
                     };
                 })
                 .catch((e) => {
