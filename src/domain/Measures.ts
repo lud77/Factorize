@@ -41,7 +41,7 @@ const Measures = (params) => {
 	};
 
 	const isIncludedInArea = (areaCoords) => (testCoords) => {
-		if (testCoords.left < areaCoords.Left) return false;
+		if (testCoords.left < areaCoords.left) return false;
 		if (testCoords.top < areaCoords.top) return false;
 		if (testCoords.right > areaCoords.right) return false;
 		if (testCoords.bottom > areaCoords.bottom) return false;
