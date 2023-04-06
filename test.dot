@@ -1,0 +1,30 @@
+digraph structs {
+    node [shape=plaintext]
+
+    p0 [label=<
+        <table border="0" cellborder="1" cellspacing="0">
+            <tr><td colspan="3">panel 0</td></tr>
+            <tr><td port="i0">in 0</td><td rowspan="2"></td><td port="o0">out 0</td></tr>
+            <tr><td port="i1">in 1</td><td port="o1">out 1</td></tr>
+        </table>
+    >];
+
+    p1 [label=<
+        <table border="0" cellborder="1" cellspacing="0">
+            <tr><td colspan="3">panel 1</td></tr>
+            <tr><td port="i0">in 0</td><td rowspan="2"></td><td port="o0">out 0</td></tr>
+            <tr><td port="i1">in 1</td><td port="o1">out 1</td></tr>
+        </table>
+    >];
+
+    p2 [label=<
+        <table border="0" cellborder="1" cellspacing="0">
+            <tr><td colspan="3">panel 2</td></tr>
+            <tr><td port="i0">in 0</td><td rowspan="2"></td><td port="o0">out 0</td></tr>
+            <tr><td port="i1">in 1</td><td port="o1">out 1</td></tr>
+        </table>
+    >];
+
+    p0:o0 -> p1:i0;
+    p1:o1 -> p2:i0;
+}

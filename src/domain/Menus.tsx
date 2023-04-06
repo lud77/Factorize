@@ -138,10 +138,25 @@ const contextMenusSetup = (handlers) => {
         label: 'Find Origin',
         handler: handlers.findOrigin,
         tags: ['workarea']
+    }, {
+        icon: <FontAwesomeIcon icon={solid('location-dot')} />,
+        label: 'Add Marker',
+        handler: handlers.addMarker,
+        tags: ['workarea']
+    }, {
+        icon: <FontAwesomeIcon icon={solid('forward-step')} />,
+        label: 'Next Marker',
+        handler: handlers.nextMarker,
+        tags: ['with-markers']
+    }, {
+        icon: <FontAwesomeIcon icon={solid('backward-step')} />,
+        label: 'Prev Marker',
+        handler: handlers.nextMarker,
+        tags: ['with-markers']
     }];
 };
 
-const getContextMenuItems = (machine, setWorkAreaOffset, setSearchBoxData, setSelectedPanels) => contextMenusSetup({
+const getContextMenuItems = (machine, contextMenuData, setWorkAreaOffset, setSearchBoxData, setSelectedPanels, markerState) => contextMenusSetup({
     deletePanel: (target) => (e) => {
         machine.removePanelsByIds([target.panelId]);
     },
@@ -178,10 +193,36 @@ const getContextMenuItems = (machine, setWorkAreaOffset, setSearchBoxData, setSe
     },
     findOrigin: () => (e) => {
         setWorkAreaOffset([0, 0]);
+    },
+    addMarker: () => () => {
+        const newMarker = [
+            contextMenuData.left - markerState.workAreaOffset[0] - 8,
+            contextMenuData.top - markerState.workAreaOffset[1] - 8,
+            `Marker`
+        ];
+
+        markerState.setMarkers([...markerState.markers, newMarker]);
+        markerState.setCurrentMarker(markerState.markers.length - 1);
+        console.log('add marker', newMarker);
+    },
+    nextMarker: () => (e) => {
+        if (markerState.markers.length == 0) return;
+
+        const newPointOfInterestIndex = (markerState.currentMarker + 1) % markerState.markers.length;
+        setWorkAreaOffset(markerState.markers[newPointOfInterestIndex]);
+        markerState.setCurrentMarker(newPointOfInterestIndex);
+    },
+    prevMarker: () => (e) => {
+        if (markerState.markers.length == 0) return;
+
+        const newPointOfInterestIndex = (markerState.currentMarker + markerState.markers.length - 1) % markerState.markers.length;
+        setWorkAreaOffset(markerState.markers[newPointOfInterestIndex]);
+        markerState.setCurrentMarker(newPointOfInterestIndex);
     }
 });
 
-const getContextMenuOpen = (selectedPanels, setContextMenuData, setSearchBoxData) => (e) => {
+const getContextMenuOpen = (selectedPanels, setContextMenuData, setSearchBoxData, markers) => (e) => {
+    const tags: Array<String> = [];
     if (e.target.closest('.Panel')) {
         const panelEl = e.target.closest('.Panel');
         const panelId = parseInt(panelEl.dataset.key);
@@ -197,7 +238,7 @@ const getContextMenuOpen = (selectedPanels, setContextMenuData, setSearchBoxData
 
         const removableEndpoint = (ep != null) && ep.classList.contains('Removable');
 
-        const tags = [isSelection ? 'panels' : 'panel'];
+        tags.push(isSelection ? 'panels' : 'panel');
         const target = { panelId, selectedPanels };
 
         if (removableEndpoint) {
@@ -224,11 +265,14 @@ const getContextMenuOpen = (selectedPanels, setContextMenuData, setSearchBoxData
 
     setSearchBoxData(null);
 
+    tags.push('workarea');
+    if (markers.length > 0) tags.push('with markers');
+
     setContextMenuData({
         left: e.clientX,
         top: e.clientY,
         target: e.target,
-        tags: ['workarea']
+        tags
     });
 
     return;

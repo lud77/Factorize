@@ -45,10 +45,21 @@ Some of the functionality in certain areas is provided by third party libraries,
 
 --- Engine
 
+- [ ] THE SPLIT: Separate the execution code (the engine) from the rendering code (the react frontend)
+    - [ ] The engine should take a representation of the network and a representation of the current state and execute one step
+    - [ ] The engine should return a representation of the updated state
+    - [ ] The engine should carry out any side effect
+    - [ ] Make the engine a separate daemon
+    - [ ] Make a CLI that can use the engine daemon to run a network in an headless way
+
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
 - [~] Actual panels
+    - [ ] VIDEO: Extract frame
+    - [ ] VIDEO: Resize
+    - [ ] VIDEO: Create from images
+    - [ ] IMAGE: Image group
     - [ ] FLOW: Timeline (place events on a timeline and on play it will start triggering Pulses on the various eps
     - [~] Web Audio nodes
         - [ ] FFT/IFFT?
@@ -270,6 +281,8 @@ Some of the functionality in certain areas is provided by third party libraries,
 
 
 --- Bugs / Performance
+
+- [x] select exclusive seems to select anything that is to the left of the selected area if the panel is vertically included
 
 - [ ] Review all components and apply change guards (don't process if inputs have not changed)
 - [ ] Introduce ndarray module in matrices etc.

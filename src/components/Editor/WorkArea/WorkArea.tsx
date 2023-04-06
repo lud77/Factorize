@@ -2,6 +2,9 @@ import * as React from 'react';
 import { flushSync } from 'react-dom';
 import { Set } from 'immutable';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+
 import Connector from './Connector/Connector';
 import PanelWrapper from '../Panel/PanelWrapper';
 import Marquee from './Marquee';
@@ -65,6 +68,14 @@ const WorkArea = (props) => {
 
 	const [ searchBoxData, setSearchBoxData ] = React.useState<object | null>(null);
 
+	const [ currentMarker, setCurrentMarker ] = React.useState(-1);
+	const [ markers, setMarkers ] = React.useState([]);
+
+	const markerState = {
+		workAreaOffset,
+		currentMarker, setCurrentMarker,
+		markers, setMarkers
+	};
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
 	const [ draw, redraw ] = React.useState(0);
@@ -74,7 +85,7 @@ const WorkArea = (props) => {
 	const [ backupSelectedPanels, setBackupSelectedPanels ] = React.useState<Set<number>>(Set());
 
 	const [ contextMenuData, setContextMenuData ] = React.useState<object | null>(null);
-	const contextMenuItems = getContextMenuItems(machine, setWorkAreaOffset, setSearchBoxData, setSelectedPanels);
+	const contextMenuItems = getContextMenuItems(machine, contextMenuData, setWorkAreaOffset, setSearchBoxData, setSelectedPanels, markerState);
 
 	const getPanelIdsToMove = (contactPanelId) => {
 		let panelIds = ((selectedPanels.size > 0) && selectedPanels.contains(contactPanelId)) ? Array.from(selectedPanels) : [contactPanelId];
@@ -553,7 +564,7 @@ const WorkArea = (props) => {
 		});
 	};
 
-	const contextMenuOpen = getContextMenuOpen(selectedPanels, setContextMenuData, setSearchBoxData);
+	const contextMenuOpen = getContextMenuOpen(selectedPanels, setContextMenuData, setSearchBoxData, markerState.markers);
 
 	const toggleSelection = (panelId) => {
 		if (selectedPanels.has(panelId)) {
@@ -612,6 +623,20 @@ const WorkArea = (props) => {
 				redraw={redraw}
 				/>
 		);
+	};
+
+	const renderMarker = (marker) => {
+		return <div
+				style={{
+					position: 'absolute',
+					color: '#a55',
+					left: marker[0] + workAreaOffset[0],
+					top: marker[1] + workAreaOffset[1]
+				}}
+				title={marker[2]}
+			>
+			<FontAwesomeIcon icon={solid('crosshairs')} />
+		</div>;
 	};
 
 	const renderConnection = (connection, key) => {
@@ -678,13 +703,14 @@ const WorkArea = (props) => {
 	};
 
 	const renderView = () => {
-		if (Object.values(panels).length === 0 || Object.values(panelCoords).length === 0) return <></>;
+		if ((markerState.markers.length === 0) && (Object.values(panels).length === 0 || Object.values(panelCoords).length === 0)) return <></>;
 
 		const [panelsToRender, connectionsToRender] = getVisibleObjects(panels, connections, screenSize);
 
 		return <>
 			{panelsToRender.map((panelId) => renderPanel(panels[panelId], panelCoords[panelId]))}
 			{connectionsToRender.map(renderConnection)}
+			{markerState.markers.map(renderMarker)}
 		</>;
 	};
 
