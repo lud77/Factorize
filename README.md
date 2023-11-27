@@ -46,11 +46,17 @@ Some of the functionality in certain areas is provided by third party libraries,
 --- Engine
 
 - [ ] THE SPLIT: Separate the execution code (the engine) from the rendering code (the react frontend)
-    - [ ] The engine should take a representation of the network and a representation of the current state and execute one step
-    - [ ] The engine should return a representation of the updated state
+    - [ ] Create a separate API daemon that can receive and process requests from the Electron app
+    - [ ] Modify UI to work with API
+    - [ ] Integrate CLI with API
+    - [ ] The engine should take a representation of the network and a representation of the current state and store them
+    - [ ] Once the state is set, it can be updated at any time
+    - [ ] The engine can be queried for the next step, in which case it should execute one iteration and respond with the updated state
     - [ ] The engine should carry out any side effect
-    - [ ] Make the engine a separate daemon
     - [ ] Make a CLI that can use the engine daemon to run a network in an headless way
+    - [ ] Add types of connectors that can only transmit when in play
+    - [ ] Transform all panel types to work on the engine
+
 
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
@@ -61,7 +67,7 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] VIDEO: Create from images
     - [ ] IMAGE: Image group
     - [ ] FLOW: Timeline (place events on a timeline and on play it will start triggering Pulses on the various eps
-    - [~] Web Audio nodes
+    - [~] Web Audio nodes (experimental)
         - [ ] FFT/IFFT?
         - [x] Mic input
         - [ ] Save audio
