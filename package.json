@@ -82,5 +82,11 @@
     "electron": "^19.0.0",
     "wait-on": "^6.0.1"
   },
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "homepage": "https://mastodon.social/@factorize",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lud77/Factorize"
+  },
+  "bugs": "https://github.com/lud77/Factorize/issues"
 }

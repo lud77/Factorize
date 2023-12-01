@@ -1,15 +1,9 @@
-To install
 
-    $ yarn
+--- Before open-sourcing
 
-as ```npm install``` produces an error when trying to resolve webpack
-
-
-To send a message to a socket-listener panel, use:
-
-    $ node bin/send --topic XXXX --message YYYY
-
-where XXXX is the name of the panel's channel and YYYY is the actual message
+ - [x] Add link to bugtracker
+ - [x] Add link to repo
+ - [ ] Set up README
 
 
 --- Third party libraries
