@@ -193,9 +193,9 @@ Mastodon: [@factorize](https://mastodon.social/@factorize)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[React-badge]: https://img.shields.io/badge/-React.Js-61DAFB?logo=react&logoColor=white&style=for-the-badge
+[React-badge]: https://img.shields.io/badge/-React.Js-000?logo=react&logoColor=61DAFB&style=for-the-badge
 [Typescript-badge]: https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=for-the-badge
-[Electron-badge]: https://img.shields.io/badge/Electron.Js-bef?style=for-the-badge&logo=electron
+[Electron-badge]: https://img.shields.io/badge/Electron.Js-1B1C26?style=for-the-badge&logo=electron&logoColor=9FEAF9
 [React-url]: https://reactjs.org/
 [Typescript-url]: https://www.typescriptlang.org/
 [Electron-url]: https://www.electronjs.org/
