@@ -3,8 +3,8 @@
 
  - [x] Add link to bugtracker
  - [x] Add link to repo
- - [ ] Set up README
-
+ - [x] Set up README
+ - [ ] Fix testing situation
 
 --- Third party libraries
 
