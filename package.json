@@ -81,5 +81,6 @@
     "concurrently": "^7.2.1",
     "electron": "^19.0.0",
     "wait-on": "^6.0.1"
-  }
+  },
+  "license": "GPL-3.0"
 }
