@@ -9,6 +9,8 @@ import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'Random';
 
+const defaultSeed = Math.random();
+
 const inputEndpoints = [{
     name: 'Fetch',
     signal: 'Pulse'
@@ -29,7 +31,6 @@ const outputEndpoints = [{
     signal: 'Value'
 }];
 
-const defaultSeed = Math.random();
 let rand = Random(defaultSeed);
 
 const panelSizes = {

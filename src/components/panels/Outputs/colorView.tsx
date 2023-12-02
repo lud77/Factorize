@@ -1,4 +1,3 @@
-import os from 'os';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';

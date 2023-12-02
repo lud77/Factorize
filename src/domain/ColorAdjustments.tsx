@@ -1,4 +1,4 @@
-import Jimp from 'jimp/es';
+import Jimp from 'jimp';
 import { Image } from 'image-js';
 
 import { toImage } from "./types/Image";
