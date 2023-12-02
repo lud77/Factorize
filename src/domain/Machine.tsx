@@ -28,7 +28,7 @@ const Machine = ({
     };
 
     const reifyTarget = (targetPanelId, targetEpRef) => {
-        console.log('reifyTarget - panels before', panels);
+        console.log('reifyTarget - before panels');
         const panels = mostRecent(setPanels);
         console.log('reifyTarget - panels recent - targetPanelId', panels, targetPanelId);
         const panel = panels[targetPanelId];
