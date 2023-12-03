@@ -6,10 +6,12 @@ import './ComboBox.css';
 const ComboBox = (props) => {
     const [ search, setSearch ] = React.useState('');
     const [ list, setList ] = React.useState([]);
-    const inputRef = React.useRef();
+    const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useEffect(() => {
-        inputRef.current.focus();
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
 
         if (search == '' && list.length === 0) {
             const sieve = getSieve(props.side, props.signal, props.type);
