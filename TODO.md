@@ -5,6 +5,8 @@
  - [x] Add link to repo
  - [x] Set up README
  - [ ] Fix testing situation
+ - [ ] Add loading icon at start-up
+
 
 --- Third party libraries
 
