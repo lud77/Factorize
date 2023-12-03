@@ -21,6 +21,6 @@ export default interface Props extends React.SVGProps<SVGPathElement> {
     pause?: boolean;
     startPoint?: Point;
     endPoint?: Point;
-    svgClass: string;
+    svgClass?: string;
     draw?: number;
 }
