@@ -138,7 +138,7 @@ const ComboBox = (props) => {
                         ? <>
                             <ul className="Results">
                             {
-                                list.map((item, key) => (
+                                list.map((item: { type: string }, key) => (
                                     <li key={key} className="Item" onClick={handleItemClick}>{item.type}</li>
                                 ))
                             }
