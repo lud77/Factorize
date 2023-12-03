@@ -5,8 +5,8 @@ import './GradientSlider.css';
 
 const GradientSlider = (props) => {
     const [ width, setWidth ] = React.useState(0);
-    const [ dragging, setDragging ] = React.useState(null);
-    const gradientSliderRef = React.useRef();
+    const [ dragging, setDragging ] = React.useState<number | null>(null);
+    const gradientSliderRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
         if (gradientSliderRef.current) {
@@ -27,7 +27,7 @@ const GradientSlider = (props) => {
     const gradientStyle = { background: `linear-gradient(to right, ${stepsList})` };
 
     const getPointerStyle = (step) => {
-        if (width == 0) return { left: 0 };
+        if (width === 0) return { left: 0 };
 
         const left = step[1] * width / 100 - 6;
         return { left };
@@ -39,14 +39,14 @@ const GradientSlider = (props) => {
     };
 
     const getLineStyle = (step) => {
-        if (width == 0) return { left: 0 };
+        if (width === 0) return { left: 0 };
 
         const left = step[1] * width / 100 - 1;
         return { left };
     };
 
     const getCrossStyle = (step) => {
-        if (width == 0) return { left: 0 };
+        if (width === 0) return { left: 0 };
 
         const left = step[1] * width / 100 - 6;
         return { left };
@@ -74,7 +74,7 @@ const GradientSlider = (props) => {
             const stepIndex = parseInt(pointer.dataset.step);
             props.setSelectedStep(stepIndex);
 
-            if (stepIndex == 0 || stepIndex == props.steps.length - 1) return true;
+            if (stepIndex === 0 || stepIndex === props.steps.length - 1) return true;
 
             setDragging(stepIndex);
             return;
@@ -163,7 +163,7 @@ const GradientSlider = (props) => {
                                 </div>
                                 <div className="Line" style={getLineStyle(step)}></div>
                                 {
-                                    (key != 0) && (key != props.steps.length - 1)
+                                    (key !== 0) && (key !== props.steps.length - 1)
                                         ? <div className="Cross" style={getCrossStyle(step)} data-step={key}>⨯</div>
                                         : null
                                 }
