@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Arrow from './Arrow';
-import { ConnectorProps } from '../../../../types/Props';
+import ConnectorProps from '../../../../types/Props';
 
 /**
  * Custom S shape svg connector
@@ -98,7 +98,7 @@ export default function (props: ConnectorProps) {
                             {...rest}
                             {...strokeProp}
                             d={path}
-                            strokeWidth={(props.strokeWidth + 2) || 4}
+                            strokeWidth={((props.strokeWidth || 0) + 2) || 4}
                             fill='transparent'
                             className={`active ${pause ? 'paused' : ''}`}
                             />
@@ -156,7 +156,7 @@ export default function (props: ConnectorProps) {
                             {...rest}
                             {...strokeProp}
                             d={path}
-                            strokeWidth={(props.strokeWidth + 2) || 4}
+                            strokeWidth={((props.strokeWidth || 0) + 2) || 4}
                             fill="transparent"
                             className={`active ${pause ? 'paused' : ''}`}
                             />
