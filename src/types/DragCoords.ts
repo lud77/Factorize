@@ -8,7 +8,7 @@ interface AnchorPoint {
 export interface DragCoords {
     isDragging: boolean;
     what?: string;
-    el?: Element;
+    el?: HTMLElement;
     o?: Point;
     os?: AnchorPoint[];
     c?: Point;

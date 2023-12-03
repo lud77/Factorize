@@ -60,25 +60,25 @@ const Measures = (params) => {
 		};
 	};
 
-	const selectInclusive = (panels, panelCoords, selection) =>
+	const selectInclusive = (panels, panelCoords, selection): object[] =>
 		Object.values(panels)
 			.map((panel) => {
-				const coords = getPanelWorkAreaCoords(panelCoords[panel.panelId]);
+				const coords = getPanelWorkAreaCoords(panelCoords[(panel as { panelId: number }).panelId]);
 
 				const isOverlapping = overlapsArea(selection)(coords);
 				return isOverlapping ? panel : null;
 			})
-			.filter(Boolean);
+			.filter(Boolean) as object[];
 
-	const selectExclusive = (panels, panelCoords, selection) =>
+	const selectExclusive = (panels, panelCoords, selection): object[] =>
 		Object.values(panels)
 			.map((panel) => {
-				const coords = getPanelWorkAreaCoords(panelCoords[panel.panelId]);
+				const coords = getPanelWorkAreaCoords(panelCoords[(panel as { panelId: number }).panelId]);
 
 				const isOverlapping = isIncludedInArea(selection)(coords);
 				return isOverlapping ? panel : null;
 			})
-			.filter(Boolean);
+			.filter(Boolean) as object[];
 
 	const linear = (x) => x;
 	const snapping = (x) => Math.floor(x / 16) * 16;
