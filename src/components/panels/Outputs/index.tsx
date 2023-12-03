@@ -5,7 +5,7 @@ import ConsoleLogger from './consoleLogger';
 import ImageSave from './imageSave';
 import TextView from './textView';
 import ImageView from './imageView';
-import AudioOut from './audioOut';
+// import AudioOut from './audioOut';
 import ColorView from './colorView';
 import FunctionPlotter from './functionPlotter';
 import Semaphore from './semaphore';
@@ -18,7 +18,7 @@ export default {
     ConsoleLogger,
     ImageSave,
     TextView,
-    AudioOut,
+    // AudioOut,
     ImageView,
     ColorView,
     FunctionPlotter,

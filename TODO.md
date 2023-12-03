@@ -7,6 +7,10 @@
  - [ ] Fix testing situation
  - [ ] Add loading icon at start-up
 
+--- Post open-sourcing
+
+ - [ ] Introduce mocks for AudioContext & Web Audio APIs
+
 
 --- Third party libraries
 
