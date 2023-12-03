@@ -13,12 +13,12 @@ const ComboBox = (props) => {
             inputRef.current.focus();
         }
 
-        if (search == '' && list.length === 0) {
+        if (search === '' && list.length === 0) {
             const sieve = getSieve(props.side, props.signal, props.type);
 
             setList(props.items.filter(sieve));
         }
-    });
+    }, [list.length, props.items, props.side, props.signal, props.type, search]);
 
     const areEndpointsCompatible = (ep1, ep2) => {
         const isPulse = ep1.signal === 'Pulse' && ep2.signal === 'Pulse';
@@ -47,7 +47,7 @@ const ComboBox = (props) => {
 
         const sieve = getSieve(props.side, props.signal, props.type);
 
-        if (e.target.value == '') {
+        if (e.target.value === '') {
             setList(props.items.filter(sieve));
             return;
         }
@@ -65,7 +65,7 @@ const ComboBox = (props) => {
         e.stopPropagation();
         e.preventDefault();
 
-        const [ newPanel, newPanelCoords ] = props.addPanel(e.target.innerText, { x: props.left, y: props.top }, props.side === 'output');
+        const [ newPanel ] = props.addPanel(e.target.innerText, { x: props.left, y: props.top }, props.side === 'output');
         props.setSearchBoxData(null);
 
         if (!props.side) return;
