@@ -1,6 +1,6 @@
 import * as Matrix from './types/Matrix';
 import * as Image from './types/Image';
-import * as Sound from './types/Sound';
+// import * as Sound from './types/Sound';
 import * as Gradient from './types/Gradient';
 
 const dataTypeMarkers = {
@@ -20,7 +20,7 @@ const dataTypeMarkers = {
 const extendedFormat = {
     [Matrix.matrixSym]: Matrix.printable,
     [Image.imageSym]: Image.printable,
-    [Sound.soundSym]: Sound.printable,
+    // [Sound.soundSym]: Sound.printable,
     [Gradient.gradientSym]: Gradient.printable
 };
 
