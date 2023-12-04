@@ -1,3 +1,6 @@
+import FullyTypedPromise from "../types/FullyTypedPromise";
+import SystemResponse from "../types/SystemResponse";
+
 const { ipcRenderer } = window.require('electron');
 
 const quit = () => {
@@ -106,7 +109,7 @@ const appendToFile = (filePath, contents) => {
     ipcRenderer.send('api:append-to-file', { filePath, contents });
 };
 
-const readFile = (filePath) => {
+const readFile = (filePath): FullyTypedPromise<SystemResponse, string> => {
     return new Promise((resolve) => {
         ipcRenderer.once('api:file-contents', (e, msg) => {
             console.log('received', msg);
@@ -117,7 +120,7 @@ const readFile = (filePath) => {
     });
 };
 
-const readSoundFile = (filePath) => {
+const readSoundFile = (filePath): FullyTypedPromise<SystemResponse, string> => {
     return new Promise((resolve) => {
         ipcRenderer.once('api:file-contents', (e, msg) => {
             console.log('received', msg);
@@ -128,7 +131,7 @@ const readSoundFile = (filePath) => {
     });
 };
 
-const readImageFile = (filePath) => {
+const readImageFile = (filePath): FullyTypedPromise<SystemResponse, string> => {
     return new Promise((resolve) => {
         ipcRenderer.once('api:file-contents', (e, msg) => {
             console.log('received', msg);
