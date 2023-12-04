@@ -7,6 +7,7 @@
  - [ ] Fix testing situation
  - [ ] Add loading icon at start-up
  - [ ] Add doxygen-style comments
+ - [ ] Rename domain data types from "types" to something more unique, like "data-formats"
 
 --- Post open-sourcing
 

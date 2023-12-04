@@ -7,6 +7,7 @@ import System from '../../../domain/System';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
+import { getModeForResolutionAtIndex } from 'typescript';
 
 const panelType = 'SampleLoad';
 

@@ -4,7 +4,9 @@ const soundSym = Symbol('image');
 
 const context = new AudioContext();
 
-const toSound = (contents, getSound = (...args: any[]) => {}) => {
+type getSoundCallback = (...args: any[]) => void;
+
+const toSound = (contents, getSound: getSoundCallback = () => {}) => {
     return {
         type: soundSym,
         contents,
@@ -18,7 +20,7 @@ const printable = (sound) => {
         '---\n';
 };
 
-const loadSample = (data): FullyTypedPromise<object, string> => {
+const loadSample = (data): FullyTypedPromise<{ getSound: getSoundCallback, contents: any }, string> => {
     return new Promise((resolve) => {
         context.decodeAudioData(data, (decoded) => {
             resolve(toSound(decoded, createSample));
