@@ -5,7 +5,7 @@ import SimplexNoise from './simplexNoise';
 import DirectionalNoise from './directionalNoise';
 import Pattern from './pattern';
 
-export default {
+const panels = {
     Monochrome,
     LinearGradient,
     CircularGradient,
@@ -13,3 +13,5 @@ export default {
     DirectionalNoise,
     Pattern
 };
+
+export default panels;

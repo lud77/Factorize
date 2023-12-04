@@ -95,7 +95,7 @@ const create = (panelId: number): Panel => {
     } as Panel;
 };
 
-const PanelObj = {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['algebra', 'boolean', 'binary', 'intersection', 'product'],
@@ -104,4 +104,4 @@ const PanelObj = {
     ...panelSizes
 };
 
-export default PanelObj;
+export default PanelBundle;

@@ -143,7 +143,7 @@ const create = (panelId: number): Panel => {
     } as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['array', 'set', 'collection'],
@@ -151,3 +151,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

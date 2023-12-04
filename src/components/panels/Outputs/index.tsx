@@ -11,7 +11,7 @@ import FunctionPlotter from './functionPlotter';
 import Semaphore from './semaphore';
 import Led from './led';
 
-export default {
+const panels = {
     DisplayLogger,
     StdOutLogger,
     FileLogger,
@@ -25,3 +25,5 @@ export default {
     Semaphore,
     Led
 };
+
+export default panels;

@@ -187,7 +187,7 @@ const create = (panelId: number): Panel => {
     } as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['picture', 'image', 'anisotropic', 'generative'],
@@ -195,3 +195,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

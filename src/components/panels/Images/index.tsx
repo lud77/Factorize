@@ -15,7 +15,7 @@ import Morphology from './morphology';
 import ExtractChannel from './extractChannel';
 import Compose from './compose';
 
-export default {
+const panels = {
     ImageLoad,
     Convolution,
     GaussianBlur,
@@ -33,3 +33,5 @@ export default {
     ExtractChannel,
     Compose
 };
+
+export default panels;

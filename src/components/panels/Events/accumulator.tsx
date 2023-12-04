@@ -78,7 +78,7 @@ const create = (panelId: number): Panel => {
     } as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['counter', 'event'],
@@ -86,3 +86,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

@@ -63,7 +63,7 @@ const create = (panelId: number): Panel => {
     } as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['input', 'calendar'],
@@ -71,3 +71,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;
