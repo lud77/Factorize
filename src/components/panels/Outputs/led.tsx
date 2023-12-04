@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
-import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 import Led from '../../Led/Led';
@@ -29,7 +28,6 @@ const create = (panelId: number): Panel => {
     const isFloat = (x) => typeof x === 'number' && !isNaN(x);
 
     const Component = (props) => {
-
         return <>
             <div className="Row">
                 <InputEndpoint name="Hue" panelId={panelId} {...props}>Hue</InputEndpoint>
