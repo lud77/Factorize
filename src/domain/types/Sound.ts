@@ -1,8 +1,10 @@
+import FullyTypedPromise from "../../types/FullyTypedPromise";
+
 const soundSym = Symbol('image');
 
 const context = new AudioContext();
 
-const toSound = (contents, getSound = () => {}) => {
+const toSound = (contents, getSound = (...args: any[]) => {}) => {
     return {
         type: soundSym,
         contents,
@@ -16,7 +18,7 @@ const printable = (sound) => {
         '---\n';
 };
 
-const loadSample = (data) => {
+const loadSample = (data): FullyTypedPromise<object, string> => {
     return new Promise((resolve) => {
         context.decodeAudioData(data, (decoded) => {
             resolve(toSound(decoded, createSample));
@@ -29,7 +31,7 @@ const getContext = () => context;
 const createOscillator = (waveType = 'sine', frequency = 440) => {
     const oscillator = context.createOscillator();
 
-    oscillator.type = waveType;
+    oscillator.type = waveType as OscillatorType;
     oscillator.frequency.setValueAtTime(frequency, context.currentTime);
 
     return toSound(oscillator);

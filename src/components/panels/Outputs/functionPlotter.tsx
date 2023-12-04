@@ -1,12 +1,11 @@
 import * as React from 'react';
 
-import functionPlot from 'function-plot';
+import functionPlot, { FunctionPlotDatum, FunctionPlotOptions } from 'function-plot';
 import * as math from 'mathjs';
 
 import { Panel } from '../../../types/Panel';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
-import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
 const panelType = 'FunctionPlotter';
@@ -63,11 +62,11 @@ const create = (panelId: number): Panel => {
             borderRadius: '5px'
         };
 
-        const plotterRef = React.useRef();
+        const plotterRef = React.useRef<HTMLDivElement>(null);
         const { inputMinX, inputMaxX, inputMinY, inputMaxY } = props.panel.inputEpValues;
 
         React.useEffect(() => {
-            let contentsBounds = plotterRef.current.getBoundingClientRect();
+            let contentsBounds = plotterRef.current!.getBoundingClientRect();
             let width = contentsBounds.width;
             let height = contentsBounds.height;
 
@@ -80,7 +79,7 @@ const create = (panelId: number): Panel => {
                 yAxis: { domain: [inputMinY, inputMaxY] },
                 grid: true,
                 data: []
-            };
+            } as FunctionPlotOptions;
 
             try {
                 const data = [
@@ -97,6 +96,7 @@ const create = (panelId: number): Panel => {
 
                 functionPlot({
                     ...opts,
+                    // @ts-ignore
                     data
                 });
             } catch (e) {

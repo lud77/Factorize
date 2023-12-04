@@ -2,10 +2,8 @@ import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
 
-import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
-import { CSSProperties } from '@emotion/serialize';
 
 const panelType = 'Text';
 
