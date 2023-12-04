@@ -5,6 +5,7 @@ import { Panel } from '../../../types/Panel';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
+import { CSSProperties } from '@emotion/serialize';
 
 const panelType = 'Text';
 
@@ -44,7 +45,7 @@ const create = (panelId: number): Panel => {
             marginBottom: '5px',
             borderRadius: '5px',
             backgroundColor: 'whitesmoke'
-        };
+        } as React.CSSProperties;
 
         return <>
             <div className="Row" style={{ flexGrow: 1 }}>
