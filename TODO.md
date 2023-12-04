@@ -6,6 +6,7 @@
  - [x] Set up README
  - [ ] Fix testing situation
  - [ ] Add loading icon at start-up
+ - [ ] Add doxygen-style comments
 
 --- Post open-sourcing
 
