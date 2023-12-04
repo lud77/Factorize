@@ -95,7 +95,7 @@ const create = (panelId: number): Panel => {
     } as Panel;
 };
 
-export default {
+const PanelObj = {
     type: panelType,
     create,
     tags: ['algebra', 'boolean', 'binary', 'intersection', 'product'],
@@ -103,3 +103,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelObj;

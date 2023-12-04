@@ -88,7 +88,7 @@ const create = (panelId: number): Panel => {
     } as Panel;
 };
 
-export default {
+const PanelObj = {
     type: panelType,
     create,
     tags: ['greater', 'lesser', 'lower', 'higher', 'equal', 'threshold'],
@@ -96,3 +96,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelObj;

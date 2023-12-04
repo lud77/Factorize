@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image } from 'image-js';
+import { Image, ImageKind } from 'image-js';
 
 import { toImage } from '../../../domain/types/Image';
 import { Panel } from '../../../types/Panel';
@@ -33,7 +33,7 @@ const composeImage = (R, G, B, A) => {
         width,
         height,
         data,
-        kind: 'RGBA'
+        kind: ImageKind.RGBA
     }));
 };
 
