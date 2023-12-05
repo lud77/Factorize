@@ -1,5 +1,6 @@
 export interface Panel {
     type: string;
+    panelId: number;
     inputEndpoints: Array;
     outputEndpoints: Array;
     inputEpValues?: Array;
@@ -15,4 +16,5 @@ export interface Panel {
     outputRefs?: object;
     left?: number;
     top?: number;
+    expunge: Array;
 }

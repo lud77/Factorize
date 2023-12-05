@@ -65,7 +65,7 @@ const readTextLine = (fileHandler) => {
     });
 };
 
-const openFileDialog = (options = {}) => {
+const openFileDialog = (options = {}): FullyTypedPromise<string | null, string> => {
     return new Promise((resolve) => {
         ipcRenderer.send('api:select-file-open', options);
         ipcRenderer.once('api:file-path', (e, msg) => {
@@ -77,7 +77,7 @@ const openFileDialog = (options = {}) => {
     });
 };
 
-const saveFileDialog = (options = {}) => {
+const saveFileDialog = (options = {}): FullyTypedPromise<string | null, string> => {
     return new Promise((resolve) => {
         ipcRenderer.send('api:select-file-save', options);
         ipcRenderer.once('api:file-path', (e, msg) => {

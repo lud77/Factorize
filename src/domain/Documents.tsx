@@ -3,6 +3,7 @@ import { flushSync } from 'react-dom';
 import System from './System';
 import dictionary from '../components/panels/dictionary';
 import mostRecent from '../utils/mostRecent';
+import { Panel } from '../types/Panel';
 
 const Documents = ({
     setPanels,
@@ -19,7 +20,7 @@ const Documents = ({
 }) => {
     const packDocument = ({ panels, panelCoords, connections, workAreaOffset }) => {
         const purgedPanels =
-            Object.values(panels)
+            (Object.values(panels) as Panel[])
                 .map((panel) => {
                     if (!panel.expunge) return panel;
                     console.log('expunging', panel.expunge, panel.outputEpValues);
@@ -105,7 +106,7 @@ const Documents = ({
             setPanels(reconstitutedPanels);
         });
 
-        const panels = mostRecent(setPanels);
+        const panels = (mostRecent(setPanels) ?? []) as Panel[];
 
         Object.values(panels).reduce((chain, panel) => {
             console.log('adding to chain', panel);
@@ -155,14 +156,14 @@ const Documents = ({
             });
     };
 
-    const open = (documentControls) => {
+    const open = () => {
         System.openFileDialog({ fileTypes: ['Factorize'] })
             .then((filePath) => {
                 if (!filePath) return [null, null];
 
                 return Promise.all([filePath, System.readFile(filePath)]);
             })
-            .then(([filePath, fileContent]) => {
+            .then(([filePath, fileContent]: any) => {
                 if (!filePath) return null;
 
                 unpackDocument(filePath, fileContent.data);
