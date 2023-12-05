@@ -133,8 +133,8 @@ const Measures = (params) => {
 				});
 
 		const epCoords =
-			inputEpCoords.concat(outputEpCoords)
-				.filter(Boolean)
+			(inputEpCoords.concat(outputEpCoords)
+				.filter(Boolean) as Array<any>)
 				.map(([epRef, epEl, isInput]) => [epRef, (isInput ? middleLeftEl : middleRightEl)(epEl)])
 				.map(([epRef, pos]) => [
 					epRef, {
