@@ -22,7 +22,7 @@ const Walker = ({ setPanels, connections, setConnections, play, setPlay, pause, 
                 }))
                 .reduce((a, v) => ({
                     ...a,
-                    [v.panelId]: v
+                    [v.panelId as number]: v
                 }), {});
         });
     };
