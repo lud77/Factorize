@@ -4,6 +4,7 @@ import System from './System';
 import dictionary from '../components/panels/dictionary';
 import mostRecent from '../utils/mostRecent';
 import { Panel } from '../types/Panel';
+import SystemResponse from '../types/SystemResponse';
 
 const Documents = ({
     setPanels,
@@ -25,11 +26,11 @@ const Documents = ({
                     if (!panel.expunge) return panel;
                     console.log('expunging', panel.expunge, panel.outputEpValues);
                     const filteredOutputEpValues = (
-                        Object.keys(panel.outputEpValues)
+                        Object.keys(panel.outputEpValues as any[])
                             .map((ep) => {
                                 if (panel.expunge.includes(ep)) return null;
 
-                                return [ep, panel.outputEpValues[ep]];
+                                return [ep, (panel.outputEpValues as any[])[ep]];
                             })
                             .filter(Boolean) as any[]
                     ).reduce((a, [ k, v ]) => ({ ...a, [k]: v }), {});
@@ -143,7 +144,7 @@ const Documents = ({
     };
 
     const save = (documentInfo) => {
-        if (filePath == '') return saveAs(documentInfo);
+        if (filePath === '') return saveAs(documentInfo);
 
         System.writeFile(filePath, packDocument(documentInfo));
     };
@@ -158,15 +159,16 @@ const Documents = ({
 
     const open = () => {
         System.openFileDialog({ fileTypes: ['Factorize'] })
-            .then((filePath) => {
-                if (!filePath) return [null, null];
+            .then((filePath): Promise<[string | null, SystemResponse | null]> => {
+                if (!filePath) return Promise.resolve([null, null]);
 
-                return Promise.all([filePath, System.readFile(filePath)]);
+                return Promise.all([filePath as string, System.readFile(filePath)]);
             })
-            .then(([filePath, fileContent]: any) => {
-                if (!filePath) return null;
+            .then((info) => {
+                if (!info[0]) return null;
+                if (typeof info[1] =='string') return null;
 
-                unpackDocument(filePath, fileContent.data);
+                unpackDocument(info[0], info[1]!.data);
             });
     };
 
