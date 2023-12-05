@@ -7,6 +7,7 @@ const Timers = () => {
             clearTimer(handler);
         }, timeout);
 
+        // @ts-ignore
         handlers[handler] = handler;
         return handler;
     };
