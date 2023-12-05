@@ -24,15 +24,15 @@ const Documents = ({
                 .map((panel) => {
                     if (!panel.expunge) return panel;
                     console.log('expunging', panel.expunge, panel.outputEpValues);
-                    const filteredOutputEpValues =
+                    const filteredOutputEpValues = (
                         Object.keys(panel.outputEpValues)
                             .map((ep) => {
                                 if (panel.expunge.includes(ep)) return null;
 
                                 return [ep, panel.outputEpValues[ep]];
                             })
-                            .filter(Boolean)
-                            .reduce((a, [ k, v ]) => ({ ...a, [k]: v }), {});
+                            .filter(Boolean) as any[]
+                    ).reduce((a, [ k, v ]) => ({ ...a, [k]: v }), {});
 
                     console.log('expunged', filteredOutputEpValues);
                     return {
@@ -40,7 +40,7 @@ const Documents = ({
                         outputEpValues: filteredOutputEpValues
                     };
                 })
-                .reduce((a, panel) => ({ ...a, [panel.panelId]: panel }), {});
+                .reduce((a, panel) => ({ ...a, [panel.panelId as number]: panel }), {});
 
         return JSON.stringify({
             panels: purgedPanels,
