@@ -6,7 +6,7 @@ import Accumulator from './accumulator';
 import Listener from './listener';
 import WatchFile from './watchFile';
 
-export default {
+const panels = {
     Button,
     Clock,
     Delta,
@@ -15,3 +15,5 @@ export default {
     Listener,
     WatchFile
 };
+
+export default panels;

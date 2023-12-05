@@ -42,7 +42,7 @@ const Editor = (props) => {
 	const [ connections, setConnections ] = React.useState<Connection[]>([]);
 	const [ connectorAnchor, setConnectorAnchor ] = React.useState<ConnectorAnchor | null>(null);
     const [ workAreaOffset, setWorkAreaOffset ] = React.useState([0, 0]);
-    const [ showLightbox, setShowLightbox ] = React.useState(null);
+    const [ showLightbox, setShowLightbox ] = React.useState<{ url: string, close: Function } | null>(null);
 
     const graphState = {
         panels, setPanels,

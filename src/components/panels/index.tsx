@@ -11,7 +11,7 @@ import Sources from './Sources';
 import Textures from './Textures';
 import Transforms from './Transforms';
 
-import Sound from './Sound';
+// import Sound from './Sound';
 // import Materials from './Materials';
 
 export default {
@@ -26,6 +26,6 @@ export default {
     Sources,
     Textures,
     Transforms,
-    Sound,
+    // Sound,
     // Materials
 };

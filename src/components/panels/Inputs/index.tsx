@@ -12,7 +12,7 @@ import Time from './time';
 import Matrix from './matrix';
 import MicrophoneIn from './microphoneIn';
 
-export default {
+const panels = {
     Toggle,
     Text,
     Number,
@@ -27,3 +27,5 @@ export default {
     GradientPicker,
     MicrophoneIn
 };
+
+export default panels;

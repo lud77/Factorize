@@ -1,3 +1,5 @@
-export default {
+const panels = {
 
 };
+
+export default panels;

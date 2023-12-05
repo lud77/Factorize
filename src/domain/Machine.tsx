@@ -3,6 +3,9 @@ import { flushSync } from 'react-dom';
 import mostRecent from '../utils/mostRecent';
 
 import { Connection } from '../types/Connection';
+import { Point } from '../types/Point';
+import { PanelCoords } from '../types/PanelCoords';
+import { Panel } from '../types/Panel';
 
 let position = 10;
 
@@ -180,7 +183,7 @@ const Machine = ({
             });
     };
 
-    const pulses = [];
+    const pulses: Array<Array<any>> = [];
 
     const sendPulseTo = (panelId, ep) => {
         pulses.push([panelId, ep]);
@@ -193,7 +196,7 @@ const Machine = ({
 
         return Promise.resolve()
             .then(() => {
-                const [ panelId, ep ] = pulses.shift();
+                const [ panelId, ep ]: Array<any> = pulses.shift() as Array<any>;
                 return propagatePulseTo(panelId, ep);
             })
             .then(spoolPulses);
@@ -257,7 +260,7 @@ const Machine = ({
 
                 console.log('updatedPanelsIds outside', updatedPanelsIds);
                 if (panelUpdates == null) res(null);
-                updatedPanelsIds.forEach((panelId) => propagateOutputValuesFrom(panelId, panelUpdates[panelId]?.outputEpValues));
+                updatedPanelsIds.forEach((panelId) => propagateOutputValuesFrom(panelId, (panelUpdates as object)[panelId]?.outputEpValues));
 
                 res(null);
             }, 0);
@@ -301,7 +304,7 @@ const Machine = ({
         };
     };
 
-    const makePanel = (panelType, coords) => {
+    const makePanel = (panelType, coords?: Point): [Panel, PanelCoords] => {
         const panelId = getNextPanelId();
         const {
             resizer,
@@ -376,7 +379,7 @@ const Machine = ({
 
         const resizerHeight = resizer != 'none' ? 9 : 0;
 
-        const newPanelCoords = {
+        const newPanelCoords: PanelCoords = {
             panelId,
             width: (width || 134) + resizerHeight,
             height: (height || 84) + resizerHeight,
@@ -390,13 +393,13 @@ const Machine = ({
         return [newPanel, newPanelCoords];
     };
 
-    const addPanel = (type, coords = null, toTheLeft = false) => {
-        const [newPanel, newPanelCoords] = makePanel(type, coords ? { x: coords.x - (toTheLeft ? dictionary[type].width : 0), y: coords.y } : null);
+    const addPanel = (type, coords?: Point, toTheLeft = false) => {
+        const [newPanel, newPanelCoords]: [Panel, PanelCoords] = makePanel(type, coords ? { x: coords.x - (toTheLeft ? dictionary[type].width : 0), y: coords.y } : undefined);
 
         setPanels((panels) => {
             return {
                 ...panels,
-                [newPanel.panelId]: newPanel
+                [newPanel.panelId as number]: newPanel
             };
         });
 
@@ -701,7 +704,7 @@ const Machine = ({
                 ...copy,
                 inputEpValues: {
                     ...inputEpValues,
-                    ...copy.inputDefaultValues
+                    ...copy.inputEpDefaults
                 }
             };
 
@@ -709,7 +712,7 @@ const Machine = ({
 
             const newPanels = {
                 ...panels,
-                [newPanel.panelId]: {
+                [newPanel.panelId as number]: {
                     ...newPanel
                 }
             };
@@ -817,8 +820,8 @@ const Machine = ({
 
     const ungroupPanelById = (panelId) => {
         setPanelCoords((panelcoords) => {
-            const updatePairs =
-                Object.values(panelCoords)
+            const updatePairs: Array<[number, PanelCoords]> =
+                (Object.values(panelCoords) as PanelCoords[])
                     .map((panelCoord) => {
                         if (panelCoord.group == null) return [panelCoord.panelId, panelCoord];
 

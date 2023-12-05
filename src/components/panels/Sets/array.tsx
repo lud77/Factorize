@@ -75,10 +75,10 @@ const create = (panelId: number): Panel => {
         itemEpsCounter: 1,
         Component,
         execute
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['list', 'set', 'collection'],
@@ -86,3 +86,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

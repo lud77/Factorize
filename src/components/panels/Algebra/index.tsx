@@ -18,7 +18,7 @@ import MatrixSum from './matrixSum';
 import Transpose from './transpose';
 import Normalize from './normalize';
 
-export default {
+const panels = {
     Sum,
     Subtract,
     Multiply,
@@ -36,3 +36,5 @@ export default {
     ScalarProduct,
     DotProduct
 };
+
+export default panels;

@@ -7,6 +7,7 @@ const Timers = () => {
             clearTimer(handler);
         }, timeout);
 
+        // @ts-ignore
         handlers[handler] = handler;
         return handler;
     };
@@ -19,7 +20,7 @@ const Timers = () => {
     };
 
     const clearAllTimers = () => {
-        Object.values(handlers)
+        (Object.values(handlers) as NodeJS.Timeout[])
             .forEach((h) => clearTimeout(h));
     };
 

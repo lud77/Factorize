@@ -85,10 +85,10 @@ const create = (panelId: number): Panel => {
         ...panelSizes,
         Component,
         execute
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['greater', 'lesser', 'lower', 'higher', 'equal', 'threshold'],
@@ -96,3 +96,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

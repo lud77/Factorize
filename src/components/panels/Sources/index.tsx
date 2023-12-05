@@ -3,9 +3,11 @@ import Random from './random';
 import Timestamp from './timestamp';
 import TextFile from './textFile';
 
-export default {
+const panels = {
     Dice,
     Random,
     Timestamp,
     TextFile
 };
+
+export default panels;

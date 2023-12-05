@@ -6,6 +6,7 @@ import { toImage } from "./types/Image";
 const lighten = (image, amount) => {
     const result = new Jimp(image.contents.clone());
 
+    // @ts-ignore
     result.color([{ apply: 'lighten', params: [amount] }]);
 
     return toImage(new Image(image.contents.width, image.contents.height, result.bitmap.data));
@@ -14,6 +15,7 @@ const lighten = (image, amount) => {
 const brighten = (image, amount) => {
     const result = new Jimp(image.contents.clone());
 
+    // @ts-ignore
     result.color([{ apply: 'brighten', params: [amount] }]);
 
     return toImage(new Image(image.contents.width, image.contents.height, result.bitmap.data));
@@ -22,6 +24,7 @@ const brighten = (image, amount) => {
 const darken = (image, amount) => {
     const result = new Jimp(image.contents.clone());
 
+    // @ts-ignore
     result.color([{ apply: 'darken', params: [amount] }]);
 
     return toImage(new Image(image.contents.width, image.contents.height, result.bitmap.data));
@@ -30,6 +33,7 @@ const darken = (image, amount) => {
 const saturation = (image, amount) => {
     const result = new Jimp(image.contents.clone());
 
+    // @ts-ignore
     result.color([{ apply: 'desaturate', params: [100 - amount] }]);
 
     return toImage(new Image(image.contents.width, image.contents.height, result.bitmap.data));
@@ -38,6 +42,7 @@ const saturation = (image, amount) => {
 const hue = (image, amount) => {
     const result = new Jimp(image.contents.clone());
 
+    // @ts-ignore
     result.color([{ apply: 'hue', params: [amount * 3.6] }]);
 
     return toImage(new Image(image.contents.width, image.contents.height, result.bitmap.data));
@@ -81,6 +86,7 @@ export {
     saturation,
     hue,
     lighten,
+    brighten,
     darken,
     posterize,
     fade

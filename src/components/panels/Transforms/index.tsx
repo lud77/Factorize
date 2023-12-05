@@ -3,9 +3,11 @@ import ColorToHSL from './colorToHsl';
 import TsToDate from './tsToDate';
 import TsToTime from './tsToTime';
 
-export default {
+const panels = {
     ColorToRGB,
     ColorToHSL,
     TsToDate,
     TsToTime
 };
+
+export default panels;

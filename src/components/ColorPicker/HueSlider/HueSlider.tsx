@@ -9,7 +9,7 @@ const HueSlider = (props) => {
     const [ pointer, setPointer ] = React.useState(0);
     const [ dragging, setDragging ] = React.useState(false);
     const [ width, setWidth ] = React.useState(0);
-    const hueSliderRef = React.useRef();
+    const hueSliderRef = React.useRef<HTMLDivElement>(null);
 
     const color = props.color;
 

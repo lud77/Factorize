@@ -9,7 +9,7 @@ import If from './if';
 import Throttle from './throttle';
 import Delay from './delay';
 
-export default {
+const panels = {
     Fan,
     Valve,
     Switch,
@@ -21,3 +21,5 @@ export default {
     Throttle,
     Delay
 };
+
+export default panels;

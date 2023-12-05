@@ -125,10 +125,10 @@ const create = (panelId: number): Panel => {
         execute,
         dispose,
         expunge
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['cron', 'repeat', 'schedule', 'event'],
@@ -136,3 +136,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

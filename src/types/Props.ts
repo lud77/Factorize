@@ -1,6 +1,6 @@
 import { Point } from './Point';
 
-export interface Props extends React.SVGProps<SVGPathElement> {
+export default interface Props extends React.SVGProps<SVGPathElement> {
     el1?: HTMLDivElement;
     el2?: HTMLDivElement;
     coordsStart?: Point;
@@ -15,8 +15,12 @@ export interface Props extends React.SVGProps<SVGPathElement> {
     endArrow?: boolean;
     arrowSize?: number;
     workArea: {
-        current: object;
+        current: Element;
     };
     play?: boolean;
     pause?: boolean;
+    startPoint?: Point;
+    endPoint?: Point;
+    svgClass?: string;
+    draw?: number;
 }

@@ -3,6 +3,8 @@ import { flushSync } from 'react-dom';
 import System from './System';
 import dictionary from '../components/panels/dictionary';
 import mostRecent from '../utils/mostRecent';
+import { Panel } from '../types/Panel';
+import SystemResponse from '../types/SystemResponse';
 
 const Documents = ({
     setPanels,
@@ -19,19 +21,19 @@ const Documents = ({
 }) => {
     const packDocument = ({ panels, panelCoords, connections, workAreaOffset }) => {
         const purgedPanels =
-            Object.values(panels)
+            (Object.values(panels) as Panel[])
                 .map((panel) => {
                     if (!panel.expunge) return panel;
                     console.log('expunging', panel.expunge, panel.outputEpValues);
-                    const filteredOutputEpValues =
-                        Object.keys(panel.outputEpValues)
+                    const filteredOutputEpValues = (
+                        Object.keys(panel.outputEpValues as any[])
                             .map((ep) => {
                                 if (panel.expunge.includes(ep)) return null;
 
-                                return [ep, panel.outputEpValues[ep]];
+                                return [ep, (panel.outputEpValues as any[])[ep]];
                             })
-                            .filter(Boolean)
-                            .reduce((a, [ k, v ]) => ({ ...a, [k]: v }), {});
+                            .filter(Boolean) as any[]
+                    ).reduce((a, [ k, v ]) => ({ ...a, [k]: v }), {});
 
                     console.log('expunged', filteredOutputEpValues);
                     return {
@@ -39,7 +41,7 @@ const Documents = ({
                         outputEpValues: filteredOutputEpValues
                     };
                 })
-                .reduce((a, panel) => ({ ...a, [panel.panelId]: panel }), {});
+                .reduce((a, panel) => ({ ...a, [panel.panelId as number]: panel }), {});
 
         return JSON.stringify({
             panels: purgedPanels,
@@ -105,7 +107,7 @@ const Documents = ({
             setPanels(reconstitutedPanels);
         });
 
-        const panels = mostRecent(setPanels);
+        const panels = (mostRecent(setPanels) ?? []) as Panel[];
 
         Object.values(panels).reduce((chain, panel) => {
             console.log('adding to chain', panel);
@@ -142,7 +144,7 @@ const Documents = ({
     };
 
     const save = (documentInfo) => {
-        if (filePath == '') return saveAs(documentInfo);
+        if (filePath === '') return saveAs(documentInfo);
 
         System.writeFile(filePath, packDocument(documentInfo));
     };
@@ -155,17 +157,18 @@ const Documents = ({
             });
     };
 
-    const open = (documentControls) => {
+    const open = () => {
         System.openFileDialog({ fileTypes: ['Factorize'] })
-            .then((filePath) => {
-                if (!filePath) return [null, null];
+            .then((filePath): Promise<[string | null, SystemResponse | null]> => {
+                if (!filePath) return Promise.resolve([null, null]);
 
-                return Promise.all([filePath, System.readFile(filePath)]);
+                return Promise.all([filePath as string, System.readFile(filePath)]);
             })
-            .then(([filePath, fileContent]) => {
-                if (!filePath) return null;
+            .then((info) => {
+                if (!info[0]) return null;
+                if (typeof info[1] =='string') return null;
 
-                unpackDocument(filePath, fileContent.data);
+                unpackDocument(info[0], info[1]!.data);
             });
     };
 

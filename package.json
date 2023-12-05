@@ -77,7 +77,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
-    "dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
+    "dev": "GENERATE_SOURCEMAP=false concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
     "dev1": "export NODE_OPTIONS=--openssl-legacy-provider && concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
     "electron": "wait-on tcp:3000 && electron ."
   },

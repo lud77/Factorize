@@ -175,10 +175,10 @@ const create = (panelId: number): Panel => {
         ...panelSizes,
         Component,
         execute
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['image', 'picture', 'font', 'label'],
@@ -186,3 +186,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

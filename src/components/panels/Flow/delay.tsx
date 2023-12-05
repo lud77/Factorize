@@ -65,13 +65,15 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     inputEndpoints,
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

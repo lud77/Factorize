@@ -5,7 +5,6 @@ import { ColorPicker } from '../../../ColorPicker/';
 import { Panel } from '../../../../types/Panel';
 import debounce from '../../../../utils/debounce';
 
-import InputEndpoint from '../../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../../Editor/Panel/defaultSizes';
 
@@ -30,7 +29,7 @@ const panelSizes = {
 
 const create = (panelId: number): Panel => {
     const Component = (props) => {
-        const [color, setColor] = React.useState('');
+        const [color, setColor] = React.useState<{ h: number, s: number, v: number, a: number } | string>('');
 
         React.useEffect(() => {
             if (color !== '') return;
@@ -82,10 +81,10 @@ const create = (panelId: number): Panel => {
         ...panelSizes,
         Component,
         execute
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['input'],
@@ -93,3 +92,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

@@ -5,4 +5,5 @@ export interface ArrowProps {
     size: number;
     stroke?: string;
     rotateAngle?: number;
+    svgClass?: string;
 }

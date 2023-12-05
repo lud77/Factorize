@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { getDataTypeMarkerFor } from '../../../domain/Contents';
 
-export default (props) => {
+const InputEndpoint = (props) => {
     const [ isEditing, setIsEditing ] = React.useState(false);
 
 	const isInputConnected = (ref) => props.connections.find((connection) => connection.target === ref);
@@ -71,20 +71,20 @@ export default (props) => {
         flexGrow: props.span != null ? props.span : 'none',
         textDecoration: props.editor ? 'underline' : 'none',
         textDecorationStyle: isConnected ? 'dotted' : 'solid'
-    };
+    } as React.CSSProperties;
 
     return <>
         <div
             className="Input Item"
             title={ `(${epType}) ${epValue}` }
-            onDoubleClick={props.editor && !isConnected ? startEditing(props) : null}
+            onDoubleClick={props.editor && !isConnected ? startEditing(props) : undefined}
             style={style}
             >
             <div
                 className={`
                     InputEndpoint Endpoint
                     ${isConnected ? 'Connected' : ''}
-                    ${(props.connectorAnchor != null) && (props.connectorAnchor?.toRef == props.panel.inputRefs[ep]) ? 'Connecting' : ''}
+                    ${(props.connectorAnchor != null) && (props.connectorAnchor?.toRef === props.panel.inputRefs[ep]) ? 'Connecting' : ''}
                     ${props.removable ? 'Removable' : ''}
                     Signal-${signal}
                     ${isEditing ? 'Edit' : ''}
@@ -118,3 +118,5 @@ export default (props) => {
         </div>
     </>;
 };
+
+export default InputEndpoint;

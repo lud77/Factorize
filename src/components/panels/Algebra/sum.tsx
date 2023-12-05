@@ -92,10 +92,10 @@ const create = (panelId: number): Panel => {
         addendEpsCounter: 3,
         Component,
         execute
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['algebra', 'addition'],
@@ -103,3 +103,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

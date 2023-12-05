@@ -78,7 +78,7 @@ const WorkArea = (props) => {
 	};
 
 	const [ dragCoords, setDragCoords ] = React.useState<DragCoords>({ isDragging: false });
-	const [ draw, redraw ] = React.useState(0);
+	const [ draw, redraw ] = React.useState<number>(0);
 	const [ screenSize, setScreenSize ] = React.useState(buildScreenSize());
 	const [ selectedPanels, setSelectedPanels ] = React.useState<Set<number>>(Set());
 
@@ -297,19 +297,19 @@ const WorkArea = (props) => {
 
 		if (dragCoords.what == 'panel-resizer') {
 			const distance = {
-				dx: e.clientX - dragCoords.o.x,
-				dy: e.clientY - dragCoords.o.y
+				dx: e.clientX - dragCoords.o!.x,
+				dy: e.clientY - dragCoords.o!.y
 			};
 
-			const panelId = Number(dragCoords.el.dataset.key);
+			const panelId = Number(dragCoords.el!.dataset!.key);
 			const panel = panels[panelId];
 			const panelCoord = panelCoords[panelId];
 
 			const updates = {
 				[panelId]: {
 					...panelCoord,
-					width: Math.max(panelCoord.minWidth, dragCoords.c.x + distance.dx),
-                    height: Math.max(panelCoord.minHeight, dragCoords.c.y + distance.dy)
+					width: Math.max(panelCoord.minWidth, dragCoords.c!.x + distance.dx),
+                    height: Math.max(panelCoord.minHeight, dragCoords.c!.y + distance.dy)
 				}
 			};
 
@@ -327,12 +327,12 @@ const WorkArea = (props) => {
 			const func = (props.snap ? snapping : linear);
 
 			const distance = {
-				dx: e.clientX - dragCoords.o.x,
-				dy: e.clientY - dragCoords.o.y
+				dx: e.clientX - dragCoords.o!.x,
+				dy: e.clientY - dragCoords.o!.y
 			};
 
 			const updates =
-				dragCoords.os.reduce((a, v) => {
+				dragCoords.os!.reduce((a, v) => {
 					return {
 						...a,
 						[v.panelId]: {
@@ -353,8 +353,8 @@ const WorkArea = (props) => {
 
 		if (dragCoords.what == 'workarea') {
 			setWorkAreaOffset([
-				e.clientX - dragCoords.o.x + dragCoords.c.x,
-				e.clientY - dragCoords.o.y + dragCoords.c.y
+				e.clientX - dragCoords.o!.x + dragCoords.c!.x,
+				e.clientY - dragCoords.o!.y + dragCoords.c!.y
 			]);
 
 			return false;
@@ -375,15 +375,15 @@ const WorkArea = (props) => {
 			});
 
 			const selection = {
-				left: Math.min(dragCoords.o.x, dragCoords.c.x),
-				top: Math.min(dragCoords.o.y, dragCoords.c.y),
-				right: Math.max(dragCoords.o.x, dragCoords.c.x),
-				bottom: Math.max(dragCoords.o.y, dragCoords.c.y)
+				left: Math.min(dragCoords.o!.x, dragCoords.c!.x),
+				top: Math.min(dragCoords.o!.y, dragCoords.c!.y),
+				right: Math.max(dragCoords.o!.x, dragCoords.c!.x),
+				bottom: Math.max(dragCoords.o!.y, dragCoords.c!.y)
 			};
 
 			const included =
 				(inclusiveSelection ? selectInclusive : selectExclusive)(panels, panelCoords, selection)
-					.map(({ panelId }) => panelId);
+					.map((panel) => (panel as { panelId: number }).panelId);
 
 			setSelectedPanels(Set(included).concat(backupSelectedPanels));
 

@@ -7,6 +7,7 @@ import System from '../../../domain/System';
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
+import { getModeForResolutionAtIndex } from 'typescript';
 
 const panelType = 'SampleLoad';
 
@@ -197,10 +198,10 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['import', 'audio'],
@@ -208,3 +209,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

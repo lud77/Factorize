@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
 
-import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
 import defaultSizes from '../../Editor/Panel/defaultSizes';
 
@@ -44,7 +43,7 @@ const create = (panelId: number): Panel => {
             marginBottom: '5px',
             borderRadius: '5px',
             backgroundColor: 'whitesmoke'
-        };
+        } as React.CSSProperties;
 
         return <>
             <div className="Row" style={{ flexGrow: 1 }}>
@@ -71,10 +70,10 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         resizer: 'both'
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['input'],
@@ -82,3 +81,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

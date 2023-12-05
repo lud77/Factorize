@@ -47,7 +47,7 @@ const create = (panelId: number): Panel => {
     };
 
     const Component = (props) => {
-        const [ audioInputs, setAudioInputs ] = React.useState([{ label: 'Not supported' }]);
+        const [ audioInputs, setAudioInputs ] = React.useState([{ id: -1, label: 'Not supported' }]);
 
         React.useEffect(() => {
             if (navigator.mediaDevices) {
@@ -61,6 +61,7 @@ const create = (panelId: number): Panel => {
                         }
 
                         setAudioInputs([{
+                            id: -1,
                             label: 'No device found'
                         }]);
                     });
@@ -151,10 +152,10 @@ const create = (panelId: number): Panel => {
         ...panelSizes,
         Component,
         execute
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['output', 'audio'],
@@ -162,3 +163,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

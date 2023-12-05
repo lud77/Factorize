@@ -1,7 +1,8 @@
 import React from 'react';
 
 import Arrow from './Arrow';
-import { ConnectorProps } from '../../../../types/Props';
+import ConnectorProps from '../../../../types/Props';
+import { Point } from '../../../../types/Point';
 
 /**
  * Custom S shape svg connector
@@ -16,7 +17,7 @@ import { ConnectorProps } from '../../../../types/Props';
  * @param startArrow
  */
 
-export default function (props: ConnectorProps) {
+const BareConnector = (props: ConnectorProps) => {
     const {
         stroke,
         strokeWidth,
@@ -32,13 +33,11 @@ export default function (props: ConnectorProps) {
         ...rest
     } = props;
 
-    let coordinates = {
-        start: props.startPoint,
-        end: props.endPoint,
-    };
+    const startCoordinates = props.startPoint as Point;
+    const endCoordinates = props.endPoint as Point;
 
-    const distanceX = coordinates.end.x - coordinates.start.x;
-    const distanceY = coordinates.end.y - coordinates.start.y;
+    const distanceX = endCoordinates!.x - startCoordinates!.x;
+    const distanceY = endCoordinates!.y - startCoordinates!.y;
 
     let stem = props.stem || 0;
     const grids = props.grids || 5;
@@ -65,10 +64,8 @@ export default function (props: ConnectorProps) {
     const halfY = distanceY / 2;
 
     function corner12() {
-        const factor = distanceX * distanceY >= 0 ? 1 : -1;
-
         const path = `
-            M ${coordinates.start.x} ${coordinates.start.y}
+            M ${startCoordinates!.x} ${startCoordinates!.y}
             h ${stem}
             q ${quarterX} 0 ${halfX} ${halfY}
             q ${quarterX} ${halfY} ${halfX} ${halfY}
@@ -98,7 +95,7 @@ export default function (props: ConnectorProps) {
                             {...rest}
                             {...strokeProp}
                             d={path}
-                            strokeWidth={(props.strokeWidth + 2) || 4}
+                            strokeWidth={((props.strokeWidth || 0) + 2) || 4}
                             fill='transparent'
                             className={`active ${pause ? 'paused' : ''}`}
                             />
@@ -108,7 +105,7 @@ export default function (props: ConnectorProps) {
                     <Arrow
                         {...strokeProp}
                         {...svgClassProp}
-                        tip={coordinates.end}
+                        tip={endCoordinates}
                         size={adjustedArrowSize}
                         rotateAngle={0}
                         />
@@ -121,16 +118,16 @@ export default function (props: ConnectorProps) {
         const factor = distanceX * distanceY > 0 ? 1 : -1;
 
         let path = `
-            M ${coordinates.start.x} ${coordinates.start.y}
+            M ${startCoordinates.x} ${startCoordinates.y}
             h ${stem}
             q ${step * radius} 0 ${step * radius} ${-step * factor * radius}
             v ${distanceY / 2 + step * 2 * factor * radius}
             q 0 ${-step * factor * radius} ${-step * radius} ${-step * factor * radius}
             h ${distanceX - stem * 2}
             q ${-step * radius} 0 ${-step * radius} ${-step * factor * radius}
-            V ${coordinates.end.y + step * factor * radius}
+            V ${endCoordinates.y + step * factor * radius}
             q 0 ${-step * factor * radius} ${step * radius} ${-step * factor * radius}
-            H ${coordinates.end.x}
+            H ${endCoordinates.x}
         `;
 
         const strokeProp = !svgClass
@@ -156,7 +153,7 @@ export default function (props: ConnectorProps) {
                             {...rest}
                             {...strokeProp}
                             d={path}
-                            strokeWidth={(props.strokeWidth + 2) || 4}
+                            strokeWidth={((props.strokeWidth || 0) + 2) || 4}
                             fill="transparent"
                             className={`active ${pause ? 'paused' : ''}`}
                             />
@@ -166,7 +163,7 @@ export default function (props: ConnectorProps) {
                     <Arrow
                         {...strokeProp}
                         {...svgClassProp}
-                        tip={coordinates.end}
+                        tip={endCoordinates}
                         size={adjustedArrowSize}
                         rotateAngle={0}
                         />
@@ -177,4 +174,6 @@ export default function (props: ConnectorProps) {
 
     if (distanceX >= 0) return corner12();
     return corner34();
-}
+};
+
+export default BareConnector;

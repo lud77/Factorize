@@ -230,7 +230,7 @@ const getContextMenuOpen = (selectedPanels, setContextMenuData, setSearchBoxData
 
         const row = e.target.closest('.Row');
 
-        let ep = null;
+        let ep: HTMLElement | null = null;
         if (row) {
             const res = row.getElementsByClassName('Endpoint');
             ep = (res != null) ? res[0] : null;
@@ -239,11 +239,11 @@ const getContextMenuOpen = (selectedPanels, setContextMenuData, setSearchBoxData
         const removableEndpoint = (ep != null) && ep.classList.contains('Removable');
 
         tags.push(isSelection ? 'panels' : 'panel');
-        const target = { panelId, selectedPanels };
+        const target: { panelId: number, selectedPanels: Array<number>, endpoint: DOMStringMap | null } = { panelId, selectedPanels, endpoint: null };
 
         if (removableEndpoint) {
             tags.push('removable endpoint');
-            target.endpoint = ep.dataset;
+            target.endpoint = ep!.dataset;
         }
 
         setSearchBoxData(null);

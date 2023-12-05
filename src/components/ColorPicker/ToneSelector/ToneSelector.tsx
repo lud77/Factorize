@@ -10,7 +10,7 @@ const ToneSelector = (props) => {
     const [ dragging, setDragging ] = React.useState(false);
     const [ width, setWidth ] = React.useState(0);
     const [ height, setHeight ] = React.useState(0);
-    const toneSelectorRef = React.useRef();
+    const toneSelectorRef = React.useRef<HTMLDivElement>(null);
 
     const color = props.color;
     const bgColor = tinycolor.fromRatio({ h: color.h, s: 1, v: 1, a: 1 });

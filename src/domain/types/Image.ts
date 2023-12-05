@@ -153,6 +153,7 @@ const empty = (width, height, bgcolor) => {
         width,
         height,
         data,
+        // @ts-ignore
         kind: 'RGBA'
     }));
 };
@@ -177,6 +178,7 @@ const generatePattern = (width, height, patternCbk) => {
         width,
         height,
         data,
+        // @ts-ignore
         kind: 'RGBA'
     }));
 };
@@ -235,6 +237,7 @@ const createHeightmap = (heightmap, gradient) => {
         width,
         height,
         data,
+        // @ts-ignore
         kind: 'RGBA'
     }));
 };

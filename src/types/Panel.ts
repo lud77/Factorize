@@ -1,12 +1,13 @@
 export interface Panel {
     type: string;
-    inputEndpoints: Array;
-    outputEndpoints: Array;
-    inputEpValues?: Array;
-    outputEpValues?: Array;
+    panelId?: number;
+    inputEndpoints: Array<{ name: string, defaultValue: any, type: string, signal: string }>;
+    outputEndpoints: Array<{ name: string, defaultValue: any, type: string, signal: string }>;
+    inputEpValues?: Array<any>;
+    outputEpValues?: Array<any>;
     inputEpDefaults?: object;
     outputEpDefaults?: object;
-    Component: JSX;
+    Component: React.FC;
     execute: Function;
     starter?: boolean;
     title?: string;
@@ -15,4 +16,7 @@ export interface Panel {
     outputRefs?: object;
     left?: number;
     top?: number;
+    expunge: Array<any>;
+    width: number;
+    height: number;
 }

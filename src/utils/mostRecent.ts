@@ -1,6 +1,6 @@
 import { flushSync } from 'react-dom';
 
-const mostRecent = (stateSetter) => {
+const mostRecent = (stateSetter): any => {
     let result = null;
     flushSync(() => {
         stateSetter((state) => {

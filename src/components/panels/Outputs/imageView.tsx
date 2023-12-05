@@ -96,10 +96,10 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         resizer: 'both'
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['output'],
@@ -107,3 +107,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

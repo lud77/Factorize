@@ -6,17 +6,19 @@ import './ComboBox.css';
 const ComboBox = (props) => {
     const [ search, setSearch ] = React.useState('');
     const [ list, setList ] = React.useState([]);
-    const inputRef = React.useRef();
+    const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useEffect(() => {
-        inputRef.current.focus();
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
 
-        if (search == '' && list.length === 0) {
+        if (search === '' && list.length === 0) {
             const sieve = getSieve(props.side, props.signal, props.type);
 
             setList(props.items.filter(sieve));
         }
-    });
+    }, [list.length, props.items, props.side, props.signal, props.type, search]);
 
     const areEndpointsCompatible = (ep1, ep2) => {
         const isPulse = ep1.signal === 'Pulse' && ep2.signal === 'Pulse';
@@ -45,7 +47,7 @@ const ComboBox = (props) => {
 
         const sieve = getSieve(props.side, props.signal, props.type);
 
-        if (e.target.value == '') {
+        if (e.target.value === '') {
             setList(props.items.filter(sieve));
             return;
         }
@@ -63,7 +65,7 @@ const ComboBox = (props) => {
         e.stopPropagation();
         e.preventDefault();
 
-        const [ newPanel, newPanelCoords ] = props.addPanel(e.target.innerText, { x: props.left, y: props.top }, props.side === 'output');
+        const [ newPanel ] = props.addPanel(e.target.innerText, { x: props.left, y: props.top }, props.side === 'output');
         props.setSearchBoxData(null);
 
         if (!props.side) return;
@@ -136,7 +138,7 @@ const ComboBox = (props) => {
                         ? <>
                             <ul className="Results">
                             {
-                                list.map((item, key) => (
+                                list.map((item: { type: string }, key) => (
                                     <li key={key} className="Item" onClick={handleItemClick}>{item.type}</li>
                                 ))
                             }

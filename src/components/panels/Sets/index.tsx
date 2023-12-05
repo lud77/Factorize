@@ -1,3 +1,4 @@
+
 import List from './list';
 import Array from './array';
 import Dictionary from './dictionary';
@@ -7,7 +8,7 @@ import Join from './join';
 import Distinct from './distinct';
 import Intersection from './intersection';
 
-export default {
+const panels = {
     List,
     Array,
     Dictionary,
@@ -17,3 +18,5 @@ export default {
     Split,
     Join
 };
+
+export default panels;

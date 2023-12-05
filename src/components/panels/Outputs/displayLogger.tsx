@@ -120,10 +120,10 @@ const create = (panelId: number): Panel => {
         execute,
         onPulse,
         resizer: 'both'
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['log', 'screen', 'monitor', 'output'],
@@ -131,3 +131,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;

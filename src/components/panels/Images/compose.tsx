@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Image } from 'image-js';
-
 import { toImage } from '../../../domain/types/Image';
 import { Panel } from '../../../types/Panel';
 
@@ -33,6 +32,7 @@ const composeImage = (R, G, B, A) => {
         width,
         height,
         data,
+        // @ts-ignore // ImageKind enum is exported the wrong way in image-js, so we can't use the proper enum value
         kind: 'RGBA'
     }));
 };
@@ -124,10 +124,10 @@ const create = (panelId: number): Panel => {
         ...panelSizes,
         Component,
         execute
-    } as Panel;
+    } as unknown as Panel;
 };
 
-export default {
+const PanelBundle = {
     type: panelType,
     create,
     tags: ['picture', 'create', 'new'],
@@ -135,3 +135,5 @@ export default {
     outputEndpoints,
     ...panelSizes
 };
+
+export default PanelBundle;
