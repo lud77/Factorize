@@ -3,8 +3,8 @@ export interface Panel {
     panelId?: number;
     inputEndpoints: Array<{ name: string, defaultValue: any, type: string, signal: string }>;
     outputEndpoints: Array<{ name: string, defaultValue: any, type: string, signal: string }>;
-    inputEpValues?: Array;
-    outputEpValues?: Array;
+    inputEpValues?: Array<any>;
+    outputEpValues?: Array<any>;
     inputEpDefaults?: object;
     outputEpDefaults?: object;
     Component: React.FC;
