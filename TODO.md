@@ -4,6 +4,7 @@
  - [x] Add link to bugtracker
  - [x] Add link to repo
  - [x] Set up README
+ - [x] Fix typescript and eslint issues
  - [ ] Fix testing situation
  - [ ] Add loading icon at start-up
  - [ ] Add doxygen-style comments
