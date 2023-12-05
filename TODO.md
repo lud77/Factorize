@@ -7,12 +7,13 @@
  - [ ] Fix testing situation
  - [ ] Add loading icon at start-up
  - [ ] Add doxygen-style comments
- - [ ] Rename domain data types from "types" to something more unique, like "data-formats"
+ - [ ] Rename domain data types from "types" to something more unique, like "signal-types" or "complex-signals"
 
---- Post open-sourcing
+--- Post open-sourcing (to prioritise)
 
  - [ ] Introduce mocks for AudioContext & Web Audio APIs
-
+ - [ ] Grouped panels should be surrounded by an outline
+ - [ ] Grouped panels can be hidden and replaced by a placeholder?
 
 --- Third party libraries
 
