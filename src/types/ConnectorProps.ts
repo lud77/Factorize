@@ -1,3 +1,5 @@
+import { Point } from "./Point";
+
 export interface ConnectorProps extends React.SVGProps<SVGPathElement> {
     startPoint: Point;
     endPoint: Point;
