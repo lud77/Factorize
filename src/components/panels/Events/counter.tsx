@@ -65,7 +65,7 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         onPulse
-    } as Panel;
+    } as unknown as Panel;
 };
 
 const PanelBundle = {

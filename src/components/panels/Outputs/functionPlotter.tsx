@@ -155,7 +155,7 @@ const create = (panelId: number): Panel => {
         Component,
         execute,
         resizer: 'both'
-    } as Panel;
+    } as unknown as Panel;
 };
 
 const PanelBundle = {

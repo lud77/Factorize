@@ -120,7 +120,7 @@ const create = (panelId: number): Panel => {
         execute,
         onPulse,
         resizer: 'both'
-    } as Panel;
+    } as unknown as Panel;
 };
 
 const PanelBundle = {

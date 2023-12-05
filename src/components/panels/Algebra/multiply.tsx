@@ -92,7 +92,7 @@ const create = (panelId: number): Panel => {
         multiplicandEpsCounter: 3,
         Component,
         execute
-    } as Panel;
+    } as unknown as Panel;
 };
 
 const PanelBundle = {

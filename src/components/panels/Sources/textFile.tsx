@@ -155,7 +155,7 @@ const create = (panelId: number): Panel => {
         onPulse,
         expunge,
         dispose
-    } as Panel;
+    } as unknown as Panel;
 };
 
 const PanelBundle = {

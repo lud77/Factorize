@@ -149,7 +149,7 @@ const create = (panelId: number): Panel => {
         execute,
         expunge,
         dispose
-    } as Panel;
+    } as unknown as Panel;
 };
 
 const PanelBundle = {
