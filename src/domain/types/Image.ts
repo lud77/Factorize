@@ -253,6 +253,7 @@ export {
     resize,
     displace,
     createHeightmap,
+    getIndexFor,
     hAnchorMultiplier,
     vAnchorMultiplier
 };

@@ -33,19 +33,19 @@ const dotProduct = (m1, m2) => {
     if (m1w != m2h) throw new Error('Tried to multiply incompatible matrices');
 
     const result = zeroes(m1h, m2w);
-    console.log('start', result.contents.toString());
+    // console.log('start', result.contents.toString());
 
     for (let c = 0; c < m2w; c++) {
         const column = getColumn(m2, c);
         for (let r = 0; r < m1h; r++) {
             const row = getRow(m1, r);
             result.contents[r][c] = Vector.dotProduct(row, column);
-            console.log(r, row, c, column, result.contents[r][c] + '');
-            console.log(r, c, result.contents.toString());
+            // console.log(r, row, c, column, result.contents[r][c] + '');
+            // console.log(r, c, result.contents.toString());
         }
     }
 
-    console.log('end', result.contents.toString());
+    // console.log('end', result.contents.toString());
 
     return result;
 };
