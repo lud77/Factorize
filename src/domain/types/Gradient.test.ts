@@ -1,5 +1,4 @@
 import {
-    gradientSym,
     toGradient,
     printable,
     renderGradient
