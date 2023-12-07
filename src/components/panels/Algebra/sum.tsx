@@ -76,8 +76,6 @@ const create = (panelId: number): Panel => {
 
         const allNumbers = eps.reduce((a, ep) => a && !isNaN(values[ep]), true);
 
-        console.log('execute sum', panel.addendEps, eps.reduce((a, ep) => a + parseFloat(values[ep]), 0));
-
         if (!allNumbers) return { outputResult: '' };
         return { outputResult: eps.reduce((a, ep) => a + parseFloat(values[ep]), 0) };
     };
