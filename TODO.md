@@ -5,6 +5,7 @@
  - [x] Add link to repo
  - [x] Set up README
  - [x] Fix typescript and eslint issues
+ - [x] Make app start with developer tools closed
  - [ ] Fix testing situation
  - [ ] Add loading icon at start-up
  - [ ] Add doxygen-style comments
@@ -323,8 +324,8 @@ Some of the functionality in certain areas is provided by third party libraries,
 
 --- QA
 
-- [ ] Add tests
-
+- [x] Fix issue with tests
+- [ ] Improve test coverage
 
 --- Context menu
 
@@ -340,31 +341,3 @@ Some of the functionality in certain areas is provided by third party libraries,
 - If possible decouple UI panels from Pulse-activated panels
 
 - When having a UI panel that also has Pulse-type inputs pins, the two avenues of activation may end up overwriting each other's outputs causing bugs
-
-
-
---- NAMES
-
-stress on purpose (automation, coding, workflow, dataflow, hacking, event-driven)
-
-    automatic
-    autonomous
-
-    mono-
-    poly-
-    multi-
-
-    blackbox
-
-    hackomatic
-    hackomation
-
-stress on approach (custom wiring of modular elements)
-
-    wiring
-    wire
-    cable
-    modular
-    hardcoded
-    factorization
-    meta
