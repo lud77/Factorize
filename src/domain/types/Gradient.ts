@@ -28,7 +28,7 @@ const renderGradient = (gradient, length) => {
     const steps = gradient.contents.map(([, step]) => step * length / 100);
 
     const deltas = gradient.contents.map(([, step], i) => {
-        if (i == 0) return null;
+        if (i === 0) return null;
 
         return length * (step - gradient.contents[i - 1][1]) / 100;
     });
