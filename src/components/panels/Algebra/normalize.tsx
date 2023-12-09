@@ -41,10 +41,7 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, values) => {
         try {
-            console.log('xxx', values.inputMatrix)
-            console.log('yyy', Matrix.grandSum(values.inputMatrix));
             const outputNormalized = Matrix.scalarProduct(values.inputMatrix, 1 / (Matrix.grandSum(values.inputMatrix) || 1));
-            console.log(outputNormalized);
             return { outputNormalized };
         } catch (e) {
             return { outputNormalized: null };

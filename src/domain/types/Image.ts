@@ -41,10 +41,10 @@ const getAlpha = (image, pixel) => {
     return pixel[pixel.length - 1];
 };
 
-const setAlpha = (image, pixel, value) => {
-    if (!image.contents.alpha) return;
-    pixel[pixel.length - 1] = value;
-};
+// const setAlpha = (image, pixel, value) => {
+//     if (!image.contents.alpha) return;
+//     pixel[pixel.length - 1] = value;
+// };
 
 const getIndexFor = (image) => {
     const width = image.contents.width;

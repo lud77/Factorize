@@ -80,8 +80,6 @@ const create = (panelId: number): Panel => {
         if (!allMatrices) return { outputResult: null };
         const epsValues = eps.map((ep) => values[ep]);
 
-        console.log('execute matrix sum - addends', panel.addendEps, eps, epsValues)
-
         const w = Matrix.getWidth(epsValues[0]);
         const h = Matrix.getHeight(epsValues[0]);
 
@@ -93,8 +91,6 @@ const create = (panelId: number): Panel => {
         }, true);
 
         if (!allSameSize) return { outputResult: null };
-
-        console.log('execute matrix sum - sum', epsValues.reduce((a, ep) => Matrix.sum(a, ep)));
 
         return { outputResult: epsValues.reduce((a, ep) => Matrix.sum(a, ep)) };
     };

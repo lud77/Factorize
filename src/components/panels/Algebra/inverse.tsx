@@ -40,7 +40,6 @@ const create = (panelId: number): Panel => {
 
     const execute = (panel, values) => {
         if (isNaN(values.inputValue)) return { outputInverse: '' };
-        console.log('execute invert', { outputInverse: 1/parseFloat(values.inputValue) });
         return { outputInverse: 1/parseFloat(values.inputValue) };
     };
 

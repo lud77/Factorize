@@ -76,8 +76,6 @@ const create = (panelId: number): Panel => {
 
         const allBooleans = eps.map((ep) => values[ep]).every(isBoolean);
 
-        console.log('execute and', panel.operandEps, eps.every((ep) => values[ep] == true));
-
         if (!allBooleans) return { outputResult: '' };
         return { outputResult: eps.every((ep) => values[ep] == true) };
     };

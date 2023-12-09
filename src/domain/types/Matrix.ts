@@ -30,7 +30,7 @@ const dotProduct = (m1, m2) => {
     const m2w = getWidth(m2);
     const m2h = getHeight(m2);
 
-    if (m1w != m2h) throw new Error('Tried to multiply incompatible matrices');
+    if (m1w !== m2h) throw new Error('Tried to multiply incompatible matrices');
 
     const result = zeroes(m1h, m2w);
     // console.log('start', result.contents.toString());
@@ -56,7 +56,7 @@ const sum = (m1, m2) => {
     const m2w = getWidth(m2);
     const m2h = getHeight(m2);
 
-    if ((m1w != m2w) || (m1h != m2h)) throw new Error('Tried to sum incompatible matrices');
+    if ((m1w !== m2w) || (m1h !== m2h)) throw new Error('Tried to sum incompatible matrices');
 
     const result = zeroes(m1h, m1w);
 
