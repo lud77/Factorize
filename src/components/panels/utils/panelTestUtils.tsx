@@ -15,14 +15,14 @@ const setupPanel = (PanelBundle) => {
     const workAreaOffset = 0;
 
     const makePanel = makePanelFactory(
-        { 'Button': PanelBundle },
+        { [PanelBundle.type]: PanelBundle },
         getNextPanelId,
         getNextEndpointId,
         position,
         workAreaOffset
     );
 
-    const [ panel ]: [Panel, PanelCoords] = makePanel('Button');
+    const [ panel ]: [Panel, PanelCoords] = makePanel(PanelBundle.type);
 
     const mockSendPulseTo = jest.fn();
     const setPanels = jest.fn();
