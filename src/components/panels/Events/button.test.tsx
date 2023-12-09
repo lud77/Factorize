@@ -6,14 +6,15 @@ import PanelBundle from './button';
 
 test('Render button panel component', () => {
     const { panel, machine, renderer } = setupPanel(PanelBundle);
+    const { getByText } = renderer;
 
-    const emitButton = renderer.getByText('Emit');
+    const emitButton = getByText('Emit');
     expect(emitButton).toBeInTheDocument();
 
     fireEvent.click(emitButton);
 
     expect(machine.sendPulseTo).toHaveBeenCalledWith(panel.panelId, 'outputSend');
 
-    const outputEndpoint = renderer.getByText('Send');
+    const outputEndpoint = getByText('Send');
     expect(outputEndpoint).toBeInTheDocument();
 });
