@@ -4,9 +4,6 @@ import { render } from '@testing-library/react';
 import Sequence from '../../../utils/sequence';
 import makePanelFactory from '../../../domain/MakePanel';
 
-import { PanelCoords } from '../../../types/PanelCoords';
-import { Panel } from '../../../types/Panel';
-
 const setupPanel = (PanelBundle) => {
     const getNextPanelId = Sequence().next;
     const getNextEndpointId = Sequence().next;
@@ -22,7 +19,7 @@ const setupPanel = (PanelBundle) => {
         workAreaOffset
     );
 
-    const [ panel ]: [Panel, PanelCoords] = makePanel(PanelBundle.type);
+    const [ panel ]: [any, any] = makePanel(PanelBundle.type);
 
     const mockSendPulseTo = jest.fn();
     const setPanels = jest.fn();
