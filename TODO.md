@@ -7,12 +7,14 @@
  - [x] Fix typescript and eslint issues
  - [x] Make app start with developer tools closed
  - [ ] Fix testing situation
- - [ ] Add loading icon at start-up
- - [ ] Add doxygen-style comments
+ - [ ] Rethink folder structure (separate src/types/tests folders?)
  - [ ] Rename domain data types from "types" to something more unique, like "signal-types" or "complex-signals"
+ - [x] Add loading icon at start-up
 
 --- Post open-sourcing (to prioritise)
 
+ - [ ] Improve test coverage
+ - [ ] Add doxygen-style comments
  - [ ] Introduce mocks for AudioContext & Web Audio APIs
  - [ ] Grouped panels should be surrounded by an outline
  - [ ] Grouped panels can be hidden and replaced by a placeholder?
