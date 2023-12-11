@@ -8,9 +8,25 @@ const addFileIOServices = require('./js/services/fileIO');
 const addFileSelectServices = require('./js/services/fileSelect');
 const addSocketServices = require('./js/services/socket');
 
+const createSplashPage = () => {
+    const splash = new BrowserWindow({
+        width: 500,
+        height: 300,
+        transparent: false,
+        frame: false,
+        alwaysOnTop: true
+    });
+
+    splash.loadURL(`file://${path.join(__dirname, 'splash.html')}`);
+    splash.center();
+
+    return splash;
+};
+
 const createWindow = () => {
     // Create the browser window.
-    const win = new BrowserWindow({
+    const main = new BrowserWindow({
+        show: false,
         width: 800,
         height: 600,
         webPreferences: {
@@ -22,19 +38,30 @@ const createWindow = () => {
     });
 
     // and load the index.html of the app.
-    // win.loadFile("index.html");
-    win.loadURL(
-        isDev
-            ? 'http://localhost:3000'
-            : `file://${path.join(__dirname, '../build/index.html')}`
-    );
+    // main.loadFile("index.html");
+
+    const appUrl = isDev
+        ? 'http://localhost:3000'
+        : `file://${path.join(__dirname, '../build/index.html')}`;
+
+    const splash = createSplashPage();
+
+    Promise.resolve()
+        .then(() => {
+            return main.loadURL(appUrl);
+        })
+        .then(() => {
+            main.show();
+            splash.close();
+        })
+        .catch(() => { console.log('error') });
 
     // Open the DevTools.
     // if (isDev) {
-    //     win.webContents.openDevTools({ /*mode: 'detach'*/ });
+    //     main.webContents.openDevTools({ /*mode: 'detach'*/ });
     // }
 
-    return win;
+    return main;
 };
 
 // This method will be called when Electron has finished
