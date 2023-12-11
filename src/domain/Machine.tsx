@@ -1,6 +1,6 @@
 import { flushSync } from 'react-dom';
 
-import makePanelFactory from './makePanel';
+import makePanelFactory from './MakePanel';
 import mostRecent from '../utils/mostRecent';
 
 import { Connection } from '../types/Connection';

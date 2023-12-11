@@ -53,8 +53,6 @@ const makePanel = (dictionary, getNextPanelId, getNextEndpointId, position, work
         panel.outputEndpoints
             .reduce((a, { name, type }) => ({ ...a, [`output${name}`]: type }), {});
 
-    console.log('outputEpDefaults', outputEpDefaults);
-
     position = (position + 20) % 100;
 
     const newPanel = {

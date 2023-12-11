@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import Sequence from '../../../utils/sequence';
-import makePanelFactory from '../../../domain/makePanel';
+import makePanelFactory from '../../../domain/MakePanel';
 
 import { PanelCoords } from '../../../types/PanelCoords';
 import { Panel } from '../../../types/Panel';
