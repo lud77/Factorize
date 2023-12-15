@@ -80,16 +80,21 @@ const create = (panelId: number): Panel => {
                 };
 
             default:
+                console.log('outputEpValues', panel.outputEpValues.receivedList);
                 const receivedList = {
                     ...(panel.outputEpValues.receivedList || {}),
                     [ep]: true
                 };
-
+                console.log('ep', ep);
+                console.log('received list', receivedList);
+                console.log('panel.outputEpValues.sent', panel.outputEpValues.sent);
                 if (panel.outputEpValues.sent) return {};
-
                 const count = Object.values(receivedList).filter(Boolean).length;
-                if (count === panel.inEpsCounter - 1) sendPulseTo(panel.panelId, 'outputOut');
-                return { receivedList, sent: true };
+                console.log(count);
+                const send = count === panel.inEpsCounter - 1;
+                console.log('pronto a sparare', send);
+                if (send) sendPulseTo(panel.panelId, 'outputOut');
+                return { receivedList, sent: send };
         }
     };
 
