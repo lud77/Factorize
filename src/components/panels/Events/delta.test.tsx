@@ -16,11 +16,7 @@ describe('Delta panel component', () => {
     });
 
     it('should send a pulse when the value changes', () => {
-        const { panel, machine, renderer } = setupPanel(PanelBundle);
-        const { getByText } = renderer;
-
-        const valueInput = getByText('Value');
-        const changedOutput = getByText('Changed');
+        const { panel, machine } = setupPanel(PanelBundle);
 
         panel.execute(panel, {}, machine);
 
