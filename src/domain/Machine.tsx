@@ -209,16 +209,11 @@ const Machine = ({
 
             console.log('propagatePulseTo - connections', connections);
             timers.setTimer(() => {
-                console.log('timer in propagatePulseTo');
                 const epRef = getPanelOutputRef(panelId, ep);
                 let pulseConnections;
                 flushSync(() => {
                     pulseConnections = getConnectionsBySourceRef(epRef, 'Pulse');
                 });
-                console.log('Sending pulse through', ep, epRef);
-                console.log('pulseConnections', pulseConnections);
-
-                console.log('before', panels);
 
                 let panelUpdates: object | null = null;
 
@@ -232,7 +227,7 @@ const Machine = ({
 
                                     const ep = targetPanel.inputEpByRef[connection.target];
                                     const updates = targetPanel.onPulse(ep, targetPanel, { sendPulseTo, executePanelLogic });
-                                    console.log('propagatePulseTo - updates', updates);
+
                                     return {
                                         [targetPanel.panelId]: {
                                             ...targetPanel,
@@ -245,8 +240,6 @@ const Machine = ({
                                 })
                                 .filter(Boolean)
                                 .reduce((a, v) => ({ ...a, ...v }), {});
-
-                        console.log('propagatePulseTo updates', panelUpdates);
 
                         return {
                             ...panels,

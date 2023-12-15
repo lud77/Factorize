@@ -24,8 +24,6 @@ describe('All panel component', () => {
         const updates = panel.onPulse('inputIn1', panel, machine);
         expect(machine.sendPulseTo).toHaveBeenCalledTimes(0);
 
-        console.log(panel);
-
         const updatedPanel = {
             ...panel,
             outputEpValues: {
