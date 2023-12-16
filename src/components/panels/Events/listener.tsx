@@ -1,4 +1,3 @@
-import { fas } from '@fortawesome/free-solid-svg-icons';
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';

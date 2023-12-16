@@ -1,4 +1,3 @@
-import { fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import setupPanel from '../utils/panelTestUtils';
@@ -9,10 +8,10 @@ describe('Counter panel component', () => {
         const { renderer } = setupPanel(PanelBundle);
         const { getByText } = renderer;
 
-        const eventInput = getByText('Event');
+        const eventInput = getByText('event');
         expect(eventInput).toBeInTheDocument();
 
-        const resetInput = getByText('Reset');
+        const resetInput = getByText('reset');
         expect(resetInput).toBeInTheDocument();
 
         const countOutput = getByText('Count');
