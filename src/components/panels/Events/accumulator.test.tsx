@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import setupPanel from '../utils/panelTestUtils';
 import PanelBundle from './accumulator';
 
-test('Render Accumulator panel component', () => {
+test('Accumulator panel component should render', () => {
     const { renderer } = setupPanel(PanelBundle);
     const { getByText } = renderer;
 
