@@ -8,10 +8,10 @@ describe('Counter panel component', () => {
         const { renderer } = setupPanel(PanelBundle);
         const { getByText } = renderer;
 
-        const eventInput = getByText('event');
+        const eventInput = getByText('Event');
         expect(eventInput).toBeInTheDocument();
 
-        const resetInput = getByText('reset');
+        const resetInput = getByText('Reset');
         expect(resetInput).toBeInTheDocument();
 
         const countOutput = getByText('Count');
