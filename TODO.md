@@ -1,23 +1,9 @@
-
---- Before open-sourcing
-
- - [x] Add link to bugtracker
- - [x] Add link to repo
- - [x] Set up README
- - [x] Fix typescript and eslint issues
- - [x] Make app start with developer tools closed
- - [x] Fix testing situation
- - [x] Add loading icon at start-up
- - [x] Rethink where to keep ts types
- - [x] Rename domain data types from "types" to something more unique, like "signal-types" or "complex-signals"
-
 --- Post open-sourcing (to prioritise)
 
  - [ ] Improve test coverage
  - [ ] Add doxygen-style comments
+ - [ ] Decuple UI from Engine (THE SPLIT)
  - [ ] Introduce mocks for AudioContext & Web Audio APIs
- - [ ] Grouped panels should be surrounded by an outline
- - [ ] Grouped panels can be hidden and replaced by a placeholder?
 
 --- Refactoring
 
@@ -53,7 +39,6 @@
     - [ ] Make a CLI that can use the engine daemon to run a network in an headless way
     - [ ] Add types of connectors that can only transmit when in play
     - [ ] Transform all panel types to work on the engine
-
 
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
@@ -247,6 +232,8 @@
 
 -- UI
 
+- [ ] Grouped panels should be surrounded by an outline
+- [ ] Grouped panels can be hidden and replaced by a placeholder?
 - [ ] Change editable property to become "editor" and change it from boolean to text where you specify the type of editor
 - [ ] Choose which eps to make editable
 - [ ] Make the context menu and combo box coordinates window-sensitive
@@ -279,7 +266,7 @@
 - [x] Expose type of endpoint throught symbols/letters
 - [x] Expose type of endpoint in tooltip
 - [x] Make background of text input panel darker
-- [/] Introduce window manager
+- [ ] Introduce window manager
 
 
 --- Bugs / Performance
