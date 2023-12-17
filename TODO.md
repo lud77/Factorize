@@ -6,10 +6,10 @@
  - [x] Set up README
  - [x] Fix typescript and eslint issues
  - [x] Make app start with developer tools closed
- - [ ] Fix testing situation
+ - [x] Fix testing situation
+ - [x] Add loading icon at start-up
  - [ ] Rethink folder structure (separate src/types/tests folders?)
  - [ ] Rename domain data types from "types" to something more unique, like "signal-types" or "complex-signals"
- - [x] Add loading icon at start-up
 
 --- Post open-sourcing (to prioritise)
 
@@ -19,14 +19,6 @@
  - [ ] Grouped panels should be surrounded by an outline
  - [ ] Grouped panels can be hidden and replaced by a placeholder?
 
---- Third party libraries
-
-Some of the functionality in certain areas is provided by third party libraries, in particular:
-    - Math.js for the function parsing and processing
-    - image-js and jimp for image manipulation
-    - ndarray for multidimensional array manipulation
-
-
 --- Refactoring
 
 - [ ] Rename ComboBox component to something better (SearchBox? PanelCreator? PanelSelector?)
@@ -35,13 +27,12 @@ Some of the functionality in certain areas is provided by third party libraries,
 
 --- System integration
 
-- [~] Main menu' commands
+- [ ] Main menu' commands
     - [x] new
     - [x] save
     - [x] save as
     - [x] open
     - [ ] import (loads file without wiping workarea)
-    - etc
 - [ ] Ask for confirmation before replacing current document in "new" and "open" actions
 - [ ] Ask for confirmation before overriding an existing file in "save as" action
 - [ ] Settings page
@@ -68,13 +59,13 @@ Some of the functionality in certain areas is provided by third party libraries,
 - [ ] Stepper-type panels or endpoints or connections, still not sure which
 - [ ] Explicitly handle the "null/undefined" value in a more organic way
 - [ ] Needs more orthogonality: possibility to set both inputs and outputs from execute or onPulse, etc
-- [~] Actual panels
+- [ ] Actual panels
     - [ ] VIDEO: Extract frame
     - [ ] VIDEO: Resize
     - [ ] VIDEO: Create from images
     - [ ] IMAGE: Image group
     - [ ] FLOW: Timeline (place events on a timeline and on play it will start triggering Pulses on the various eps
-    - [~] Web Audio nodes (experimental)
+    - [ ] Web Audio nodes (experimental)
         - [ ] FFT/IFFT?
         - [x] Mic input
         - [ ] Save audio
@@ -104,7 +95,7 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] IMAGE: Pixelate
     - [ ] IMAGE: Mix?
     - [ ] IMAGE: Crop
-    - [/] IMAGE: Move
+    - [ ] IMAGE: Move
     - [ ] HASHES: Hash functions
         - [ ] Md5
         - [ ] Sha1
@@ -114,12 +105,11 @@ Some of the functionality in certain areas is provided by third party libraries,
     - [ ] ?????: (Value + Value -> Value) Date formatter according to pattern and separator
     - [ ] INPUTS: File info
     - [ ] Envelope visualizer (multi-input pin with value for each? Not sure)
-    - [/] (SAME AS IF) FLOW: While: (Value + Pulse -> Pulse + Pulse) if value is truthy, activate "execute", otherwise activate "exit"
-    - [~] TEXTURES: Noise generators
+    - [ ] TEXTURES: Noise generators
         - [ ] Gaussian noise
         - [x] Simplex noise (take w/h + seed)
         - [x] Anisotropic noise
-    - [~] ADJUSTMENTS
+    - [ ] ADJUSTMENTS
         - [ ] Posterize
         - [x] Contrast
         - [x] Brightness
@@ -132,14 +122,14 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] IMAGE: Stripes
         - [x] IMAGE: Checkers
         - [x] IMAGE: Rings
-    - [~] IMAGE: Unary Operators
+    - [ ] IMAGE: Unary Operators
         - [~] IMAGE: Canny
         - [x] IMAGE: Invert colors
         - [x] IMAGE: FlipX
         - [x] IMAGE: FlipY
         - [x] IMAGE: Grey
         - [x] IMAGE: Sepia
-    - [~] IMAGE: Blend Modes
+    - [ ] IMAGE: Blend Modes
         - [ ] Dissolve
         - [ ] Darker Color
         - [ ] Lighter Color
@@ -166,11 +156,11 @@ Some of the functionality in certain areas is provided by third party libraries,
         - [x] Exclusion
         - [x] Subtract
         - [x] Divide
-    - [~] Stdin/Stdout/Stderr
+    - [ ] Stdin/Stdout/Stderr
         - [ ] Stdin
         - [ ] Stderr?
         - [x] Stdout
-    - [~] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
+    - [ ] Operations with Arrays/Collections? How? What about objects? They are certainly needed for api calls etc
         - [x] Basic Array panel (List)
             - [x] Add Pop, Shift, Unshift pins
         - [x] Merge
