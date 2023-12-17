@@ -1,4 +1,4 @@
-import { Point } from './Point';
+import { Point } from '../../../../types/Point';
 
 export default interface Props extends React.SVGProps<SVGPathElement> {
     el1?: HTMLDivElement;

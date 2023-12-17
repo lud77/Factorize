@@ -8,8 +8,8 @@
  - [x] Make app start with developer tools closed
  - [x] Fix testing situation
  - [x] Add loading icon at start-up
- - [ ] Rethink folder structure (separate src/types/tests folders?)
- - [ ] Rename domain data types from "types" to something more unique, like "signal-types" or "complex-signals"
+ - [x] Rethink where to keep ts types
+ - [x] Rename domain data types from "types" to something more unique, like "signal-types" or "complex-signals"
 
 --- Post open-sourcing (to prioritise)
 

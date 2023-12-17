@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import BareConnector from './BareConnector';
 
-import Props from '../../../../types/Props';
+import Props from './Props';
 import { Point } from '../../../../types/Point';
 
 /**

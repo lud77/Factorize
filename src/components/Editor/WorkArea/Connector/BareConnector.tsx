@@ -1,21 +1,8 @@
 import React from 'react';
 
 import Arrow from './Arrow';
-import ConnectorProps from '../../../../types/Props';
+import ConnectorProps from './Props';
 import { Point } from '../../../../types/Point';
-
-/**
- * Custom S shape svg connector
- * @param startPoint
- * @param endPoint
- * @param grids number of columns in X/Y axis
- * @param stem min distance from the start point to the first transition
- * @param roundCorner true to have a curve transition
- * @param minStep radius of the transition curve, default is min of (deltaX/grid, deltaY/grid)
- * @param arrowSize
- * @param endArrow
- * @param startArrow
- */
 
 const BareConnector = (props: ConnectorProps) => {
     const {
@@ -101,15 +88,17 @@ const BareConnector = (props: ConnectorProps) => {
                             />
                         : null
                 }
-                {props.endArrow && (
-                    <Arrow
-                        {...strokeProp}
-                        {...svgClassProp}
-                        tip={endCoordinates}
-                        size={adjustedArrowSize}
-                        rotateAngle={0}
-                        />
-                )}
+                {
+                    props.endArrow && (
+                        <Arrow
+                            {...strokeProp}
+                            {...svgClassProp}
+                            tip={endCoordinates}
+                            size={adjustedArrowSize}
+                            rotateAngle={0}
+                            />
+                    )
+                }
             </svg>
         );
     }
