@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import * as Image from '../../../domain/types/Image';
+import * as Image from '../../../domain/signal-formats/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';

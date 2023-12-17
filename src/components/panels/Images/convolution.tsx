@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import * as Matrix from '../../../domain/types/Matrix';
-import { toImage } from '../../../domain/types/Image';
+import * as Matrix from '../../../domain/signal-formats/Matrix';
+import { toImage } from '../../../domain/signal-formats/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';

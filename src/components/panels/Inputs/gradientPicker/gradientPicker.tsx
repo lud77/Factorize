@@ -3,7 +3,7 @@ import tinycolor from 'tinycolor2';
 
 import { GradientPicker } from '../../../ColorPicker';
 import { Panel } from '../../../../types/Panel';
-import { toGradient } from '../../../../domain/types/Gradient';
+import { toGradient } from '../../../../domain/signal-formats/Gradient';
 import debounce from '../../../../utils/debounce';
 
 import InputEndpoint from '../../../Editor/Panel/InputEndpoint';

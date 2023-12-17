@@ -5,7 +5,7 @@ import ndarray from 'ndarray';
 import fft from 'ndarray-fft';
 import zeros from 'zeros';
 
-import { toImage } from './types/Image';
+import { toImage } from './signal-formats/Image';
 
 const flipX = (image) => {
     const result = image.contents.clone();

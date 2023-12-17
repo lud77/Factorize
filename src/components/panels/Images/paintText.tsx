@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
 import { color2rgba } from '../../../utils/colors';
-import { toImage } from '../../../domain/types/Image';
+import { toImage } from '../../../domain/signal-formats/Image';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';

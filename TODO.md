@@ -24,7 +24,6 @@
 - [ ] Rename ComboBox component to something better (SearchBox? PanelCreator? PanelSelector?)
 - [ ] Extract everything that can be extracted from panel factories
 
-
 --- System integration
 
 - [ ] Main menu' commands

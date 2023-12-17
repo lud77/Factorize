@@ -1,7 +1,7 @@
-import * as Matrix from './types/Matrix';
-import * as Image from './types/Image';
+import * as Matrix from './signal-formats/Matrix';
+import * as Image from './signal-formats/Image';
 // import * as Sound from './types/Sound';
-import * as Gradient from './types/Gradient';
+import * as Gradient from './signal-formats/Gradient';
 
 const dataTypeMarkers = {
     any: 'a',

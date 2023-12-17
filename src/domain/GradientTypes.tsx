@@ -1,4 +1,4 @@
-import { renderGradient } from './types/Gradient';
+import { renderGradient } from './signal-formats/Gradient';
 
 const linear = (offsetX, offsetY, angle, length, gradient) => {
     const Rad = Math.PI / 180;

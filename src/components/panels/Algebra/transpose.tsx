@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Panel } from '../../../types/Panel';
-import * as Matrix from '../../../domain/types/Matrix';
+import * as Matrix from '../../../domain/signal-formats/Matrix';
 
 import InputEndpoint from '../../Editor/Panel/InputEndpoint';
 import OutputEndpoint from '../../Editor/Panel/OutputEndpoint';
