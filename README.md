@@ -168,7 +168,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the GPL License. See `LICENSE.txt` for more information.
+Distributed under the GPLv3 License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -207,7 +207,7 @@ Mastodon: [@factorize](https://mastodon.social/@factorize)
 [stars-url]: https://github.com/lud77/Factorize/stargazers
 [issues-shield]: https://img.shields.io/github/issues/lud77/Factorize.svg?style=for-the-badge
 [issues-url]: https://github.com/lud77/Factorize/issues
-[license-shield]: https://img.shields.io/github/license/lud77/Factorize.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/badge/LICENSE-GPLv3-940?style=for-the-badge
 [license-url]: https://github.com/lud77/Factorize/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [product-logo]: ret/logo.png
