@@ -1,7 +1,7 @@
 Factorize, a node-based no-code automation app.
 Copyright (C) 2022-2023 Stefano Butera
 
-GPL v3
+GPL-3.0
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
