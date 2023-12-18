@@ -18,10 +18,10 @@ const Statusbar = (props) => {
         </div>
         <div className="RHS">
             <div className="Element">
-                First
+
             </div>
             <div className="Element">
-                Second
+
             </div>
         </div>
     </div>;
