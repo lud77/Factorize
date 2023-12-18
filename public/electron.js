@@ -57,9 +57,9 @@ const createWindow = () => {
         .catch(() => { console.log('error') });
 
     // Open the DevTools.
-    if (isDev) {
-        main.webContents.openDevTools({ /*mode: 'detach'*/ });
-    }
+    // if (isDev) {
+    //     main.webContents.openDevTools({ /*mode: 'detach'*/ });
+    // }
 
     return main;
 };
