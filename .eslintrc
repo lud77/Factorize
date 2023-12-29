@@ -12,7 +12,7 @@
     },
     "rules": {
         "comma-dangle": ["error", "never"],
-        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "indent": ["error", "tab", { "SwitchCase": 1 }],
         "no-cond-assign": "off",
         "semi": ["error", "always"],
         "no-unused-vars": "off",
