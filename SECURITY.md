@@ -22,7 +22,7 @@ We take the security of our project seriously. If you believe you have found a s
 
 The following versions of the project are currently supported with security updates:
 
-    Version 0.1.x: :white_check_mark:
+    Version 0.1.x: Supported
 
 ## Security Updates
 
