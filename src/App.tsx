@@ -5,20 +5,20 @@ import './App.css';
 import './Colors.css';
 
 const App = () => {
-	const [ filePath, setFilePath ] = React.useState<string>('');
+    const [ filePath, setFilePath ] = React.useState<string>('');
 
-	const documentMeta = {
-		filePath,
-		setFilePath
-	};
+    const documentMeta = {
+        filePath,
+        setFilePath
+    };
 
-	return (
-		<div className="App">
-			<Editor
-				{...documentMeta}
-				/>
-		</div>
-	);
+    return (
+        <div className="App">
+            <Editor
+                {...documentMeta}
+            />
+        </div>
+    );
 };
 
 export default App;
