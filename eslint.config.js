@@ -1,18 +1,23 @@
-{
-    "extends": "eslint:recommended",
-    "env": {
+const stylisticJs = require('@stylistic/eslint-plugin-js');
+
+module.exports = {
+    plugins: {
+        '@stylistic/js': stylisticJs
+    },
+    extends: "eslint:recommended",
+    env: {
         "node": true,
         "browser": true,
         "es6": true,
         "jest": true
     },
-    "parserOptions": {
+    parserOptions: {
         "sourceType": "module",
         "ecmaVersion": 9
     },
-    "rules": {
+    rules: {
         "comma-dangle": ["error", "never"],
-        "indent": ["error", "tab", { "SwitchCase": 1 }],
+        '@stylistic/js/indent': ['error', 4],
         "no-cond-assign": "off",
         "semi": ["error", "always"],
         "no-unused-vars": "off",
@@ -20,4 +25,4 @@
         "no-console": "off",
         "no-constant-condition": "off"
     }
-}
+};
