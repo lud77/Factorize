@@ -6,7 +6,7 @@ import PanelBundle from './deviator';
 describe('Deviator panel component', () => {
     it('should be rendered', () => {
         const { renderer } = setupPanel(PanelBundle);
-        const { getByText, getAllByText } = renderer;
+        const { getByText } = renderer;
 
         const storeAInput = getByText('Store A');
         expect(storeAInput).toBeInTheDocument()
