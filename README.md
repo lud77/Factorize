@@ -93,9 +93,10 @@ Chosse from any of tens of inputs, outputs and actions, and start experimenting!
 
 ### Built With
 
+[![Typescript][Typescript-badge]][Typescript-url]
 [![React][React-badge]][React-url]
 [![Electron][Electron-badge]][Electron-url]
-[![Typescript][Typescript-badge]][Typescript-url]
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
