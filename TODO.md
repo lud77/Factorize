@@ -319,3 +319,10 @@
 - If possible decouple UI panels from Pulse-activated panels
 
 - When having a UI panel that also has Pulse-type inputs pins, the two avenues of activation may end up overwriting each other's outputs causing bugs
+
+--- ONLINE DEMO
+
+- [ ] Create online version
+- [ ] Create deployment pipeline on github pipelines
+- [ ] Choose provider
+- [ ] Create tf for infrastructure
